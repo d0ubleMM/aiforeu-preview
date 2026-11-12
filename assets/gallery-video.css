@@ -1,0 +1,15 @@
+/* The film takes one screen; scrolling always moves the page. */
+.js .gallery-hero.gallery-video-hero:not([data-gallery-static]),.gallery-video-hero{height:auto;overflow:hidden}
+.js .gallery-hero.gallery-video-hero>.world-experience{position:relative;top:auto}
+.gallery-video-hero .gallery-fallback{position:absolute;inset:0;z-index:1;pointer-events:none}
+.gallery-video-hero .gallery-wordmark{display:none}
+.gallery-film{position:absolute;inset:0;z-index:2;display:block;width:100%;height:100%;object-fit:cover;background:#0c0e11;pointer-events:none;opacity:1;transition:opacity .22s ease,visibility .22s}
+.gallery-video-hero[data-video-ended] .gallery-film{opacity:0;visibility:hidden}
+.gallery-video-hero[data-intro-active] .gallery-copy,.gallery-video-hero[data-intro-active] .gallery-nav,.gallery-video-hero[data-intro-active] .gallery-credit{visibility:hidden}
+.js .gallery-video-hero[data-intro-active] .gallery-fallback-links{display:none}
+.gallery-film-controls{position:absolute;z-index:5;left:var(--hero-edge);right:var(--hero-edge);bottom:25px;display:flex;justify-content:space-between;gap:24px;pointer-events:none}
+.gallery-film-controls button{pointer-events:auto;appearance:none;border:0;background:none;color:#b8bec6;min-height:44px;padding:8px 0;font:400 14px/1.5 var(--body);cursor:pointer}
+.gallery-film-controls button:hover{color:#fff}
+@media(max-width:760px){.gallery-film-controls{bottom:14px}.gallery-film-controls button{font-size:12px}}
+@media(max-height:500px){.gallery-film{object-fit:contain}.gallery-film-controls{bottom:4px}}
+@media(prefers-reduced-motion:reduce){.gallery-film{transition:none}}
