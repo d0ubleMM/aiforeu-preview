@@ -1,7 +1,7 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 import {createBomberSkin} from '../aiforeu-bomber-sharp/skin.js';
 import {mountWorld} from './gallery.js?v=brand-flight-1';
-import {BRAND_FLIGHT,sampleBrandFlight,flybyWidth} from './brand-flight-path.js?v=flyby-2';
+import {BRAND_FLIGHT,sampleBrandFlight} from './brand-flight-path.js?v=cinema-3';
 
 export function mountBrandFlight(host){
   const html=document.documentElement,mark=document.querySelector('.global-header .global-brand img');
@@ -26,12 +26,11 @@ export function mountBrandFlight(host){
     controls.hidden=s.docked;
     logo.style.cssText=`width:${s.width}px;height:${s.width*box.height/box.width}px;left:${s.x}px;top:${s.y}px;opacity:${s.docked?0:s.logo}`;
     if(renderer){
-      skin.setForm(s.form);model.rotation.set(s.tilt,s.bank,s.turn,'ZYX');
-      const size=s.width/THREE.MathUtils.lerp(72,116,s.form);model.scale.setScalar(size);
+      skin.setForm(s.form);model.position.fromArray(s.position);model.quaternion.fromArray(s.orientation);model.scale.setScalar(s.scale);
+      camera.quaternion.fromArray(s.camera);camera.updateMatrixWorld();
       for(const m of materials){m.opacity=1-s.logo;const transparent=s.logo>0;if(m.transparent!==transparent){m.transparent=transparent;m.needsUpdate=true;}m.depthWrite=!transparent;}
-      renderer.domElement.style.left=s.x+'px';renderer.domElement.style.top=s.y+'px';
       renderer.domElement.style.visibility=s.logo>=1?'hidden':'visible';
-      renderer.render(scene,camera);
+      if(s.logo<1&&!s.docked)renderer.render(scene,camera);
     }
   }
   function finish(){
@@ -47,7 +46,7 @@ export function mountBrandFlight(host){
   }
   function play(){if(disposed||!ready||finished)return;playing=true;last=0;if(!frame)frame=requestAnimationFrame(tick);}
   function resize(){
-    if(renderer){const size=Math.ceil(flybyWidth(innerWidth)*1.6);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(size,size);camera.left=-size/2;camera.right=size/2;camera.top=size/2;camera.bottom=-size/2;camera.updateProjectionMatrix();}
+    if(renderer){renderer.setPixelRatio(Math.min(devicePixelRatio||1,innerWidth<760?2:1.5));renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}
     if(ready&&!finished)draw();
   }
   async function loadAircraft(){
@@ -56,7 +55,8 @@ export function mountBrandFlight(host){
     renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'high-performance'});
     on(renderer.domElement,'webglcontextlost',event=>{event.preventDefault();finish();});
     renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.7;renderer.setClearColor(0,0);
-    layer.prepend(renderer.domElement);scene=new THREE.Scene();camera=new THREE.OrthographicCamera(-1,1,1,-1,.1,2000);camera.position.set(0,0,1000);
+    renderer.domElement.style.cssText='position:absolute;inset:0;transform:none';
+    layer.prepend(renderer.domElement);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(BRAND_FLIGHT.fov,innerWidth/innerHeight,.05,2000);
     scene.add(new THREE.HemisphereLight('#ffffff','#70859b',2.5));
     for(const [x,y,z,power] of [[-250,350,500,4],[300,-100,200,2]]){const light=new THREE.DirectionalLight('#f0f3f8',power);light.position.set(x,y,z);scene.add(light);}
     skin.group.traverse(o=>{if(o.isMesh){o.castShadow=o.receiveShadow=false;for(const m of [].concat(o.material)){m.side=THREE.DoubleSide;m.envMapIntensity=1;if(!materials.includes(m))materials.push(m);}}});

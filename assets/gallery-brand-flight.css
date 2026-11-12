@@ -1,6 +1,6 @@
 .brand-flight-layer{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
 .brand-flight-layer[hidden]{display:none}
-.brand-flight-layer canvas{position:absolute;transform:translate(-50%,-50%)}
+.brand-flight-layer canvas{position:absolute;inset:0;width:100%;height:100%}
 .brand-flight-mark{position:absolute;transform:translate(-50%,-50%);object-fit:contain;filter:brightness(0) invert(1);opacity:0}
 html[data-brand-flight-active] .global-header .global-brand img{opacity:0}
 .js .landing-page:has([data-brand-pending]:not([data-brand-docked])) .global-header .global-brand img{opacity:0}
