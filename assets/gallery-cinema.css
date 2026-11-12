@@ -1,0 +1,30 @@
+@font-face{font-family:'Film Utility';src:url(fonts/source-sans-3-latin-variable.woff2) format('woff2');font-weight:200 900;font-display:swap}
+.gallery-film-controls{align-items:center;gap:30px}
+.gallery-film-controls button{font:400 14px/1.4 'Film Utility',sans-serif;letter-spacing:.005em;color:#bbc2c8;transition:color .18s ease}
+.gallery-film-controls button:first-child{display:flex;align-items:center;gap:10px;min-width:90px}
+.gallery-film-controls button:first-child::before{content:'';width:7px;height:10px;background:linear-gradient(to right,currentColor 0 2px,transparent 2px 5px,currentColor 5px 7px)}
+[data-video-state='paused'] .gallery-film-controls button:first-child::before{width:0;height:0;background:none;border-left:7px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent}
+.film-progress{appearance:none;-webkit-appearance:none;position:absolute;left:50%;transform:translateX(-50%);width:clamp(90px,15vw,200px);height:1px;border:0;background:#ffffff26;color:#c6cdd1;pointer-events:none}
+.film-progress::-webkit-progress-bar{background:#ffffff26}.film-progress::-webkit-progress-value{background:#c6cdd1}.film-progress::-moz-progress-bar{background:#c6cdd1}
+.gallery-hero[data-gallery-view='overview'] .gallery-copy{left:50%;top:5%;transform:translateX(-50%);width:90%;max-width:none;text-align:center}
+.gallery-hero[data-gallery-view='overview'] .gallery-family{display:none}
+.gallery-hero[data-gallery-view='overview'] .gallery-copy h2{font-size:clamp(30px,3.6vw,54px);letter-spacing:-.055em}
+.gallery-hero[data-gallery-view='overview'] .gallery-description{max-width:none;font-size:15px;margin:14px 0 0}
+.gallery-hero:not([data-gallery-view='overview']) .gallery-copy{top:10%;transform:none}
+.gallery-copy::before{content:'';position:absolute;z-index:-1;inset:-35px -40px;pointer-events:none;background:radial-gradient(ellipse at center,#0c0e11e8 15%,#0c0e1100 72%)}
+.gallery-hero[data-gallery-view='overview'] .gallery-copy::before{inset:-35px 20%;background:radial-gradient(ellipse at center,#0c0e11fa 30%,#0c0e1100 72%)}
+.cabin-tabs{display:none;position:absolute;z-index:5;left:50%;bottom:26px;transform:translateX(-50%);align-items:center;gap:26px;white-space:nowrap}
+.gallery-hero[data-gallery-view] .cabin-tabs{display:flex}
+.gallery-video-hero[data-intro-active] .cabin-tabs{visibility:hidden}
+.cabin-tabs button{appearance:none;border:0;border-bottom:1px solid transparent;background:none;color:#aeb8c1;min-height:44px;padding:10px 0;font:400 14px/1.3 'Film Utility',sans-serif;cursor:pointer;transition:color .2s,border-color .2s}
+.cabin-tabs button:hover,.cabin-tabs button[aria-pressed='true']{color:#fff;border-bottom-color:#dce1e5}
+.gallery-hero .gallery-credit{left:50%;bottom:78px;transform:translateX(-50%);max-width:90%;width:max-content;text-align:center;font-size:8px;color:#a1a9b2}
+@media(max-width:760px){
+ .gallery-film-controls{gap:16px}.gallery-film-controls button{font-size:13px}.film-progress{display:none}
+ .gallery-hero:not([data-gallery-view='overview']) .gallery-copy{top:28px}
+ .gallery-hero[data-gallery-view='overview'] .gallery-copy{top:6%}.gallery-hero[data-gallery-view='overview'] .gallery-copy h2{font-size:34px}.gallery-hero[data-gallery-view='overview'] .gallery-description{font-size:13px;max-width:27ch;margin:12px auto 0}
+ .cabin-tabs{bottom:60px;gap:20px}.cabin-tabs button{font-size:12px}.gallery-hero .gallery-credit{bottom:114px;max-width:calc(100% - 40px);font-size:7px}
+}
+@media(max-width:350px){.cabin-tabs{gap:13px}.cabin-tabs button{font-size:11px}.gallery-hero[data-gallery-view='overview'] .gallery-copy h2{font-size:30px}}
+@media(max-height:500px){.film-progress{display:none}.cabin-tabs{bottom:6px;gap:18px}.cabin-tabs button{font-size:11px}.gallery-hero .gallery-credit{bottom:51px;font-size:7px}.gallery-hero[data-gallery-view='overview'] .gallery-copy{top:6%}.gallery-hero[data-gallery-view='overview'] .gallery-copy h2{font-size:29px}.gallery-hero[data-gallery-view='overview'] .gallery-description{font-size:11px;margin-top:7px}}
+@media(prefers-reduced-motion:reduce){.gallery-film-controls button,.cabin-tabs button{transition:none}}

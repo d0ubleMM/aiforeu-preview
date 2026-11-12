@@ -1,13 +1,14 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
-import { createExhibits } from './exhibits.js?v=bomber-1';
-import { AREAS, clamp, ease, sampleGallery } from './journey.js';
-import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js?v=brand-3';
+import { createExhibits } from './exhibits.js?v=cabin-1';
+import { AREAS, DESK_LAYOUT, clamp, ease, sampleGallery } from './journey.js?v=cabin-1';
+import { INTRO, landingProgress } from './bomber-intro.js?v=brand-3';
 import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';
-import { sampleFilm } from './film-timeline.js';
-import { createRearHangar } from './rear-hangar.js';
+import { sampleFilm, cabinOverview } from './film-timeline.js?v=cabin-1';
+import { createRearHangar } from './rear-hangar.js?v=cabin-1';
 
 const mounted=new WeakMap();
 const content={
+  overview:{title:'Inside AIFOREU',copy:'Entdecken Sie unsere KI an vier Arbeitsplätzen.',href:'agentario/',action:'Agentario entdecken'},
   voice:{title:'Voice',copy:'Agentario nimmt Anrufe an und führt die nächsten Schritte aus.',href:'agentario/voice/',action:'Voice entdecken'},
   desktop:{title:'Desktop',copy:'Agentario arbeitet direkt in Ihrer Software.',href:'agentario/desktop/',action:'Desktop entdecken'},
   workflows:{title:'Workflows',copy:'Agentario verbindet Ihre Programme zu einem gemeinsamen Ablauf.',href:'agentario/workflows/',action:'Workflows entdecken'},
@@ -22,7 +23,7 @@ function environment(renderer){
   const generator=new THREE.PMREMGenerator(renderer),env=generator.fromScene(scene,.06);generator.dispose();scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});return env;
 }
 
-export function mountWorld(host,{selected='voice',capture=false}={}){
+export function mountWorld(host,{selected='overview',capture=false}={}){
   if(mounted.has(host))return mounted.get(host);
   const stage=host.querySelector('[data-world-stage]'),frame=host.querySelector('.world-experience'),canvas=document.createElement('canvas');
   const fallback=host.querySelector('[data-world-fallback]'),copy=host.querySelector('[data-gallery-copy]'),nav=host.querySelector('[data-gallery-nav]');
@@ -31,7 +32,7 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
   let resolveReady;const whenReady=new Promise(resolve=>{resolveReady=resolve;});
   const reduced=matchMedia('(prefers-reduced-motion: reduce)'),abort=new AbortController();
   const on=(target,event,fn,options={})=>target?.addEventListener(event,fn,{...options,signal:abort.signal});
-  let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=landingProgress(selected)||0,view=selected,pose=null,filmSample=null,transition=null;
+  let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=landingProgress(selected)||INTRO.galleryStart,view=selected,overview=selected==='overview'||capture,pose=null,filmSample=null,transition=null;
   let bomber=null,bomberState=capture?'loading':'video',bomberBounds=null,bomberMaterials=[],oldFloors=[];
   try{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
@@ -40,12 +41,14 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     env=environment(renderer);exhibits=createExhibits();
   }catch{exhibits?.dispose();env?.dispose();renderer?.dispose();host.setAttribute('data-gallery-static','');return null;}
   const scene=new THREE.Scene();scene.background=new THREE.Color('#0c0e11');scene.fog=new THREE.Fog('#0c0e11',21,65);scene.environment=env.texture;scene.environmentIntensity=.65;scene.add(exhibits.root);
-  const hangar=capture?createRearHangar():null;if(hangar)scene.add(hangar.root);
+  const hangar=createRearHangar();scene.add(hangar.root);
   const shutter=capture?document.createElement('div'):null;if(shutter){shutter.style.cssText='position:absolute;inset:0;background:#08090b;pointer-events:none;z-index:8;opacity:0';frame.append(shutter);}
   const fog=scene.fog,camera=new THREE.PerspectiveCamera(35,1,.08,1200);
   const ambient=new THREE.HemisphereLight('#ffffff','#46484e',1.15);scene.add(ambient);
-  const key=new THREE.DirectionalLight('#ffffff',3.1);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:.1,far:28});key.shadow.bias=-.0002;key.shadow.normalBias=.015;scene.add(key,key.target);
+  const key=new THREE.DirectionalLight('#ffffff',3.1);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-24,right:24,top:24,bottom:-24,near:.1,far:80});key.shadow.bias=-.0002;key.shadow.normalBias=.015;scene.add(key,key.target);
   const rim=new THREE.DirectionalLight('#e7edff',1.1);scene.add(rim,rim.target);
+  const apronKey=capture?new THREE.DirectionalLight('#edf0ee',1.6):null;
+  if(apronKey){apronKey.position.set(-35,65,-25);apronKey.target.position.set(0,0,-4);apronKey.castShadow=true;apronKey.shadow.mapSize.set(2048,2048);Object.assign(apronKey.shadow.camera,{left:-76,right:76,top:48,bottom:-48,near:1,far:180});apronKey.shadow.bias=-.0002;apronKey.shadow.normalBias=.04;apronKey.shadow.radius=3;scene.add(apronKey,apronKey.target);}
   function sync(sample){
     const changed=view!==sample.view||!host.dataset.galleryView;view=sample.view;host.dataset.galleryView=view;
     const intro=!content[view];copy.hidden=intro;
@@ -54,73 +57,77 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     if(changed){
       host.querySelector('[data-gallery-title]').textContent=c.title;host.querySelector('[data-gallery-description]').textContent=c.copy;
       const link=host.querySelector('[data-gallery-link]');link.href=c.href;link.firstChild.textContent=c.action+' ';
-      host.querySelector('[data-gallery-family]').textContent=view==='traffic'?'EU-gefördert':'Agentario';
-      previous.hidden=false;previous.firstChild.textContent=index>0?'← '+content[AREAS[index-1]].title:'↺ Intro';
+      host.querySelector('[data-gallery-family]').textContent=view==='overview'?'AIFOREU':view==='traffic'?'EU-gefördert':'Agentario';
+      link.hidden=view==='overview';
+      previous.hidden=false;previous.firstChild.textContent=index>0?'← '+content[AREAS[index-1]].title:index===0?'← Übersicht':'↺ Intro';
       next.firstChild.textContent=index<3?content[AREAS[index+1]].title+' →':'Weiter →';
-      credit.hidden=view!=='traffic';
+      credit.hidden=false;
+      host.querySelectorAll('[data-cabin-select]').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.cabinSelect===view));});
       if(previous.hidden&&document.activeElement===previous)next.focus({preventScroll:true});
     }
   }
   function draw(){
     if(disposed||lost)return;
-    if(filmSample){filmSample=sampleFilm(filmSample.time,{aspect:camera.aspect,exteriorBounds:bomberBounds});progress=filmSample.progress;}
+    if(filmSample){filmSample=sampleFilm(filmSample.time,{aspect:camera.aspect});progress=filmSample.progress;}
+    const inIntro=!!filmSample&&filmSample.time<13.4;
     const galleryProgress=clamp((progress-INTRO.galleryStart)/(1-INTRO.galleryStart));
-    const inIntro=progress<INTRO.galleryStart;
-    let opening=sampleBomberIntro(progress,{aspect:camera.aspect,exteriorBounds:bomberBounds});
-    if(filmSample?.camera)opening={pose:filmSample.camera,blend:filmSample.galleryBlend,brand:0,lockup:0,view:'bomber'};
-    const sample=sampleGallery(galleryProgress);if(reduced.matches&&!capture&&!inIntro){sample.index=AREAS.indexOf(view);sample.centre=sample.index*22;sample.view=view;sample.opacity=1;sample.inspection=.65;}
-    sync(inIntro?{...sample,view:opening.view}:sample);exhibits.update(sample,!capture&&reduced.matches);
-    const angle=.50+Math.sin(galleryProgress*Math.PI*2)*.12,direction=new THREE.Vector3(Math.sin(angle),.35+ease((galleryProgress-.68)/.12)*.42,Math.cos(angle)).normalize();
-    const target=new THREE.Vector3(sample.centre,1.58,0),right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),direction).normalize(),up=new THREE.Vector3().crossVectors(direction,right).normalize();
+    const sample=sampleGallery(galleryProgress);
+    if(overview){sample.view='overview';sample.centre=0;sample.inspection=.65;sample.opacity=1;}
+    sync(inIntro?{...sample,view:'bomber'}:sample);exhibits.update(sample,!capture&&reduced.matches);
+    const settled={rear:1,shellOpacity:1,position:[0,0,0],rotation:[0,0,0],door:1,ramp:1};
+    hangar.update(filmSample||settled);
+    exhibits.root.visible=!filmSample||filmSample.rear>0;
+    exhibits.root.position.set(...(filmSample?.position||[0,0,0]));exhibits.root.rotation.set(...(filmSample?.rotation||[0,0,0]));
+    exhibits.floor.visible=false;
     const rect=stage.getBoundingClientRect(),portrait=rect.width<=760&&rect.height>500;
     const captureScale=capture&&portrait?rect.width/390:1;
-    const availableWidth=portrait?.96:.69,availableHeight=portrait?(rect.height-260*captureScale)/rect.height:.94;
-    camera.fov=35;camera.clearViewOffset();camera.updateProjectionMatrix();
-    const tan=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let distance=6;
-    // Fit the complete desk and microphone in the actual canvas, including 320px.
-    for(const x of [-2.6,2.6])for(const y of [0,3.55])for(const z of [-1.45,1.45]){
-      const point=new THREE.Vector3(x,y-1.58,z),depth=point.dot(direction);
-      distance=Math.max(distance,depth+Math.abs(point.dot(up))/(tan*availableHeight),depth+Math.abs(point.dot(right))/(tan*camera.aspect*availableWidth));
+    let target=new THREE.Vector3(sample.centre,1.58,DESK_LAYOUT.z),offset=[0,0];
+    camera.clearViewOffset();
+    if(overview){
+      const wide=cabinOverview(camera.aspect);camera.position.fromArray(wide.position);target.fromArray(wide.target);camera.fov=wide.fov;
+    }else{
+      const direction=new THREE.Vector3(-Math.tanh(sample.centre/5)*.13,.20,-1).normalize();
+      const right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),direction).normalize(),up=new THREE.Vector3().crossVectors(direction,right).normalize();
+      camera.fov=45;const tan=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+      const availableWidth=portrait?.94:.68,availableHeight=portrait?(rect.height-280*captureScale)/rect.height:.91;
+      let distance=6;
+      for(const x of [-2.6,2.6])for(const y of [0,3.55])for(const z of [-1.45,1.45]){
+        const point=new THREE.Vector3(x,y-1.58,z),depth=point.dot(direction);
+        distance=Math.max(distance,depth+Math.abs(point.dot(up))/(tan*availableHeight),depth+Math.abs(point.dot(right))/(tan*camera.aspect*availableWidth));
+      }
+      const wanted=distance*1.06,insideDistance=Math.min(wanted,14.5);
+      // Widen the lens on tall phones instead of moving outside the cabin wall.
+      camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(tan*wanted/insideDistance));
+      camera.position.copy(target).addScaledVector(direction,insideDistance);
+      offset=[portrait?0:-rect.width*.145,portrait?-74*captureScale:0];
     }
-    distance*=1.06;camera.position.copy(target).addScaledVector(direction,distance);camera.lookAt(target);camera.updateMatrixWorld();
-    key.position.set(sample.centre-4.5,8.5,5.5);key.target.position.set(sample.centre,1,0);rim.position.set(sample.centre+4,6,-4);rim.target.position.set(sample.centre,1,0);
-    const blend=inIntro?opening.blend:1;
-    const room=filmSample?filmSample.room:(inIntro?ease((progress-INTRO.entryStart-.008)/.035):1);
-    const brand=filmSample?filmSample.brand:(inIntro?opening.brand:0),lockup=inIntro&&!filmSample?opening.lockup:0;
-    if(wordmark){wordmark.hidden=brand<=0;wordmark.style.opacity=String(brand);wordmark.style.transform=`translate(-50%,calc(-50% + ${(1-brand)*24}px))`;}
-    if(capture)host.toggleAttribute('data-brand-intro',brand>.01);
-    if(inIntro){
-      camera.position.lerpVectors(new THREE.Vector3(...opening.pose.position),camera.position,blend);target.lerpVectors(new THREE.Vector3(...opening.pose.target),target,blend);
-      camera.position.sub(target).multiplyScalar(filmSample?.framing??(1+(portrait?.08:1.1)*lockup)).add(target);
-      camera.fov=THREE.MathUtils.lerp(opening.pose.fov,35,blend);
-      key.position.lerpVectors(new THREE.Vector3(-25,42,28),key.position,room);key.target.position.lerpVectors(new THREE.Vector3(),key.target.position,room);
-      rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,room);
+    if(filmSample){camera.position.fromArray(filmSample.camera.position);target.fromArray(filmSample.camera.target);camera.fov=filmSample.camera.fov;offset=[0,0];}
+    if(transition?.cameraFrom){
+      const start=transition.cameraFrom,t=ease(transition.elapsed/transition.duration);
+      camera.position.lerpVectors(new THREE.Vector3(...start.position),camera.position,t);target.lerpVectors(new THREE.Vector3(...start.target),target,t);camera.fov=THREE.MathUtils.lerp(start.fov,camera.fov,t);offset=offset.map((v,i)=>THREE.MathUtils.lerp(start.offset[i],v,t));
     }
-    camera.setViewOffset(rect.width,rect.height,(portrait?0:-rect.width*.145*blend)+rect.width*(filmSample?.slide||0),(portrait?-74*blend*captureScale:0)+rect.height*.14*lockup*(filmSample?.lift??1),rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-    const atmosphere=filmSample?filmSample.atmosphere:(inIntro?ease((progress-INTRO.entryStart-.012)/.060):1);
+    camera.setViewOffset(rect.width,rect.height,...offset,rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
+    const room=filmSample?filmSample.room:1,centre=sample.centre;
+    key.position.set(centre-4.5,5.8,DESK_LAYOUT.z-5.5);key.target.position.set(centre,1,DESK_LAYOUT.z);
+    rim.position.set(centre+4,6,DESK_LAYOUT.z+4);rim.target.position.set(centre,1,DESK_LAYOUT.z);
+    key.position.lerpVectors(new THREE.Vector3(-25,42,28),key.position,room);key.target.position.lerpVectors(new THREE.Vector3(),key.target.position,room);
+    rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,room);
     const exteriorFog=filmSample?.rear?Math.max(160,260/camera.aspect):800;
-    fog.near=THREE.MathUtils.lerp(exteriorFog,21,atmosphere);fog.far=THREE.MathUtils.lerp(Math.min(1200,exteriorFog*3),65,atmosphere);
-    ambient.intensity=THREE.MathUtils.lerp(.75,1.15,room);key.intensity=THREE.MathUtils.lerp(2.8,3.1,room);rim.intensity=THREE.MathUtils.lerp(filmSample?.rear?1.7:.9,1.1,room);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.3,1.05,room);scene.environmentIntensity=.65;
-    exhibits.root.visible=filmSample?filmSample.rear>0:(!inIntro||progress>=INTRO.entryStart);
-    // The same neutral material and plane run from the cabin to the gallery.
-    // The room floor takes over after the camera has crossed the rear ramp.
-    const floorOpacity=filmSample?filmSample.floor:(inIntro?ease((progress-INTRO.entryStart-.006)/.025):1);
-    exhibits.floor.visible=floorOpacity>0;exhibits.floor.material.opacity=floorOpacity;exhibits.floor.material.transparent=floorOpacity<1;exhibits.floor.material.depthWrite=floorOpacity>=1;
+    fog.near=THREE.MathUtils.lerp(exteriorFog,35,room);fog.far=THREE.MathUtils.lerp(Math.min(1200,exteriorFog*3),100,room);
+    ambient.intensity=THREE.MathUtils.lerp(filmSample?.rear ? .38 : .72,1.15,room);key.intensity=THREE.MathUtils.lerp(filmSample?.rear ? .8 : 3.2,3.1,room);rim.intensity=THREE.MathUtils.lerp(filmSample?.rear?2.6:3.2,1.1,room);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.25,1.05,room);scene.environmentIntensity=.65;
+    key.castShadow=room>.8;if(apronKey)apronKey.intensity=filmSample?.rear?1.6*(1-room):0;
     if(bomber){
-      bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(filmSample?0:opening.pose.open);
+      bomber.group.visible=!!filmSample;bomber.setForm(1);bomber.setOpen(0);
       bomber.group.rotation.set(...(filmSample?.rotation||[0,0,0]));bomber.group.position.set(...(filmSample?.position||[0,0,0]));oldFloors.forEach(mesh=>{mesh.visible=false;});
-      const opacity=filmSample?filmSample.shellOpacity:(inIntro?1-ease((progress-INTRO.entryEnd-.015)/.025):0);
-      bomber.group.visible=inIntro&&opacity>0;
       for(const {material,base} of bomberMaterials){
-        if(material.name==='Laibung'){material.color.lerp(exhibits.floor.material.color,room);material.metalness*=1-room;material.roughness=THREE.MathUtils.lerp(material.roughness,.74,room);}
-        material.opacity=base.opacity*opacity;const transparent=base.transparent||opacity<1;
-        if(material.transparent!==transparent){material.transparent=transparent;material.needsUpdate=true;}
-        material.depthWrite=base.depthWrite&&opacity>=1;
+        if(!/Void|Seam|Cockpit|Floor/.test(material.name)){material.metalness=Math.min(.58,material.metalness+.22);material.roughness=Math.max(.38,material.roughness-.13);}
+        if(/^(Haut_Oben|Glas|Kante_VK)$/.test(material.name))material.color.multiplyScalar(1.45);
+        material.opacity=base.opacity;if(material.transparent!==base.transparent){material.transparent=base.transparent;material.needsUpdate=true;}material.depthWrite=base.depthWrite;
       }
     }
-    hangar?.update(filmSample);if(shutter)shutter.style.opacity=String(filmSample?.shutter||0);
-    fallback.hidden=!(inIntro&&!bomber);
-    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:filmSample?0:(inIntro?opening.pose.open:1)};
+    if(shutter)shutter.style.opacity=String(filmSample?.shutter||0);if(wordmark)wordmark.hidden=true;
+    fallback.hidden=true;
+    pose={position:camera.position.toArray(),target:target.toArray(),fov:camera.fov,offset,view,centre:sample.centre,inspection:sample.inspection,form:1,open:0};
     renderer.render(scene,camera);
   }
   const active=()=>!disposed&&!lost&&visible&&!document.hidden&&!document.body.classList.contains('global-menu-open');
@@ -128,7 +135,7 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     raf=0;
     if(transition){
       if(transition.last!==null)transition.elapsed+=Math.min(50,now-transition.last);
-      transition.last=now;const t=clamp(transition.elapsed/700);
+      transition.last=now;const t=clamp(transition.elapsed/transition.duration);
       progress=THREE.MathUtils.lerp(transition.from,transition.to,ease(t));if(t>=1)transition=null;
     }
     draw();if(transition)schedule();
@@ -140,12 +147,15 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();draw();schedule();
   }
   function select(area,{animate=false}={}){
-    const p=landingProgress(area);if(p===null||disposed)return;filmSample=null;
-    if(animate&&!reduced.matches&&progress>=INTRO.galleryStart&&p>=INTRO.galleryStart){transition={from:progress,to:p,elapsed:0,last:null};schedule();return;}
+    const p=area==='overview'?INTRO.galleryStart:landingProgress(area);if(p===null||disposed)return;
+    const changingOverview=overview!==(area==='overview'),cameraFrom=changingOverview&&pose?structuredClone(pose):null;
+    filmSample=null;overview=area==='overview';
+    if(animate&&!reduced.matches){transition={from:progress,to:p,cameraFrom,elapsed:0,last:null,duration:changingOverview?1200:850};schedule();return;}
     transition=null;progress=p;view=area;host.removeAttribute('data-gallery-view');draw();
   }
-  on(previous,'click',()=>{const index=AREAS.indexOf(view);if(index<=0)host.dispatchEvent(new CustomEvent('gallery:replay'));else select(AREAS[index-1],{animate:true});});
+  on(previous,'click',()=>{const index=AREAS.indexOf(view);if(view==='overview')host.dispatchEvent(new CustomEvent('gallery:replay'));else select(index<=0?'overview':AREAS[index-1],{animate:true});});
   on(next,'click',()=>{const index=AREAS.indexOf(view);if(index<3)select(AREAS[index+1],{animate:true});else document.querySelector('#wege')?.scrollIntoView({behavior:'smooth',block:'start'});});
+  host.querySelectorAll('[data-cabin-select]').forEach(button=>on(button,'click',()=>select(button.dataset.cabinSelect,{animate:true})));
   on(document,'visibilitychange',()=>{stop();schedule();});
   on(reduced,'change',()=>{if(transition){progress=transition.to;transition=null;}resize();});
   on(canvas,'webglcontextlost',event=>{event.preventDefault();lost=true;const selected=view;dispose({preserve:true,keepCanvas:true});canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();mountWorld(host,{selected});},{once:true});});
@@ -154,15 +164,15 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
   const menuObserver=new MutationObserver(()=>{stop();schedule();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
   function dispose({preserve=false,keepCanvas=false}={}){
-    if(disposed)return;disposed=true;resolveReady(false);stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();hangar?.dispose();shutter?.remove();env.dispose();key.shadow.map?.dispose();renderer.dispose();
+    if(disposed)return;disposed=true;resolveReady(false);stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();hangar?.dispose();shutter?.remove();env.dispose();key.shadow.map?.dispose();apronKey?.shadow.map?.dispose();renderer.dispose();
     if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;nav.hidden=true;stage.dataset.worldReady='fallback';if(!preserve)host.setAttribute('data-gallery-static','');mounted.delete(host);if(window.AiforeuGallery===api)delete window.AiforeuGallery;
   }
-  const api={select,dispose,ready:whenReady,setFilmTime(seconds){if(!capture||disposed)return;filmSample=sampleFilm(seconds);progress=filmSample.progress;draw();},get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get progress(){return progress;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};}};
+  const api={select,dispose,ready:whenReady,setFilmTime(seconds){if(!capture||disposed)return;filmSample=sampleFilm(seconds);progress=filmSample.progress;draw();},get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get progress(){return progress;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stations(){return exhibits.groups.map(g=>({name:g.name,position:g.position.toArray(),visible:g.visible}));},get stats(){return {...renderer.info.render};}};
   mounted.set(host,api);window.AiforeuGallery=api;stage.append(canvas);fallback.hidden=true;nav.hidden=false;stage.dataset.worldReady='true';resize();
   const aircraft=capture?createBomberSkin({signal:abort.signal}).then(loaded=>{
     if(disposed){loaded.dispose();return;}
     bomber=loaded;bomberState='ready';bomberBounds={min:loaded.closedBounds.min.toArray(),max:loaded.closedBounds.max.toArray()};
-    const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;if(/^(Interior_Floor|Bridge_Floor)/.test(o.name))oldFloors.push(o);[].concat(o.material).forEach(m=>materials.add(m));}});
+    const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=false;if(/^(Interior_Floor|Bridge_Floor)/.test(o.name))oldFloors.push(o);[].concat(o.material).forEach(m=>materials.add(m));}});
     bomberMaterials=[...materials].map(material=>({material,base:{opacity:material.opacity,transparent:material.transparent,depthWrite:material.depthWrite}}));
     hangar?.attachSkin(bomberMaterials);scene.add(bomber.group);draw();schedule();
   }).catch(()=>{if(!disposed){bomberState='unavailable';draw();schedule();}}):Promise.resolve();

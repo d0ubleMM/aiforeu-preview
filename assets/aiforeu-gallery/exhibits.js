@@ -1,6 +1,7 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 import { RoundedBoxGeometry } from '../agentario-scene/vendor/RoundedBoxGeometry.js';
 import { createBroadcastMicrophone } from '../aiforeu-innenwelt/interior-props.js';
+import { DESK_LAYOUT } from './journey.js?v=cabin-1';
 
 export function createExhibits() {
   const root=new THREE.Group(),groups=[],owned=new Set(),textures=new Set(),pending=[];
@@ -30,7 +31,13 @@ export function createExhibits() {
     box(g,m.frame,0,1.22,-.78,3.9,.08,.07);
     box(g,m.frame,0,1.12,-.72,3.2,.13,.23);
   };
-  const make=(name,i)=>{const g=subgroup(root,name,[i*22,0,0]);groups.push(g);desk(g);return g;};
+  const make=(name,i)=>{
+    const g=subgroup(root,name,[DESK_LAYOUT.first+i*DESK_LAYOUT.spacing,0,DESK_LAYOUT.z]);g.rotation.y=Math.PI;groups.push(g);desk(g);
+    box(g,m.frame,0,1.17,1.12,4.5,.29,.055);
+    const label=canvasTexture(1024,128,(c,w,h)=>{c.fillStyle='#f5f6f7';c.fillRect(0,0,w,h);c.fillStyle='#30363d';c.textAlign='center';c.textBaseline='middle';c.font='500 72px Arial';c.fillText(['Voice','Desktop','Workflows','VerkehrsAI'][i],w/2,h/2);});
+    const labelMat=new THREE.MeshBasicMaterial({map:label,toneMapped:false});owned.add(labelMat);mesh(g,geometry.plane,labelMat,[0,1.17,1.15],[2.5,.265,1]);
+    return g;
+  };
   const voice=make('voice',0),mic=subgroup(voice,'broadcast studio',[.1,1.443,-.12]);
   mic.scale.setScalar(1.85);createBroadcastMicrophone({THREE,m,mesh,box,cylinder,subgroup},mic);
   // One ruled notebook and a metal pen, away from the microphone arm.
@@ -72,8 +79,9 @@ export function createExhibits() {
   box(workflows,m.metal,1.72,1.49,-.5,.27,.09,.75,{soft:true});
   for(let i=0;i<4;i++)box(workflows,m.ink,1.72,1.54,-.73+i*.15,.19,.009,.025);
 
-  const traffic=make('traffic',3),mapBoard=subgroup(traffic,'aerial light table',[0,1.46,-.08]);
-  mapBoard.rotation.x=-.16;box(mapBoard,m.frame,0,.08,0,3.92,.16,2.70,{soft:true});
+  const traffic=make('traffic',3),mapBoard=subgroup(traffic,'aerial light table',[0,2.10,-.08]);
+  mapBoard.rotation.x=.5;box(mapBoard,m.frame,0,.08,0,3.92,.16,2.70,{soft:true});
+  for(const x of [-1.4,1.4])box(traffic,m.metal,x,1.96,-.93,.08,1.0,.08);
   const mapMat=mat('real aerial photograph','#ffffff',{roughness:.68});
   const mapPlane=mesh(mapBoard,geometry.plane,mapMat,[0,.163,0],[3.72,2.56,1],[-Math.PI/2,0,0]);mapPlane.receiveShadow=false;
   const loader=new THREE.TextureLoader();
@@ -103,16 +111,16 @@ export function createExhibits() {
   const floorMat=mat('studio floor','#15171b',{roughness:.74});const floor=mesh(root,new THREE.PlaneGeometry(500,500),floorMat,[33,0,0],[1,1,1],[-Math.PI/2,0,0]);floor.castShadow=false;
 
   function update(sample,reduced=false){
-    const active=sample.index;
-    groups.forEach((g,i)=>{g.visible=i===active||(sample.local>.72&&i===active+1);});
-    const t=reduced ? .65 : sample.inspection;
+    groups.forEach(g=>{g.visible=true;});
+    const t=reduced||sample.view!=='workflows' ? .65 : sample.inspection;
     for(const {paper,stack,layer,angle,index} of notes){
       const spread=1-t,side=stack-1;
       paper.position.set(side*.83+Math.sin(index*8.9)*spread*.34,1.454+layer*.009,-.1+Math.cos(index*4.3)*spread*.38);
       paper.rotation.set(-Math.PI/2,0,angle*(.3+spread));
     }
-    mapLines.visible=sample.view==='traffic'&&(reduced||sample.inspection>.2);marker.scale.setScalar(.7+t*.3);
-    if(roadTrace)roadTrace.geometry.setDrawRange(0,Math.floor(roadTrace.geometry.attributes.position.count*t/2)*2);
+    const mapProgress=sample.view==='traffic'&&!reduced?sample.inspection:1;
+    mapLines.visible=true;marker.scale.setScalar(.7+mapProgress*.3);
+    if(roadTrace)roadTrace.geometry.setDrawRange(0,Math.floor(roadTrace.geometry.attributes.position.count*mapProgress/2)*2);
   }
   function dispose(){if(disposed)return;disposed=true;const geometries=new Set();root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);});for(const g of geometries)g.dispose();for(const texture of textures)texture.dispose();for(const material of owned)material.dispose();root.clear();}
   return {root,floor,groups,ready:Promise.all(pending),update,dispose};

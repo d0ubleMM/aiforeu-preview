@@ -1,74 +1,129 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 
-// World metres: +Z is the nose. The rear opening is at Z=-14.7.
-// The roof stays sealed. A local cut volume removes only the obstructing aft
-// skin, retaining the exact uncut logo throughout both transformations.
-export const REAR_ENTRY={z:-14.7,width:11.4,floor:.02,ceiling:7.6,rampLength:3.6,rampAngle:-1.95};
+// World metres: +Z is the nose. The continuous upper skin remains closed.
+export const REAR_ENTRY={z:-14.7,width:10.2,floor:.02,ceiling:6.8,rampLength:3.6,rampAngle:-1.95};
 export function createRearHangar(){
-  const root=new THREE.Group(),airframe=new THREE.Group(),bay=new THREE.Group();root.add(airframe);airframe.add(bay);
-  const materials=[],geometries=[],cut={value:0};
-  const mat=(color,extra={})=>{const m=new THREE.MeshStandardMaterial({color,roughness:.65,...extra});materials.push(m);return m;};
-  const shell=mat('#263039',{metalness:.15}),edge=mat('#11171d',{metalness:.25}),inside=mat('#252a30'),floor=mat('#15171b',{roughness:.74}),rubber=mat('#080a0c'),metal=mat('#89939b',{metalness:.75,roughness:.28}),line=mat('#a8a89a'),light=mat('#dce9f1',{emissive:'#dce9f1',emissiveIntensity:2.2});
-  function box(parent,m,pos,size){const g=new THREE.BoxGeometry(...size);geometries.push(g);const mesh=new THREE.Mesh(g,m);mesh.position.set(...pos);parent.add(mesh);return mesh;}
-  function panel(parent,m,points){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(points.flat(),3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();geometries.push(g);const mesh=new THREE.Mesh(g,m);mesh.material.side=THREE.DoubleSide;parent.add(mesh);return mesh;}
-  // A tapered rear fairing joins the raised wing to a full-height cargo portal.
-  panel(bay,shell,[[-6.1,7.9,-14.9],[6.1,7.9,-14.9],[7,9.2,-9.1],[-7,9.2,-9.1]]);
-  for(const side of [-1,1]){
-    panel(bay,shell,[[side*6.1,-.2,-14.9],[side*6.1,7.9,-14.9],[side*7,9.2,-9.1],[side*7,-.8,-9.1]]);
-    box(bay,edge,[side*5.95,3.8,-14.7],[.5,7.8,.45]);
-    box(bay,inside,[side*5.75,3.75,1.65],[.22,7.5,32.7]);
-    for(const z of [-13,-9,-5]){
-      box(bay,edge,[side*5.55,3.6,z],[.2,7.2,.22]);
-      box(bay,light,[side*5.39,5.8,z],[.04,.07,2]);
-    }
+  const root=new THREE.Group(),airframe=new THREE.Group(),bay=new THREE.Group();
+  root.add(airframe);airframe.add(bay);
+  const materials=[],geometries=[],textures=[],cut={value:0};
+  const mat=(color,extra={})=>{const m=new THREE.MeshStandardMaterial({color,roughness:.62,...extra});materials.push(m);return m;};
+  const shell=mat('#202a31',{metalness:.38,roughness:.48}),edge=mat('#11181d',{metalness:.45,roughness:.42});
+  const inside=mat('#31383d',{metalness:.18,roughness:.68}),inset=mat('#1b2329',{roughness:.76}),floor=mat('#20262b',{roughness:.82});
+  const rubber=mat('#07090b',{roughness:.9}),metal=mat('#6d777e',{metalness:.7,roughness:.38}),marking=mat('#727873',{roughness:.92});
+  const light=mat('#dce3df',{emissive:'#e2e8e2',emissiveIntensity:3,roughness:.35});
+  function mesh(parent,geometry,material,position=[0,0,0]){
+    geometries.push(geometry);const object=new THREE.Mesh(geometry,material);
+    object.position.set(...position);object.castShadow=material!==floor;object.receiveShadow=true;parent.add(object);return object;
   }
-  box(bay,edge,[0,7.67,-14.7],[12.4,.42,.5]);
-  box(bay,floor,[0,-.10,1.65],[11.5,.2,32.7]);
-  box(bay,inside,[0,7.6,1.65],[11.5,.2,32.7]);
-  for(const z of [-12,-8,-4,0,5,10])box(bay,light,[0,7.43,z],[8.7,.07,.13]);
-  // Two real hinge transforms, not a dissolving door texture.
-  const upper=new THREE.Group();upper.position.set(0,7.6,-14.7);bay.add(upper);
-  box(upper,shell,[0,-2,0],[11.4,4,.22]);
-  for(const x of [-4.5,-1.5,1.5,4.5])box(upper,edge,[x,-2,.14],[.07,3.6,.06]);
+  const box=(parent,m,pos,size)=>mesh(parent,new THREE.BoxGeometry(...size),m,pos);
+  function panel(parent,m,points){
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(points.flat(),3));
+    g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();m.side=THREE.DoubleSide;return mesh(parent,g,m);
+  }
+  function prism(parent,m,points,depth,position){
+    const shape=new THREE.Shape();points.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.moveTo(x,y));shape.closePath();
+    return mesh(parent,new THREE.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelSize:.035,bevelThickness:.035,bevelSegments:2,steps:1}),m,position);
+  }
+  function beam(parent,m,a,b,width,depth=width){
+    const start=new THREE.Vector3(...a),end=new THREE.Vector3(...b),object=box(parent,m,start.clone().add(end).multiplyScalar(.5).toArray(),[width,start.distanceTo(end),depth]);
+    object.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),end.sub(start).normalize());return object;
+  }
+  const profile=[[-5.1,0],[5.1,0],[5.1,5.5],[3.85,6.8],[-3.85,6.8],[-5.1,5.5]];
+  const spread=z=>Math.min(13.4*Math.min(1,Math.max(0,(z+14.7)/10)),13.4-Math.min(1,Math.max(0,(z-8)/9.5))*10.8);
+  const section=z=>profile.map(([x,y])=>[x+Math.sign(x)*spread(z),y,z]);
+  const outer=[[-5.55,-.25],[5.55,-.25],[5.55,5.7],[4.05,7.25],[-4.05,7.25],[-5.55,5.7]];
+  // Chamfered portal and tapered panels follow the centre body's angular skin.
+  for(let i=0;i<6;i++){
+    const j=(i+1)%6,a=outer[i],b=outer[j],c=profile[j],d=profile[i];
+    panel(bay,edge,[[...a,-14.84],[...b,-14.84],[...c,-14.84],[...d,-14.84]]);
+    beam(bay,metal,[...d,-14.88],[...c,-14.88],.045,.06);
+  }
+  panel(bay,shell,[[-4.05,7.25,-14.7],[4.05,7.25,-14.7],[7,9.2,-8.9],[-7,9.2,-8.9]]);
+  for(const side of [-1,1]){
+    panel(bay,shell,[[side*4.05,7.25,-14.7],[side*5.55,5.7,-14.7],[side*8.3,6.1,-8.9],[side*7,9.2,-8.9]]);
+    panel(bay,shell,[[side*5.55,5.7,-14.7],[side*5.55,-.25,-14.7],[side*8.3,-.8,-8.9],[side*8.3,6.1,-8.9]]);
+  }
+  // Continuous cabin with recessed wall panels, structural ribs and light channels.
+  const stations=[-14.7,-8,-4.7,8,17.5];
+  for(let k=1;k<stations.length;k++)for(let i=0;i<6;i++){
+    const j=(i+1)%6,a=section(stations[k-1]),b=section(stations[k]);
+    panel(bay,i===0?floor:inside,[a[i],b[i],b[j],a[j]]);
+  }
+  box(bay,inset,[0,3.4,17.6],[15.4,6.8,.15]);
+  for(const z of [-13.3,-9.4,-5.5,-1.6,2.3,6.2,10.1,14]){
+    const s=spread(z),next=spread(z+3.4);
+    for(const side of [-1,1]){
+      beam(bay,edge,[side*(5.02+s),.15,z],[side*(5.02+s),5.45,z],.11,.17);
+      beam(bay,edge,[side*(5.02+s),5.45,z],[side*(3.80+s),6.70,z],.11,.17);
+      panel(bay,inset,[[side*(5.005+s),.45,z+.12],[side*(5.005+next),.45,z+3.4],[side*(5.005+next),5.1,z+3.4],[side*(5.005+s),5.1,z+.12]]);
+      beam(bay,metal,[side*(4.94+s),1.1,z+.12],[side*(4.94+next),1.1,z+3.4],.055,.07);
+      beam(bay,edge,[side*(3.63+s),6.67,z],[side*(3.63+next),6.67,z+3.4],.20,.16);
+      beam(bay,light,[side*(3.63+s),6.57,z+.08],[side*(3.63+next),6.57,z+3.32],.075,.035);
+    }
+    beam(bay,edge,[-3.8-s,6.70,z],[3.8+s,6.70,z],.11,.17);
+    box(bay,edge,[0,6.69,z],[5.3+s*1.5,.15,.24]);box(bay,light,[0,6.60,z],[5+s*1.5,.035,.085]);
+  }
+  for(let z=-13.1;z<16;z+=2.8)for(let x=-16;x<=16;x+=3.2)if(Math.abs(x)+1.6<5.1+spread(z-1.4))box(bay,floor,[x,.018,z],[3.17,.035,2.77]);
+  for(const side of [-1,1]){
+    box(bay,edge,[side*4.55,.045,1.3],[.16,.08,31.7]);box(bay,light,[side*4.55,.091,1.3],[.035,.012,31.7]);
+  }
+  // The upper flap lifts outwards. The lower leaf is a load-bearing ramp.
+  const upper=new THREE.Group();upper.position.set(0,6.8,-14.7);bay.add(upper);
+  prism(upper,shell,[[-5.05,-3.2],[5.05,-3.2],[5.05,-1.32],[3.82,-.04],[-3.82,-.04],[-5.05,-1.32]],.16,[0,0,-.08]);
+  for(const side of [-1,1]){
+    box(upper,edge,[side*2.8,-1.6,.15],[.14,2.5,.16]);box(upper,metal,[side*2.8,-1.6,-.105],[.028,2.45,.025]);box(upper,edge,[side*2.8,0,0],[.65,.16,.36]);
+  }
   const ramp=new THREE.Group();ramp.position.set(0,.02,-14.7);bay.add(ramp);
-  box(ramp,shell,[0,1.8,0],[11.4,3.6,.24]);
-  for(let y=.25;y<3.5;y+=.28)box(ramp,metal,[0,y,.145],[10.7,.035,.03]);
-  for(const x of [-5.4,5.4])box(ramp,line,[x,1.8,.15],[.08,3.5,.03]);
+  prism(ramp,shell,[[-5.05,0],[5.05,0],[5.05,3.56],[-5.05,3.56]],.18,[0,0,-.09]);
+  for(let y=.16;y<3.5;y+=.17)box(ramp,metal,[0,y,.115],[9.4,.025,.03]);
+  for(const side of [-1,1]){
+    box(ramp,edge,[side*4.84,1.8,.15],[.23,3.6,.20]);box(ramp,light,[side*4.84,1.8,.258],[.035,3.35,.018]);box(ramp,metal,[side*4.4,.08,-.13],[.55,.18,.18]);
+  }
   const rods=[];
   for(const side of [-1,1]){
-    const g=new THREE.CylinderGeometry(.065,.065,1,12);geometries.push(g);const rod=new THREE.Mesh(g,metal);bay.add(rod);rods.push({rod,side});
+    const rod=mesh(bay,new THREE.CylinderGeometry(.055,.055,1,16),metal),sleeve=mesh(bay,new THREE.CylinderGeometry(.10,.10,1,16),edge);rods.push({rod,sleeve,side});
   }
-  // Landing gear and the stationary apron make the braking motion readable.
-  const gear=new THREE.Group();airframe.add(gear);
+  // Landing gear, parking marks and a cast shadow establish ground contact.
   for(const [x,z] of [[-10,-3],[10,-3],[0,16]]){
-    box(gear,metal,[x,-.39,z],[.17,1.2,.17]);
-    for(const offset of [-.25,.25]){const g=new THREE.CylinderGeometry(.44,.44,.3,24);geometries.push(g);const wheel=new THREE.Mesh(g,rubber);wheel.rotation.z=Math.PI/2;wheel.position.set(x+offset,-.92,z);gear.add(wheel);}
+    mesh(airframe,new THREE.CylinderGeometry(.10,.13,1.2,16),metal,[x,-.39,z]);beam(airframe,metal,[x,-.75,z],[x+.5,-.05,z+.5],.10);
+    for(const offset of [-.27,.27]){
+      const wheel=mesh(airframe,new THREE.TorusGeometry(.29,.15,12,32),rubber,[x+offset,-.92,z]);wheel.rotation.y=Math.PI/2;
+      const hub=mesh(airframe,new THREE.CylinderGeometry(.17,.17,.23,16),metal,[x+offset,-.92,z]);hub.rotation.z=Math.PI/2;
+    }
   }
   const apron=new THREE.Group();root.add(apron);
-  box(apron,mat('#0e1115',{roughness:.9}),[0,-1.42,-3],[2400,.12,2400]);
-  for(const x of [-7.4,7.4])box(apron,line,[x,-1.351,-27],[.10,.015,24]);
-  box(apron,line,[0,-1.351,-15.6],[14.9,.015,.1]);
-  const cabinLight=new THREE.PointLight('#dce9f1',25,28,2);cabinLight.position.set(0,5.7,-9);airframe.add(cabinLight);
+  const data=new Uint8Array(128*128*4);let seed=7721;
+  for(let i=0;i<data.length;i+=4){seed=(seed*1664525+1013904223)>>>0;const value=228+(seed%8);data[i]=data[i+1]=data[i+2]=value;data[i+3]=255;}
+  const grain=new THREE.DataTexture(data,128,128,THREE.RGBAFormat);grain.wrapS=grain.wrapT=THREE.RepeatWrapping;grain.repeat.set(1200,1200);grain.minFilter=THREE.LinearMipmapLinearFilter;grain.magFilter=THREE.LinearFilter;grain.generateMipmaps=true;grain.anisotropy=4;grain.needsUpdate=true;textures.push(grain);
+  const apronMaterial=mat('#090d11',{roughness:.87,metalness:.08,envMapIntensity:.12,roughnessMap:grain});
+  const ground=mesh(apron,new THREE.PlaneGeometry(2400,2400),apronMaterial,[0,-1.365,0]);ground.rotation.x=-Math.PI/2;ground.castShadow=false;
+  for(const x of [-7.4,7.4])box(apron,marking,[x,-1.351,-27],[.065,.012,24]);box(apron,marking,[0,-1.351,-15.6],[14.9,.012,.065]);
+  const cabinLight=new THREE.PointLight('#e3e8e5',24,27,2);cabinLight.position.set(0,5,-8);airframe.add(cabinLight);
+  const spill=[];
+  for(const side of [-1,1]){
+    const spot=new THREE.SpotLight('#e1e6df',65,36,.55,.65,2);spot.position.set(side*3.4,5.8,-13.3);spot.target.position.set(side*2,-1.3,-23);airframe.add(spot,spot.target);spill.push(spot);
+  }
   function attachSkin(entries){
     for(const {material} of entries){
       material.onBeforeCompile=shader=>{
         shader.uniforms.rearCut=cut;
         shader.vertexShader='varying vec3 vCarrierPoint;\n'+shader.vertexShader.replace('#include <morphtarget_vertex>','#include <morphtarget_vertex>\nvCarrierPoint=transformed*36.0;');
-        shader.fragmentShader='varying vec3 vCarrierPoint; uniform float rearCut;\n'+shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(rearCut>0.5 && abs(vCarrierPoint.x)<5.8 && vCarrierPoint.z< -9.3 && vCarrierPoint.y> -0.25 && vCarrierPoint.y<7.9) discard;');
+        shader.fragmentShader='varying vec3 vCarrierPoint; uniform float rearCut;\n'+shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(rearCut>0.5 && abs(vCarrierPoint.x)<5.45 && vCarrierPoint.z< -9.3 && vCarrierPoint.y> -0.25 && vCarrierPoint.y<7.35) discard;');
       };
-      material.customProgramCacheKey=()=> 'aiforeu-rear-aperture-1';material.needsUpdate=true;
+      material.customProgramCacheKey=()=> 'aiforeu-chamfered-rear-2';material.needsUpdate=true;
     }
   }
   function update(state){
-    const active=state?.rear||0,opacity=state?.shellOpacity??0;root.visible=active>0&&opacity>0;cut.value=active>0?1:0;
-    if(!root.visible)return;
-    airframe.position.set(...state.position);airframe.rotation.set(...state.rotation);
-    upper.rotation.x=-Math.PI/2*state.door;
-    ramp.rotation.x=REAR_ENTRY.rampAngle*state.ramp;
-    cabinLight.intensity=25*state.door*opacity;
-    for(const {rod,side} of rods){const a=new THREE.Vector3(side*5.4,6.9,-11.5),b=new THREE.Vector3(side*5.4,-3.4*Math.cos(upper.rotation.x)+7.6,-3.4*Math.sin(upper.rotation.x)-14.7);rod.position.copy(a).add(b).multiplyScalar(.5);rod.scale.y=a.distanceTo(b);rod.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),b.sub(a).normalize());}
+    const active=state?.rear||0,opacity=state?.shellOpacity??0;root.visible=active>0&&opacity>0;cut.value=active>0?1:0;if(!root.visible)return;
+    airframe.position.set(...state.position);airframe.rotation.set(...state.rotation);upper.rotation.x=Math.PI*.51*state.door;ramp.rotation.x=REAR_ENTRY.rampAngle*state.ramp;
+    cabinLight.intensity=24*state.door*opacity;spill.forEach(s=>{s.intensity=65*state.door*opacity;});light.emissiveIntensity=3*state.door;
+    for(const {rod,sleeve,side} of rods){
+      const a=new THREE.Vector3(side*4.8,5.1,-12.3),b=new THREE.Vector3(side*4.7,6.8-2.7*Math.cos(upper.rotation.x),-14.7-2.7*Math.sin(upper.rotation.x));
+      const direction=b.clone().sub(a),length=direction.length(),q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),direction.normalize());
+      rod.position.copy(a).add(b).multiplyScalar(.5);rod.scale.y=length;rod.quaternion.copy(q);sleeve.position.copy(a).addScaledVector(direction,length*.22);sleeve.scale.y=length*.44;sleeve.quaternion.copy(q);
+    }
     for(const m of materials){m.opacity=opacity;const transparent=opacity<1;if(m.transparent!==transparent){m.transparent=transparent;m.needsUpdate=true;}m.depthWrite=opacity>=1;}
   }
-  function dispose(){root.removeFromParent();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());}
+  function dispose(){root.removeFromParent();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}
   return {root,attachSkin,update,dispose};
 }
