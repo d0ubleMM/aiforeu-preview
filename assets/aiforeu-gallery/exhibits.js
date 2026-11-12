@@ -115,5 +115,5 @@ export function createExhibits() {
     if(roadTrace)roadTrace.geometry.setDrawRange(0,Math.floor(roadTrace.geometry.attributes.position.count*t/2)*2);
   }
   function dispose(){if(disposed)return;disposed=true;const geometries=new Set();root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);});for(const g of geometries)g.dispose();for(const texture of textures)texture.dispose();for(const material of owned)material.dispose();root.clear();}
-  return {root,groups,ready:Promise.all(pending),update,dispose};
+  return {root,floor,groups,ready:Promise.all(pending),update,dispose};
 }

@@ -1,6 +1,8 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
-import { createExhibits } from './exhibits.js';
-import { AREAS, clamp, ease, sampleGallery, areaProgress } from './journey.js';
+import { createExhibits } from './exhibits.js?v=bomber-1';
+import { AREAS, clamp, ease, sampleGallery } from './journey.js';
+import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js';
+import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';
 
 const mounted=new WeakMap();
 const content={
@@ -18,14 +20,16 @@ function environment(renderer){
   const generator=new THREE.PMREMGenerator(renderer),env=generator.fromScene(scene,.06);generator.dispose();scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});return env;
 }
 
-export function mountWorld(host,{selected='voice'}={}){
+export function mountWorld(host,{selected='logo'}={}){
   if(mounted.has(host))return mounted.get(host);
   const stage=host.querySelector('[data-world-stage]'),frame=host.querySelector('.world-experience'),canvas=document.createElement('canvas');
   const fallback=host.querySelector('[data-world-fallback]'),copy=host.querySelector('[data-gallery-copy]'),nav=host.querySelector('[data-gallery-nav]');
   const previous=host.querySelector('[data-gallery-previous]'),next=host.querySelector('[data-gallery-next]'),credit=host.querySelector('[data-gallery-credit]');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)'),abort=new AbortController();
   const on=(target,event,fn,options={})=>target?.addEventListener(event,fn,{...options,signal:abort.signal});
-  let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=areaProgress(selected)||0,view=selected,pose=null,lastRange=null,reading=null;
+  if(reduced.matches&&selected==='logo')selected='bomber';
+  let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=landingProgress(selected)||0,view=selected,pose=null,lastRange=null,reading=null;
+  let bomber=null,bomberState='loading',bomberBounds=null,bomberMaterials=[];
   let motionPreference=reduced.matches;
   try{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
@@ -34,8 +38,8 @@ export function mountWorld(host,{selected='voice'}={}){
     env=environment(renderer);exhibits=createExhibits();
   }catch{exhibits?.dispose();env?.dispose();renderer?.dispose();host.setAttribute('data-gallery-static','');return null;}
   const scene=new THREE.Scene();scene.background=new THREE.Color('#0c0e11');scene.fog=new THREE.Fog('#0c0e11',21,65);scene.environment=env.texture;scene.environmentIntensity=.65;scene.add(exhibits.root);
-  const camera=new THREE.PerspectiveCamera(35,1,.1,150);
-  scene.add(new THREE.HemisphereLight('#ffffff','#46484e',1.15));
+  const fog=scene.fog,camera=new THREE.PerspectiveCamera(35,1,.08,1200);
+  const ambient=new THREE.HemisphereLight('#ffffff','#46484e',1.15);scene.add(ambient);
   const key=new THREE.DirectionalLight('#ffffff',3.1);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:.1,far:28});key.shadow.bias=-.0002;key.shadow.normalBias=.015;scene.add(key,key.target);
   const rim=new THREE.DirectionalLight('#e7edff',1.1);scene.add(rim,rim.target);
   host.toggleAttribute('data-gallery-static',reduced.matches);
@@ -57,12 +61,14 @@ export function mountWorld(host,{selected='voice'}={}){
   }
   function sync(sample){
     const changed=view!==sample.view||!host.dataset.galleryView;view=sample.view;host.dataset.galleryView=view;
+    const intro=!content[view];copy.hidden=intro;
+    if(intro){previous.hidden=true;next.firstChild.textContent='Voice →';credit.hidden=true;return;}
     copy.style.opacity=String(sample.opacity);const index=AREAS.indexOf(view),c=content[view];
     if(changed){
       host.querySelector('[data-gallery-title]').textContent=c.title;host.querySelector('[data-gallery-description]').textContent=c.copy;
       const link=host.querySelector('[data-gallery-link]');link.href=c.href;link.firstChild.textContent=c.action+' ';
       host.querySelector('[data-gallery-family]').textContent=view==='traffic'?'EU-gefördert':'Agentario';
-      previous.hidden=index===0;previous.firstChild.textContent=index>0?'← '+content[AREAS[index-1]].title:'';
+      previous.hidden=false;previous.firstChild.textContent=index>0?'← '+content[AREAS[index-1]].title:'← Bomber';
       next.firstChild.textContent=index<3?content[AREAS[index+1]].title+' →':'Weiter →';
       credit.hidden=view!=='traffic';
       if(previous.hidden&&document.activeElement===previous)next.focus({preventScroll:true});
@@ -71,13 +77,16 @@ export function mountWorld(host,{selected='voice'}={}){
   function draw(){
     if(disposed||lost||motionPreference!==reduced.matches)return;
     const r=range();captureReading(r);if(!reduced.matches)progress=clamp((scrollY-r.start)/Math.max(1,r.distance));
-    const sample=sampleGallery(progress);if(reduced.matches){sample.index=AREAS.indexOf(view);sample.centre=sample.index*22;sample.view=view;sample.opacity=1;sample.inspection=.65;}
-    sync(sample);exhibits.update(sample,reduced.matches);
-    const angle=.50+Math.sin(progress*Math.PI*2)*.12,direction=new THREE.Vector3(Math.sin(angle),.35+ease((progress-.68)/.12)*.42,Math.cos(angle)).normalize();
+    const galleryProgress=clamp((progress-INTRO.galleryStart)/(1-INTRO.galleryStart));
+    const inIntro=reduced.matches?!content[view]:progress<INTRO.galleryStart;
+    const opening=sampleBomberIntro(reduced.matches&&inIntro?landingProgress('bomber'):progress,{aspect:camera.aspect,exteriorBounds:bomberBounds});
+    const sample=sampleGallery(galleryProgress);if(reduced.matches&&!inIntro){sample.index=AREAS.indexOf(view);sample.centre=sample.index*22;sample.view=view;sample.opacity=1;sample.inspection=.65;}
+    sync(inIntro?{...sample,view:opening.view}:sample);exhibits.update(sample,reduced.matches);
+    const angle=.50+Math.sin(galleryProgress*Math.PI*2)*.12,direction=new THREE.Vector3(Math.sin(angle),.35+ease((galleryProgress-.68)/.12)*.42,Math.cos(angle)).normalize();
     const target=new THREE.Vector3(sample.centre,1.58,0),right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),direction).normalize(),up=new THREE.Vector3().crossVectors(direction,right).normalize();
     const rect=stage.getBoundingClientRect(),portrait=rect.width<=760&&rect.height>500;
     const availableWidth=portrait?.96:.69,availableHeight=portrait?(rect.height-260)/rect.height:.94;
-    camera.setViewOffset(rect.width,rect.height,portrait?0:-rect.width*.145,portrait?-74:0,rect.width,rect.height);
+    camera.fov=35;camera.clearViewOffset();camera.updateProjectionMatrix();
     const tan=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let distance=6;
     // Fit the complete desk and microphone in the actual canvas, including 320px.
     for(const x of [-2.6,2.6])for(const y of [0,3.55])for(const z of [-1.45,1.45]){
@@ -86,7 +95,24 @@ export function mountWorld(host,{selected='voice'}={}){
     }
     distance*=1.06;camera.position.copy(target).addScaledVector(direction,distance);camera.lookAt(target);camera.updateMatrixWorld();
     key.position.set(sample.centre-4.5,8.5,5.5);key.target.position.set(sample.centre,1,0);rim.position.set(sample.centre+4,6,-4);rim.target.position.set(sample.centre,1,0);
-    pose={position:camera.position.toArray(),target:target.toArray(),view:sample.view,centre:sample.centre,inspection:sample.inspection};
+    const blend=inIntro?opening.blend:1;
+    if(inIntro){
+      camera.position.lerpVectors(new THREE.Vector3(...opening.pose.position),camera.position,blend);target.lerpVectors(new THREE.Vector3(...opening.pose.target),target,blend);
+      camera.fov=THREE.MathUtils.lerp(opening.pose.fov,35,blend);
+      key.position.lerpVectors(new THREE.Vector3(-25,42,28),key.position,blend);key.target.position.lerpVectors(new THREE.Vector3(),key.target.position,blend);
+      rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,blend);
+    }
+    camera.setViewOffset(rect.width,rect.height,portrait?0:-rect.width*.145*blend,portrait?-74*blend:0,rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
+    scene.fog=inIntro&&progress<=.278?null:fog;ambient.intensity=THREE.MathUtils.lerp(.75,1.15,blend);key.intensity=THREE.MathUtils.lerp(2.8,3.1,blend);rim.intensity=THREE.MathUtils.lerp(.9,1.1,blend);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.3,1.05,blend);scene.environmentIntensity=.65;
+    exhibits.root.visible=!inIntro||progress>=INTRO.entryStart;exhibits.floor.visible=!inIntro||progress>.278;
+    if(bomber){
+      bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(opening.pose.open);
+      const opacity=inIntro?1-ease((progress-.265)/.018):0;
+      bomber.group.visible=inIntro&&opacity>0;
+      for(const {material,base} of bomberMaterials){material.opacity=base.opacity*opacity;material.transparent=base.transparent||opacity<1;material.depthWrite=base.depthWrite&&opacity>=1;}
+    }
+    fallback.hidden=!(inIntro&&!bomber);
+    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:inIntro?opening.pose.open:1};
     renderer.render(scene,camera);lastRange=r;
   }
   const active=()=>!disposed&&!lost&&visible&&!document.hidden&&!document.body.classList.contains('global-menu-open');
@@ -99,8 +125,8 @@ export function mountWorld(host,{selected='voice'}={}){
     const rect=stage.getBoundingClientRect();if(!rect.width||!rect.height)return;
     renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();draw();schedule();
   }
-  function select(area){const p=areaProgress(area);if(p===null||disposed)return;reading=null;view=area;host.removeAttribute('data-gallery-view');progress=p;if(!reduced.matches){const r=range();scrollTo({top:Math.ceil(r.start+r.distance*p),behavior:'instant'});}draw();}
-  on(previous,'click',()=>select(AREAS[Math.max(0,AREAS.indexOf(view)-1)]));
+  function select(area){const p=landingProgress(area);if(p===null||disposed)return;reading=null;view=area;host.removeAttribute('data-gallery-view');progress=p;if(!reduced.matches){const r=range();scrollTo({top:Math.ceil(r.start+r.distance*p),behavior:'instant'});}draw();}
+  on(previous,'click',()=>select(AREAS.indexOf(view)<=0?'bomber':AREAS[AREAS.indexOf(view)-1]));
   on(next,'click',()=>{const index=AREAS.indexOf(view);if(index<3)select(AREAS[index+1]);else{document.querySelector('#wege')?.scrollIntoView({behavior:'instant',block:'start'});captureReading(range());}});
   on(window,'scroll',()=>{if(motionPreference!==reduced.matches||document.body.classList.contains('global-menu-open'))return;captureReading(range());schedule();},{passive:true});
   on(document,'visibilitychange',()=>{stop();schedule();});
@@ -109,7 +135,7 @@ export function mountWorld(host,{selected='voice'}={}){
     // range so a collapsed scene is not mistaken for already-read body text.
     const r=lastRange||range(),inside=!reading&&scrollY>=r.start-.5&&scrollY<=r.start+r.distance+.5;
     motionPreference=reduced.matches;host.toggleAttribute('data-gallery-static',reduced.matches);
-    if(inside){reading=null;const updated=range();scrollTo({top:Math.ceil(updated.start+(reduced.matches?0:updated.distance*areaProgress(view))),behavior:'instant'});}
+    if(inside){reading=null;const updated=range();scrollTo({top:Math.ceil(updated.start+(reduced.matches?0:updated.distance*landingProgress(view))),behavior:'instant'});}
     lastRange=null;resize();
   });
   on(canvas,'webglcontextlost',event=>{event.preventDefault();lost=true;const selected=view;dispose({preserve:true,keepCanvas:true});canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();mountWorld(host,{selected});},{once:true});});
@@ -118,11 +144,18 @@ export function mountWorld(host,{selected='voice'}={}){
   const menuObserver=new MutationObserver(()=>{stop();schedule();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
   function dispose({preserve=false,keepCanvas=false}={}){
-    if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
+    if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
     if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;nav.hidden=true;stage.dataset.worldReady='fallback';if(!preserve)host.setAttribute('data-gallery-static','');mounted.delete(host);if(window.AiforeuGallery===api)delete window.AiforeuGallery;
   }
-  const api={select,dispose,get model(){return ready?'ready':'loading';},get view(){return view;},get scroll(){return {progress,...range()};},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};}};
+  const api={select,dispose,get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get scroll(){return {progress,...range()};},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};}};
   mounted.set(host,api);window.AiforeuGallery=api;stage.append(canvas);fallback.hidden=true;nav.hidden=false;stage.dataset.worldReady='true';resize();
-  exhibits.ready.then(()=>{if(!disposed){ready=true;draw();schedule();}});
+  const aircraft=createBomberSkin({signal:abort.signal}).then(loaded=>{
+    if(disposed){loaded.dispose();return;}
+    bomber=loaded;bomberState='ready';bomberBounds={min:loaded.closedBounds.min.toArray(),max:loaded.closedBounds.max.toArray()};
+    const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;[].concat(o.material).forEach(m=>materials.add(m));}});
+    bomberMaterials=[...materials].map(material=>({material,base:{opacity:material.opacity,transparent:material.transparent,depthWrite:material.depthWrite}}));
+    scene.add(bomber.group);draw();schedule();
+  }).catch(()=>{if(!disposed){bomberState='unavailable';draw();schedule();}});
+  Promise.all([exhibits.ready,aircraft]).then(()=>{if(!disposed){ready=true;draw();schedule();}});
   return api;
 }
