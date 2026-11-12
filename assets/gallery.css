@@ -1,0 +1,45 @@
+/* A single exhibit in a continuous studio. Space belongs to the object. */
+.gallery-hero{background:#0c0e11;color:#f8f9fa}
+.landing-page .global-header:not([data-hero-ended]){--global-nav-paper:#0c0e11;background:#0c0e11}
+.landing-page:has(.gallery-hero) .lu-rand{display:none}
+.js .gallery-hero:not([data-gallery-static]){height:calc(540svh - var(--global-header-height,73px));overflow:visible}
+.js .gallery-hero:not([data-gallery-static])>.world-experience{position:sticky;top:var(--global-header-height,73px)}
+.gallery-hero .world-experience{background:#0c0e11;min-height:0}
+.gallery-hero .world-stage{position:absolute;inset:0;width:100%;height:100%;background:#0c0e11;touch-action:pan-y}
+.gallery-hero canvas{touch-action:pan-y}
+.gallery-heading{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.gallery-copy{position:absolute;z-index:3;top:50%;left:var(--hero-edge);transform:translateY(-50%);width:27%;max-width:350px}
+.gallery-family{display:block;font:400 14px/1.5 var(--body);color:#aeb4bd;margin-bottom:18px}
+.gallery-copy h2{font:400 clamp(38px,4.9vw,74px)/1.04 var(--body);letter-spacing:-.055em;margin:0;color:#fff}
+.gallery-description{font:400 16px/1.65 var(--body);color:#b8bec6;max-width:27ch;margin:24px 0 25px}
+.gallery-link{display:inline-flex;gap:30px;align-items:center;min-height:44px;color:#f8f9fa;text-decoration:none;font:450 14px/1.4 var(--body);border-bottom:1px solid #ffffff47}
+.gallery-link:hover{border-bottom-color:#fff}.gallery-link span{font-size:20px}
+.gallery-nav{position:absolute;z-index:4;left:var(--hero-edge);right:var(--hero-edge);bottom:25px;display:flex;justify-content:space-between;align-items:center;gap:24px;pointer-events:none}
+.gallery-nav button{pointer-events:auto;appearance:none;background:none;border:0;color:#aeb4bd;min-height:44px;padding:8px 0;font:400 14px/1.5 var(--body);cursor:pointer}
+.gallery-nav button:hover{color:#fff}.gallery-nav button:last-child{margin-left:auto}
+.gallery-hero :focus-visible{outline:2px solid white;outline-offset:6px}
+.gallery-hero [hidden]{display:none!important}
+.gallery-credit{position:absolute;z-index:3;left:32%;bottom:38px;font:400 10px/1.4 var(--body);color:#898f99;max-width:48ch}
+.gallery-credit a{color:inherit}
+.gallery-fallback{display:flex;align-items:center;justify-content:center;height:100%;background:#0c0e11}
+.gallery-fallback img{width:50%;height:auto;opacity:.25;filter:brightness(0) invert(1)}
+.gallery-fallback-links{position:absolute;left:var(--hero-edge);right:var(--hero-edge);bottom:24px;z-index:4;display:flex;gap:28px;flex-wrap:wrap;font-size:14px}
+.gallery-fallback-links a{min-height:44px;display:flex;align-items:center;text-decoration:none}
+.gallery-hero:has([data-world-ready="true"]) .gallery-fallback-links{display:none}
+@media(max-width:1000px){.gallery-copy{width:29%}.gallery-copy h2{font-size:46px}.gallery-description{font-size:14px}}
+@media(max-width:760px){
+ .gallery-hero .world-experience{min-height:0}
+ .gallery-copy{left:var(--gutter);top:28px;transform:none;width:calc(100% - 2 * var(--gutter));max-width:none}
+ .gallery-family{font-size:12px;margin-bottom:9px}.gallery-copy h2{font-size:40px;line-height:1.04}
+ .gallery-description{font-size:13px;line-height:1.5;max-width:36ch;margin:12px 0 7px}
+ .gallery-link{min-height:36px;font-size:12px;gap:20px}
+ .gallery-nav{bottom:14px}.gallery-nav button{font-size:12px}
+ .gallery-credit{left:var(--gutter);right:var(--gutter);bottom:57px;font-size:8px;max-width:none}
+ .gallery-fallback-links{gap:15px;font-size:12px}
+}
+@media(max-height:650px) and (min-width:761px){.gallery-hero .world-experience{min-height:0}.gallery-copy h2{font-size:40px}.gallery-description{font-size:13px;margin:18px 0}.gallery-nav{bottom:8px}.gallery-credit{bottom:19px}}
+@media(max-height:500px) and (max-width:760px) and (min-width:600px){
+ .gallery-hero .world-experience{min-height:0}.gallery-copy{top:28px;width:31%}.gallery-family{margin-bottom:6px}.gallery-copy h2{font-size:30px}.gallery-description{font-size:11px;max-width:28ch}.gallery-link{font-size:11px}
+ .gallery-nav{bottom:4px}.gallery-credit{left:36%;bottom:17px;font-size:7px;max-width:35ch}
+}
+@media(prefers-reduced-motion:reduce){.js .gallery-hero:not([data-gallery-static]){height:auto;overflow:hidden}.js .gallery-hero:not([data-gallery-static])>.world-experience{position:relative;top:auto}}
