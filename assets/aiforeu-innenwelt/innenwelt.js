@@ -3,16 +3,14 @@ import { FARBEN } from '../aiforeu-flug/basis.js';
 import { createCarrier } from './carrier-model.js';
 import { createInteriorDistricts } from './interior-districts.js';
 import { sampleCarrierView, validExteriorBounds } from './interior-camera.js';
-import { sampleLogoReveal, LOGO_REVEAL_DURATION } from './logo-reveal.js';
+import { sampleLogoReveal } from './logo-reveal.js';
+import { CARRIER_SCROLL, sampleScrollJourney, scrollProgress } from './scroll-journey.js';
 
 const mounted = new WeakMap();
 const content = {
   traffic: {title:'VerkehrsAI', copy:'KI für Lage- und Signalpläne. VerkehrsOS entsteht als EU-gefördertes Forschungsprojekt.', href:'verkehrsai.html', action:'VerkehrsAI öffnen', secondaryHref:'verkehrsos.html', secondaryAction:'VerkehrsOS'},
   workforce: {title:'Autonomous Workforce', copy:'Agentario verbindet KI-Agenten, Ihre Software und wiederkehrende Abläufe.', href:'agentario/', action:'Agentario öffnen', secondaryHref:'autonomous-workforce.html', secondaryAction:'Bereich ansehen'},
 };
-const smooth = t => {t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
-const mixPose = (a,b,t) => ({position:a.position.map((v,i)=>THREE.MathUtils.lerp(v,b.position[i],t)),target:a.target.map((v,i)=>THREE.MathUtils.lerp(v,b.target[i],t)),fov:THREE.MathUtils.lerp(a.fov,b.fov,t),open:THREE.MathUtils.lerp(a.open,b.open,t)});
-
 // A neutral studio sky lights the real surfaces; the rooms have their own fixtures.
 function environment(renderer) {
   const studio = new THREE.Scene(); studio.background=new THREE.Color('#566374');
@@ -24,7 +22,7 @@ function environment(renderer) {
   studio.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});return texture;
 }
 
-export function mountWorld(host) {
+export function mountWorld(host,{destination:initialDestination='atrium'}={}) {
   if(mounted.has(host))return mounted.get(host);
   const stage=host.querySelector('[data-world-stage]'), fallback=host.querySelector('[data-world-fallback]');
   if(!stage)return null;
@@ -40,7 +38,7 @@ export function mountWorld(host) {
     rooms=createInteriorDistricts();
   } catch(error) {
     rooms?.dispose();carrier?.dispose?.();env?.dispose();renderer?.dispose();
-    stage.dataset.worldReady='fallback';return null;
+    host.removeAttribute('data-carrier-scroll');host.setAttribute('data-carrier-static','');stage.dataset.worldReady='fallback';return null;
   }
   const scene=new THREE.Scene();scene.background=new THREE.Color('#080e17');scene.environment=env.texture;scene.environmentIntensity=.45;
   const camera=new THREE.PerspectiveCamera(55,1,.08,1200);
@@ -53,44 +51,77 @@ export function mountWorld(host) {
   interior.shadow.bias=-.00025;interior.shadow.normalBias=.025;scene.add(interior,interior.target);
   const fill=new THREE.PointLight('#e8edf2',12,36,2);fill.position.set(0,5.8,-4);scene.add(fill);
   // The open aperture admits direct light while fixed ribs keep the room readable.
+  const frame=host.querySelector('.world-experience');
   const controls=host.querySelector('[data-carrier-ui]'), choices=host.querySelector('[data-carrier-choices]');
-  const enter=host.querySelector('[data-carrier-enter]'), outside=host.querySelector('[data-carrier-outside]'), pause=host.querySelector('[data-carrier-pause]');
+  const enter=host.querySelector('[data-carrier-enter]'), outside=host.querySelector('[data-carrier-outside]');
   const detail=host.querySelector('[data-world-detail]');
-  const abort=new AbortController(),on=(element,event,handler)=>element?.addEventListener(event,handler,{signal:abort.signal});
-  let aspect=1,view=reduced.matches?'atrium':'logo',entryProgress=0,logoProgress=0,openingClock=0,automatic=!reduced.matches;
-  let pose,transition=null,elapsed=0,last=0,raf=0,visible=true,blurred=false,paused=false,contextLost=false,disposed=false;
-  let previousPointer=null;
+  const abort=new AbortController(),on=(element,event,handler,options={})=>element?.addEventListener(event,handler,{...options,signal:abort.signal});
+  let aspect=1,view=reduced.matches?'atrium':'logo',destination=content[initialDestination]?initialDestination:'atrium';
+  let pose,progress=0,elapsed=0,raf=0,visible=true,blurred=false,contextLost=false,disposed=false,staticView=null;
+  let previousPointer=null,selectionAnchor=null;
   const viewPose=(name,p=1)=>name==='logo'?sampleLogoReveal(p,{aspect,exteriorBounds}):sampleCarrierView(name,p,{aspect,exteriorBounds,districts:rooms.districts});
+  host.toggleAttribute('data-carrier-scroll',!reduced.matches);host.toggleAttribute('data-carrier-static',reduced.matches);
+  function scrollRange() {
+    const top=parseFloat(getComputedStyle(host).getPropertyValue('--global-header-height'))||73;
+    return {start:scrollY+host.getBoundingClientRect().top-top,distance:Math.max(0,host.offsetHeight-frame.offsetHeight)};
+  }
   function syncUI() {
     const focused=document.activeElement;
     host.dataset.carrierView=view;
     controls.hidden=false;enter.hidden=!['logo','exterior','entry'].includes(view);choices.hidden=false;
-    enter.firstChild.textContent=['logo','entry'].includes(view)?'Direkt hinein ':'AIFOREU betreten ';
-    outside.hidden=['logo','entry'].includes(view)||(view==='exterior'&&(reduced.matches||!skin));
-    outside.textContent=view==='exterior'?'Intro erneut ansehen':'Außenansicht';
-    pause.hidden=reduced.matches;
-    pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',paused?'Animation fortsetzen':'Animation pausieren');
-    pause.querySelector('path').setAttribute('d',paused?'M5 3l7 5-7 5V3Z':'M5 3v10M11 3v10');
+    enter.firstChild.textContent='Direkt hinein ';
+    outside.hidden=['logo','entry'].includes(view);
+    outside.textContent=view==='exterior'?(reduced.matches?'Übersicht':'Zum Anfang'):'Außenansicht';
     for(const button of choices.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.carrierSelect===view));
     detail.hidden=!content[view];
     if(content[view]){const c=content[view];detail.querySelector('[data-world-title]').textContent=c.title;detail.querySelector('[data-world-copy]').textContent=c.copy;
       const link=detail.querySelector('[data-world-link]');link.href=c.href;link.innerHTML=`${c.action} <span aria-hidden="true">↗</span>`;
       const secondary=detail.querySelector('[data-world-secondary]');secondary.href=c.secondaryHref;secondary.innerHTML=`${c.secondaryAction} <span aria-hidden="true">↗</span>`;}
-    if(host.contains(focused)&&focused.closest('[hidden]')) (choices.hidden?enter:choices.querySelector('button')).focus({preventScroll:true});
+    if(host.contains(focused)&&focused.closest('[hidden]')) choices.querySelector('button').focus({preventScroll:true});
   }
-  function select(next,instant=false) {
-    if(disposed)return;automatic=false;
-    if(next==='entry'&&(reduced.matches||paused)){next='atrium';instant=true;}
-    const previous=view;view=next;
-    // The persistent destination controls can skip the opening immediately.
-    // Do not interpolate from outside through the closed carrier shell.
-    if(['logo','exterior','entry'].includes(previous)&&next!=='entry'&&next!=='exterior')instant=true;
-    if(next==='logo'){logoProgress=0;openingClock=0;transition=null;pose=viewPose('logo',0);automatic=true;}
-    else if(next==='entry'){entryProgress=0;openingClock=0;transition=null;automatic=true;}
-    else {const target=viewPose(next);
-      const via=aspect<1.15&&Math.max(pose.position[2],target.position[2])>8&&Math.max(Math.abs(pose.position[0]),Math.abs(target.position[0]))>3.5?{position:[0,6.3,7.2],target:[0,1.2,-2.5],fov:(pose.fov+target.fov)/2,open:1}:null;
-      transition=(!instant&&!reduced.matches&&!paused&&previous!=='entry')?{from:pose,to:target,via,time:0}:null;if(!transition)pose=target;}
-    syncUI();draw();schedule();
+  function sameSelectionRange(range) {
+    return Math.abs(range.start-selectionAnchor.start)<.5&&Math.abs(range.distance-selectionAnchor.distance)<.5;
+  }
+  function releaseScrolledSelection(range) {
+    if(selectionAnchor&&sameSelectionRange(range||scrollRange())&&Math.abs(scrollY-selectionAnchor.y)>.5)selectionAnchor=null;
+  }
+  function readScroll() {
+    const range=scrollRange();
+    releaseScrolledSelection(range);
+    if(selectionAnchor&&!reduced.matches){
+      // A resize changes the native scroll distance. Keep a deliberately chosen
+      // room at its normalized position, even if the scroll event arrives first.
+      // Compare the actual range: mobile browser chrome can change innerHeight
+      // during a normal swipe without changing the stable-viewport CSS height.
+      if(!sameSelectionRange(range)){
+        window.scrollTo({top:Math.ceil(range.start+range.distance*selectionAnchor.progress),behavior:'instant'});
+        selectionAnchor={...selectionAnchor,...range,y:scrollY};
+      }
+    }
+    const sample=sampleScrollJourney(scrollProgress(scrollY,range.start,range.distance),{aspect,exteriorBounds,destination,reducedMotion:reduced.matches});
+    progress=sample.progress;elapsed=sample.time;
+    // Reduced motion permits a deliberate static exterior choice, without travel.
+    if(reduced.matches&&staticView){sample.view=staticView;sample.pose=viewPose(staticView);}
+    // A failed skin still leaves the procedural exterior and native paths usable.
+    if(!skinLoading&&!skin&&sample.view==='logo'){sample.view='exterior';sample.pose=viewPose('exterior');}
+    const changed=view!==sample.view;view=sample.view;pose=sample.pose;
+    if(changed)syncUI();
+  }
+  function seek(nextProgress) {
+    if(disposed)return;
+    if(!reduced.matches){const range=scrollRange();window.scrollTo({top:Math.ceil(range.start+range.distance*Math.max(0,Math.min(1,nextProgress))),behavior:'instant'});}
+    readScroll();syncUI();draw();
+  }
+  function select(next) {
+    if(disposed||!['logo','exterior','entry','atrium','traffic','workforce'].includes(next))return;
+    selectionAnchor=null;
+    if(reduced.matches){staticView=next==='exterior'?'exterior':null;destination=content[next]?next:'atrium';readScroll();syncUI();draw();return;}
+    staticView=null;
+    if(next==='logo'){seek(0);return;}
+    if(next==='exterior'){seek(CARRIER_SCROLL.exterior);return;}
+    destination=content[next]?next:'atrium';
+    seek(Math.max(progress,CARRIER_SCROLL.inside));
+    selectionAnchor={progress,y:scrollY,...scrollRange()};
   }
   function setPose(p) {
     camera.position.set(...p.position);camera.lookAt(...p.target);camera.fov=p.fov;camera.updateProjectionMatrix();camera.updateMatrixWorld();carrier.update(p.open,elapsed);
@@ -104,55 +135,54 @@ export function mountWorld(host) {
     if(disposed||contextLost)return;
     try{setPose(pose);rooms.update(elapsed,{selected:content[view]?view:'overview',reducedMotion:reduced.matches});renderer.render(scene,camera);}catch{dispose();}
   }
-  function canRun(){return !disposed&&!contextLost&&visible&&!document.hidden&&!blurred&&!document.body.classList.contains('global-menu-open')&&!paused&&!reduced.matches&&!(view==='logo'&&skinLoading);}
-  function schedule(){if(canRun()&&!raf){last=performance.now();raf=requestAnimationFrame(tick);}}
-  function tick(now) {
-    raf=0;if(!canRun())return;
-    const dt=Math.min(.05,(now-last)/1000);last=now;elapsed+=dt;
-    if(automatic){
-      openingClock+=dt;
-      if(view==='logo'&&skin){logoProgress=Math.min(1,openingClock/LOGO_REVEAL_DURATION);pose=viewPose('logo',logoProgress);if(logoProgress===1){view='entry';entryProgress=0;openingClock=0;syncUI();}}
-      if(view==='exterior'&&openingClock>.9){view='entry';openingClock=0;syncUI();}
-      if(view==='entry'){entryProgress=Math.min(1,openingClock/6.2);pose=viewPose('entry',entryProgress);
-        if(entryProgress===1){view='atrium';automatic=false;pose=viewPose('atrium');syncUI();}}
-    }
-    if(transition){transition.time+=dt;const t=Math.min(1,transition.time/(transition.via?1.5:.95));
-      pose=transition.via?(t<.5?mixPose(transition.from,transition.via,smooth(t*2)):mixPose(transition.via,transition.to,smooth((t-.5)*2))):mixPose(transition.from,transition.to,smooth(t));if(t===1)transition=null;}
-    draw();if(canRun())raf=requestAnimationFrame(tick);
-  }
+  function canRender(){return !disposed&&!contextLost&&visible&&!document.hidden&&!blurred&&!document.body.classList.contains('global-menu-open');}
+  // One frame per input or resource change. No clock advances the journey.
+  function schedule(){if(canRender()&&!raf)raf=requestAnimationFrame(()=>{raf=0;if(canRender()){readScroll();draw();}});}
   function stop(){cancelAnimationFrame(raf);raf=0;}
-  function reconcile(){if(canRun())schedule();else stop();}
+  function reconcile(){if(canRender())schedule();else stop();}
   function resize(){if(disposed)return;const rect=stage.getBoundingClientRect();aspect=Math.max(.1,rect.width/Math.max(1,rect.height));camera.aspect=aspect;
     renderer.setPixelRatio(Math.min(devicePixelRatio||1,rect.width<760?1.5:2));renderer.setSize(rect.width,rect.height,false);
-    pose=viewPose(view,view==='entry'?entryProgress:view==='logo'?logoProgress:1);transition=null;draw();}
+    readScroll();draw();}
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
   function hit(event){const rect=canvas.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);return raycaster.intersectObjects(rooms.hitTargets,false)[0]?.object.userData.path;}
   on(canvas,'pointerdown',e=>{previousPointer={x:e.clientX,y:e.clientY,id:e.pointerId};});
   on(canvas,'pointerup',e=>{const start=previousPointer;previousPointer=null;if(!start||start.id!==e.pointerId||Math.hypot(e.clientX-start.x,e.clientY-start.y)>10||['logo','exterior','entry'].includes(view))return;const path=hit(e);if(path)select(path);});
   on(canvas,'pointercancel',()=>{previousPointer=null;});
   on(canvas,'pointermove',e=>{if(e.pointerType==='mouse')canvas.style.cursor=!['logo','exterior','entry'].includes(view)&&hit(e)?'pointer':'default';});
-  on(enter,'click',()=>select(['logo','entry'].includes(view)?'atrium':'entry',['logo','entry'].includes(view)));
-  on(outside,'click',()=>select(view==='exterior'?'logo':'exterior',true));
-  on(pause,'click',()=>{paused=!paused;syncUI();reconcile();});
+  on(enter,'click',()=>select('atrium'));
+  on(outside,'click',()=>select(view==='exterior'?(reduced.matches?'atrium':'logo'):'exterior'));
   for(const button of choices.querySelectorAll('button'))on(button,'click',()=>select(button.dataset.carrierSelect));
+  on(host.querySelector('.carrier-scroll'),'click',event=>{
+    const target=document.querySelector('#wege');if(!target)return;
+    event.preventDefault();target.scrollIntoView({behavior:'instant',block:'start'});
+  });
   on(host,'keydown',e=>{if(e.key==='Escape'&&content[view]){e.preventDefault();select('atrium');choices.querySelector('[data-carrier-select="atrium"]').focus({preventScroll:true});}});
+  // Clear a moved selection even after the scene leaves the viewport and stops
+  // rendering, so a later resize never pulls readers back from the page below.
+  on(window,'scroll',()=>{releaseScrolledSelection();schedule();},{passive:true});
   on(document,'visibilitychange',reconcile);on(window,'blur',()=>{blurred=true;reconcile();});on(window,'focus',()=>{blurred=false;reconcile();});
-  on(reduced,'change',()=>{automatic=false;transition=null;view=content[view]?view:'atrium';pose=viewPose(view);syncUI();draw();reconcile();});
+  on(reduced,'change',()=>{
+    const range=scrollRange(),rect=host.getBoundingClientRect(),inside=rect.top<=innerHeight&&rect.bottom>0;
+    staticView=null;selectionAnchor=null;host.toggleAttribute('data-carrier-scroll',!reduced.matches);host.toggleAttribute('data-carrier-static',reduced.matches);
+    if(inside){const updated=scrollRange();window.scrollTo({top:Math.ceil(reduced.matches?range.start:updated.start+updated.distance*CARRIER_SCROLL.inside),behavior:'instant'});}
+    resize();syncUI();reconcile();
+  });
   on(canvas,'webglcontextlost',event=>{
-    event.preventDefault();const next=content[view]?view:'atrium';contextLost=true;
+    event.preventDefault();const selected=destination;contextLost=true;
     // Dispose while the lost context ignores GPU deletes, before Three can
     // rebuild its internal caches against a new context generation.
-    dispose();canvas.addEventListener('webglcontextrestored',()=>mountWorld(host)?.select(next,true),{once:true});
+    dispose({preserveScrollSpace:true,keepCanvas:true});
+    canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();mountWorld(host,{destination:selected});},{once:true});
   });
   on(window,'pagehide',event=>{if(event.persisted)stop();else dispose();});on(window,'pageshow',()=>reconcile());
-  const observer=new IntersectionObserver(entries=>{const entry=entries[0];visible=entry.isIntersecting;reconcile();},{threshold:0});observer.observe(host);
+  const observer=new IntersectionObserver(entries=>{const entry=entries[0];visible=entry.isIntersecting;reconcile();},{threshold:0});observer.observe(stage);
   const menuObserver=new MutationObserver(reconcile);menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
-  function dispose(){if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();rooms.dispose();skin?.dispose();carrier.dispose?.();env.dispose();interior.shadow.map?.dispose();renderer.dispose();canvas.remove();fallback.hidden=false;controls.hidden=true;choices.hidden=true;enter.hidden=true;detail.hidden=true;stage.dataset.worldReady='fallback';host.dataset.carrierView='exterior';mounted.delete(host);if(window.AiforeuInnenwelt===api)delete window.AiforeuInnenwelt;}
-  const api={select,dispose,get model(){return skin?'ready':skinLoading?'loading':'fallback';},get modelBounds(){return exteriorBounds?structuredClone(exteriorBounds):null;},sampleLogo(progress){automatic=false;transition=null;view='logo';logoProgress=Math.max(0,Math.min(1,progress));pose=viewPose('logo',logoProgress);syncUI();draw();},get view(){return view;},get time(){return elapsed;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};},sampleEntry(progress){automatic=false;transition=null;view='entry';entryProgress=Math.max(0,Math.min(1,progress));pose=viewPose('entry',entryProgress);syncUI();draw();}};
+  function dispose({preserveScrollSpace=false,keepCanvas=false}={}){if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();rooms.dispose();skin?.dispose();carrier.dispose?.();env.dispose();interior.shadow.map?.dispose();renderer.dispose();if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;controls.hidden=true;choices.hidden=true;enter.hidden=true;detail.hidden=true;if(!preserveScrollSpace){host.removeAttribute('data-carrier-scroll');host.setAttribute('data-carrier-static','');}stage.dataset.worldReady='fallback';host.dataset.carrierView='exterior';mounted.delete(host);if(window.AiforeuInnenwelt===api)delete window.AiforeuInnenwelt;}
+  const api={select,dispose,get model(){return skin?'ready':skinLoading?'loading':'fallback';},get modelBounds(){return exteriorBounds?structuredClone(exteriorBounds):null;},get view(){return view;},get time(){return elapsed;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get scroll(){return {progress,...scrollRange()};},get stats(){return {...renderer.info.render};},sampleLogo(p){seek(Math.max(0,Math.min(1,p))*CARRIER_SCROLL.logoEnd);},sampleEntry(p){destination='atrium';seek(CARRIER_SCROLL.entryStart+Math.max(0,Math.min(1,p))*(CARRIER_SCROLL.inside-CARRIER_SCROLL.entryStart));}};
   mounted.set(host,api);window.AiforeuInnenwelt=api;
-  stage.append(canvas);pose=viewPose(view,view==='logo'?0:1);resize();if(!disposed){syncUI();stage.dataset.worldReady='true';draw();schedule();}
-  // A paused or reduced-motion scene still needs one frame when photographed textures arrive.
+  stage.append(canvas);resize();if(!disposed){syncUI();stage.dataset.worldReady='true';draw();schedule();}
+  // A stationary scroll position still needs one frame when materials arrive.
   rooms.ready?.then(()=>{if(!disposed&&!contextLost)draw();});
   // Model loading cannot hold navigation hostage or resurrect a disposed scene.
   import('./bomber-haut.js').then(module=>module.createBomberSkin(THREE)).then(loaded=>{
@@ -166,13 +196,11 @@ export function mountWorld(host) {
     } catch(error){loaded.dispose();throw error;}
     skin=loaded;skinLoading=false;scene.add(skin.group);
     skinReplaced=[carrier.exterior,...(skin.replaces?.groups||[]).map(key=>carrier[key]),...(skin.replaces?.meshes||[]).map(name=>carrier.group.getObjectByName(name))].filter(Boolean);
-    // The new exterior bounds do not change an ongoing interior journey.
-    if(['logo','exterior','entry'].includes(view))pose=viewPose(view,view==='logo'?logoProgress:view==='entry'?entryProgress:1);
-    syncUI();draw();schedule();
+    // Re-sample the current scroll, including if the user scrolled while loading.
+    readScroll();syncUI();draw();schedule();
   }).catch(()=>{
     if(disposed)return;skinLoading=false;
-    if(view==='logo'){view='exterior';pose=viewPose(view);openingClock=0;syncUI();}
-    draw();schedule();
+    readScroll();syncUI();draw();schedule();
   });
   return api;
 }

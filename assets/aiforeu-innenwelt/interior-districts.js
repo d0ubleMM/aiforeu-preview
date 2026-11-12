@@ -256,10 +256,12 @@ export function createInteriorDistricts() {
     return new THREE.CatmullRomCurve3(points.map(([x,z])=>new THREE.Vector3(x,.095,z)),true,'centripetal',.3);
   }
   const perimeter = roadLoop([[-10.65,4.92],[-11.15,4.42],[-11.15,0],[-11.15,-4.43],[-10.64,-4.95],[-7.2,-4.95],[-3.77,-4.95],[-3.25,-4.43],[-3.25,0],[-3.25,4.42],[-3.77,4.92],[-7.2,4.92]]);
-  const westLoop = roadLoop([[-10.64,-4.95],[-7.75,-4.95],[-7.2,-4.4],[-7.2,-2.1],[-7.2,-.3],[-7.75,.25],[-10.65,.25],[-11.15,-.25],[-11.15,-4.43]]);
-  const eastLoop = roadLoop([[-6.65,.25],[-3.8,.25],[-3.25,.8],[-3.25,4.4],[-3.8,4.95],[-6.65,4.95],[-7.2,4.4],[-7.2,.8]]);
+  // Opposing vehicles keep the right-hand lane through both turns. The former
+  // shared centreline made the car cut through the oncoming shuttle.
+  const westLoop = roadLoop([[-10.64,-4.95],[-8.19,-4.95],[-7.64,-4.4],[-7.64,-2.1],[-7.64,-.74],[-8.19,-.19],[-10.65,-.19],[-11.15,-.69],[-11.15,-4.43]]);
+  const eastLoop = roadLoop([[-6.21,.69],[-3.8,.69],[-3.25,1.24],[-3.25,4.4],[-3.8,4.95],[-6.21,4.95],[-6.76,4.4],[-6.76,1.24]]);
   const cars = [
-    { object: vehicle('#515b60'), curve: perimeter, speed: .027, offset: .11 },
+    { object: vehicle('#515b60'), curve: perimeter, offset: .27 },
     { object: vehicle('#bebfba'), curve: westLoop, stop: .367, release: 4 },
     { object: vehicle(colors.blue,true), curve: eastLoop, stop: .882, release: 5.3 },
   ];
@@ -416,10 +418,12 @@ export function createInteriorDistricts() {
     if (disposed) return;
     const time=Number.isFinite(timeSeconds)?Math.max(0,timeSeconds):0;
     const t=reducedMotion?10.9:time%14;
+    // All routes share the signal cycle, preserving merge spacing on every
+    // repeat and when scroll/replay seeks directly to an arbitrary time.
+    const trafficTime=(reducedMotion?10:time)%24;
     for(const car of cars) {
-      const trafficTime=reducedMotion?10:time;
-      const progress=car.stop===undefined?(trafficTime*car.speed+car.offset)%1:
-        (car.stop+phase(trafficTime%24,car.release,23.98))%1;
+      const progress=car.stop===undefined?(trafficTime/24+car.offset)%1:
+        (car.stop+phase(trafficTime,car.release,23.98))%1;
       car.object.position.copy(car.curve.getPointAt(progress));
       tangent.copy(car.curve.getTangentAt(progress));car.object.rotation.y=Math.atan2(tangent.x,tangent.z);
     }
@@ -435,7 +439,7 @@ export function createInteriorDistricts() {
     handset.position.y=.2+.19*pickup;handset.rotation.x=-.3*pickup;
     audioBars.forEach((bar,i)=>{const amount=reducedMotion?.42:t<2.8?.4+.6*(Math.sin(time*6.5+i*1.2)*.5+.5):.15;bar.scale.y=.27*amount;bar.position.y=1.27+.135*amount;});
     recordLines.forEach((line,i)=>{line.scale.x=(.74-i*.1)*(.3+.7*phase(t,4.55+i*.25,5.2+i*.25));});
-    const nsGreen=(reducedMotion?10:time%24)>=4&&(reducedMotion?10:time%24)<14;
+    const nsGreen=trafficTime>=4&&trafficTime<14;
     signals.nsRed.color.set(nsGreen?'#503b35':'#b84937');signals.nsGreen.color.set(nsGreen?'#6e9d74':'#344a3d');
     signals.ewRed.color.set(nsGreen?'#b84937':'#503b35');signals.ewGreen.color.set(nsGreen?'#344a3d':'#6e9d74');
     traffic.userData.selected = selected === 'traffic';

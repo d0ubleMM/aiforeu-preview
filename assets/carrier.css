@@ -1,3 +1,6 @@
+/* Reserve the scroll distance before restoration, not after the 3D module loads. */
+.js .carrier-hero:not([data-carrier-static]){height:calc(460svh - var(--global-header-height,73px));overflow:visible}
+.js .carrier-hero:not([data-carrier-static])>.world-experience{position:sticky;top:var(--global-header-height,73px)}
 .carrier-hero .world-experience{min-height:0;background:#080e17}
 .carrier-hero .world-stage{background:#080e17}
 .carrier-hero .world-stage canvas{touch-action:pan-y}
@@ -11,7 +14,6 @@
 .carrier-hero .world-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,10,17,.34),transparent 30%,transparent 68%,rgba(5,10,17,.62))}
 .carrier-utility{position:absolute;top:28px;right:var(--hero-edge);z-index:7;display:flex;gap:8px}
 .carrier-utility button{border:0;background:rgba(9,16,26,.8);color:#e3eaf4;font:500 12px/1.4 var(--body);min-height:44px;padding:10px 15px;border-radius:5px;cursor:pointer}
-.carrier-utility button[data-carrier-pause]{width:44px;display:grid;place-content:center;padding:0}
 .carrier-utility button:hover{background:#233144;color:#fff}
 .carrier-enter{position:absolute;bottom:138px;left:50%;transform:translateX(-50%);z-index:7;display:flex;align-items:center;gap:36px;white-space:nowrap;min-height:52px;padding:14px 24px;border-radius:7px;border:1px solid #e8eef5;background:#e8eef5;color:#172331;font:550 14px/1.4 var(--body);cursor:pointer}
 .carrier-enter:hover{background:#fff}
@@ -95,3 +97,8 @@
 .carrier-hero[data-carrier-view="logo"] .world-fallback{z-index:1;padding:0;pointer-events:none}
 .carrier-hero[data-carrier-view="logo"] .world-fallback>img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;height:98.709677%;max-width:none;max-height:none;object-fit:contain;filter:brightness(0) invert(1);opacity:1}
 .carrier-hero[data-carrier-view="logo"] .world-fallback-paths{display:none}
+
+@media(prefers-reduced-motion:reduce){
+ .js .carrier-hero:not([data-carrier-static]){height:auto;overflow:hidden}
+ .js .carrier-hero:not([data-carrier-static])>.world-experience{position:relative;top:auto}
+}

@@ -7,5 +7,5 @@
   headerObserver.observe(host);
   import(new URL('./aiforeu-innenwelt/innenwelt.js', source).href)
     .then(({ mountWorld }) => mountWorld(host))
-    .catch(() => { /* Native destination links stay available. */ });
+    .catch(() => { host.setAttribute('data-carrier-static', ''); /* Native destination links stay available. */ });
 })();
