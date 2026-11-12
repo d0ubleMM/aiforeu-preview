@@ -89,3 +89,9 @@
  .carrier-scroll{bottom:2px}
 }
 @media(prefers-reduced-motion:reduce){.carrier-hero .world-intro{transition:none}}
+
+/* The opening is the original mark before the physical aircraft exists. */
+.carrier-hero[data-carrier-view="logo"] .world-intro{opacity:0;pointer-events:none}
+.carrier-hero[data-carrier-view="logo"] .world-fallback{z-index:1;padding:0;pointer-events:none}
+.carrier-hero[data-carrier-view="logo"] .world-fallback>img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;height:98.709677%;max-width:none;max-height:none;object-fit:contain;filter:brightness(0) invert(1);opacity:1}
+.carrier-hero[data-carrier-view="logo"] .world-fallback-paths{display:none}

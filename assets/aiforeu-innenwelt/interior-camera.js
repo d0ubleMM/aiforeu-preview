@@ -2,6 +2,10 @@
  * Camera choreography for the AIFOREU carrier, in carrier-local coordinates.
  * +Z is the nose; Y is up. Pass the actual canvas width / height as aspect.
  *
+ * Optional exteriorBounds is the measured closed skin box in these same
+ * coordinates. It changes only the exterior fit and the beginning of entry;
+ * the aperture and every interior destination stay fixed.
+ *
  * Only `entry` consumes progress: 0 is exactly `exterior`, 1 exactly `atrium`.
  * The other views are stable destination poses. The scene owns transitions,
  * reduced motion, rendering and opening-reveal/opening-complete coordination.
@@ -40,6 +44,13 @@ function corners(min, max) {
 // Closed carrier, including the canopy peak. Open panels are deliberately not
 // included in exterior fitting: the exterior pose always has a closed roof.
 const exteriorPoints = corners([-36, -2.4, -20], [36, 10.1, 21.33]);
+
+/** Check plain measured bounds without depending on Three.Box3. */
+export function validExteriorBounds(bounds) {
+  return Array.isArray(bounds?.min) && Array.isArray(bounds?.max) &&
+    bounds.min.length === 3 && bounds.max.length === 3 &&
+    bounds.min.every((value, i) => Number.isFinite(value) && Number.isFinite(bounds.max[i]) && value < bounds.max[i]);
+}
 const entrancePoints = [-6, 6].flatMap(x => corners([x - .7, .2, -1.7], [x + .7, 2.4, -.3]));
 
 function axes(position, target) {
@@ -58,15 +69,16 @@ function fits(position, target, fov, aspect, points, inset = INSET) {
   return true;
 }
 
-function exterior(aspect, portrait) {
+function exterior(aspect, portrait, bounds) {
   const target = [0, 2.8, .5];
   // Portrait turns around the same aircraft, not a separate portrait model.
-  const direction = unit(mix3([.1, 1.5, -1], [.8, 1.6, -.55], portrait));
+  const measured = validExteriorBounds(bounds);
+  const direction = unit(measured ? mix3([.44, .72, 1], [.25, .9, 1], portrait) : mix3([.1, 1.5, -1], [.8, 1.6, -.55], portrait));
   const fov = mix(40, 46, portrait);
   const { forward, right, up } = axes(direction, [0, 0, 0]);
-  const halfHeight = Math.tan(fov * DEG / 2) * .84;
+  const halfHeight = Math.tan(fov * DEG / 2) * (measured ? .92 : .84);
   let distance = 0;
-  for (const point of exteriorPoints) {
+  for (const point of validExteriorBounds(bounds) ? corners(bounds.min, bounds.max) : exteriorPoints) {
     const relative = sub(point, target);
     const depth = dot(relative, forward);
     distance = Math.max(distance, Math.abs(dot(relative, right)) / (halfHeight * aspect) - depth, Math.abs(dot(relative, up)) / halfHeight - depth);
@@ -154,23 +166,33 @@ function approachAperture(outside, overhead, progress) {
   };
 }
 
-/** @returns {{position: number[], target: number[], fov: number, open: number}} */
-export function sampleCarrierView(view = 'exterior', progress = 1, { aspect = 1.44 } = {}) {
+/**
+ * @param {string} view
+ * @param {number} progress
+ * @param {{aspect?:number,exteriorBounds?:{min:number[],max:number[]}}} options
+ * @returns {{position: number[], target: number[], fov: number, open: number}}
+ */
+export function sampleCarrierView(view = 'exterior', progress = 1, { aspect = 1.44, exteriorBounds } = {}) {
   const ratio = Number.isFinite(aspect) && aspect > 0 ? aspect : 1.44;
   const portrait = ease((1.15 - ratio) / .65);
-  if (view === 'exterior') return exterior(ratio, portrait);
+  if (view === 'exterior') return exterior(ratio, portrait, exteriorBounds);
   if (view === 'atrium') return atrium(ratio, portrait);
   if (view === 'traffic' || view === 'workforce') return district(view, ratio, portrait);
   if (view !== 'entry') throw new RangeError(`Unknown carrier view: ${view}`);
 
   const t = Number.isFinite(progress) ? clamp(progress, 0, 1) : 0;
-  const outside = exterior(ratio, portrait), inside = atrium(ratio, portrait);
+  const outside = exterior(ratio, portrait, exteriorBounds), inside = atrium(ratio, portrait);
   if (t === 0) return outside;
   if (t === 1) return inside;
   const overhead = { position: [0, 18, .8], target: [0, 1, -2.5], fov: mix(60, 76, portrait), open: 1 };
   const through = { position: [0, EYE_HEIGHT, .8], target: [0, 1.2, -3], fov: inside.fov, open: 1 };
   let pose;
-  if (t < .42) pose = approachAperture(outside, overhead, t / .42);
+  if (validExteriorBounds(exteriorBounds) && t < .42) {
+    // The lower front three-quarter view first clears the raised roof, then
+    // descends over its opening. A direct diagonal would cross the roof leaves.
+    const clear = { ...overhead, position: [0, 28, .8] };
+    pose = t < .34 ? approachAperture(outside, clear, t / .34) : between(clear, overhead, (t - .34) / .08);
+  } else if (t < .42) pose = approachAperture(outside, overhead, t / .42);
   else if (t < .78) pose = between(overhead, through, (t - .42) / .36);
   else pose = between(through, inside, (t - .78) / .22);
   // Fully open before approaching the roof. The opening remains open once

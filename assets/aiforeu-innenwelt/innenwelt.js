@@ -2,11 +2,12 @@ import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 import { FARBEN } from '../aiforeu-flug/basis.js';
 import { createCarrier } from './carrier-model.js';
 import { createInteriorDistricts } from './interior-districts.js';
-import { sampleCarrierView } from './interior-camera.js';
+import { sampleCarrierView, validExteriorBounds } from './interior-camera.js';
+import { sampleLogoReveal, LOGO_REVEAL_DURATION } from './logo-reveal.js';
 
 const mounted = new WeakMap();
 const content = {
-  traffic: {title:'VerkehrsAI', copy:'Lage- und Signalpläne mit KI erschließen, prüfen und weiterplanen.', href:'verkehrsai.html', action:'VerkehrsAI öffnen', secondaryHref:'verkehrsos.html', secondaryAction:'VerkehrsOS'},
+  traffic: {title:'VerkehrsAI', copy:'KI für Lage- und Signalpläne. VerkehrsOS entsteht als EU-gefördertes Forschungsprojekt.', href:'verkehrsai.html', action:'VerkehrsAI öffnen', secondaryHref:'verkehrsos.html', secondaryAction:'VerkehrsOS'},
   workforce: {title:'Autonomous Workforce', copy:'Agentario verbindet KI-Agenten, Ihre Software und wiederkehrende Abläufe.', href:'agentario/', action:'Agentario öffnen', secondaryHref:'autonomous-workforce.html', secondaryAction:'Bereich ansehen'},
 };
 const smooth = t => {t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -29,7 +30,7 @@ export function mountWorld(host) {
   if(!stage)return null;
   const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  let renderer,carrier,rooms,env;
+  let renderer,carrier,rooms,env,skin=null,skinLoading=true,exteriorBounds,skinReplaced=[];
   try {
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
     renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
@@ -56,16 +57,17 @@ export function mountWorld(host) {
   const enter=host.querySelector('[data-carrier-enter]'), outside=host.querySelector('[data-carrier-outside]'), pause=host.querySelector('[data-carrier-pause]');
   const detail=host.querySelector('[data-world-detail]');
   const abort=new AbortController(),on=(element,event,handler)=>element?.addEventListener(event,handler,{signal:abort.signal});
-  let aspect=1,view=reduced.matches?'atrium':'exterior',entryProgress=0,openingClock=0,automatic=!reduced.matches;
+  let aspect=1,view=reduced.matches?'atrium':'logo',entryProgress=0,logoProgress=0,openingClock=0,automatic=!reduced.matches;
   let pose,transition=null,elapsed=0,last=0,raf=0,visible=true,blurred=false,paused=false,contextLost=false,disposed=false;
   let previousPointer=null;
-  const viewPose=(name,p=1)=>sampleCarrierView(name,p,{aspect,districts:rooms.districts});
+  const viewPose=(name,p=1)=>name==='logo'?sampleLogoReveal(p,{aspect,exteriorBounds}):sampleCarrierView(name,p,{aspect,exteriorBounds,districts:rooms.districts});
   function syncUI() {
     const focused=document.activeElement;
     host.dataset.carrierView=view;
-    controls.hidden=false;enter.hidden=!['exterior','entry'].includes(view);choices.hidden=false;
-    enter.firstChild.textContent=view==='entry'?'Direkt hinein ':'AIFOREU betreten ';
-    outside.hidden=['exterior','entry'].includes(view);
+    controls.hidden=false;enter.hidden=!['logo','exterior','entry'].includes(view);choices.hidden=false;
+    enter.firstChild.textContent=['logo','entry'].includes(view)?'Direkt hinein ':'AIFOREU betreten ';
+    outside.hidden=['logo','entry'].includes(view)||(view==='exterior'&&(reduced.matches||!skin));
+    outside.textContent=view==='exterior'?'Intro erneut ansehen':'Außenansicht';
     pause.hidden=reduced.matches;
     pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',paused?'Animation fortsetzen':'Animation pausieren');
     pause.querySelector('path').setAttribute('d',paused?'M5 3l7 5-7 5V3Z':'M5 3v10M11 3v10');
@@ -82,8 +84,9 @@ export function mountWorld(host) {
     const previous=view;view=next;
     // The persistent destination controls can skip the opening immediately.
     // Do not interpolate from outside through the closed carrier shell.
-    if(['exterior','entry'].includes(previous)&&next!=='entry'&&next!=='exterior')instant=true;
-    if(next==='entry'){entryProgress=0;openingClock=0;transition=null;automatic=true;}
+    if(['logo','exterior','entry'].includes(previous)&&next!=='entry'&&next!=='exterior')instant=true;
+    if(next==='logo'){logoProgress=0;openingClock=0;transition=null;pose=viewPose('logo',0);automatic=true;}
+    else if(next==='entry'){entryProgress=0;openingClock=0;transition=null;automatic=true;}
     else {const target=viewPose(next);
       const via=aspect<1.15&&Math.max(pose.position[2],target.position[2])>8&&Math.max(Math.abs(pose.position[0]),Math.abs(target.position[0]))>3.5?{position:[0,6.3,7.2],target:[0,1.2,-2.5],fov:(pose.fov+target.fov)/2,open:1}:null;
       transition=(!instant&&!reduced.matches&&!paused&&previous!=='entry')?{from:pose,to:target,via,time:0}:null;if(!transition)pose=target;}
@@ -91,18 +94,24 @@ export function mountWorld(host) {
   }
   function setPose(p) {
     camera.position.set(...p.position);camera.lookAt(...p.target);camera.fov=p.fov;camera.updateProjectionMatrix();camera.updateMatrixWorld();carrier.update(p.open,elapsed);
+    const revealing=view==='logo';carrier.group.visible=!revealing;rooms.group.visible=!revealing;
+    // Cabin fixtures illuminate the opened interior, not the closed aircraft skin.
+    interior.intensity=2*p.open;fill.intensity=12*p.open;
+    if(skin){for(const object of skinReplaced)object.visible=false;skin.setForm(revealing?p.form:1);skin.setOpen(p.open);skin.update?.(elapsed);}
+    fallback.hidden=!(revealing&&!skin);
   }
   function draw() {
     if(disposed||contextLost)return;
     try{setPose(pose);rooms.update(elapsed,{selected:content[view]?view:'overview',reducedMotion:reduced.matches});renderer.render(scene,camera);}catch{dispose();}
   }
-  function canRun(){return !disposed&&!contextLost&&visible&&!document.hidden&&!blurred&&!document.body.classList.contains('global-menu-open')&&!paused&&!reduced.matches;}
+  function canRun(){return !disposed&&!contextLost&&visible&&!document.hidden&&!blurred&&!document.body.classList.contains('global-menu-open')&&!paused&&!reduced.matches&&!(view==='logo'&&skinLoading);}
   function schedule(){if(canRun()&&!raf){last=performance.now();raf=requestAnimationFrame(tick);}}
   function tick(now) {
     raf=0;if(!canRun())return;
     const dt=Math.min(.05,(now-last)/1000);last=now;elapsed+=dt;
     if(automatic){
       openingClock+=dt;
+      if(view==='logo'&&skin){logoProgress=Math.min(1,openingClock/LOGO_REVEAL_DURATION);pose=viewPose('logo',logoProgress);if(logoProgress===1){view='entry';entryProgress=0;openingClock=0;syncUI();}}
       if(view==='exterior'&&openingClock>.9){view='entry';openingClock=0;syncUI();}
       if(view==='entry'){entryProgress=Math.min(1,openingClock/6.2);pose=viewPose('entry',entryProgress);
         if(entryProgress===1){view='atrium';automatic=false;pose=viewPose('atrium');syncUI();}}
@@ -115,15 +124,15 @@ export function mountWorld(host) {
   function reconcile(){if(canRun())schedule();else stop();}
   function resize(){if(disposed)return;const rect=stage.getBoundingClientRect();aspect=Math.max(.1,rect.width/Math.max(1,rect.height));camera.aspect=aspect;
     renderer.setPixelRatio(Math.min(devicePixelRatio||1,rect.width<760?1.5:2));renderer.setSize(rect.width,rect.height,false);
-    pose=viewPose(view,view==='entry'?entryProgress:1);transition=null;draw();}
+    pose=viewPose(view,view==='entry'?entryProgress:view==='logo'?logoProgress:1);transition=null;draw();}
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
   function hit(event){const rect=canvas.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);return raycaster.intersectObjects(rooms.hitTargets,false)[0]?.object.userData.path;}
   on(canvas,'pointerdown',e=>{previousPointer={x:e.clientX,y:e.clientY,id:e.pointerId};});
-  on(canvas,'pointerup',e=>{const start=previousPointer;previousPointer=null;if(!start||start.id!==e.pointerId||Math.hypot(e.clientX-start.x,e.clientY-start.y)>10||['exterior','entry'].includes(view))return;const path=hit(e);if(path)select(path);});
+  on(canvas,'pointerup',e=>{const start=previousPointer;previousPointer=null;if(!start||start.id!==e.pointerId||Math.hypot(e.clientX-start.x,e.clientY-start.y)>10||['logo','exterior','entry'].includes(view))return;const path=hit(e);if(path)select(path);});
   on(canvas,'pointercancel',()=>{previousPointer=null;});
-  on(canvas,'pointermove',e=>{if(e.pointerType==='mouse')canvas.style.cursor=!['exterior','entry'].includes(view)&&hit(e)?'pointer':'default';});
-  on(enter,'click',()=>select(view==='entry'?'atrium':'entry',view==='entry'));
-  on(outside,'click',()=>select('exterior',true));
+  on(canvas,'pointermove',e=>{if(e.pointerType==='mouse')canvas.style.cursor=!['logo','exterior','entry'].includes(view)&&hit(e)?'pointer':'default';});
+  on(enter,'click',()=>select(['logo','entry'].includes(view)?'atrium':'entry',['logo','entry'].includes(view)));
+  on(outside,'click',()=>select(view==='exterior'?'logo':'exterior',true));
   on(pause,'click',()=>{paused=!paused;syncUI();reconcile();});
   for(const button of choices.querySelectorAll('button'))on(button,'click',()=>select(button.dataset.carrierSelect));
   on(host,'keydown',e=>{if(e.key==='Escape'&&content[view]){e.preventDefault();select('atrium');choices.querySelector('[data-carrier-select="atrium"]').focus({preventScroll:true});}});
@@ -139,11 +148,31 @@ export function mountWorld(host) {
   const observer=new IntersectionObserver(entries=>{const entry=entries[0];visible=entry.isIntersecting;reconcile();},{threshold:0});observer.observe(host);
   const menuObserver=new MutationObserver(reconcile);menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
-  function dispose(){if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();rooms.dispose();carrier.dispose?.();env.dispose();interior.shadow.map?.dispose();renderer.dispose();canvas.remove();fallback.hidden=false;controls.hidden=true;choices.hidden=true;enter.hidden=true;detail.hidden=true;stage.dataset.worldReady='fallback';host.dataset.carrierView='exterior';mounted.delete(host);if(window.AiforeuInnenwelt===api)delete window.AiforeuInnenwelt;}
-  const api={select,dispose,get view(){return view;},get time(){return elapsed;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};},sampleEntry(progress){automatic=false;transition=null;view='entry';entryProgress=Math.max(0,Math.min(1,progress));pose=viewPose('entry',entryProgress);syncUI();draw();}};
+  function dispose(){if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();rooms.dispose();skin?.dispose();carrier.dispose?.();env.dispose();interior.shadow.map?.dispose();renderer.dispose();canvas.remove();fallback.hidden=false;controls.hidden=true;choices.hidden=true;enter.hidden=true;detail.hidden=true;stage.dataset.worldReady='fallback';host.dataset.carrierView='exterior';mounted.delete(host);if(window.AiforeuInnenwelt===api)delete window.AiforeuInnenwelt;}
+  const api={select,dispose,get model(){return skin?'ready':skinLoading?'loading':'fallback';},get modelBounds(){return exteriorBounds?structuredClone(exteriorBounds):null;},sampleLogo(progress){automatic=false;transition=null;view='logo';logoProgress=Math.max(0,Math.min(1,progress));pose=viewPose('logo',logoProgress);syncUI();draw();},get view(){return view;},get time(){return elapsed;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};},sampleEntry(progress){automatic=false;transition=null;view='entry';entryProgress=Math.max(0,Math.min(1,progress));pose=viewPose('entry',entryProgress);syncUI();draw();}};
   mounted.set(host,api);window.AiforeuInnenwelt=api;
-  stage.append(canvas);pose=viewPose(view);resize();if(!disposed){syncUI();fallback.hidden=true;stage.dataset.worldReady='true';draw();schedule();}
+  stage.append(canvas);pose=viewPose(view,view==='logo'?0:1);resize();if(!disposed){syncUI();stage.dataset.worldReady='true';draw();schedule();}
   // A paused or reduced-motion scene still needs one frame when photographed textures arrive.
   rooms.ready?.then(()=>{if(!disposed&&!contextLost)draw();});
+  // Model loading cannot hold navigation hostage or resurrect a disposed scene.
+  import('./bomber-haut.js').then(module=>module.createBomberSkin(THREE)).then(loaded=>{
+    if(disposed){loaded.dispose();return;}
+    try {
+      loaded.setForm(1);loaded.setOpen(0);loaded.group.updateMatrixWorld(true);
+      const bounds=new THREE.Box3().setFromObject(loaded.group,true);
+      const measured={min:bounds.min.toArray(),max:bounds.max.toArray()};
+      if(!validExteriorBounds(measured))throw new Error('Invalid aircraft bounds');
+      exteriorBounds=measured;
+    } catch(error){loaded.dispose();throw error;}
+    skin=loaded;skinLoading=false;scene.add(skin.group);
+    skinReplaced=[carrier.exterior,...(skin.replaces?.groups||[]).map(key=>carrier[key]),...(skin.replaces?.meshes||[]).map(name=>carrier.group.getObjectByName(name))].filter(Boolean);
+    // The new exterior bounds do not change an ongoing interior journey.
+    if(['logo','exterior','entry'].includes(view))pose=viewPose(view,view==='logo'?logoProgress:view==='entry'?entryProgress:1);
+    syncUI();draw();schedule();
+  }).catch(()=>{
+    if(disposed)return;skinLoading=false;
+    if(view==='logo'){view='exterior';pose=viewPose(view);openingClock=0;syncUI();}
+    draw();schedule();
+  });
   return api;
 }

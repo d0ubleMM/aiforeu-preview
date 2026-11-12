@@ -4,31 +4,40 @@ import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 // Projection is in world metres so instanced small details and long road strips
 // share a consistent grain instead of stretching a texture across each box.
 export function createCityMaterials() {
-  const pending = [], textures = [], surfaces = new Map();
+  const pending = [], textures = [], surfaces = new Map(), users = new Map();
+  let stopped=false;
   const canLoad = typeof globalThis.document?.createElementNS === 'function';
   const loader = canLoad ? new THREE.TextureLoader() : null;
-  const neutral = () => {
-    const t = new THREE.DataTexture(new Uint8Array([255,255,255,255]),1,1);
-    t.needsUpdate = true; return t;
-  };
+  const baseColors={asphalt:[57,61,63],bark:[89,77,59],brick:[114,61,44],concrete:[169,166,158],plaster:[211,207,198],tiles:[139,72,43]};
+  function configure(texture,kind) {
+    texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.anisotropy=8;
+    texture.colorSpace=kind==='color'?THREE.SRGBColorSpace:THREE.NoColorSpace;
+    return texture;
+  }
   function maps(name) {
-    if(surfaces.has(name)) return surfaces.get(name);
-    const result = {};
+    if(surfaces.has(name))return surfaces.get(name);
+    const result={}, owners=new Set();surfaces.set(name,result);users.set(name,owners);
     for(const [kind,key] of [['color','map'],['normal','normalMap'],['rough','roughnessMap']]) {
-      let texture;
-      if(loader) pending.push(new Promise(resolve => {
-        texture=loader.load(new URL(`./materials/${name}-${kind}.webp`,import.meta.url).href,resolve,undefined,resolve);
+      // Preserve a recognisable road/building if a photo is late or unavailable.
+      const rgb=kind==='color'?baseColors[name]:kind==='normal'?[128,128,255]:[255,255,255];
+      const placeholder=configure(new THREE.DataTexture(new Uint8Array([...rgb,255]),1,1),kind);
+      placeholder.name=`${name} fallback ${kind}`;placeholder.needsUpdate=true;
+      result[key]=placeholder;textures.push(placeholder);
+      if(loader)pending.push(new Promise(resolve=>{
+        let requested;
+        requested=loader.load(new URL(`./materials/${name}-${kind}.webp`,import.meta.url).href,loaded=>{
+          if(stopped){loaded.dispose();resolve();return;}
+          configure(loaded,kind);loaded.name=`${name} photographed ${kind}`;loaded.needsUpdate=true;
+          result[key]=loaded;textures.push(loaded);
+          for(const material of owners){material[key]=loaded;material.needsUpdate=true;}
+          placeholder.dispose();resolve();
+        },undefined,()=>{requested?.dispose();resolve();});
       }));
-      else texture=neutral();
-      texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
-      texture.anisotropy=8;texture.colorSpace=kind==='color'?THREE.SRGBColorSpace:THREE.NoColorSpace;
-      texture.name=`${name} photographed ${kind}`;
-      result[key]=texture;textures.push(texture);
     }
-    surfaces.set(name,result);return result;
+    return result;
   }
   function surface(material,name,{metres=1,normal=.4,tint='#ffffff',roughness=1,colorWeight=1}={}) {
-    Object.assign(material,maps(name));material.color.set(tint);
+    Object.assign(material,maps(name));users.get(name).add(material);material.color.set(tint);
     material.normalScale=new THREE.Vector2(normal,normal);
     material.bumpMap=null;material.roughness=roughness;material.metalness=0;
     material.userData.citySurface=name;
@@ -61,5 +70,5 @@ export function createCityMaterials() {
     material.customProgramCacheKey=()=>`city-project-v1-${metres}`;
     material.needsUpdate=true;return material;
   }
-  return {surface,ready:()=>Promise.all(pending),textures};
+  return {surface,ready:()=>Promise.all(pending),textures,stop:()=>{stopped=true;}};
 }

@@ -20,10 +20,10 @@ export function createInteriorDistricts() {
   group.name = 'AIFOREU carrier — connected interior districts';
   let disposed = false;
   const colors = {
-    plaster: '#b7b7b2', chalk: '#d6d8d5', stone: '#a0a39e', paving: '#aaa9a2',
-    ink: '#25292c', orange: '#df642f', roof: '#85543e', wood: '#82705a',
-    road: '#343735', glass: '#1c272b', leaf: '#4c5837', darkLeaf: '#34442c',
-    paleLeaf: '#66704a', soil: '#49463b', metal: '#7e8585', blue: '#526374',
+    plaster: '#d2cec5', chalk: '#f1efe8', stone: '#848982', paving: '#747a74',
+    ink: '#111820', orange: '#e74b0c', roof: '#a43820', wood: '#885025',
+    road: '#25292b', glass: '#143843', leaf: '#237638', darkLeaf: '#12502b',
+    paleLeaf: '#438a31', soil: '#34251b', metal: '#899298', blue: '#164eab',
   };
   const material = (color, options = {}) => new THREE.MeshStandardMaterial({ color, roughness: .77, metalness: 0, ...options });
   const m = Object.fromEntries(Object.entries(colors).map(([key, value]) => [key, material(value)]));
@@ -48,7 +48,7 @@ export function createInteriorDistricts() {
   m.leaf.side=m.darkLeaf.side=m.paleLeaf.side=THREE.DoubleSide;
   const geometry = {
     box: new THREE.BoxGeometry(1, 1, 1),
-    soft: new RoundedBoxGeometry(1, 1, 1, 2, .045),
+    soft: new RoundedBoxGeometry(1, 1, 1, 2, .012),
     cylinder: new THREE.CylinderGeometry(.5, .5, 1, 24),
     sphere: new THREE.IcosahedronGeometry(.5, 2),
     leaf: new THREE.BufferGeometry(),
@@ -134,19 +134,11 @@ export function createInteriorDistricts() {
     for (let n = 0; n < 3; n++) box(b, m.wood, 0, .43, -.16 + n * .15, 1.12, .07, .11, { soft: true });
     box(b, m.wood, 0, .69, -.22, 1.12, .13, .06, { soft: true });
   }
-  function person(parent, x, z, { shirt = m.ink, height = 1, rotation = 0, dynamic = false } = {}) {
-    const p = subgroup(parent, 'model person', [x, 0, z]); p.rotation.y = rotation;
-    cylinder(p, shirt, 0, height * .57, 0, height * .26, height * .39, { dynamic });
-    ball(p, m.wood, 0, height * .89, 0, height * .23, [1, 1, 1], dynamic);
-    for (const side of [-1, 1]) {
-      box(p, m.ink, side * height * .075, height * .22, 0, height * .085, height * .4, height * .11, { soft: true, dynamic });
-      cylinder(p, shirt, side * height * .18, height * .57, .03, height * .075, height * .34, { rotation: [0, 0, side * .18], dynamic });
-    }
-    return p;
-  }
 
   const traffic = subgroup(group, 'VerkehrsAI district');
   const office = subgroup(group, 'Autonomous Workforce atelier');
+
+  box(office,w.floorWood,7.05,.02,-.35,8.25,.028,7.35);
 
   // Traffic district: a real little street network, low city blocks and public space.
   box(traffic, m.road, -7.2, .064, .25, 8.9, .055, 1.8);
@@ -273,7 +265,7 @@ export function createInteriorDistricts() {
   ];
 
   // Workforce atelier: open cutaway construction, three instruments, one physical case.
-  box(office,m.plaster,7.05,1.57,-3.95,8.2,3.14,.16,{soft:true});
+  box(office,w.officeWall,7.05,1.57,-3.95,8.2,3.14,.16,{soft:true});
   box(office,w.wood,7.05,3.18,-3.35,8.55,.2,1.52,{soft:true});
   for(const x of [3.15,7.05,10.95]) box(office,w.wood,x,1.625,-3.32,.13,3.25,.15);
   for(let n=0;n<12;n++) box(office,w.wood,3.2+n*.7,3.05,-3.35,.075,.12,1.35);
@@ -304,8 +296,9 @@ export function createInteriorDistricts() {
   const handset=subgroup(voice,'reception handset',[-.58,.2,.14]);
   box(handset,m.ink,0,.035,0,.12,.1,.48,{soft:true,dynamic:true});
   for(const z of [-.2,.2]) box(handset,m.ink,0,-.02,z,.22,.13,.14,{soft:true,dynamic:true});
+  box(office,m.ink,4.55,1.405,.27,.69,.34,.065,{soft:true});
   const audioBars=[];
-  for(let n=0;n<5;n++) audioBars.push(box(office,m.blue,4.32+n*.115,1.4,.24,.043,.27,.04,{soft:true,dynamic:true}));
+  for(let n=0;n<5;n++) audioBars.push(box(office,m.blue,4.32+n*.115,1.4,.309,.043,.27,.008,{soft:true,dynamic:true}));
 
   // Desktop: monitor, keyboard and a record that is assembled as the case arrives.
   const desktop = subgroup(office,'Desktop station',[7,1.216,-.46]);
@@ -364,8 +357,6 @@ export function createInteriorDistricts() {
     cylinder(office,m.blue,x,.64,z,.58,.12);
     for(const sx of [-1,1]) box(office,m.ink,x+sx*.18,.325,z,.04,.65,.04);
   }
-  person(office,5.48,-1.43,{shirt:m.blue,height:1.05,rotation:Math.PI});
-  person(office,8.07,-1.49,{shirt:m.paleLeaf,height:1.04,rotation:Math.PI});
   const cityAPI = { THREE, group, traffic, office, m, colors, geometry, mesh, box, cylinder, ball, text, subgroup };
   const architecture = createArchitecture(cityAPI);
   for(const key of ['cityBrick','cityBrickDark']) surface(m[key],'brick',{metres:1.02,normal:.62,tint:key==='cityBrick'?'#aaa39a':'#837d76'});
@@ -484,7 +475,7 @@ export function createInteriorDistricts() {
   const landmarks = Object.fromEntries(Object.entries(architecture.landmarks).map(([key, point]) => [key, point.clone().multiplyScalar(.8)]));
   function dispose() {
     if (disposed) return; disposed = true;
-    workforceMaterials.stop();
+    cityMaterials.stop();workforceMaterials.stop();
     const geometries = new Set(), materials = new Set(), textures = new Set();
     group.traverse(object => {
       if (object.isInstancedMesh) object.dispose();

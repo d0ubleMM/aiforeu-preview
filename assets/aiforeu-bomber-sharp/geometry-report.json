@@ -1,0 +1,28 @@
+{
+  "folded_target_cells": 0,
+  "triangles": 57808,
+  "bounds_m": [
+    [
+      -58.0,
+      -1.05,
+      -24.0
+    ],
+    [
+      58.0,
+      9.715748677718059,
+      26.0
+    ]
+  ],
+  "roof_clearance_over_7_2m": 1.0643748233664736,
+  "floor_clearance_below_minus_0_4m": 0.6499999999999998,
+  "opening_radius_m": 8.149999999999999,
+  "sample_count": 13122,
+  "disable_legacy": [
+    "carrier-continuous-floor",
+    "all carrier.exterior",
+    "all carrier.roof",
+    "all carrier.canopy"
+  ],
+  "morph_contract": "All meshes Bomber=m. Hatch Bomber=m*(1-open), Offen=m*open.",
+  "floor": "Two included compact Interior_Floor meshes replace full-logo legacy floor."
+}

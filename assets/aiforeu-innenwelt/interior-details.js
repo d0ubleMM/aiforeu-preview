@@ -3,7 +3,7 @@ export function createInteriorDetails(api) {
   const { THREE, group, office, m, colors, geometry, mesh, box, cylinder, ball, text, subgroup } = api;
   const details = subgroup(group, 'Interior street and atelier details');
   const stoneDark = new THREE.MeshStandardMaterial({color:'#515751',roughness:.91});
-  const terracotta = new THREE.MeshStandardMaterial({color:'#ccaa92',roughness:.91});
+  const terracotta = new THREE.MeshStandardMaterial({color:'#aa4829',roughness:.91});
   // Closed courtyard paving and continuous curbs give the original street actual edges.
   for(const [x,z,w,d] of [[-9.35,-2.95,2.9,3.1],[-4.96,-2.95,2.72,3.1],[-9.35,2.9,2.88,2.55],[-4.96,2.9,2.72,2.55]]) {
     box(details,m.paving,x,.075,z,w,.10,d);
@@ -73,7 +73,16 @@ export function createInteriorDetails(api) {
   for(const dx of [-.7,.7]) {
     box(garden,terracotta,dx,.36,0,.43,.35,.48,{soft:true});
     box(garden,m.soil,dx,.545,0,.34,.018,.39);
-    for(let n=0;n<20;n++) mesh(garden,geometry.leaf,[m.leaf,m.darkLeaf,m.paleLeaf][n%3],[dx,.54,0],[.15,.18,.38+(n%3)*.06],[-.7-(n%4)*.13,n*2.39996,0]);
+    for(let n=0;n<7;n++){
+      const a=n*2.39996,r=.035+(n%3)*.025,h=.29+(n%4)*.04;
+      cylinder(garden,m.darkLeaf,dx+Math.sin(a)*r,.54+h/2,Math.cos(a)*r,.012,h);
+    }
+    for(let n=0;n<48;n++){
+      const a=n*2.39996,u=(n*.61803398875)%1,r=Math.sqrt(u)*.19;
+      mesh(garden,geometry.leaf,[m.leaf,m.darkLeaf,m.paleLeaf][n%3],
+        [dx+Math.cos(a)*r,.72+(1-u)*.24,Math.sin(a)*r],
+        [.15+(n%3)*.025,.20,.17+(n%4)*.02],[-.45+(n%5)*.22,a,(n%3-.8)*.3]);
+    }
   }
 
 }
