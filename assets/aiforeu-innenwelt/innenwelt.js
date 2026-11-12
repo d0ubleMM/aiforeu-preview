@@ -58,7 +58,7 @@ export function mountWorld(host,{destination:initialDestination='atrium'}={}) {
   const abort=new AbortController(),on=(element,event,handler,options={})=>element?.addEventListener(event,handler,{...options,signal:abort.signal});
   let aspect=1,view=reduced.matches?'atrium':'logo',destination=content[initialDestination]?initialDestination:'atrium';
   let pose,progress=0,elapsed=0,raf=0,visible=true,blurred=false,contextLost=false,disposed=false,staticView=null;
-  let previousPointer=null,selectionAnchor=null;
+  let previousPointer=null,selectionAnchor=null,readingAnchor=null;
   const viewPose=(name,p=1)=>name==='logo'?sampleLogoReveal(p,{aspect,exteriorBounds}):sampleCarrierView(name,p,{aspect,exteriorBounds,districts:rooms.districts});
   host.toggleAttribute('data-carrier-scroll',!reduced.matches);host.toggleAttribute('data-carrier-static',reduced.matches);
   function scrollRange() {
@@ -85,6 +85,27 @@ export function mountWorld(host,{destination:initialDestination='atrium'}={}) {
   function releaseScrolledSelection(range) {
     if(selectionAnchor&&sameSelectionRange(range||scrollRange())&&Math.abs(scrollY-selectionAnchor.y)>.5)selectionAnchor=null;
   }
+  function preserveReadingPosition(range) {
+    const end=scrollY+host.getBoundingClientRect().bottom;
+    // Keep actual content in place when the hero or responsive text above it
+    // reflows. Native anchoring may already have done this: apply only the
+    // remaining viewport displacement, never the full height delta twice.
+    if(readingAnchor?.element.isConnected&&(Math.abs(end-readingAnchor.end)>.5||readingAnchor.width!==innerWidth)){
+      const delta=readingAnchor.element.getBoundingClientRect().top-readingAnchor.top;
+      if(Math.abs(delta)>.5)window.scrollBy({top:delta,behavior:'instant'});
+    }
+    if(selectionAnchor||scrollY<=range.start+range.distance+.5){readingAnchor=null;return;}
+    const line=(parseFloat(getComputedStyle(host).getPropertyValue('--global-header-height'))||73)+16;
+    let closest=null,distance=Infinity;
+    // Prefer a nearby readable block, including the direct path navigation.
+    // This also preserves later body text when columns stack on rotation.
+    for(const element of [host.nextElementSibling,...host.parentElement.querySelectorAll('h2,h3,p,li,blockquote')]){
+      if(!element||host.contains(element)||!(host.compareDocumentPosition(element)&Node.DOCUMENT_POSITION_FOLLOWING))continue;
+      const rect=element.getBoundingClientRect(),offset=Math.abs(rect.top-line);
+      if(rect.width&&rect.height&&rect.bottom>line&&rect.top<innerHeight&&offset<distance){closest=element;distance=offset;}
+    }
+    readingAnchor=closest?{element:closest,top:closest.getBoundingClientRect().top,end,width:innerWidth}:null;
+  }
   function readScroll() {
     const range=scrollRange();
     releaseScrolledSelection(range);
@@ -98,6 +119,7 @@ export function mountWorld(host,{destination:initialDestination='atrium'}={}) {
         selectionAnchor={...selectionAnchor,...range,y:scrollY};
       }
     }
+    preserveReadingPosition(range);
     const sample=sampleScrollJourney(scrollProgress(scrollY,range.start,range.distance),{aspect,exteriorBounds,destination,reducedMotion:reduced.matches});
     progress=sample.progress;elapsed=sample.time;
     // Reduced motion permits a deliberate static exterior choice, without travel.
@@ -109,12 +131,13 @@ export function mountWorld(host,{destination:initialDestination='atrium'}={}) {
   }
   function seek(nextProgress) {
     if(disposed)return;
+    readingAnchor=null;
     if(!reduced.matches){const range=scrollRange();window.scrollTo({top:Math.ceil(range.start+range.distance*Math.max(0,Math.min(1,nextProgress))),behavior:'instant'});}
     readScroll();syncUI();draw();
   }
   function select(next) {
     if(disposed||!['logo','exterior','entry','atrium','traffic','workforce'].includes(next))return;
-    selectionAnchor=null;
+    selectionAnchor=null;readingAnchor=null;
     if(reduced.matches){staticView=next==='exterior'?'exterior':null;destination=content[next]?next:'atrium';readScroll();syncUI();draw();return;}
     staticView=null;
     if(next==='logo'){seek(0);return;}
@@ -154,12 +177,12 @@ export function mountWorld(host,{destination:initialDestination='atrium'}={}) {
   for(const button of choices.querySelectorAll('button'))on(button,'click',()=>select(button.dataset.carrierSelect));
   on(host.querySelector('.carrier-scroll'),'click',event=>{
     const target=document.querySelector('#wege');if(!target)return;
-    event.preventDefault();target.scrollIntoView({behavior:'instant',block:'start'});
+    event.preventDefault();selectionAnchor=null;target.scrollIntoView({behavior:'instant',block:'start'});preserveReadingPosition(scrollRange());
   });
   on(host,'keydown',e=>{if(e.key==='Escape'&&content[view]){e.preventDefault();select('atrium');choices.querySelector('[data-carrier-select="atrium"]').focus({preventScroll:true});}});
   // Clear a moved selection even after the scene leaves the viewport and stops
   // rendering, so a later resize never pulls readers back from the page below.
-  on(window,'scroll',()=>{releaseScrolledSelection();schedule();},{passive:true});
+  on(window,'scroll',()=>{const range=scrollRange();releaseScrolledSelection(range);preserveReadingPosition(range);schedule();},{passive:true});
   on(document,'visibilitychange',reconcile);on(window,'blur',()=>{blurred=true;reconcile();});on(window,'focus',()=>{blurred=false;reconcile();});
   on(reduced,'change',()=>{
     const range=scrollRange(),rect=host.getBoundingClientRect(),inside=rect.top<=innerHeight&&rect.bottom>0;
