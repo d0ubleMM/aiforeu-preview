@@ -1,7 +1,7 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 import {createBomberSkin} from '../aiforeu-bomber-sharp/skin.js';
 import {mountWorld} from './gallery.js?v=brand-flight-1';
-import {BRAND_FLIGHT,sampleBrandFlight} from './brand-flight-path.js';
+import {BRAND_FLIGHT,sampleBrandFlight,flybyWidth} from './brand-flight-path.js?v=flyby-2';
 
 export function mountBrandFlight(host){
   const html=document.documentElement,mark=document.querySelector('.global-header .global-brand img');
@@ -26,7 +26,7 @@ export function mountBrandFlight(host){
     controls.hidden=s.docked;
     logo.style.cssText=`width:${s.width}px;height:${s.width*box.height/box.width}px;left:${s.x}px;top:${s.y}px;opacity:${s.docked?0:s.logo}`;
     if(renderer){
-      skin.setForm(s.form);model.rotation.set(s.tilt,0,s.turn,'ZYX');
+      skin.setForm(s.form);model.rotation.set(s.tilt,s.bank,s.turn,'ZYX');
       const size=s.width/THREE.MathUtils.lerp(72,116,s.form);model.scale.setScalar(size);
       for(const m of materials){m.opacity=1-s.logo;const transparent=s.logo>0;if(m.transparent!==transparent){m.transparent=transparent;m.needsUpdate=true;}m.depthWrite=!transparent;}
       renderer.domElement.style.left=s.x+'px';renderer.domElement.style.top=s.y+'px';
@@ -47,7 +47,7 @@ export function mountBrandFlight(host){
   }
   function play(){if(disposed||!ready||finished)return;playing=true;last=0;if(!frame)frame=requestAnimationFrame(tick);}
   function resize(){
-    if(renderer){const size=Math.ceil(Math.min(210,innerWidth*.28)*1.6);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(size,size);camera.left=-size/2;camera.right=size/2;camera.top=size/2;camera.bottom=-size/2;camera.updateProjectionMatrix();}
+    if(renderer){const size=Math.ceil(flybyWidth(innerWidth)*1.6);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(size,size);camera.left=-size/2;camera.right=size/2;camera.top=size/2;camera.bottom=-size/2;camera.updateProjectionMatrix();}
     if(ready&&!finished)draw();
   }
   async function loadAircraft(){
