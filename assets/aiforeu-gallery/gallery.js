@@ -1,9 +1,8 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 import { createExhibits } from './exhibits.js?v=bomber-1';
 import { AREAS, clamp, ease, sampleGallery } from './journey.js';
-import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js?v=flight-2';
+import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js?v=brand-3';
 import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';
-import { createFlightWake } from './flight-wake.js';
 
 const mounted=new WeakMap();
 const content={
@@ -31,7 +30,7 @@ export function mountWorld(host,{selected='logo'}={}){
   const on=(target,event,fn,options={})=>target?.addEventListener(event,fn,{...options,signal:abort.signal});
   if(reduced.matches&&selected==='logo')selected='bomber';
   let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=landingProgress(selected)||0,view=selected,pose=null,lastRange=null,reading=null;
-  let bomber=null,wake=null,bomberState='loading',bomberBounds=null,bomberMaterials=[],oldFloors=[];
+  let bomber=null,bomberState='loading',bomberBounds=null,bomberMaterials=[],oldFloors=[];
   let motionPreference=reduced.matches;
   try{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
@@ -120,8 +119,7 @@ export function mountWorld(host,{selected='logo'}={}){
     exhibits.floor.visible=floorOpacity>0;exhibits.floor.material.opacity=floorOpacity;exhibits.floor.material.transparent=floorOpacity<1;exhibits.floor.material.depthWrite=floorOpacity>=1;
     if(bomber){
       bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(opening.pose.open);
-      bomber.group.rotation.set(...opening.rotation);oldFloors.forEach(mesh=>{mesh.visible=false;});
-      wake?.update(opening.rotation,inIntro?opening.flight:0);
+      oldFloors.forEach(mesh=>{mesh.visible=false;});
       const opacity=inIntro?1-ease((progress-INTRO.entryEnd-.015)/.025):0;
       bomber.group.visible=inIntro&&opacity>0;
       for(const {material,base} of bomberMaterials){
@@ -130,7 +128,7 @@ export function mountWorld(host,{selected='logo'}={}){
       }
     }
     fallback.hidden=!(inIntro&&!bomber);
-    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:inIntro?opening.pose.open:1,rotation:inIntro?opening.rotation:[0,0,0]};
+    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:inIntro?opening.pose.open:1};
     renderer.render(scene,camera);lastRange=r;
   }
   const active=()=>!disposed&&!lost&&visible&&!document.hidden&&!document.body.classList.contains('global-menu-open');
@@ -162,7 +160,7 @@ export function mountWorld(host,{selected='logo'}={}){
   const menuObserver=new MutationObserver(()=>{stop();schedule();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
   function dispose({preserve=false,keepCanvas=false}={}){
-    if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();wake?.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
+    if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
     if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;nav.hidden=true;stage.dataset.worldReady='fallback';if(!preserve)host.setAttribute('data-gallery-static','');mounted.delete(host);if(window.AiforeuGallery===api)delete window.AiforeuGallery;
   }
   const api={select,dispose,get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get scroll(){return {progress,...range()};},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};}};
@@ -172,7 +170,7 @@ export function mountWorld(host,{selected='logo'}={}){
     bomber=loaded;bomberState='ready';bomberBounds={min:loaded.closedBounds.min.toArray(),max:loaded.closedBounds.max.toArray()};
     const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;if(/^(Interior_Floor|Bridge_Floor)/.test(o.name))oldFloors.push(o);[].concat(o.material).forEach(m=>materials.add(m));}});
     bomberMaterials=[...materials].map(material=>({material,base:{opacity:material.opacity,transparent:material.transparent,depthWrite:material.depthWrite}}));
-    bomber.setForm(1);wake=createFlightWake(bomber);scene.add(bomber.group,wake.group);draw();schedule();
+    scene.add(bomber.group);draw();schedule();
   }).catch(()=>{if(!disposed){bomberState='unavailable';draw();schedule();}});
   Promise.all([exhibits.ready,aircraft]).then(()=>{if(!disposed){ready=true;draw();schedule();}});
   return api;
