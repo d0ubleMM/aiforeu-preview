@@ -4,6 +4,7 @@ import { AREAS, clamp, ease, sampleGallery } from './journey.js';
 import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js?v=brand-3';
 import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';
 import { sampleFilm } from './film-timeline.js';
+import { createRearHangar } from './rear-hangar.js';
 
 const mounted=new WeakMap();
 const content={
@@ -39,6 +40,8 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     env=environment(renderer);exhibits=createExhibits();
   }catch{exhibits?.dispose();env?.dispose();renderer?.dispose();host.setAttribute('data-gallery-static','');return null;}
   const scene=new THREE.Scene();scene.background=new THREE.Color('#0c0e11');scene.fog=new THREE.Fog('#0c0e11',21,65);scene.environment=env.texture;scene.environmentIntensity=.65;scene.add(exhibits.root);
+  const hangar=capture?createRearHangar():null;if(hangar)scene.add(hangar.root);
+  const shutter=capture?document.createElement('div'):null;if(shutter){shutter.style.cssText='position:absolute;inset:0;background:#08090b;pointer-events:none;z-index:8;opacity:0';frame.append(shutter);}
   const fog=scene.fog,camera=new THREE.PerspectiveCamera(35,1,.08,1200);
   const ambient=new THREE.HemisphereLight('#ffffff','#46484e',1.15);scene.add(ambient);
   const key=new THREE.DirectionalLight('#ffffff',3.1);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:.1,far:28});key.shadow.bias=-.0002;key.shadow.normalBias=.015;scene.add(key,key.target);
@@ -60,9 +63,11 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
   }
   function draw(){
     if(disposed||lost)return;
+    if(filmSample){filmSample=sampleFilm(filmSample.time,{aspect:camera.aspect,exteriorBounds:bomberBounds});progress=filmSample.progress;}
     const galleryProgress=clamp((progress-INTRO.galleryStart)/(1-INTRO.galleryStart));
     const inIntro=progress<INTRO.galleryStart;
-    const opening=sampleBomberIntro(progress,{aspect:camera.aspect,exteriorBounds:bomberBounds});
+    let opening=sampleBomberIntro(progress,{aspect:camera.aspect,exteriorBounds:bomberBounds});
+    if(filmSample?.camera)opening={pose:filmSample.camera,blend:filmSample.galleryBlend,brand:0,lockup:0,view:'bomber'};
     const sample=sampleGallery(galleryProgress);if(reduced.matches&&!capture&&!inIntro){sample.index=AREAS.indexOf(view);sample.centre=sample.index*22;sample.view=view;sample.opacity=1;sample.inspection=.65;}
     sync(inIntro?{...sample,view:opening.view}:sample);exhibits.update(sample,!capture&&reduced.matches);
     const angle=.50+Math.sin(galleryProgress*Math.PI*2)*.12,direction=new THREE.Vector3(Math.sin(angle),.35+ease((galleryProgress-.68)/.12)*.42,Math.cos(angle)).normalize();
@@ -80,7 +85,7 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     distance*=1.06;camera.position.copy(target).addScaledVector(direction,distance);camera.lookAt(target);camera.updateMatrixWorld();
     key.position.set(sample.centre-4.5,8.5,5.5);key.target.position.set(sample.centre,1,0);rim.position.set(sample.centre+4,6,-4);rim.target.position.set(sample.centre,1,0);
     const blend=inIntro?opening.blend:1;
-    const room=inIntro?ease((progress-INTRO.entryStart-.008)/.035):1;
+    const room=filmSample?filmSample.room:(inIntro?ease((progress-INTRO.entryStart-.008)/.035):1);
     const brand=filmSample?filmSample.brand:(inIntro?opening.brand:0),lockup=inIntro&&!filmSample?opening.lockup:0;
     if(wordmark){wordmark.hidden=brand<=0;wordmark.style.opacity=String(brand);wordmark.style.transform=`translate(-50%,calc(-50% + ${(1-brand)*24}px))`;}
     if(capture)host.toggleAttribute('data-brand-intro',brand>.01);
@@ -92,18 +97,19 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
       rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,room);
     }
     camera.setViewOffset(rect.width,rect.height,(portrait?0:-rect.width*.145*blend)+rect.width*(filmSample?.slide||0),(portrait?-74*blend*captureScale:0)+rect.height*.14*lockup*(filmSample?.lift??1),rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-    const atmosphere=inIntro?ease((progress-INTRO.entryStart-.012)/.060):1;
-    fog.near=THREE.MathUtils.lerp(800,21,atmosphere);fog.far=THREE.MathUtils.lerp(1200,65,atmosphere);
-    ambient.intensity=THREE.MathUtils.lerp(.75,1.15,room);key.intensity=THREE.MathUtils.lerp(2.8,3.1,room);rim.intensity=THREE.MathUtils.lerp(.9,1.1,room);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.3,1.05,room);scene.environmentIntensity=.65;
-    exhibits.root.visible=!inIntro||progress>=INTRO.entryStart;
+    const atmosphere=filmSample?filmSample.atmosphere:(inIntro?ease((progress-INTRO.entryStart-.012)/.060):1);
+    const exteriorFog=filmSample?.rear?Math.max(160,260/camera.aspect):800;
+    fog.near=THREE.MathUtils.lerp(exteriorFog,21,atmosphere);fog.far=THREE.MathUtils.lerp(Math.min(1200,exteriorFog*3),65,atmosphere);
+    ambient.intensity=THREE.MathUtils.lerp(.75,1.15,room);key.intensity=THREE.MathUtils.lerp(2.8,3.1,room);rim.intensity=THREE.MathUtils.lerp(filmSample?.rear?1.7:.9,1.1,room);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.3,1.05,room);scene.environmentIntensity=.65;
+    exhibits.root.visible=filmSample?filmSample.rear>0:(!inIntro||progress>=INTRO.entryStart);
     // The same neutral material and plane run from the cabin to the gallery.
-    // Introduce it through the roof opening, before the outer shell dissolves.
-    const floorOpacity=inIntro?ease((progress-INTRO.entryStart-.006)/.025):1;
+    // The room floor takes over after the camera has crossed the rear ramp.
+    const floorOpacity=filmSample?filmSample.floor:(inIntro?ease((progress-INTRO.entryStart-.006)/.025):1);
     exhibits.floor.visible=floorOpacity>0;exhibits.floor.material.opacity=floorOpacity;exhibits.floor.material.transparent=floorOpacity<1;exhibits.floor.material.depthWrite=floorOpacity>=1;
     if(bomber){
-      bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(opening.pose.open);
+      bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(filmSample?0:opening.pose.open);
       bomber.group.rotation.set(...(filmSample?.rotation||[0,0,0]));bomber.group.position.set(...(filmSample?.position||[0,0,0]));oldFloors.forEach(mesh=>{mesh.visible=false;});
-      const opacity=inIntro?1-ease((progress-INTRO.entryEnd-.015)/.025):0;
+      const opacity=filmSample?filmSample.shellOpacity:(inIntro?1-ease((progress-INTRO.entryEnd-.015)/.025):0);
       bomber.group.visible=inIntro&&opacity>0;
       for(const {material,base} of bomberMaterials){
         if(material.name==='Laibung'){material.color.lerp(exhibits.floor.material.color,room);material.metalness*=1-room;material.roughness=THREE.MathUtils.lerp(material.roughness,.74,room);}
@@ -112,8 +118,9 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
         material.depthWrite=base.depthWrite&&opacity>=1;
       }
     }
+    hangar?.update(filmSample);if(shutter)shutter.style.opacity=String(filmSample?.shutter||0);
     fallback.hidden=!(inIntro&&!bomber);
-    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:inIntro?opening.pose.open:1};
+    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:filmSample?0:(inIntro?opening.pose.open:1)};
     renderer.render(scene,camera);
   }
   const active=()=>!disposed&&!lost&&visible&&!document.hidden&&!document.body.classList.contains('global-menu-open');
@@ -147,7 +154,7 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
   const menuObserver=new MutationObserver(()=>{stop();schedule();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
   function dispose({preserve=false,keepCanvas=false}={}){
-    if(disposed)return;disposed=true;resolveReady(false);stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
+    if(disposed)return;disposed=true;resolveReady(false);stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();hangar?.dispose();shutter?.remove();env.dispose();key.shadow.map?.dispose();renderer.dispose();
     if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;nav.hidden=true;stage.dataset.worldReady='fallback';if(!preserve)host.setAttribute('data-gallery-static','');mounted.delete(host);if(window.AiforeuGallery===api)delete window.AiforeuGallery;
   }
   const api={select,dispose,ready:whenReady,setFilmTime(seconds){if(!capture||disposed)return;filmSample=sampleFilm(seconds);progress=filmSample.progress;draw();},get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get progress(){return progress;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};}};
@@ -157,7 +164,7 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     bomber=loaded;bomberState='ready';bomberBounds={min:loaded.closedBounds.min.toArray(),max:loaded.closedBounds.max.toArray()};
     const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;if(/^(Interior_Floor|Bridge_Floor)/.test(o.name))oldFloors.push(o);[].concat(o.material).forEach(m=>materials.add(m));}});
     bomberMaterials=[...materials].map(material=>({material,base:{opacity:material.opacity,transparent:material.transparent,depthWrite:material.depthWrite}}));
-    scene.add(bomber.group);draw();schedule();
+    hangar?.attachSkin(bomberMaterials);scene.add(bomber.group);draw();schedule();
   }).catch(()=>{if(!disposed){bomberState='unavailable';draw();schedule();}}):Promise.resolve();
   Promise.all([exhibits.ready,aircraft]).then(()=>{if(!disposed){ready=true;draw();schedule();resolveReady(true);}});
   return api;
