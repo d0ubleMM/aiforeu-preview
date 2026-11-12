@@ -1,6 +1,6 @@
 {
   "folded_target_cells": 0,
-  "triangles": 57808,
+  "triangles": 64770,
   "bounds_m": [
     [
       -58.0,
@@ -9,11 +9,11 @@
     ],
     [
       58.0,
-      9.715748677718059,
+      10.16,
       26.0
     ]
   ],
-  "roof_clearance_over_7_2m": 1.0643748233664736,
+  "roof_clearance_over_7_2m": 1.7833827969107707,
   "floor_clearance_below_minus_0_4m": 0.6499999999999998,
   "opening_radius_m": 8.149999999999999,
   "sample_count": 13122,

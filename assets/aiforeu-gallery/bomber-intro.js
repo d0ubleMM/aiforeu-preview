@@ -15,7 +15,7 @@ export function sampleBomberIntro(progress,options={}){
   const lockup=1-ease((p-.025)/.055);
   if(p<INTRO.revealEnd)return {view:'logo',pose:sampleLogoReveal(clamp((p-INTRO.revealStart)/(INTRO.revealEnd-INTRO.revealStart)),options),blend:0,brand,lockup};
   if(p<INTRO.entryStart)return {view:'bomber',pose:sampleLogoReveal(1,options),blend:0,brand:0,lockup:0};
-  // Stop the old camera at the clear roof aperture. From there the host glides
+  // Pass fully through the open roof before the host glides
   // directly to the approved workstation, rather than entering the old atrium.
-  return {view:'entry',pose:{...sampleCarrierView('entry',clamp((p-INTRO.entryStart)/(INTRO.entryEnd-INTRO.entryStart))*.42,options),form:1},blend:ease((p-INTRO.entryEnd)/(INTRO.galleryStart-INTRO.entryEnd)),brand:0,lockup:0};
+  return {view:'entry',pose:{...sampleCarrierView('entry',clamp((p-INTRO.entryStart)/(INTRO.entryEnd-INTRO.entryStart))*.78,options),form:1},blend:ease((p-INTRO.entryEnd)/(INTRO.galleryStart-INTRO.entryEnd)),brand:0,lockup:0};
 }

@@ -8,8 +8,8 @@ export function mountFilm(host){
   function play(){if(!available()||userPaused)return;video.play().then(label).catch(error=>{if(active&&error.name!=='AbortError'){userPaused=true;label();}});}
   function chooseSource(time=0){
     const variant=portrait.matches?'mobile':'desktop';if(variant===source){if(time===0)video.currentTime=0;return;}
-    source=variant;video.poster=new URL(`../aiforeu-film/poster-${variant}-flight.webp`,import.meta.url).href;
-    video.src=new URL(`../aiforeu-film/intro-${variant}-flight.mp4`,import.meta.url).href;
+    source=variant;video.poster=new URL(`../aiforeu-film/poster-${variant}-bomber.webp`,import.meta.url).href;
+    video.src=new URL(`../aiforeu-film/intro-${variant}-bomber.mp4`,import.meta.url).href;
     video.addEventListener('loadedmetadata',()=>{if(time>0)video.currentTime=Math.min(time,video.duration);play();},{once:true,signal:abort.signal});
     video.load();
   }
@@ -20,7 +20,7 @@ export function mountFilm(host){
     else{host.setAttribute('data-gallery-static','');host.querySelector('[data-world-stage]').dataset.worldReady='fallback';}
     label();
   }
-  const sceneReady=import('./gallery.js?v=film-1').then(({mountWorld})=>{
+  const sceneReady=import('./gallery.js?v=bomber-roundtrip-1').then(({mountWorld})=>{
     if(disposed)return false;scene=mountWorld(host);return scene?scene.ready:false;
   }).catch(()=>false);
   sceneReady.then(ready=>{if(!active)showScene(ready);});
@@ -32,7 +32,6 @@ export function mountFilm(host){
   on(skip,'click',finish);on(host,'gallery:replay',replay);
   on(video,'ended',finish);on(video,'play',label);on(video,'pause',label);
   on(video,'error',()=>{finish();host.dataset.videoState='unavailable';});
-  on(video,'timeupdate',()=>{host.toggleAttribute('data-film-title',active&&video.currentTime>=5.62&&video.currentTime<8.3);});
   on(document,'visibilitychange',()=>{if(available())play();else video.pause();});
   on(reduced,'change',()=>{if(reduced.matches){userPaused=true;video.pause();label();}});
   on(portrait,'change',()=>{if(active){const time=video.currentTime;chooseSource(time);}});

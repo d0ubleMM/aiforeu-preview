@@ -81,12 +81,12 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     key.position.set(sample.centre-4.5,8.5,5.5);key.target.position.set(sample.centre,1,0);rim.position.set(sample.centre+4,6,-4);rim.target.position.set(sample.centre,1,0);
     const blend=inIntro?opening.blend:1;
     const room=inIntro?ease((progress-INTRO.entryStart-.008)/.035):1;
-    const brand=filmSample?filmSample.brand:(inIntro?opening.brand:0),lockup=inIntro?opening.lockup:0;
+    const brand=filmSample?filmSample.brand:(inIntro?opening.brand:0),lockup=inIntro&&!filmSample?opening.lockup:0;
     if(wordmark){wordmark.hidden=brand<=0;wordmark.style.opacity=String(brand);wordmark.style.transform=`translate(-50%,calc(-50% + ${(1-brand)*24}px))`;}
     if(capture)host.toggleAttribute('data-brand-intro',brand>.01);
     if(inIntro){
       camera.position.lerpVectors(new THREE.Vector3(...opening.pose.position),camera.position,blend);target.lerpVectors(new THREE.Vector3(...opening.pose.target),target,blend);
-      camera.position.sub(target).multiplyScalar(1+(portrait?.08:1.1)*lockup).add(target);
+      camera.position.sub(target).multiplyScalar(filmSample?.framing??(1+(portrait?.08:1.1)*lockup)).add(target);
       camera.fov=THREE.MathUtils.lerp(opening.pose.fov,35,blend);
       key.position.lerpVectors(new THREE.Vector3(-25,42,28),key.position,room);key.target.position.lerpVectors(new THREE.Vector3(),key.target.position,room);
       rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,room);
@@ -102,12 +102,14 @@ export function mountWorld(host,{selected='voice',capture=false}={}){
     exhibits.floor.visible=floorOpacity>0;exhibits.floor.material.opacity=floorOpacity;exhibits.floor.material.transparent=floorOpacity<1;exhibits.floor.material.depthWrite=floorOpacity>=1;
     if(bomber){
       bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(opening.pose.open);
-      bomber.group.rotation.set(...(filmSample?.rotation||[0,0,0]));oldFloors.forEach(mesh=>{mesh.visible=false;});
+      bomber.group.rotation.set(...(filmSample?.rotation||[0,0,0]));bomber.group.position.set(...(filmSample?.position||[0,0,0]));oldFloors.forEach(mesh=>{mesh.visible=false;});
       const opacity=inIntro?1-ease((progress-INTRO.entryEnd-.015)/.025):0;
       bomber.group.visible=inIntro&&opacity>0;
       for(const {material,base} of bomberMaterials){
         if(material.name==='Laibung'){material.color.lerp(exhibits.floor.material.color,room);material.metalness*=1-room;material.roughness=THREE.MathUtils.lerp(material.roughness,.74,room);}
-        material.opacity=base.opacity*opacity;material.transparent=base.transparent||opacity<1;material.depthWrite=base.depthWrite&&opacity>=1;
+        material.opacity=base.opacity*opacity;const transparent=base.transparent||opacity<1;
+        if(material.transparent!==transparent){material.transparent=transparent;material.needsUpdate=true;}
+        material.depthWrite=base.depthWrite&&opacity>=1;
       }
     }
     fallback.hidden=!(inIntro&&!bomber);
