@@ -1,0 +1,21 @@
+.brand-flight-layer{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
+.brand-flight-layer[hidden]{display:none}
+.brand-flight-layer canvas{position:absolute;transform:translate(-50%,-50%)}
+.brand-flight-mark{position:absolute;transform:translate(-50%,-50%);object-fit:contain;filter:brightness(0) invert(1);opacity:0}
+html[data-brand-flight-active] .global-header .global-brand img{opacity:0}
+.js .landing-page:has([data-brand-pending]:not([data-brand-docked])) .global-header .global-brand img{opacity:0}
+.gallery-hero[data-brand-pending]{--room-light:0}
+.js .gallery-brand-flight-hero .world-stage{opacity:var(--room-light,1)}
+.js .gallery-brand-flight-hero[data-intro-active] .gallery-copy,
+.js .gallery-brand-flight-hero[data-intro-active] .gallery-nav,
+.js .gallery-brand-flight-hero[data-intro-active] .cabin-tabs,
+.js .gallery-brand-flight-hero[data-intro-active] .gallery-credit{visibility:hidden;pointer-events:none}
+.js .gallery-brand-flight-hero[data-room-revealing][data-intro-active] .gallery-copy,
+.js .gallery-brand-flight-hero[data-room-revealing][data-intro-active] .gallery-nav,
+.js .gallery-brand-flight-hero[data-room-revealing][data-intro-active] .cabin-tabs,
+.js .gallery-brand-flight-hero[data-room-revealing][data-intro-active] .gallery-credit{visibility:visible;opacity:var(--room-light)!important}
+.brand-flight-controls{position:absolute;z-index:71;right:var(--hero-edge);bottom:25px}
+.brand-flight-controls button{appearance:none;border:0;background:none;color:#aeb4bd;padding:10px 0;min-height:44px;font:400 13px/1.4 var(--body);cursor:pointer}
+.gallery-scene-snapshot{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+@media(max-width:760px){.brand-flight-controls{bottom:14px}}
+@media(prefers-reduced-motion:reduce){.js .gallery-brand-flight-hero .world-stage{opacity:1}}

@@ -23,7 +23,7 @@ function environment(renderer){
   const generator=new THREE.PMREMGenerator(renderer),env=generator.fromScene(scene,.06);generator.dispose();scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});return env;
 }
 
-export function mountWorld(host,{selected='overview',capture=false}={}){
+export function mountWorld(host,{selected='overview',capture=false,plainRoom=false}={}){
   if(mounted.has(host))return mounted.get(host);
   const stage=host.querySelector('[data-world-stage]'),frame=host.querySelector('.world-experience'),canvas=document.createElement('canvas');
   const fallback=host.querySelector('[data-world-fallback]'),copy=host.querySelector('[data-gallery-copy]'),nav=host.querySelector('[data-gallery-nav]');
@@ -34,6 +34,8 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
   const on=(target,event,fn,options={})=>target?.addEventListener(event,fn,{...options,signal:abort.signal});
   let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=landingProgress(selected)||INTRO.galleryStart,view=selected,overview=selected==='overview'||capture,pose=null,filmSample=null,transition=null;
   let studioBlend=overview?0:1;
+  let dissolve=null,snapshot=null;
+  function clearDissolve(){dissolve?.cancel();dissolve=null;snapshot?.remove();snapshot=null;}
   let bomber=null,bomberState=capture?'loading':'video',bomberBounds=null,bomberMaterials=[],oldFloors=[];
   try{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
@@ -81,10 +83,12 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
     sync(inIntro?{...sample,view:'bomber'}:sample);exhibits.update({...sample,centre:focusCentre},!capture&&reduced.matches,studioBlend);
     const settled={rear:1,shellOpacity:1-studioBlend,position:[0,0,0],rotation:[0,0,0],door:1,ramp:1};
     hangar.update(filmSample||settled);
+    if(plainRoom)hangar.root.visible=false;
     exhibits.root.visible=!filmSample||filmSample.rear>0;
     exhibits.root.position.set(...(filmSample?.position||[0,0,0]));exhibits.root.rotation.set(...(filmSample?.rotation||[0,0,0]));
-    exhibits.floor.visible=studioBlend>0;exhibits.floor.position.y=.025;
-    exhibits.floor.material.opacity=studioBlend;exhibits.floor.material.transparent=studioBlend<1;exhibits.floor.material.depthWrite=studioBlend>=1;
+    exhibits.floor.visible=plainRoom||studioBlend>0;exhibits.floor.position.y=.025;
+    const floorOpacity=plainRoom?1:studioBlend;
+    exhibits.floor.material.opacity=floorOpacity;exhibits.floor.material.transparent=floorOpacity<1;exhibits.floor.material.depthWrite=floorOpacity>=1;
     host.dataset.galleryDisplay=overview?'overview':studioBlend>.999?'studio':'transition';
     if(!inIntro){copy.style.opacity=String(sample.opacity*(overview?1-studioBlend:ease((studioBlend-.68)/.32)));credit.hidden=studioBlend>.98&&sample.view!=='traffic';}
     const rect=stage.getBoundingClientRect(),portrait=rect.width<=760&&rect.height>500;
@@ -168,6 +172,16 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
   }
   function select(area,{animate=false}={}){
     const p=area==='overview'?INTRO.galleryStart:landingProgress(area);if(p===null||disposed)return;
+    clearDissolve();
+    if(plainRoom&&animate&&!reduced.matches&&pose&&ready){
+      // A short dissolve between finished compositions; no extra camera journey.
+      draw();const image=document.createElement('canvas');image.width=canvas.width;image.height=canvas.height;image.className='gallery-scene-snapshot';image.setAttribute('aria-hidden','true');image.getContext('2d').drawImage(canvas,0,0);
+      select(area);snapshot=image;stage.append(image);
+      const animation=image.animate([{opacity:1},{opacity:0}],{duration:320,easing:'ease-in-out',fill:'forwards'});dissolve=animation;
+      copy.animate([{opacity:0},{opacity:1}],{duration:260,easing:'ease-out'});
+      animation.onfinish=()=>{image.remove();if(dissolve===animation){dissolve=null;snapshot=null;}};
+      return;
+    }
     const changingOverview=overview!==(area==='overview'),cameraFrom=pose?structuredClone(pose):null;
     const wasOverview=overview,toStudio=area==='overview'?0:1;
     filmSample=null;overview=area==='overview';
@@ -190,17 +204,17 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
   on(canvas,'pointercancel',()=>{pressed=null;});
   on(canvas,'pointerup',event=>{if(pressed&&Math.hypot(event.clientX-pressed.x,event.clientY-pressed.y)<8){const area=deskAt(event);if(area)select(area,{animate:true});}pressed=null;});
   on(document,'visibilitychange',()=>{stop();schedule();});
-  on(reduced,'change',()=>{if(transition){progress=transition.to;studioBlend=transition.toStudio;transition=null;}resize();});
-  on(canvas,'webglcontextlost',event=>{event.preventDefault();lost=true;const selected=view;dispose({preserve:true,keepCanvas:true});canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();mountWorld(host,{selected});},{once:true});});
+  on(reduced,'change',()=>{clearDissolve();if(transition){progress=transition.to;studioBlend=transition.toStudio;transition=null;}resize();});
+  on(canvas,'webglcontextlost',event=>{event.preventDefault();lost=true;const selected=view;dispose({preserve:true,keepCanvas:true});canvas.addEventListener('webglcontextrestored',()=>{canvas.remove();mountWorld(host,{selected,plainRoom});},{once:true});});
   on(window,'pagehide',event=>{if(event.persisted)stop();else dispose();});on(window,'pageshow',schedule);
   const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(!visible)stop();else schedule();});observer.observe(frame);
   const menuObserver=new MutationObserver(()=>{stop();schedule();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
   function dispose({preserve=false,keepCanvas=false}={}){
-    if(disposed)return;disposed=true;resolveReady(false);stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();hangar?.dispose();shutter?.remove();env.dispose();key.shadow.map?.dispose();apronKey?.shadow.map?.dispose();renderer.dispose();
+    if(disposed)return;disposed=true;resolveReady(false);stop();clearDissolve();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();hangar?.dispose();shutter?.remove();env.dispose();key.shadow.map?.dispose();apronKey?.shadow.map?.dispose();renderer.dispose();
     if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;nav.hidden=true;stage.dataset.worldReady='fallback';if(!preserve)host.setAttribute('data-gallery-static','');mounted.delete(host);if(window.AiforeuGallery===api)delete window.AiforeuGallery;
   }
-  const api={select,dispose,ready:whenReady,setFilmTime(seconds){if(!capture||disposed)return;filmSample=sampleFilm(seconds);progress=filmSample.progress;draw();},get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get presentation(){return host.dataset.galleryDisplay;},get progress(){return progress;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stations(){const rect=canvas.getBoundingClientRect();return exhibits.groups.map(g=>{const point=g.position.clone().add(new THREE.Vector3(0,1.44,0)).project(camera);return {name:g.name,position:g.position.toArray(),visible:g.visible,opacity:g.userData.opacity,screen:{x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2}};});},get stats(){return {...renderer.info.render};}};
+  const api={select,dispose,ready:whenReady,setFilmTime(seconds){if(!capture||disposed)return;filmSample=sampleFilm(seconds);progress=filmSample.progress;draw();},get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get presentation(){return host.dataset.galleryDisplay;},get progress(){return progress;},get pose(){return structuredClone(pose);},get running(){return !!raf||!!dissolve;},get stations(){const rect=canvas.getBoundingClientRect();return exhibits.groups.map(g=>{const point=g.position.clone().add(new THREE.Vector3(0,1.44,0)).project(camera);return {name:g.name,position:g.position.toArray(),visible:g.visible,opacity:g.userData.opacity,screen:{x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2}};});},get stats(){return {...renderer.info.render};}};
   mounted.set(host,api);window.AiforeuGallery=api;stage.append(canvas);fallback.hidden=true;nav.hidden=false;stage.dataset.worldReady='true';resize();
   const aircraft=capture?createBomberSkin({signal:abort.signal}).then(loaded=>{
     if(disposed){loaded.dispose();return;}

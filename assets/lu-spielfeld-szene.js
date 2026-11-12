@@ -195,7 +195,7 @@ async function start(host) {
   }, { rootMargin: '40px' }); visibilityObserver.observe(surface);
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopFrame(); else wake(); }, options);
   motion.addEventListener('change', () => { stopFrame(); endDrag(pile); settlePile(pile); draw(); }, options);
-  canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); destroy(); }, options);
+  canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); host.classList.add('lu-spielfeld--fallback'); destroy(); }, options);
   function destroy() {
     if (disposed) return;
     disposed = true; events.abort(); stopFrame(); resizeObserver.disconnect(); visibilityObserver.disconnect();

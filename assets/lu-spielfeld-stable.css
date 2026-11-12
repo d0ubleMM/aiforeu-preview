@@ -1,0 +1,6 @@
+/* Keep the previous HTML illustration out of the loading path. */
+.js .lu-spielfeld:not(.lu-spielfeld--fallback) .lu-spielfeld-ruhe{visibility:hidden}
+.js .lu-spielfeld canvas{opacity:0;transition:opacity .18s ease}
+.js .lu-spielfeld--bereit canvas{opacity:1}
+@media(prefers-reduced-motion:reduce){.js .lu-spielfeld canvas{transition:none}}
+@media print{.js .lu-spielfeld .lu-spielfeld-ruhe{visibility:visible}}
