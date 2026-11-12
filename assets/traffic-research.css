@@ -1,0 +1,72 @@
+/* VerkehrsOS: the project and its research partnership share one clear place. */
+.traffic-research-section {
+  padding-block: var(--section-space);
+  background: var(--night);
+  color: var(--paper);
+}
+.traffic-research-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 88px);
+}
+.traffic-research-copy h2 {
+  font: 500 clamp(30px, 3.2vw, 44px)/1.12 var(--display);
+  letter-spacing: -.035em;
+}
+.page-traffic .traffic-research-copy p {
+  max-width: 58ch;
+  margin-top: 24px;
+  color: #c2cbd8;
+  font-size: 17px;
+  line-height: 1.7;
+}
+.traffic-research-partners {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 32px;
+}
+.traffic-research-partners a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+.traffic-research-partners a:hover { opacity: .78; }
+.traffic-research-aiforeu {
+  gap: 13px;
+  font: 600 28px/1.2 var(--body);
+  letter-spacing: -.025em;
+}
+.traffic-research-aiforeu img {
+  width: 38px;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+.traffic-research-iotec img {
+  display: block;
+  width: 162px;
+  height: auto;
+}
+.page-traffic .traffic-research-partners p {
+  border-top: 1px solid #35445a;
+  padding-top: 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #c2cbd8;
+}
+@media (max-width: 760px) {
+  .traffic-research-layout { grid-template-columns: minmax(0, 1fr); }
+  .traffic-research-partners {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px 32px;
+  }
+  .traffic-research-aiforeu { font-size: 23px; }
+  .traffic-research-aiforeu img { width: 31px; }
+  .traffic-research-iotec img { width: 125px; }
+  .traffic-research-partners p { flex-basis: 100%; }
+  .page-traffic .traffic-research-copy p { font-size: 16px; }
+}

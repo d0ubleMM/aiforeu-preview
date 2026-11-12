@@ -1,0 +1,56 @@
+/* AIFOREU · Landing · Bildbewegung im Hero
+   Einmaliges, ruhiges Aufziehen des ganzen Straßenbildes: 7 Sekunden, von nah zur vollen Ansicht,
+   dazu eine Aufblende in den ersten gut drei Sekunden. Der Text bleibt unberührt und sofort sichtbar.
+
+   Alles hier gilt nur unter .landing-page. Bewegung gibt es nur, wenn JavaScript an ist (html.js):
+   ohne JavaScript oder ohne das Bewegungsmodul bleibt der Hero exakt statisch.
+   Erst das gebundene Modul aktiviert die Animation über sein Zustandsattribut.
+   landing-motion.js steuert nur Anhalten, Fortsetzen und Wiederholen über data-landing-motion am Hero.
+   Einbau und Grenzen: docs/LANDING-MOTION.md */
+
+/* Kennung für das Skript: ohne dieses Stylesheet bleibt es untätig. */
+.landing-page [data-landing-hero]{--landing-motion:1}
+
+/* Aufziehen. Der Drehpunkt liegt auf der Kreuzungsmitte, damit die Kamera steigt und nicht wandert. */
+.js .landing-page [data-landing-hero][data-landing-motion] [data-landing-image]{transform-origin:49% 57%;animation:landing-pull 7s cubic-bezier(.4,0,.1,1) .35s both}
+@keyframes landing-pull{from{transform:translate3d(0,1.1%,0) scale(1.09)}to{transform:none}}
+
+/* Aufblende: ein dunkler Rand, der sich zur Mitte hin öffnet und verschwindet. Liegt über dem Bild
+   und unter dem Verlauf aus landing.css, der Text wird dadurch nie schlechter lesbar. */
+.js .landing-page [data-landing-hero][data-landing-motion] .landing-hero-image::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(115% 95% at 49% 57%,rgba(10,20,30,0) 0,rgba(10,20,30,.3) 58%,rgba(10,20,30,.62) 100%),rgba(10,20,30,.16);animation:landing-veil 3.4s cubic-bezier(.3,0,.2,1) .35s both}
+@keyframes landing-veil{from{opacity:1}to{opacity:0}}
+
+/* Wiederholen: erst in 0,8 s zurück an den Anfang, dann zieht das Bild wieder auf. */
+.js .landing-page [data-landing-hero][data-landing-rewinding=true] [data-landing-image]{animation:landing-rewind .8s cubic-bezier(.5,0,.2,1) both}
+.js .landing-page [data-landing-hero][data-landing-rewinding=true] .landing-hero-image::after{animation:landing-veil-in .8s cubic-bezier(.5,0,.2,1) both}
+@keyframes landing-rewind{from{transform:none}to{transform:translate3d(0,1.1%,0) scale(1.09)}}
+@keyframes landing-veil-in{from{opacity:0}to{opacity:1}}
+
+/* Zustände, gesetzt von landing-motion.js. Ohne Attribut bleibt das Bild statisch; das Modul aktiviert und pausiert die Bewegung. */
+.js .landing-page [data-landing-hero][data-landing-motion=paused] [data-landing-image],
+.js .landing-page [data-landing-hero][data-landing-motion=paused] .landing-hero-image::after{animation-play-state:paused}
+
+/* Fertig oder abgeschaltet: der unveränderte Entwurf. */
+.js .landing-page [data-landing-hero][data-landing-motion=done] [data-landing-image],
+.js .landing-page [data-landing-hero][data-landing-motion=done] .landing-hero-image::after,
+.js .landing-page [data-landing-hero][data-landing-motion=off] [data-landing-image],
+.js .landing-page [data-landing-hero][data-landing-motion=off] .landing-hero-image::after{animation:none}
+
+/* Am Handy zeigt landing.css einen anderen Ausschnitt; die Kreuzungsmitte liegt dort weiter links. */
+@media (max-width:800px){.js .landing-page [data-landing-hero][data-landing-motion] [data-landing-image]{transform-origin:32% 57%}}
+
+/* Reduzierte Bewegung und Druck: keine Animation. */
+@media (prefers-reduced-motion:reduce){
+ .js .landing-page [data-landing-hero][data-landing-motion] [data-landing-image],
+ .js .landing-page [data-landing-hero][data-landing-motion] .landing-hero-image::after{animation:none!important}
+}
+@media print{
+ .js .landing-page [data-landing-hero][data-landing-motion] [data-landing-image],
+ .js .landing-page [data-landing-hero][data-landing-motion] .landing-hero-image::after{animation:none!important}
+}
+
+/* Bedienknopf: Aussehen kommt aus landing.css, hier nur die Rückmeldung bei Zeigen und Drücken. */
+.landing-page [data-landing-motion-toggle]{cursor:pointer;line-height:1;-webkit-tap-highlight-color:transparent;transition:background-color .2s,border-color .2s,transform .16s cubic-bezier(.3,.7,.2,1)}
+.landing-page [data-landing-motion-toggle]:hover{background-color:#141b2899;border-color:#ffffff99}
+.landing-page [data-landing-motion-toggle]:active{transform:scale(.92)}
+@media (prefers-reduced-motion:reduce){.landing-page [data-landing-motion-toggle]{transition:none}}

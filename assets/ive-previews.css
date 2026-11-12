@@ -1,0 +1,20 @@
+/* Render UI text at native CSS pixels, with no bitmap enlargement or composited scaling. */
+.dev-workspace{scroll-margin-top:calc(var(--global-header-height,73px) + 16px)}
+[data-ive-preview]{position:relative;isolation:isolate}
+.ive-preview-frame{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none;background:#f7f8fa}
+.ive-preview-ready>.ive-preview-frame{opacity:1}
+.ive-preview-ready>picture,.ive-preview-ready>img{visibility:hidden}
+.ive-preview-toggle{display:block;margin:10px 22px 0 auto;min-height:36px;padding:7px 12px;border:1px solid #43506b;border-radius:4px;background:transparent;color:inherit;font:500 12px/1.4 var(--body)}
+.ive-preview-toggle:hover{background:#ffffff12}
+.dev-screen-image picture{display:block;width:100%;height:100%}
+.dev-screen-image[data-ive-preview]{aspect-ratio:1.65}
+.dev-screen-image-focus[data-ive-preview]{padding:0}
+.dev-screen-image-focus .ive-preview-frame{width:min(100%,640px);left:50%;transform:translateX(-50%)}
+.dev-screen-image-focus>img{max-width:400px;margin-inline:auto}
+.projects-ive-image[data-ive-preview]{aspect-ratio:1.6;padding:0}
+.projects-ive-figure>.ive-preview-toggle{margin-right:0;color:var(--ink);border-color:var(--line)}
+.projects-ive-figure>figcaption{margin-top:10px}
+@media(max-width:720px){
+  .dev-screen-image[data-ive-preview],.projects-ive-image[data-ive-preview]{aspect-ratio:3/4}
+  .dev-screen-image-focus[data-ive-preview]{aspect-ratio:1/1.2}
+}

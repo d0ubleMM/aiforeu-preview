@@ -1,0 +1,4 @@
+/* Only an explicitly selected heading moves. Copy and all other headings stay still. */
+.lu-worte-bereit{opacity:1;transform:none;transition:opacity .45s ease,transform .55s cubic-bezier(.22,.7,.3,1)}
+.lu-worte-bereit:not(.lu-an){opacity:0;transform:translateY(12px)}
+@media(prefers-reduced-motion:reduce){.lu-worte-bereit{opacity:1!important;transform:none!important;transition:none!important}}

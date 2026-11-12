@@ -1,0 +1,49 @@
+@font-face {
+  font-family: AiforeuNotes;
+  src: url('./fonts/caveat-latin-variable.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Loose notes share the page's surface. No frame, scroll pinning or instructional copy. */
+.lu-spielfeld { margin-block: -32px 40px; }
+.lu-spielfeld-flaeche { position: relative; height: clamp(420px, 43vw, 560px); isolation: isolate; outline: none; }
+.lu-spielfeld-flaeche:focus-visible { outline: 2px solid var(--ink, #1f2937); outline-offset: 5px; }
+.lu-spielfeld canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: pan-y pinch-zoom; user-select: none; -webkit-user-select: none; }
+.lu-spielfeld--greifen canvas { cursor: grabbing; }
+.lu-spielfeld-ruhe { position: absolute; inset: 0; list-style: none; padding: 0; margin: 0; pointer-events: none; perspective: 900px; }
+.lu-spielfeld-ruhe li {
+  --x: 0px; --y: 0px; --r: 0deg;
+  position: absolute; width: clamp(100px, 15vw, 166px); aspect-ratio: 1; left: 50%; top: 50%; padding: 20px 14px;
+  background: linear-gradient(176deg, #eed569, #f6df72 22%, #f8e692); color: #273747;
+  font: 600 clamp(22px, 2.5vw, 32px)/1 AiforeuNotes, cursive;
+  box-shadow: 0 2px 3px #30251415, 2px 9px 16px #30251424;
+  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotateX(20deg) rotate(var(--r)); border-radius: 0 0 2px 1px;
+}
+.lu-spielfeld-ruhe li:nth-child(1) { --x: -180px; --y: -35px; --r: -24deg; }
+.lu-spielfeld-ruhe li:nth-child(2) { --x: 120px; --y: -44px; --r: 31deg; }
+.lu-spielfeld-ruhe li:nth-child(3) { --x: -67px; --y: 59px; --r: 12deg; }
+.lu-spielfeld-ruhe li:nth-child(4) { --x: 174px; --y: 51px; --r: -16deg; background: #c3d8e5; }
+.lu-spielfeld-ruhe li:nth-child(5) { --x: -116px; --y: -88px; --r: 8deg; }
+.lu-spielfeld-ruhe li:nth-child(6) { --x: 24px; --y: -79px; --r: -19deg; background: #efb171; }
+.lu-spielfeld-ruhe li:nth-child(7) { --x: 77px; --y: 34px; --r: 9deg; }
+.lu-spielfeld-ruhe li:nth-child(8) { --x: -142px; --y: 65px; --r: -8deg; }
+.lu-spielfeld-ruhe li:nth-child(9) { --x: -11px; --y: 10px; --r: 24deg; }
+.lu-spielfeld-ruhe li:nth-child(10) { --x: 102px; --y: -36px; --r: -9deg; }
+.lu-spielfeld-ruhe li:nth-child(11) { --x: -61px; --y: -29px; --r: -11deg; background: #c3d8e5; }
+.lu-spielfeld-ruhe li:nth-child(12) { --x: 12px; --y: 64px; --r: 7deg; }
+.lu-spielfeld--bereit .lu-spielfeld-ruhe { visibility: hidden; }
+.lu-spielfeld:not(.lu-spielfeld--bereit) .lu-spielfeld-flaeche { overflow: clip; }
+@media (max-width: 700px) {
+  .lu-spielfeld { margin-bottom: 32px; }
+  .lu-spielfeld-flaeche { height: 390px; }
+  .lu-spielfeld-ruhe { transform: scale(.62); }
+  .lu-spielfeld-ruhe li { width: 140px; font-size: 28px; }
+}
+@media (max-width: 380px) {
+  .lu-spielfeld-ruhe { transform: scale(.48); }
+}
+@media print {
+  .lu-spielfeld canvas { display: none; }
+  .lu-spielfeld--bereit .lu-spielfeld-ruhe { visibility: visible; }
+}

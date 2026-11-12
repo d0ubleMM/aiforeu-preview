@@ -1,0 +1,11 @@
+/* Both destinations remain legible while the architecture fills the viewport. */
+.landing-page .world-stage{height:clamp(500px,49vw,760px)}
+.world-stage:focus-visible{outline:2px solid #ee6b35;outline-offset:-3px}
+.world-pin:focus-visible{outline:2px solid #ee6b35;outline-offset:4px}
+.landing-page .world-pin{padding:11px 15px;border:1px solid #ffffff30;border-radius:3px;background:#202b39;color:#fff;box-shadow:0 4px 14px #17202d20;text-shadow:none;min-height:44px;font-size:13px;font-weight:550;letter-spacing:-.015em;gap:14px}
+.landing-page .world-pin::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:20px;background:#202b39;pointer-events:none}
+.landing-page .world-pin:hover,.landing-page .world-pin[aria-pressed=true]{background:#34475e;color:#fff;border-color:#ffffff80;text-decoration:none}
+.landing-page .world-pin b{font-size:19px}
+[data-world-exploring=true] .world-canvas{cursor:crosshair}
+@media(max-width:700px){.landing-page .world-stage{height:300px}.landing-page .world-pin{font-size:11px;padding:10px 11px;gap:8px}.landing-page .world-pin::after{height:14px}}
+@media(max-width:700px){[data-world]:not([data-world-exploring=true]) [data-world-view=overview] .world-pin::after{top:auto;bottom:100%}}

@@ -1,0 +1,42 @@
+/* The existing EU co-financing is visible at the traffic entry points. */
+.traffic-hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+}
+.path-traffic .traffic-funding,
+.page-traffic .traffic-funding {
+  margin: 0;
+  color: #fff;
+  font: 500 15px/1.5 var(--body);
+  letter-spacing: 0;
+}
+.road-scene-copy > .traffic-funding { margin-bottom: 16px; }
+.traffic-path-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.traffic-path-funding {
+  color: var(--muted);
+  font: 500 14px/1.5 var(--body);
+  white-space: nowrap;
+}
+.traffic-research-funding {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+}
+@media (max-width: 600px) {
+  .traffic-hero-meta { gap: 12px 24px; }
+  .path-traffic .traffic-funding,
+  .page-traffic .traffic-funding { font-size: 14px; }
+  .traffic-path-heading { column-gap: 16px; }
+  .traffic-path-funding { font-size: 13px; }
+}
+@media print {
+  .path-traffic .traffic-funding,
+  .page-traffic .traffic-funding { color: #172031; }
+}

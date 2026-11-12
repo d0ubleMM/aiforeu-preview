@@ -1,0 +1,21 @@
+/* AIFOREU · Bewegung · Knöpfe wie bei lusion.co (eigene Umsetzung). Gehört zu lu-knopf.js. Nur Maus, ohne reduzierte Bewegung.
+   Beschriftung rollt weg und von unten nach · Pfeil fliegt hinaus, ein zweiter kommt nach · Farbe füllt sich vom Eintrittspunkt
+   des Zeigers aus · Knopf zieht leicht zum Zeiger. */
+.lu-k{position:relative;isolation:isolate;overflow:hidden;transition:translate .5s cubic-bezier(.2,.7,.2,1),color .35s}
+.lu-k.lu-k--zug{transition:translate .12s linear,color .35s}
+.lu-k-text{display:inline-block;position:relative;overflow:hidden;vertical-align:top;line-height:1.25;height:1.25em}
+.lu-k-roll{display:inline-block;transition:transform .55s cubic-bezier(.65,0,.25,1)}
+.lu-k-roll::after{content:attr(data-lu-text);position:absolute;left:0;top:100%;white-space:nowrap}
+.lu-k:hover .lu-k-roll,.lu-k:focus-visible .lu-k-roll{transform:translateY(-100%)}
+lu-pf{position:relative;display:inline-grid;overflow:hidden;vertical-align:middle;line-height:1}
+lu-pf>*{grid-area:1/1;transition:transform .5s cubic-bezier(.65,0,.25,1)}
+lu-pf>:nth-child(2){transform:translate(-110%,var(--lu-pf-y,110%))}
+.lu-k:hover lu-pf>:nth-child(1){transform:translate(110%,calc(-1*var(--lu-pf-y,110%)))}
+.lu-k:hover lu-pf>:nth-child(2){transform:none}
+lu-pf[data-richtung="quer"]{--lu-pf-y:0%}
+lu-pf[data-richtung="runter"]>:nth-child(2){transform:translateY(-110%)}
+.lu-k:hover lu-pf[data-richtung="runter"]>:nth-child(1){transform:translateY(110%)}
+lu-fuell{position:absolute;z-index:-1;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--lu-fuell,#c2410c);transform:scale(0);transition:transform .55s cubic-bezier(.65,0,.25,1);pointer-events:none}
+.lu-k:hover lu-fuell{transform:scale(var(--lu-fuell-s,40))}
+.lu-k.lu-k--hell:hover{color:#fff!important}
+@media(prefers-reduced-motion:reduce){.lu-k,.lu-k *{transition:none!important}.lu-k .lu-k-roll,.lu-k:hover .lu-k-roll,.lu-k:focus-visible .lu-k-roll{transform:none}.lu-k:hover lu-pf>:nth-child(1){transform:none}.lu-k lu-pf>:nth-child(2),.lu-k .lu-k-roll::after{display:none}.lu-k:hover lu-fuell{transform:none}.lu-k.lu-k--hell:hover{color:inherit!important}}

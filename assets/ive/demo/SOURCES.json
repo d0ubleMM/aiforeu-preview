@@ -1,0 +1,218 @@
+{
+  "description": "Public IVE.dev preview runtime and original retina posters. Retrieved 2026-11-12. Scripted sample data, no live agent or private app sources.",
+  "files": [
+    {
+      "path": "r5/demo.css",
+      "source": "https://ive.dev/assets/demo/r5/demo.css",
+      "sha256": "bcd6480fe6d0b8567a650a9d5ff07f1c8c4558acfc5ccd32f99e666413f70098"
+    },
+    {
+      "path": "r5/frame.html",
+      "source": "https://ive.dev/assets/demo/r5/frame.html",
+      "sha256": "68a6de5ac63d2dd34fdda9acd755b576adeb7b8bca5b30f31dfbc48995cda510"
+    },
+    {
+      "path": "r5/frame.js",
+      "source": "https://ive.dev/assets/demo/r5/frame.js",
+      "sha256": "c956d102fa16165c768958933824a668df3828e1343679679ebcf464306f69d4"
+    },
+    {
+      "path": "r5/scenes/review.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/review.js",
+      "sha256": "db090e2ad13e480e6f335930ee12c4e31af25255bd43d2a0102e33e7b6d8792c"
+    },
+    {
+      "path": "r5/scenes/start.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/start.js",
+      "sha256": "2ad5a97a18413f97a9a4ab1c4f9c8ca7c587f4f7067dc0db3e721aeaa17c4b50"
+    },
+    {
+      "path": "r5/scenes/terminals.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/terminals.js",
+      "sha256": "839456bf3d997d84c450808f0a8352c8730cb4e0190832430a8eb3faca78946e"
+    },
+    {
+      "path": "r5/scenes/board.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/board.js",
+      "sha256": "6a3c142336c968b12b74dcd425718c1159838e9d1f61b235d28c325f61091090"
+    },
+    {
+      "path": "r5/scenes/attention.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/attention.js",
+      "sha256": "453c9399022e54aa647ae1ab921fb4af5e21d15bf19d4d7e26b75765bc6c85d6"
+    },
+    {
+      "path": "r5/scenes/terminal.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/terminal.js",
+      "sha256": "0fc870513843f989bc03bc68cb00334cf04f9a23e4c88368ed77de000e58db27"
+    },
+    {
+      "path": "r5/scenes/autofix.css",
+      "source": "https://ive.dev/assets/demo/r5/scenes/autofix.css",
+      "sha256": "f9772a1cbc679990750d26b02279238be85bf5d6d8c9d04fef21bcf0fe27be70"
+    },
+    {
+      "path": "r5/scenes/autofix.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/autofix.js",
+      "sha256": "44f12c85a1508e4043dffac6a25b83629b4f11e30c5c42c8e91027310430b4e8"
+    },
+    {
+      "path": "r5/scenes/loopdetect.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/loopdetect.js",
+      "sha256": "120bd79ef59f44bdb5b666a5dc145e0048390459b458313d285d403ddaa981e6"
+    },
+    {
+      "path": "r5/scenes/pipelines.js",
+      "source": "https://ive.dev/assets/demo/r5/scenes/pipelines.js",
+      "sha256": "0876e586fce2c539b1e5df742c5f16738ed5bac2994c4d9e3149f9c167560551"
+    },
+    {
+      "path": "r5/scenes/pipelines.css",
+      "source": "https://ive.dev/assets/demo/r5/scenes/pipelines.css",
+      "sha256": "1ee54699732f06883ce8e0640ab6d13b912d7f6ecb69a843e623d0f77dbeb611"
+    },
+    {
+      "path": "r5/lib/mod-review.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/mod-review.js",
+      "sha256": "074e54acfe1eea661597cf16b83fb2bb59ebe692e87ab2dee8c20807a0ab227d"
+    },
+    {
+      "path": "r5/lib/icons.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/icons.js",
+      "sha256": "5ee40bd452f7158aa4d58d5f5c2d66c8a65c125745cfad624c023ad5ee360006"
+    },
+    {
+      "path": "r5/lib/mod-pipelines.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/mod-pipelines.js",
+      "sha256": "d25baecce0c6fb1a2ce483df15c87fa69b0c4776f37df45779a91c9215e28507"
+    },
+    {
+      "path": "r5/lib/ui.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/ui.js",
+      "sha256": "a72ee0d0ca567d57e6e60d1b903b077cd90b550c95cfcf0643273d4f5a040edf"
+    },
+    {
+      "path": "r5/lib/term.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/term.js",
+      "sha256": "a9d4c948549f5a43f1f8bbc49cf760fdeaee5e0d1188de469b03c5e770627a6d"
+    },
+    {
+      "path": "r5/lib/review.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/review.js",
+      "sha256": "8ba55ab7ae9312a606f5de54d449405aede68fb8c3e458d20494dc0053e9c6f9"
+    },
+    {
+      "path": "r5/lib/board.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/board.js",
+      "sha256": "563c3ee0e94fe839a0c4cb1e14ad5d35f86ceb08242588456f266887a2aad84b"
+    },
+    {
+      "path": "r5/lib/mod-flow.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/mod-flow.js",
+      "sha256": "c18757a1663797d9e219966810a99b0cdfcd61da45fa781d6c590acbe8ac72f0"
+    },
+    {
+      "path": "r5/lib/home.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/home.js",
+      "sha256": "380e93d1e92adb30be0b48a345200326f51090759bc3c98b0eb60a803d0bc3d9"
+    },
+    {
+      "path": "r5/lib/timeline.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/timeline.js",
+      "sha256": "74fee8da9894f2148399a697d61ca5467a06856dfbe3342344a28ece0f295b0e"
+    },
+    {
+      "path": "r5/lib/taskflow.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/taskflow.js",
+      "sha256": "80047947d599afa724464b7f5007ed954d33b6db91637629f661b4189ce91a2d"
+    },
+    {
+      "path": "r5/lib/data.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/data.js",
+      "sha256": "9e850897c54f452f4ff9ad87a8bd7f159f9cad7d256c755068410601525f16fe"
+    },
+    {
+      "path": "r5/lib/dom.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/dom.js",
+      "sha256": "3a261882ec5c7f49b478509094e68d16d5780e9af26954aaa96d2f33b5d892b1"
+    },
+    {
+      "path": "r5/lib/app.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/app.js",
+      "sha256": "b00dc15f62cad754e2b1e7c9083dec56bf2c31eca3f3d160a45e3b5d2e634cdc"
+    },
+    {
+      "path": "r5/lib/pipeline.js",
+      "source": "https://ive.dev/assets/demo/r5/lib/pipeline.js",
+      "sha256": "e5d6d87878c077b3c726533ced176bac32295cfc9c08852c7a481b2727eacbad"
+    },
+    {
+      "path": "app.css",
+      "source": "https://ive.dev/assets/demo/app.css",
+      "sha256": "d6fbb9b82f55ec586b3e5eb06dcebac352e29bb3e9ab501021a4b3d7c1596264"
+    },
+    {
+      "path": "fonts/jetbrains-mono-latin-500.woff2",
+      "source": "https://ive.dev/assets/demo/fonts/jetbrains-mono-latin-500.woff2",
+      "sha256": "cb182feeed4d798ff6961d3c79f7026279448fca0676438aaecb21f3fc39553a"
+    },
+    {
+      "path": "fonts/jetbrains-mono-latin-400.woff2",
+      "source": "https://ive.dev/assets/demo/fonts/jetbrains-mono-latin-400.woff2",
+      "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb"
+    },
+    {
+      "path": "fonts/inter-latin-400.woff2",
+      "source": "https://ive.dev/assets/demo/fonts/inter-latin-400.woff2",
+      "sha256": "8909904ab6c872eb994093482a88a28eca2cd95912d7b6fecd72103b0dc07edc"
+    },
+    {
+      "path": "fonts/inter-latin-500.woff2",
+      "source": "https://ive.dev/assets/demo/fonts/inter-latin-500.woff2",
+      "sha256": "f3779f1efccc4bdcdf9c0a02ab95bf6bd092ed09c48c08cedc725889edd1d19f"
+    },
+    {
+      "path": "fonts/inter-latin-600.woff2",
+      "source": "https://ive.dev/assets/demo/fonts/inter-latin-600.woff2",
+      "sha256": "f9a06e79cd3a2a20951c0f0e28f66dd0e6d3fda73911d640a2125c8fcb78f21a"
+    },
+    {
+      "path": "posters/terminals@2x.webp",
+      "source": "https://ive.dev/assets/demo/posters/terminals@2x.webp",
+      "sha256": "2bf1f86b1ee9678706fa2bde0ce3c67d641ae43cba515aa0da9c2a26d27fba31"
+    },
+    {
+      "path": "posters/terminals-m.webp",
+      "source": "https://ive.dev/assets/demo/posters/terminals-m.webp",
+      "sha256": "7b2510517585934ad4072107afa7fcd123e4a9687d64b185ac5cf2cbfe9383f6"
+    },
+    {
+      "path": "posters/review@2x.webp",
+      "source": "https://ive.dev/assets/demo/posters/review@2x.webp",
+      "sha256": "9a11731ecb7a821c869867593c197a53c1073e67ca6db75eaa5bfd51d4440879"
+    },
+    {
+      "path": "posters/review-m.webp",
+      "source": "https://ive.dev/assets/demo/posters/review-m.webp",
+      "sha256": "5880c29ae7b5fb50328b758422a975528216ba4ba8727be87277e4df2958c355"
+    },
+    {
+      "path": "posters/pipelines@2x.webp",
+      "source": "https://ive.dev/assets/demo/posters/pipelines@2x.webp",
+      "sha256": "3b707cab73a911c9303e637bc08d5a23a36ad813adb96093fdf6181cade119a7"
+    },
+    {
+      "path": "posters/pipelines-m.webp",
+      "source": "https://ive.dev/assets/demo/posters/pipelines-m.webp",
+      "sha256": "aa5985b072ad6662ead4fcc8518218d634a8d32adc7be201c1496629ffbf47ba"
+    },
+    {
+      "path": "posters/attention@2x.webp",
+      "source": "https://ive.dev/assets/demo/posters/attention@2x.webp",
+      "sha256": "fabb6d68af2cef93c1ff498dccf2dea0460ceb6146db6c1204d6fe352d910876"
+    }
+  ],
+  "local_adjustments": [
+    "frame.html: visually hidden document heading for standalone accessibility; preview runtime unchanged."
+  ]
+}

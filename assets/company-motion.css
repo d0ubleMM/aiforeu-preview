@@ -1,0 +1,74 @@
+/* AIFOREU · Startseite · Hero-Szene in Bewegung
+   Gehört zu company-motion.js und setzt auf dem Markup .work-scene aus home.css auf.
+
+   Diese Datei verändert das Layout der Szene nicht. Bewegt werden nur opacity, translate, rotate,
+   scale, clip-path und stroke-dasharray; den Ablauf steuert das Skript über Web-Animationen.
+   Alles, was hier dazukommt (Marker, Ring, Schrittzeile, Bedienknopf), legt erst das Skript an
+   und ist im Ruhezustand unsichtbar oder Bedienelement. Der fertige Zustand ist der Entwurf aus home.css.
+
+   Einbau, Prüfhilfen und Grenzen: docs/MOTION-HANDOFF.md */
+
+/* Kennung für das Skript (ohne dieses Stylesheet bleibt es untätig) und die Kurve, die home.css in
+   note-enter, tile-enter und result-enter erwartet, die aber in site.css nicht definiert ist.
+   Ohne JavaScript laufen damit die drei Einblendungen aus home.css wie vorgesehen. */
+.work-scene{--cm:1;--ease:cubic-bezier(.2,.65,.25,1)}
+
+/* JavaScript ist an, das Skript hat die Szene noch nicht übernommen: Objekte kurz zurückhalten,
+   damit nichts doppelt einläuft. Kommt das Skript nie an, stehen sie nach 2,4 s von selbst da.
+   Bei reduzierter Bewegung hebt die Regel in home.css diese Animation auf: sofort sichtbar. */
+.js .work-scene:not([data-motion]) .incoming-note,
+.js .work-scene:not([data-motion]) .scene-connector,
+.js .work-scene:not([data-motion]) .brand-tile,
+.js .work-scene:not([data-motion]) .result-note{animation:cm-hold 2.4s steps(1,end) both}
+@keyframes cm-hold{from{opacity:0}to{opacity:1}}
+
+/* Skript aktiv: sein Ablauf ersetzt die Einblendungen aus home.css. */
+.work-scene[data-motion] .incoming-note,
+.work-scene[data-motion] .scene-connector,
+.work-scene[data-motion] .brand-tile,
+.work-scene[data-motion] .result-note{animation:none}
+
+/* Schritt 2 · Schlüsselwörter der Anfrage: ein Marker legt sich hinter das Wort. */
+.work-scene .cm-key{position:relative;z-index:0;white-space:nowrap}
+.work-scene .cm-mark{position:absolute;z-index:-1;inset:auto -3px .06em -3px;height:.5em;border-radius:3px;background:#3859E82E;opacity:0;transform-origin:0 50%;pointer-events:none}
+
+/* Schritt 2 und 4 · ein einzelner Ring: die Kachel nimmt auf, der Blick landet beim Menschen. */
+.work-scene .cm-ping{position:absolute;inset:0;border-radius:inherit;border:1.5px solid var(--accent,#3859E8);opacity:0;pointer-events:none}
+.work-scene[data-motion] .avatar{position:relative}
+
+/* Schrittzeile unter „Ein ganz normaler Arbeitstag.“: läuft nur während der Wiedergabe mit. */
+.work-scene .cm-beat{position:absolute;left:0;top:100%;margin-top:8px;display:grid;font:650 10px/1.3 var(--body,sans-serif);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:#4d6381;pointer-events:none}
+.work-scene .cm-beat>span{grid-area:1/1;opacity:0}
+.work-scene .cm-beat b{font-weight:650;color:#2947C7;margin-right:.55em;font-variant-numeric:tabular-nums}
+
+/* Bedienknopf neben der Uhrzeit: Anhalten, Fortsetzen, Noch einmal. Der Ring zeigt die vier Schritte. */
+.work-scene[data-motion] .scene-time{display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
+.work-scene .cm-control{position:relative;z-index:3;flex:none;display:grid;place-items:center;width:30px;height:30px;margin-block:-7px;padding:0;border:0;border-radius:50%;background:#ffffffcc;color:var(--ink,#172031);box-shadow:inset 0 0 0 1px #fff,0 6px 14px #3a639426;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .18s,box-shadow .18s,scale .14s}
+.work-scene .cm-control::before{content:"";position:absolute;inset:-8px;border-radius:50%}
+.work-scene .cm-control:hover{background:#fff;box-shadow:inset 0 0 0 1px #fff,0 9px 20px #3a639438}
+.work-scene .cm-control:active{scale:.9}
+.work-scene .cm-control:focus-visible{outline:3px solid var(--accent,#3859E8);outline-offset:5px}
+.work-scene .cm-control--float{position:absolute;top:22px;right:18px;margin:0}
+.work-scene .cm-ring{position:absolute;inset:-4px;width:38px;height:38px;max-width:none;overflow:visible;pointer-events:none}
+.work-scene .cm-track,.work-scene .cm-arc{fill:none;stroke-width:1.75}
+.work-scene .cm-track{stroke:#17203126}
+.work-scene .cm-arc{stroke:var(--accent,#3859E8);transition:stroke .2s}
+.work-scene[data-motion=paused] .cm-arc{stroke:#5d6f95}
+.work-scene .cm-icon{grid-area:1/1;width:14px;height:14px;fill:currentColor;opacity:0;scale:.6;transition:opacity .16s,scale .22s cubic-bezier(.3,.7,.2,1);pointer-events:none}
+.work-scene .cm-icon-play{translate:.6px 0}
+.work-scene .cm-control[data-state=pause] .cm-icon-pause,
+.work-scene .cm-control[data-state=play] .cm-icon-play,
+.work-scene .cm-control[data-state=replay] .cm-icon-replay{opacity:1;scale:1}
+
+/* Ruhige Fassung: ohne Knopf und ohne Beiwerk, die Szene steht fertig da. */
+.work-scene[data-motion=static] .cm-control,
+.work-scene[data-motion=off] .cm-control,
+.work-scene[data-motion=static] .cm-beat,
+.work-scene[data-motion=off] .cm-beat{display:none}
+@media (prefers-reduced-motion:reduce){.work-scene .cm-control,.work-scene .cm-beat,.work-scene .cm-mark,.work-scene .cm-ping{display:none}}
+@media print{.work-scene .cm-control,.work-scene .cm-beat{display:none}}
+@media (forced-colors:active){.work-scene .cm-control{border:1px solid ButtonText}.work-scene .cm-arc{stroke:Highlight}.work-scene .cm-track{stroke:GrayText}}
+
+/* Schmale Bühnen: Schrittzeile und Knopf eine Stufe kleiner, damit die Kopfzeile einzeilig bleibt. */
+@media (max-width:900px){.work-scene .cm-beat{font-size:9px;margin-top:7px}}
+@media (max-width:370px){.work-scene[data-motion] .scene-time{gap:8px}.work-scene .cm-control{width:28px;height:28px;margin-block:-6px}.work-scene .cm-ring{inset:-5px}}

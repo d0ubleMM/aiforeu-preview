@@ -1,0 +1,39 @@
+/* Quiet product UI around a geographically aligned aerial-to-vector animation. */
+.traffic-mockup{margin:44px 0 36px!important;min-width:0;color:#263441;text-align:left}
+.tm-window{background:#fff;border:1px solid #cdd5dc;border-radius:9px;overflow:hidden;box-shadow:0 28px 60px -45px #23364855}
+.tm-appbar{display:flex;align-items:center;gap:24px;min-height:58px;padding:17px 26px;background:#fafbfc;border-bottom:1px solid #dce2e7}
+.tm-brand{display:flex;align-items:center;gap:10px;font:500 16px/1.2 var(--display);letter-spacing:-.02em}
+.tm-brand img{display:block}
+.tm-example{margin-left:auto;font-size:12px;color:#64717e}
+.tm-workspace{padding:28px}
+.tm-heading{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin:0 0 26px}
+.traffic-mockup .tm-heading h3{margin:0;font:450 clamp(22px,2.2vw,29px)/1.2 var(--display);letter-spacing:-.035em}
+.tm-heading>span{font-size:12px;color:#64717e}
+.tm-result{display:grid;grid-template-columns:minmax(0,1fr) 235px;border:1px solid #dce2e7}
+.tm-motion{position:relative;height:clamp(440px,48vw,630px);overflow:hidden;background:#edf2f4;contain:layout paint}
+.tm-motion canvas{visibility:hidden;position:absolute;inset:0;display:block;width:100%;height:100%}
+.tm-motion-fallback{width:100%;height:100%;object-fit:cover}
+.tm-motion.is-ready .tm-motion-fallback{visibility:hidden}
+.tm-motion.is-ready canvas{visibility:visible}
+.tm-motion-control{position:absolute;right:16px;bottom:16px;width:38px;height:38px;display:grid;place-items:center;background:#ffffffde;color:#405c6c;border:1px solid #8ca1ae66;border-radius:3px;cursor:pointer}
+.tm-motion-control:hover{background:#fff}
+.tm-motion-control:focus-visible{outline:2px solid #406c83;outline-offset:4px}
+.tm-motion-control svg{width:20px;height:20px}
+.tm-motion-control .tm-play,.tm-motion-control[data-paused=true] .tm-pause{display:none}
+.tm-motion-control[data-paused=true] .tm-play{display:block}
+.tm-motion-control[hidden]{display:none}
+.tm-detail{padding:26px 22px;border-left:1px solid #dce2e7}
+.traffic-mockup .tm-detail h4{font:500 14px/1.3 var(--body);letter-spacing:0;margin:0 0 20px}
+.tm-inventory{margin:0 0 32px;padding:0}
+.tm-inventory>div{display:flex;flex-direction:column;gap:7px;padding:15px 0;border-bottom:1px solid #edf0f2}
+.tm-inventory dt{font-size:12px;color:#5f6c7a}
+.tm-inventory dd{margin:0;font:400 14px/1.4 var(--body)}
+.tm-streets{list-style:none;margin:0;padding:0}
+.tm-streets li{padding:14px 0;border-bottom:1px solid #edf0f2;font:400 13px/1.6 var(--body);overflow-wrap:anywhere}
+.traffic-mockup .tm-detail>p{font-size:11px;line-height:1.7;color:#5f6c7a;margin:26px 0 0}
+.traffic-mockup figcaption{margin-top:16px;color:#64717e;font-size:11px;line-height:1.6;text-align:center}
+.traffic-mockup figcaption a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:900px){.tm-result{grid-template-columns:minmax(0,1fr) 195px}.tm-detail{padding:22px 17px}.tm-workspace{padding:22px}.tm-heading>span{max-width:130px;text-align:right}}
+@media(max-width:700px){.traffic-mockup{margin-top:30px!important}.tm-result{grid-template-columns:minmax(0,1fr)}.tm-motion{height:440px}.tm-appbar{padding:16px 18px}.tm-brand{font-size:15px}.tm-example{font-size:11px}.tm-workspace{padding:20px 14px 14px}.tm-heading{margin-bottom:20px}.tm-heading>span{display:none}.tm-detail{padding:22px;border-left:0;border-top:1px solid #dce2e7}.tm-inventory{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:23px}.tm-inventory>div{padding-top:0}.tm-inventory dt{font-size:10px}.tm-inventory dd{font-size:12px}.tm-streets{display:flex;flex-wrap:wrap;gap:0 24px}.tm-streets li{font-size:12px}.traffic-mockup .tm-detail>p{margin-top:20px}}
+@media(max-width:450px){.tm-motion{height:400px}.tm-motion-control{right:12px;bottom:12px}.tm-detail{padding:20px 16px}.tm-inventory{gap:12px}.traffic-mockup figcaption{font-size:10px}}
+@media print{.tm-window{box-shadow:none;break-inside:avoid}.tm-motion{height:420px}.tm-motion canvas,.tm-motion-control{display:none}.tm-motion.is-ready .tm-motion-fallback{visibility:visible}}

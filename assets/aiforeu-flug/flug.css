@@ -1,0 +1,37 @@
+/* Flight interaction layer. The fullscreen stage and product panel belong to
+   landing.css; these rules only style station targets and flight controls. */
+.flug-an .world-stage canvas.flug-canvas{cursor:default}
+
+.flug-schilder{position:absolute;inset:0;z-index:3;pointer-events:none}
+.flug-schild{position:absolute;left:0;top:0;display:inline-flex;align-items:center;gap:9px;min-height:36px;max-width:calc(100% - 24px);padding:8px 13px 8px 23px;margin:0;border:1px solid rgba(224,233,246,.16);border-radius:12px;background:rgba(10,18,29,.94);color:#edf2fa;font:500 13px/1.2 var(--display,system-ui);letter-spacing:0;white-space:nowrap;pointer-events:auto;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:opacity .2s,background-color .2s,border-color .2s;will-change:transform}
+.flug-schild::before{content:"";position:absolute;left:9px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#9aaabe;transition:background-color .2s}
+.flug-schild[hidden]{display:none}
+.flug-schild--bereich{display:grid;gap:4px;min-height:54px;max-width:240px;padding:12px 16px 12px 27px;white-space:normal;text-align:left;font-size:14px;font-weight:600}
+.flug-schild-title{display:block;font-size:14px;line-height:1.2;font-weight:600;color:#f5f7fa}
+.flug-schild-desc{display:block;font:400 12px/1.35 var(--body,system-ui);color:#bdc9da}
+.flug-schild:hover,.flug-schild:focus-visible{background:#182536;border-color:rgba(224,233,246,.45)}
+.flug-schild:focus-visible{outline:2px solid #f5f7fa;outline-offset:3px}
+.flug-schild--aktiv,.flug-schild[aria-pressed="true"]{border-color:#eaa879}
+.flug-schild--aktiv::before,.flug-schild[aria-pressed="true"]::before{background:#efb083}
+.flug-schild--weg{opacity:0;pointer-events:none}
+
+/* One compact row: back when needed, pilot toggle, pause icon. */
+.flug-controls,.flug-leiste{position:absolute;z-index:7;left:var(--gutter,24px);right:var(--gutter,24px);bottom:max(22px,env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;align-items:center;gap:8px;pointer-events:none}
+.flug-knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 14px;border:1px solid rgba(224,233,246,.2);border-radius:999px;background:rgba(10,18,29,.94);color:#edf2fa;font:500 13px/1.25 var(--body,system-ui);cursor:pointer;pointer-events:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.flug-knopf:hover{background:#182536;border-color:rgba(224,233,246,.4)}
+.flug-knopf:focus-visible{outline:2px solid #f5f7fa;outline-offset:3px}
+.flug-knopf[aria-pressed="true"]{background:#edf2fa;color:#141c28;border-color:#edf2fa}
+.flug-knopf--icon{width:44px;flex:0 0 44px;padding:10px}
+.flug-knopf--icon svg{width:18px;height:18px}
+.flug-status{font:400 12px/1.4 var(--body,system-ui);color:#bdc9da}
+
+@media(max-width:760px){
+ .flug-schild{font-size:12px;min-height:34px;padding:7px 11px 7px 22px}
+ .flug-schild--bereich{max-width:min(208px,calc(50vw - 24px));min-height:54px;padding:10px 12px 10px 24px;gap:4px;font-size:14px;white-space:normal}
+ .flug-schild-title{font-size:14px;line-height:1.2}
+ .flug-schild-desc{font-size:11px;line-height:1.35}
+ .flug-controls,.flug-leiste{bottom:max(18px,env(safe-area-inset-bottom))}
+ .flug-knopf{font-size:12px;padding-inline:12px}
+ .flug-knopf--icon{padding:10px}
+}
+@media(prefers-reduced-motion:reduce){.flug-schild,.flug-schild::before{transition:none}}

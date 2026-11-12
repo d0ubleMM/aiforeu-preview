@@ -1,0 +1,7 @@
+/* AIFOREU · Bewegung · Kontakt: die Überschrift driftet beim Scrollen Wort für Wort auseinander, der Knopf bleibt.
+   Gehört zu lu-schluss.js. Ohne Skript und bei reduzierter Bewegung steht der Abschnitt da wie vorher.
+   Das Skript legt eine Strecke um den Abschnitt; der Abschnitt selbst bleibt unverändert und steht per sticky. */
+.lu-schluss-strecke{position:relative}
+.lu-schluss-strecke>[data-lu-schluss]{position:sticky;top:var(--global-header-height,73px);min-height:calc(100svh - var(--global-header-height,73px));display:flex;flex-direction:column;justify-content:center;overflow:clip;perspective:900px}
+.lu-schluss-strecke lu-sw{display:inline-block;will-change:transform,opacity}
+.lu-schluss-strecke .landing-button{will-change:transform}

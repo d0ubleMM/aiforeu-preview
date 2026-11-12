@@ -1,0 +1,6 @@
+/* Scene "autofix": the task flow dialogs measure against the stage (the app window), not the
+   iframe viewport, so they fill the demo window like the app fills its own. */
+.demo-dialog-fit { width: min(1100px, calc(100% - 1.5rem)) !important; height: min(820px, calc(100% - 1.5rem)) !important; }
+[data-demo-dialog="attention"] .demo-dialog-fit { width: min(820px, calc(100% - 1.5rem)) !important; height: min(720px, calc(100% - 1.5rem)) !important; }
+/* the run's stage list gives way on narrow stages (the scene sets the class below 700 stage px) */
+.demo-run-aside--narrow { width: 11rem !important; }

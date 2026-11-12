@@ -1,0 +1,4 @@
+/* Scene "pipelines": the app's dialogs cap their width at the browser viewport
+   (`.x-panel { max-width: calc(100vw - 1rem) }`); inside the scaled stage the stage is the
+   window, so the editor and the run window fill it like in the app. */
+#stage .x-panel { max-width: none; }

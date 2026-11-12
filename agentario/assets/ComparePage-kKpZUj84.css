@@ -1,0 +1,1 @@
+.cmp-comparison-row{grid-template-columns:minmax(200px,1fr) minmax(0,2fr)}.cmp-comparison-row--feedback{grid-template-columns:minmax(220px,1fr) minmax(0,2fr)}.cmp-comparison-row>*{min-width:0;overflow-wrap:anywhere}@media (max-width: 768px){.cmp-comparison-row{grid-template-columns:minmax(0,1fr)}}

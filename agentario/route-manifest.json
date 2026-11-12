@@ -1,0 +1,193 @@
+{
+  "base": "/aiforeu-preview/agentario/",
+  "mode": "react-spa-with-static-entries",
+  "useCases": 10,
+  "personas": 5,
+  "routes": [
+    {
+      "path": "/aiforeu-preview/agentario/",
+      "title": "The Autonomous Workforce Platform",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/features/",
+      "title": "Platform Features",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/",
+      "title": "Voice AI Agents",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/desktop/",
+      "title": "Desktop Automation",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/workflows/",
+      "title": "Workflow Engine",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/compare/",
+      "title": "Compare Approaches",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/security/",
+      "title": "Security and Deployment",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/about/",
+      "title": "About AIFOREU",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/privacy/",
+      "title": "Privacy",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/imprint/",
+      "title": "Imprint",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/features/",
+      "title": "Platform Features",
+      "source": "src/App.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/customer-support/",
+      "title": "24/7 Customer Support",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/sales-booking/",
+      "title": "Sales & Appointment Booking",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/healthcare/",
+      "title": "Healthcare Reception",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/enterprise-helpdesk/",
+      "title": "Enterprise IT Helpdesk",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/api-for-everything/",
+      "title": "API for Everything",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/generate-knowledge/",
+      "title": "Generate Knowledge",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/invoice-processing/",
+      "title": "Invoice & Document Processing",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/personal-assistant/",
+      "title": "Personal AI Assistant",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/email-automation/",
+      "title": "Email & Inbox Automation",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/use-cases/livechat/",
+      "title": "AI Livechat & Website Chat",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/customer-support/",
+      "title": "24/7 Customer Support",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/sales-booking/",
+      "title": "Sales & Appointment Booking",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/healthcare/",
+      "title": "Healthcare Reception",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/enterprise-helpdesk/",
+      "title": "Enterprise IT Helpdesk",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/api-for-everything/",
+      "title": "API for Everything",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/generate-knowledge/",
+      "title": "Generate Knowledge",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/invoice-processing/",
+      "title": "Invoice & Document Processing",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/personal-assistant/",
+      "title": "Personal AI Assistant",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/email-automation/",
+      "title": "Email & Inbox Automation",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/voice/use-cases/livechat/",
+      "title": "AI Livechat & Website Chat",
+      "source": "src/pages/UseCasePage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/for/founders/",
+      "title": "For Founders",
+      "source": "src/pages/PersonaPage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/for/developers/",
+      "title": "For Developers",
+      "source": "src/pages/PersonaPage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/for/operations/",
+      "title": "For Operations Leaders",
+      "source": "src/pages/PersonaPage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/for/support/",
+      "title": "For Support Teams",
+      "source": "src/pages/PersonaPage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/for/sales/",
+      "title": "For Sales Teams",
+      "source": "src/pages/PersonaPage.jsx"
+    },
+    {
+      "path": "/aiforeu-preview/agentario/404/",
+      "title": "Page Not Found",
+      "source": "src/App.jsx"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+/* AnyUse: understanding work before the technical compile / prove / replay demo. */
+.page-anyuse .any-discovery {
+  border-top: 1px solid var(--line);
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.page-anyuse #any-potenziale,
+.page-anyuse #any-beispiel { scroll-margin-top: 104px; }
+.page-anyuse .any-discovery-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.page-anyuse .any-discovery-steps li {
+  display: grid;
+  grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr);
+  gap: 28px;
+  align-items: baseline;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+}
+.page-anyuse .any-discovery-steps h3 {
+  margin: 0;
+  font: 600 clamp(20px, 2vw, 26px)/1.25 var(--display);
+  letter-spacing: -.03em;
+}
+.page-anyuse .any-discovery-steps p {
+  margin: 0;
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+}
+.page-anyuse .any-project-context {
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
+  align-items: start;
+  margin-top: 40px;
+  padding: 32px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.page-anyuse .any-project-context div > p {
+  margin: 0 0 10px;
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 780px;
+}
+.page-anyuse .any-discovery-figure .dev-route-heading { align-items: start; }
+.page-anyuse .any-discovery-figure .dev-route-sample { flex-shrink: 0; }
+.page-anyuse .any-proposal > div { min-width: 0; }
+.page-anyuse .any-proposal .dev-tool-symbol svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.page-anyuse .any-proposal small { overflow-wrap: anywhere; }
+.page-anyuse .dev-any-scope { padding-top: 80px; }
+
+@media (max-width: 820px) {
+  .page-anyuse .any-discovery-steps li {
+    grid-template-columns: minmax(0,1fr);
+    column-gap: 18px;
+    row-gap: 12px;
+    padding: 26px 0;
+  }
+  .page-anyuse .any-discovery-steps p { grid-column: 1; }
+  .page-anyuse .any-project-context {
+    grid-template-columns: minmax(0,1fr);
+    padding: 26px;
+  }
+}
+
+@media (max-width: 540px) {
+  .page-anyuse .any-discovery { padding-block: 52px; }
+  .page-anyuse .any-discovery-steps li { column-gap: 12px; }
+  .page-anyuse .any-discovery-steps h3 { font-size: 21px; }
+  .page-anyuse .any-discovery-steps p { font-size: 16px; grid-column: 1; }
+  .page-anyuse .any-project-context { margin-top: 28px; padding: 23px; grid-template-columns: minmax(0,1fr); }
+  .page-anyuse .any-project-context div > p { font-size: 16px; max-width: 780px; }
+  .page-anyuse .any-project-context .dev-text-link { font-size: 14px; }
+  .page-anyuse .any-discovery-figure .dev-route-heading { font-size: 11px; gap: 12px; }
+  .page-anyuse .any-proposal .dev-tool-symbol { width: 32px; height: 32px; }
+  .page-anyuse .any-proposal small { font-size: 8px; line-height: 1.5; }
+  .page-anyuse .any-proposal strong { font-size: 14px; }
+  .page-anyuse .dev-any-scope { padding-top: 52px; }
+}

@@ -1,0 +1,21 @@
+/* The opening lifts off the actual hero, without an empty extra screen. */
+.landing-opening{position:relative;isolation:isolate}
+[data-connection-story]{background:#f5f7fa;color:#1f2937;isolation:isolate}
+[data-connection-story] [data-connection-stage]{position:relative;width:100%;height:clamp(540px,calc(100svh - var(--global-header-height,73px)),900px);overflow:hidden;contain:layout paint;touch-action:pan-y pinch-zoom;scroll-margin-top:var(--global-header-height,73px)}
+[data-connection-story] [data-connection-stage][aria-disabled=false]{cursor:pointer}
+[data-connection-story] [data-connection-stage]:focus-visible{outline:2px solid #8793a4;outline-offset:-3px}
+[data-connection-story] .connection-canvas{display:block;position:absolute;inset:0;width:100%;height:100%;outline:none;touch-action:pan-y pinch-zoom}
+[data-connection-story] [data-connection-fallback]{position:absolute;inset:0;display:grid;place-items:center;font:600 clamp(36px,8vw,100px)/1 var(--body,sans-serif);letter-spacing:-.05em}
+[data-connection-story] [data-connection-fallback] img{display:block;width:clamp(180px,40vw,456px);max-width:72%;height:auto}
+[data-connection-story] [hidden]{display:none!important}
+[data-connection-opening]{display:none;position:absolute;inset:0;z-index:8;background:none;overflow:hidden}
+[data-connection-opening][data-connection-active]{display:block}
+[data-connection-opening] .connection-curtain{position:absolute;inset:0;background:#f5f7fa;will-change:clip-path}
+[data-connection-opening] [data-connection-stage]{height:clamp(380px,calc(100svh - var(--global-header-height,73px)),960px);max-height:100%}
+.connection-skip{position:absolute;right:max(24px,calc((100% - 1280px)/2));top:calc(clamp(380px,100svh - var(--global-header-height,73px),960px) - 66px);display:flex;gap:22px;align-items:center;min-height:44px;padding:10px 0;background:none;border:0;border-bottom:1px solid #bbc2cb;color:#414b58;font:500 13px/1.4 var(--body,sans-serif);cursor:pointer}
+.connection-skip span{font-size:21px}.connection-skip:hover{color:#0e1113;border-color:currentColor}.connection-skip:focus-visible{outline:2px solid #e84a16;outline-offset:5px}
+[data-connection-phase=flight][data-connection-paused=false] .connection-skip:not(:focus-visible){opacity:0;pointer-events:none}
+@media(max-width:700px){[data-connection-story] [data-connection-stage]{height:clamp(380px,52svh,480px)}}
+@media(max-width:700px){[data-connection-opening] [data-connection-stage]{height:calc(100svh - var(--global-header-height,65px));min-height:380px}.connection-skip{right:22px;top:auto;bottom:max(24px,calc(100% - 100svh + var(--global-header-height,65px) + 24px))}}
+@media(prefers-reduced-motion:reduce){[data-connection-opening][data-connection-active]{display:none}}
+@media print{[data-connection-story] [data-connection-stage]{height:280px}[data-connection-opening][data-connection-active]{display:none}}

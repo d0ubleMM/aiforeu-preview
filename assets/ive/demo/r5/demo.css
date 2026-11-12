@@ -1,0 +1,82 @@
+/* Generated IVE demos: the frame document's own rules on top of app.css (the 1.0.17
+   frontend stylesheet). The stage is the app window; frame.js scales it to the iframe. */
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body { background: var(--x-bg); }
+#stage {
+  position: absolute; left: 0; top: 0;
+  width: 1600px; height: 1000px;
+  transform-origin: 0 0;
+  overflow: hidden;
+  background: var(--x-bg);
+  transition: none !important; /* the first paint already fits the iframe; no animated geometry */
+}
+#stage > #root, #root > .x-app-shell { height: 100%; }
+/* app.css sizes dialogs against the viewport (100vw); inside the scaled stage that is the iframe, not the app window */
+#stage .x-panel { max-width: none; }
+.x-app-shell { position: relative; }
+
+/* synthetic pointer */
+.demo-cursor {
+  position: absolute; left: 0; top: 0; z-index: 2147483000;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .35));
+  transition: opacity 120ms linear;
+}
+.demo-cursor svg { display: block; }
+.demo-click {
+  position: absolute; left: -13px; top: -13px; z-index: 2147482999;
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid rgba(22, 71, 255, .85);
+  background: rgba(22, 71, 255, .18);
+  pointer-events: none; opacity: 0;
+}
+html[data-theme="dark"] .demo-click { border-color: rgba(122, 151, 255, .9); background: rgba(122, 151, 255, .22); }
+
+/* terminals as DOM rows, in the look of the app's xterm (13 px, 18 px rows, surface-2 background) */
+.dt {
+  --dt-fs: 13px;
+  position: absolute; inset: 0;
+  overflow: auto;
+  padding: 4px 6px;
+  box-sizing: border-box;
+  font-family: "SF Mono", "Fira Code", Menlo, "JetBrains Mono", ui-monospace, monospace;
+  font-size: var(--dt-fs);
+  line-height: calc(var(--dt-fs) * 1.385);
+  color: var(--x-ink);
+  background: var(--x-surface-2);
+  scrollbar-width: thin;
+  cursor: text;
+  user-select: text;
+}
+.dt-rows { min-height: 100%; display: flex; flex-direction: column; justify-content: flex-start; }
+.dt-row { white-space: pre-wrap; word-break: break-all; min-height: calc(var(--dt-fs) * 1.385); }
+.dt-b { font-weight: 700; }
+.dt-d { opacity: .55; }
+.dt-g { color: var(--x-good); }
+.dt-y { color: var(--x-warning); }
+.dt-r { color: var(--x-danger); }
+.dt-cursor { background: var(--x-accent); color: var(--x-on-accent); border-radius: 1px; }
+.dt-box {
+  box-sizing: border-box;
+  height: calc(var(--dt-fs) * 1.385 * 2);
+  max-width: 100%;
+  margin: calc(var(--dt-fs) * 1.385 / 2) 0;
+  padding: 0 1ch;
+  display: flex; align-items: center;
+  border: 1px solid var(--x-ink);
+  border-radius: 6px;
+}
+.dt-box-line { white-space: pre; }
+.dt-cursor-hidden .dt-cursor { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px var(--x-accent); }
+.dt-input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; border: 0; padding: 0; resize: none; overflow: hidden; }
+/* a terminal preview in a board tile keeps the app's small preview font */
+.ive-grid-cell .dt { --dt-fs: 9px; }
+
+/* rendered text should look like the app, never like a page: no text cursor on chrome */
+.x-app-shell { user-select: none; }
+.ive-conversation, .dt, .x-composer input, .x-composer textarea, pre, code { user-select: text; }
+
+/* the app to try in a narrow window: the sidebar as an overlay the header's toggle opens */
+#stage .ive-sidebar-toggle-slot { display: block !important; }
+.demo-sidebar-overlay > .flex > .x-sidebar { position: absolute; left: 0; top: 0; bottom: 0; z-index: 60; width: min(300px, 86%); box-shadow: 0 0 0 1px var(--x-line), 0 16px 48px rgba(0, 0, 0, .35); }
+.demo-sidebar-overlay .demo-scrim { position: absolute; inset: 0; z-index: 55; background: var(--x-scrim); }

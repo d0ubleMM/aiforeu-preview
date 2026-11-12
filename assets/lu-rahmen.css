@@ -1,0 +1,4 @@
+/* AIFOREU · Bewegung · Flächen ziehen sich beim Scrollen in einen Rahmen mit runden Ecken zurück oder öffnen sich aus
+   ihm (Technik nach lusion.co, eigene Umsetzung). Gehört zu lu-rahmen.js; das Skript setzt nur clip-path und transform. */
+[data-lu-rahmen].lu-rahmen--an{will-change:clip-path,transform;transform-origin:50% 100%}
+[data-lu-rahmen="auf"].lu-rahmen--an{transform-origin:50% 0}

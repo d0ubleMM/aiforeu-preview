@@ -1,0 +1,7 @@
+/* AIFOREU · Bewegung · Eine Linie zeichnet sich beim Scrollen durch die Startseite (Technik nach lusion.co, eigene
+   Umsetzung). Gehört zu lu-linie.js. Ohne Skript, bei reduzierter Bewegung und am Handy gibt es sie nicht. */
+.lu-linie-wirt{position:relative}
+.lu-linie{position:absolute;left:0;top:0;z-index:5;overflow:visible;pointer-events:none}
+.lu-linie path{fill:none;stroke:#ee6b35;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.lu-linie circle{fill:#ee6b35}
+@media (max-width:899px){.lu-linie{display:none}}

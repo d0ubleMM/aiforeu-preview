@@ -1,0 +1,34 @@
+.aiforeu-testimonial{color:#202b39;text-align:center;padding-block:20px 90px}
+.aiforeu-testimonial figure,.aiforeu-testimonial blockquote{margin:0}
+.aiforeu-quote-mark{color:#d8dee7;font-size:76px;line-height:1;height:60px;margin-bottom:28px;font-family:Georgia,serif}
+.aiforeu-testimonial blockquote{max-width:1120px;margin-inline:auto}
+.aiforeu-testimonial blockquote p{font:400 clamp(22px,2.3vw,34px)/1.65 var(--body,Inter,system-ui,sans-serif);letter-spacing:-.025em;margin:0;text-wrap:pretty}
+.aiforeu-testimonial figcaption{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:42px;text-align:left}
+.aiforeu-testimonial figcaption>img{display:block;width:68px;height:68px;flex:0 0 68px;border-radius:50%;object-fit:cover;object-position:50% 45%}
+.aiforeu-testimonial figcaption>div{display:grid;gap:7px}
+.aiforeu-testimonial figcaption strong{font-size:18px;font-weight:600;line-height:1.3}
+.aiforeu-testimonial figcaption span{color:#647287;font-size:16px;line-height:1.5}
+.aiforeu-trust{margin-top:76px}
+.aiforeu-trust>p{font-size:13px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:#647287;margin:0 0 30px}
+.aiforeu-trust ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:32px;align-items:center}
+.aiforeu-trust li{display:flex;align-items:center;justify-content:center;min-width:0;height:64px}
+.aiforeu-trust img{display:block;max-width:100%;max-height:52px;width:auto;height:auto;object-fit:contain;filter:grayscale(1) brightness(0);opacity:.56}
+.aiforeu-trust img[alt="Google Developer Groups"]{max-width:170px;width:100%}
+.aiforeu-trust img[alt="ComCare 360"]{max-height:62px}
+.hp-social-proof .aiforeu-testimonial{padding-block:0}
+@media(max-width:900px){.aiforeu-trust ul{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 38px}}
+@media(max-width:600px){
+ .aiforeu-testimonial{padding-bottom:64px}
+ .aiforeu-quote-mark{font-size:60px;height:45px;margin-bottom:20px}
+ .aiforeu-testimonial blockquote p{font-size:21px;line-height:1.55;letter-spacing:-.015em}
+ .aiforeu-testimonial figcaption{gap:14px;margin-top:30px}
+ .aiforeu-testimonial figcaption>img{width:54px;height:54px;flex-basis:54px}
+ .aiforeu-testimonial figcaption strong{font-size:16px}
+ .aiforeu-testimonial figcaption span{font-size:13px}
+ .aiforeu-trust{margin-top:48px}
+ .aiforeu-trust>p{font-size:11px;margin-bottom:22px}
+ .aiforeu-trust ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px}
+ .aiforeu-trust li{height:48px}
+ .aiforeu-trust img{max-height:40px;max-width:145px}
+ .aiforeu-trust img[alt="ComCare 360"]{max-height:48px}
+}
