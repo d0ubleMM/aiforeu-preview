@@ -1,0 +1,7 @@
+/* The aircraft covers the lens, then the film owns the brand/title beat.
+   Pausing restores navigation; playback controls stay reachable. */
+.landing-page:has(.gallery-video-hero[data-film-title][data-video-state="playing"]) .global-header{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
