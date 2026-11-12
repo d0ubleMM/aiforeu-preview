@@ -33,7 +33,7 @@ function keyed(t,keys){
 }
 function impulse(t,start,decay){const d=t-start;return d<0?0:(1-Math.exp(-d*38))*Math.exp(-d*decay);}
 export function cabinOverview(aspect=1.55){
-  return aspect<1.25?pose([16.8,4.2,-1],[6,1.7,8],2*Math.atan(Math.tan(30*Math.PI/180)/aspect)*180/Math.PI):pose([0,4.3,-12],[0,1.7,8],55);
+  return aspect<1.25?pose([16.8,4.2,-1],[6,1.7,8],2*Math.atan(Math.tan(30*Math.PI/180)/aspect)*180/Math.PI):pose([0,3.9,-7.4],[0,1.7,8],62);
 }
 export function sampleFilm(seconds,options={}){
   const time=Math.max(0,Math.min(FILM_DURATION,Number.isFinite(seconds)?seconds:0)),aspect=options.aspect||1.55;
@@ -69,16 +69,16 @@ export function sampleFilm(seconds,options={}){
   target[0]+=.30*kick*Math.sin(osc*39);
   state.camera=pose(trackingPosition,target,mix(portrait?101:76,portrait?95:55,ease((time-2.8)/1.3)),shakeRoll);
   state.vibration=kick;
-  const wide=pose([portrait?35:50,portrait?3.5:4.4,portrait?-90:-85],[0,3.4,-5],portrait?95:55),gate=pose([0,.38,-28],[0,3.1,-13],55);
+  const wide=pose([portrait?35:50,portrait?3.5:4.4,portrait?-90:-85],[0,3.4,-5],portrait?95:55),gate=pose([0,2.65,-28],[0,2.1,8],55);
   if(time>=6.4)state.camera=between(wide,gate,ease((time-6.4)/2.65));
   state.door=ease((time-7.1)/1.3);state.ramp=ease((time-7.85)/1.10);
   if(time>=9.2){
-    const drive=ease((time-9.2)/2.7),z=mix(-28,-8,drive);
-    const eye=mix(.38,1.72,clamp((z+18.05)/3.35));
-    state.camera=between(gate,pose([0,eye,z],[0,2,8],55),ease((time-9.2)/.4));
+    // One floating drone pass through the rear portal, never a ramp-height walk.
+    const fly=ease((time-9.2)/5.2),z=mix(-28,-7.4,ease((time-9.2)/3.4));
+    state.camera=pose([0,mix(2.65,3.9,fly),z],[0,mix(2.1,1.7,fly),8],mix(55,62,fly));
+    if(aspect<1.25&&time>=12.6)state.camera=between(state.camera,cabinOverview(aspect),ease((time-12.6)/1.8));
   }
-  if(time>=11.9)state.camera=between(pose([0,1.72,-8],[0,2,8],55),cabinOverview(aspect),ease((time-11.9)/2.5));
   state.room=ease((time-8.8)/2.7);state.floor=0;state.atmosphere=ease((time-10.8)/1.2);
-  if(time>=14.4)state.progress=INTRO.galleryStart;
+  if(time>=FLIGHT.inside){state.progress=INTRO.galleryStart;state.camera=cabinOverview(aspect);}
   return state;
 }

@@ -85,7 +85,7 @@ export function createExhibits() {
   const mapMat=mat('real aerial photograph','#ffffff',{roughness:.68});
   const mapPlane=mesh(mapBoard,geometry.plane,mapMat,[0,.163,0],[3.72,2.56,1],[-Math.PI/2,0,0]);mapPlane.receiveShadow=false;
   const loader=new THREE.TextureLoader();
-  pending.push(loader.loadAsync(new URL('../traffic-map/junction.jpg',import.meta.url).href).then(texture=>{if(disposed){texture.dispose();return;}texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=16;textures.add(texture);mapMat.map=texture;mapMat.needsUpdate=true;}).catch(()=>{}));
+  pending.push(loader.loadAsync(new URL('../traffic-map/junction.jpg',import.meta.url).href).then(texture=>{if(disposed){texture.dispose();return;}texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=16;textures.add(texture);mapMat.map=texture;mapMat.needsUpdate=true;mapPlane.material.map=texture;mapPlane.material.needsUpdate=true;}).catch(()=>{}));
   const mapLines=subgroup(mapBoard,'illustrative public road traces',[0,.181,0]);
   // Clip public OSM road segments to the same ground coordinates as the photo.
   const traceMaterial=new THREE.LineBasicMaterial({color:'#66a9ff',toneMapped:false});owned.add(traceMaterial);let roadTrace=null;
@@ -110,8 +110,23 @@ export function createExhibits() {
   // A single neutral floor continues under every exhibit; no buildings or shell.
   const floorMat=mat('studio floor','#15171b',{roughness:.74});const floor=mesh(root,new THREE.PlaneGeometry(500,500),floorMat,[33,0,0],[1,1,1],[-Math.PI/2,0,0]);floor.castShadow=false;
 
-  function update(sample,reduced=false){
-    groups.forEach(g=>{g.visible=true;});
+  const fades=new Map();
+  function fadeGroup(group,opacity){
+    group.visible=opacity>.001;group.userData.opacity=opacity;
+    group.traverse(object=>{
+      if(!object.material)return;
+      if(!fades.has(object)){
+        const source=[].concat(object.material),entries=source.map(material=>{const clone=material.clone();owned.add(clone);return {material:clone,opacity:material.opacity,transparent:material.transparent,depthWrite:material.depthWrite};});
+        object.material=Array.isArray(object.material)?entries.map(e=>e.material):entries[0].material;fades.set(object,entries);
+      }
+      for(const entry of fades.get(object)){
+        const m=entry.material,transparent=entry.transparent||opacity<.999;
+        m.opacity=entry.opacity*opacity;if(m.transparent!==transparent){m.transparent=transparent;m.needsUpdate=true;}m.depthWrite=entry.depthWrite&&opacity>=.999;
+      }
+    });
+  }
+  function update(sample,reduced=false,studio=0){
+    groups.forEach(g=>{const proximity=Math.exp(-(((g.position.x-sample.centre)/3.7)**4));fadeGroup(g,1-studio+studio*proximity);});
     const t=reduced||sample.view!=='workflows' ? .65 : sample.inspection;
     for(const {paper,stack,layer,angle,index} of notes){
       const spread=1-t,side=stack-1;

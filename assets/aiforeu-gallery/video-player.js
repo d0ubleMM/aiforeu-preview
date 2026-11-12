@@ -14,8 +14,8 @@ export function mountFilm(host){
   function play(){if(!available()||userPaused)return;video.play().then(label).catch(error=>{if(active&&error.name!=='AbortError'){userPaused=true;label();}});}
   function chooseSource(time=0){
     const variant=portrait.matches?'mobile':'desktop';if(variant===source){if(time===0)video.currentTime=0;return;}
-    source=variant;video.poster=new URL(`../aiforeu-film/poster-${variant}-lowpass.webp`,import.meta.url).href;
-    video.src=new URL(`../aiforeu-film/intro-${variant}-lowpass.mp4`,import.meta.url).href;
+    source=variant;video.poster=new URL(`../aiforeu-film/poster-${variant}-gray-room.webp`,import.meta.url).href;
+    video.src=new URL(`../aiforeu-film/intro-${variant}-gray-room.mp4`,import.meta.url).href;
     video.addEventListener('loadedmetadata',()=>{if(time>0)video.currentTime=Math.min(time,video.duration);play();},{once:true,signal:abort.signal});
     video.load();
   }
@@ -26,7 +26,7 @@ export function mountFilm(host){
     else{host.setAttribute('data-gallery-static','');host.querySelector('[data-world-stage]').dataset.worldReady='fallback';}
     label();filmFrame();
   }
-  const sceneReady=import('./gallery.js?v=lowpass-1').then(({mountWorld})=>{
+  const sceneReady=import('./gallery.js?v=gray-room-1').then(({mountWorld})=>{
     if(disposed)return false;scene=mountWorld(host);return scene?scene.ready:false;
   }).catch(()=>false);
   sceneReady.then(ready=>{if(!active)showScene(ready);});

@@ -8,12 +8,12 @@ export function createRearHangar(){
   const materials=[],geometries=[],textures=[],cut={value:0};
   const mat=(color,extra={})=>{const m=new THREE.MeshStandardMaterial({color,roughness:.62,...extra});materials.push(m);return m;};
   const shell=mat('#202a31',{metalness:.38,roughness:.48}),edge=mat('#11181d',{metalness:.45,roughness:.42});
-  const inside=mat('#31383d',{metalness:.18,roughness:.68}),inset=mat('#1b2329',{roughness:.76}),floor=mat('#20262b',{roughness:.82});
+  const inside=mat('#25272c',{metalness:0,roughness:.82}),floor=mat('#15171b',{roughness:.74});
   const rubber=mat('#07090b',{roughness:.9}),metal=mat('#6d777e',{metalness:.7,roughness:.38}),marking=mat('#727873',{roughness:.92});
   const light=mat('#dce3df',{emissive:'#e2e8e2',emissiveIntensity:3,roughness:.35});
   function mesh(parent,geometry,material,position=[0,0,0]){
     geometries.push(geometry);const object=new THREE.Mesh(geometry,material);
-    object.position.set(...position);object.castShadow=material!==floor;object.receiveShadow=true;parent.add(object);return object;
+    object.position.set(...position);object.castShadow=material!==floor&&material!==inside;object.receiveShadow=true;parent.add(object);return object;
   }
   const box=(parent,m,pos,size)=>mesh(parent,new THREE.BoxGeometry(...size),m,pos);
   function panel(parent,m,points){
@@ -43,30 +43,13 @@ export function createRearHangar(){
     panel(bay,shell,[[side*4.05,7.25,-14.7],[side*5.55,5.7,-14.7],[side*8.3,6.1,-8.9],[side*7,9.2,-8.9]]);
     panel(bay,shell,[[side*5.55,5.7,-14.7],[side*5.55,-.25,-14.7],[side*8.3,-.8,-8.9],[side*8.3,6.1,-8.9]]);
   }
-  // Continuous cabin with recessed wall panels, structural ribs and light channels.
+  // The original quiet grey room continues behind the rear entrance.
   const stations=[-14.7,-8,-4.7,8,17.5];
   for(let k=1;k<stations.length;k++)for(let i=0;i<6;i++){
     const j=(i+1)%6,a=section(stations[k-1]),b=section(stations[k]);
     panel(bay,i===0?floor:inside,[a[i],b[i],b[j],a[j]]);
   }
-  box(bay,inset,[0,3.4,17.6],[15.4,6.8,.15]);
-  for(const z of [-13.3,-9.4,-5.5,-1.6,2.3,6.2,10.1,14]){
-    const s=spread(z),next=spread(z+3.4);
-    for(const side of [-1,1]){
-      beam(bay,edge,[side*(5.02+s),.15,z],[side*(5.02+s),5.45,z],.11,.17);
-      beam(bay,edge,[side*(5.02+s),5.45,z],[side*(3.80+s),6.70,z],.11,.17);
-      panel(bay,inset,[[side*(5.005+s),.45,z+.12],[side*(5.005+next),.45,z+3.4],[side*(5.005+next),5.1,z+3.4],[side*(5.005+s),5.1,z+.12]]);
-      beam(bay,metal,[side*(4.94+s),1.1,z+.12],[side*(4.94+next),1.1,z+3.4],.055,.07);
-      beam(bay,edge,[side*(3.63+s),6.67,z],[side*(3.63+next),6.67,z+3.4],.20,.16);
-      beam(bay,light,[side*(3.63+s),6.57,z+.08],[side*(3.63+next),6.57,z+3.32],.075,.035);
-    }
-    beam(bay,edge,[-3.8-s,6.70,z],[3.8+s,6.70,z],.11,.17);
-    box(bay,edge,[0,6.69,z],[5.3+s*1.5,.15,.24]);box(bay,light,[0,6.60,z],[5+s*1.5,.035,.085]);
-  }
-  for(let z=-13.1;z<16;z+=2.8)for(let x=-16;x<=16;x+=3.2)if(Math.abs(x)+1.6<5.1+spread(z-1.4))box(bay,floor,[x,.018,z],[3.17,.035,2.77]);
-  for(const side of [-1,1]){
-    box(bay,edge,[side*4.55,.045,1.3],[.16,.08,31.7]);box(bay,light,[side*4.55,.091,1.3],[.035,.012,31.7]);
-  }
+  box(bay,inside,[0,3.4,17.6],[15.4,6.8,.15]);
   // The upper flap lifts outwards. The lower leaf is a load-bearing ramp.
   const upper=new THREE.Group();upper.position.set(0,6.8,-14.7);bay.add(upper);
   prism(upper,shell,[[-5.05,-3.2],[5.05,-3.2],[5.05,-1.32],[3.82,-.04],[-3.82,-.04],[-5.05,-1.32]],.16,[0,0,-.08]);

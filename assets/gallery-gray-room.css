@@ -1,0 +1,5 @@
+/* Restore the original grey-room product composition after a desk is chosen. */
+.gallery-hero:not([data-gallery-view='overview']) .gallery-copy{top:50%;transform:translateY(-50%)}
+.gallery-hero .gallery-copy::before{display:none}
+@media(max-width:760px){.gallery-hero:not([data-gallery-view='overview']) .gallery-copy{top:28px;transform:none}}
+@media(max-height:500px){.gallery-hero:not([data-gallery-view='overview']) .gallery-copy{top:22px;transform:none}}
