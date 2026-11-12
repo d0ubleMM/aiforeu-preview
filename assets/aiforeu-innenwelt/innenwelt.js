@@ -6,8 +6,8 @@ import { sampleCarrierView } from './interior-camera.js';
 
 const mounted = new WeakMap();
 const content = {
-  traffic: {title:'VerkehrsAI', copy:'KI für die Verkehrsplanung. Mit VerkehrsOS entwickeln wir ein EU-gefördertes Forschungsprojekt für Lage- und Signalpläne.', href:'verkehrsai.html', action:'VerkehrsAI entdecken'},
-  workforce: {title:'Autonomous Workforce', copy:'Agentario verbindet Voice, Desktop und Workflows. Damit aus wiederkehrender Arbeit ein selbstständiger Ablauf wird.', href:'autonomous-workforce.html', action:'Agentario und Workforce entdecken'},
+  traffic: {title:'VerkehrsAI', copy:'Lage- und Signalpläne mit KI erschließen, prüfen und weiterplanen.', href:'verkehrsai.html', action:'VerkehrsAI öffnen', secondaryHref:'verkehrsos.html', secondaryAction:'VerkehrsOS'},
+  workforce: {title:'Autonomous Workforce', copy:'Agentario verbindet KI-Agenten, Ihre Software und wiederkehrende Abläufe.', href:'agentario/', action:'Agentario öffnen', secondaryHref:'autonomous-workforce.html', secondaryAction:'Bereich ansehen'},
 };
 const smooth = t => {t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const mixPose = (a,b,t) => ({position:a.position.map((v,i)=>THREE.MathUtils.lerp(v,b.position[i],t)),target:a.target.map((v,i)=>THREE.MathUtils.lerp(v,b.target[i],t)),fov:THREE.MathUtils.lerp(a.fov,b.fov,t),open:THREE.MathUtils.lerp(a.open,b.open,t)});
@@ -32,7 +32,7 @@ export function mountWorld(host) {
   let renderer,carrier,rooms,env;
   try {
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
-    renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.02;
+    renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
     env=environment(renderer);
     carrier=createCarrier(THREE,{farben:FARBEN,klein:innerWidth<760,umgebung:env.texture});
@@ -41,16 +41,16 @@ export function mountWorld(host) {
     rooms?.dispose();carrier?.dispose?.();env?.dispose();renderer?.dispose();
     stage.dataset.worldReady='fallback';return null;
   }
-  const scene=new THREE.Scene();scene.background=new THREE.Color('#080e17');scene.environment=env.texture;
+  const scene=new THREE.Scene();scene.background=new THREE.Color('#080e17');scene.environment=env.texture;scene.environmentIntensity=.45;
   const camera=new THREE.PerspectiveCamera(55,1,.08,1200);
   scene.add(carrier.group,rooms.group);
-  const ambient=new THREE.HemisphereLight('#e8f0ff','#677384',1.15);scene.add(ambient);
-  const sun=new THREE.DirectionalLight('#fff0dc',2.8);sun.position.set(-25,42,28);scene.add(sun);
-  const rim=new THREE.DirectionalLight('#c5d9ff',1.5);rim.position.set(30,18,-22);scene.add(rim);
-  const interior=new THREE.DirectionalLight('#fff8f0',2.4);interior.position.set(-1,7,5);interior.target.position.set(0,0,-2);
+  const ambient=new THREE.HemisphereLight('#e6eaf0','#454b50',.48);scene.add(ambient);
+  const sun=new THREE.DirectionalLight('#fff3e5',1.8);sun.position.set(-25,42,28);scene.add(sun);
+  const rim=new THREE.DirectionalLight('#dae5f3',.45);rim.position.set(30,18,-22);scene.add(rim);
+  const interior=new THREE.DirectionalLight('#fff8f0',2.0);interior.position.set(-1,7,5);interior.target.position.set(0,0,-2);
   interior.castShadow=true;interior.shadow.mapSize.set(1536,1536);Object.assign(interior.shadow.camera,{left:-15,right:15,top:14,bottom:-14,near:.2,far:35});
   interior.shadow.bias=-.00025;interior.shadow.normalBias=.025;scene.add(interior,interior.target);
-  const fill=new THREE.PointLight('#dbe9ff',35,36,1.3);fill.position.set(0,5.8,-4);scene.add(fill);
+  const fill=new THREE.PointLight('#e8edf2',12,36,2);fill.position.set(0,5.8,-4);scene.add(fill);
   // The open aperture admits direct light while fixed ribs keep the room readable.
   const controls=host.querySelector('[data-carrier-ui]'), choices=host.querySelector('[data-carrier-choices]');
   const enter=host.querySelector('[data-carrier-enter]'), outside=host.querySelector('[data-carrier-outside]'), pause=host.querySelector('[data-carrier-pause]');
@@ -63,7 +63,7 @@ export function mountWorld(host) {
   function syncUI() {
     const focused=document.activeElement;
     host.dataset.carrierView=view;
-    controls.hidden=false;enter.hidden=!['exterior','entry'].includes(view);choices.hidden=['exterior','entry'].includes(view);
+    controls.hidden=false;enter.hidden=!['exterior','entry'].includes(view);choices.hidden=false;
     enter.firstChild.textContent=view==='entry'?'Direkt hinein ':'AIFOREU betreten ';
     outside.hidden=['exterior','entry'].includes(view);
     pause.hidden=reduced.matches;
@@ -72,13 +72,17 @@ export function mountWorld(host) {
     for(const button of choices.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.carrierSelect===view));
     detail.hidden=!content[view];
     if(content[view]){const c=content[view];detail.querySelector('[data-world-title]').textContent=c.title;detail.querySelector('[data-world-copy]').textContent=c.copy;
-      const link=detail.querySelector('a');link.href=c.href;link.innerHTML=`${c.action} <span aria-hidden="true">↗</span>`;}
+      const link=detail.querySelector('[data-world-link]');link.href=c.href;link.innerHTML=`${c.action} <span aria-hidden="true">↗</span>`;
+      const secondary=detail.querySelector('[data-world-secondary]');secondary.href=c.secondaryHref;secondary.innerHTML=`${c.secondaryAction} <span aria-hidden="true">↗</span>`;}
     if(host.contains(focused)&&focused.closest('[hidden]')) (choices.hidden?enter:choices.querySelector('button')).focus({preventScroll:true});
   }
   function select(next,instant=false) {
     if(disposed)return;automatic=false;
     if(next==='entry'&&(reduced.matches||paused)){next='atrium';instant=true;}
     const previous=view;view=next;
+    // The persistent destination controls can skip the opening immediately.
+    // Do not interpolate from outside through the closed carrier shell.
+    if(['exterior','entry'].includes(previous)&&next!=='entry'&&next!=='exterior')instant=true;
     if(next==='entry'){entryProgress=0;openingClock=0;transition=null;automatic=true;}
     else {const target=viewPose(next);
       const via=aspect<1.15&&Math.max(pose.position[2],target.position[2])>8&&Math.max(Math.abs(pose.position[0]),Math.abs(target.position[0]))>3.5?{position:[0,6.3,7.2],target:[0,1.2,-2.5],fov:(pose.fov+target.fov)/2,open:1}:null;
@@ -121,9 +125,8 @@ export function mountWorld(host) {
   on(enter,'click',()=>select(view==='entry'?'atrium':'entry',view==='entry'));
   on(outside,'click',()=>select('exterior',true));
   on(pause,'click',()=>{paused=!paused;syncUI();reconcile();});
-  on(host.querySelector('[data-carrier-overview]'),'click',()=>select('atrium'));
   for(const button of choices.querySelectorAll('button'))on(button,'click',()=>select(button.dataset.carrierSelect));
-  on(host,'keydown',e=>{if(e.key==='Escape'&&content[view]){select('atrium');choices.querySelector('button').focus();}});
+  on(host,'keydown',e=>{if(e.key==='Escape'&&content[view]){e.preventDefault();select('atrium');choices.querySelector('[data-carrier-select="atrium"]').focus({preventScroll:true});}});
   on(document,'visibilitychange',reconcile);on(window,'blur',()=>{blurred=true;reconcile();});on(window,'focus',()=>{blurred=false;reconcile();});
   on(reduced,'change',()=>{automatic=false;transition=null;view=content[view]?view:'atrium';pose=viewPose(view);syncUI();draw();reconcile();});
   on(canvas,'webglcontextlost',event=>{
@@ -140,5 +143,7 @@ export function mountWorld(host) {
   const api={select,dispose,get view(){return view;},get time(){return elapsed;},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};},sampleEntry(progress){automatic=false;transition=null;view='entry';entryProgress=Math.max(0,Math.min(1,progress));pose=viewPose('entry',entryProgress);syncUI();draw();}};
   mounted.set(host,api);window.AiforeuInnenwelt=api;
   stage.append(canvas);pose=viewPose(view);resize();if(!disposed){syncUI();fallback.hidden=true;stage.dataset.worldReady='true';draw();schedule();}
+  // A paused or reduced-motion scene still needs one frame when photographed textures arrive.
+  rooms.ready?.then(()=>{if(!disposed&&!contextLost)draw();});
   return api;
 }

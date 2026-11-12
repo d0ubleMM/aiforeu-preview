@@ -2,15 +2,17 @@
 export function createInteriorDetails(api) {
   const { THREE, group, office, m, colors, geometry, mesh, box, cylinder, ball, text, subgroup } = api;
   const details = subgroup(group, 'Interior street and atelier details');
-  const stoneDark = new THREE.MeshStandardMaterial({color:'#b6bdc9',roughness:.91});
+  const stoneDark = new THREE.MeshStandardMaterial({color:'#515751',roughness:.91});
   const terracotta = new THREE.MeshStandardMaterial({color:'#ccaa92',roughness:.91});
   // Closed courtyard paving and continuous curbs give the original street actual edges.
   for(const [x,z,w,d] of [[-9.35,-2.95,2.9,3.1],[-4.96,-2.95,2.72,3.1],[-9.35,2.9,2.88,2.55],[-4.96,2.9,2.72,2.55]]) {
+    box(details,m.paving,x,.075,z,w,.10,d);
     for(const side of [-1,1]) {
-      box(details,m.chalk,x+side*w/2,.14,z,.11,.14,d);
-      box(details,m.chalk,x,.14,z+side*d/2,w,.14,.11);
+      box(details,m.cityStone,x+side*w/2,.14,z,.11,.14,d);
+      box(details,m.cityStone,x,.14,z+side*d/2,w,.14,.11);
     }
-    for(let i=0;i<7;i++) box(details,m.stone,x-w/2+i*w/6,.08,z,.012,.01,d-.1);
+    for(let i=0;i<7;i++) box(details,stoneDark,x-w/2+i*w/6,.128,z,.007,.004,d-.1);
+    for(let i=0;i<7;i++) box(details,stoneDark,x,.128,z-d/2+i*d/6,w-.12,.004,.007);
   }
   // Flush manholes and storm-water grilles stay on the asphalt, not floating UI.
   for(const [x,z] of [[-7.2,-2.5],[-9.7,.25],[-4.1,.25],[-7.2,3.4]]) {
@@ -70,7 +72,8 @@ export function createInteriorDetails(api) {
   for(let i=0;i<7;i++) box(garden,m.wood,-1.1+i*.365,2.12,0,.09,.09,1.16);
   for(const dx of [-.7,.7]) {
     box(garden,terracotta,dx,.36,0,.43,.35,.48,{soft:true});
-    for(let n=0;n<3;n++) ball(garden,[m.leaf,m.darkLeaf,m.paleLeaf][n],dx+(n-1)*.095,.67,0,.33,[.8,1.5,.8]);
+    box(garden,m.soil,dx,.545,0,.34,.018,.39);
+    for(let n=0;n<20;n++) mesh(garden,geometry.leaf,[m.leaf,m.darkLeaf,m.paleLeaf][n%3],[dx,.54,0],[.15,.18,.38+(n%3)*.06],[-.7-(n%4)*.13,n*2.39996,0]);
   }
 
 }
