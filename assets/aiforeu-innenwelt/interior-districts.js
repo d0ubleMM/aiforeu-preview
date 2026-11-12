@@ -3,6 +3,8 @@ import { RoundedBoxGeometry } from '../agentario-scene/vendor/RoundedBoxGeometry
 import { createArchitecture } from '../aiforeu-world/city-architecture.js';
 import { createInteriorDetails } from './interior-details.js';
 import { createCityMaterials } from './city-materials.js';
+import { createWorkforceMaterials } from './workforce-materials.js';
+import { createBroadcastMicrophone, detailFurniture } from './interior-props.js';
 
 /** Two connected districts for the carrier interior. No renderer, floor or shell.
  * Coordinates returned by districts/entryClearance are local to the carrier,
@@ -29,6 +31,7 @@ export function createInteriorDistricts() {
   m.orange = new THREE.MeshPhysicalMaterial({color:colors.orange,roughness:.24,metalness:.12,clearcoat:1,clearcoatRoughness:.15});
   m.glass.roughness = .28; m.glass.metalness = .12;
   m.glass.color.set('#475b63');m.glass.roughness=.16;m.glass.metalness=.32;m.glass.envMapIntensity=2.5;
+  const workforceMaterials=createWorkforceMaterials(m), w=workforceMaterials.m;
   const cityMaterials=createCityMaterials();
   const surface=cityMaterials.surface;
   surface(m.road,'asphalt',{metres:1.45,normal:.38,tint:'#777d7c'});
@@ -271,37 +274,31 @@ export function createInteriorDistricts() {
 
   // Workforce atelier: open cutaway construction, three instruments, one physical case.
   box(office,m.plaster,7.05,1.57,-3.95,8.2,3.14,.16,{soft:true});
-  box(office,m.wood,7.05,3.18,-3.35,8.55,.2,1.52,{soft:true});
-  for(const x of [3.15,7.05,10.95]) box(office,m.wood,x,1.625,-3.32,.13,3.25,.15);
-  for(let n=0;n<12;n++) box(office,m.wood,3.2+n*.7,3.05,-3.35,.075,.12,1.35);
+  box(office,w.wood,7.05,3.18,-3.35,8.55,.2,1.52,{soft:true});
+  for(const x of [3.15,7.05,10.95]) box(office,w.wood,x,1.625,-3.32,.13,3.25,.15);
+  for(let n=0;n<12;n++) box(office,w.wood,3.2+n*.7,3.05,-3.35,.075,.12,1.35);
   text(office,'AGENTARIO',7.08,3.49,-3.24,4.8,.60,{size:71});
   box(office,m.ink,7.03,2.06,-3.84,4.22,1.25,.07,{soft:true});
   // The wall drawing is a simple physical process map, not a pretend product UI.
   for(const [i,x] of [5.72,7.03,8.34].entries()) {
-    box(office,i===1?m.wood:m.stone,x,1.99,-3.786,.7,.34,.018,{soft:true});
+    box(office,i===1?w.wood:m.stone,x,1.99,-3.786,.7,.34,.018,{soft:true});
     if(i<2) box(office,m.chalk,x+.65,1.99,-3.775,.6,.022,.02);
   }
-  box(office,m.wood,7.05,1.12,-.25,7.6,.16,2.05,{soft:true});
+  box(office,w.wood,7.05,1.15,-.25,7.6,.10,2.05);
+  box(office,w.darkWood,7.05,1.093,-.25,7.56,.025,2.01);
   for(const x of [3.6,6.1,8.2,10.5]) {
     box(office,m.ink,x,.55,-.81,.1,1.1,.12);
     box(office,m.ink,x,.55,.33,.1,1.1,.12);
   }
-  box(office,m.metal,7.05,1.225,.65,6.4,.055,.17,{soft:true});
+  box(office,w.metal,7.05,1.225,.65,6.4,.055,.17,{soft:true});
   box(office,m.ink,7.05,1.258,.65,6.35,.012,.035);
   for(const [i,x] of [4.55,7.0,9.48].entries()) {
     text(office,['VOICE','DESKTOP','WORKFLOWS'][i],x,1.02,.786,1.9,.31,{size:70});
-    box(office,m.stone,x,1.216,-.31,1.7,.035,1.13,{soft:true});
+    box(office,w.fabric,x,1.208,-.31,1.7,.016,1.13,{soft:true});
   }
   // Voice: brushed-metal microphone, desk phone, physical audio bars.
-  const voice = subgroup(office,'Voice station',[4.55,1.24,-.38]);
-  cylinder(voice,m.ink,0,.07,0,.55,.1);
-  cylinder(voice,m.metal,0,.38,0,.055,.6);
-  box(voice,m.metal,0,.53,0,.56,.055,.065,{soft:true});
-  for(const side of [-1,1]) box(voice,m.metal,side*.25,.75,0,.045,.45,.05,{soft:true});
-  cylinder(voice,m.ink,0,.94,0,.34,.52);
-  ball(voice,m.ink,0,1.2,0,.34);ball(voice,m.ink,0,.68,0,.34);
-  for(let n=0;n<7;n++) box(voice,m.metal,0,.73+n*.066,.168,.25,.014,.018);
-  box(voice,m.leaf,0,.95,.19,.025,.17,.017,{soft:true});
+  const voice = subgroup(office,'Voice station',[4.55,1.216,-.38]);
+  createBroadcastMicrophone({THREE,m:w,mesh,box,cylinder,subgroup},voice);
   box(voice,m.ink,-.58,.07,.14,.34,.12,.55,{soft:true,rotation:[0,-.2,0]});
   box(voice,m.glass,-.58,.14,.1,.23,.015,.28,{rotation:[0,-.2,0]});
   const handset=subgroup(voice,'reception handset',[-.58,.2,.14]);
@@ -311,22 +308,20 @@ export function createInteriorDistricts() {
   for(let n=0;n<5;n++) audioBars.push(box(office,m.blue,4.32+n*.115,1.4,.24,.043,.27,.04,{soft:true,dynamic:true}));
 
   // Desktop: monitor, keyboard and a record that is assembled as the case arrives.
-  const desktop = subgroup(office,'Desktop station',[7,1.24,-.46]);
-  box(desktop,m.metal,0,.04,.04,.68,.07,.42,{soft:true});
-  box(desktop,m.metal,0,.39,0,.09,.67,.08,{soft:true});
+  const desktop = subgroup(office,'Desktop station',[7,1.216,-.46]);
+  box(desktop,w.metal,0,.04,.04,.68,.07,.42,{soft:true});
+  box(desktop,w.metal,0,.39,0,.09,.67,.08,{soft:true});
   box(desktop,m.ink,0,.93,-.04,1.5,.95,.1,{soft:true});
   box(desktop,m.chalk,0,.94,.016,1.35,.8,.025,{soft:true});
   box(desktop,m.blue,-.52,.94,.035,.22,.8,.012);
   box(desktop,m.ink,-.02,1.17,.042,.5,.035,.013);
   const recordLines=[];
   for(let n=0;n<3;n++) recordLines.push(box(desktop,n===2?m.blue:m.stone,.06,1.03-n*.13,.045,.74-n*.1,.039,.013,{dynamic:true}));
-  box(desktop,m.metal,0,.04,.42,.87,.045,.29,{soft:true});
-  for(let n=0;n<3;n++) box(desktop,m.ink,0,.067,.33+n*.07,.7,.008,.018);
-  cylinder(desktop,m.blue,.62,.16,.3,.15,.28);
+  box(desktop,w.metal,0,.04,.42,.87,.045,.29,{soft:true});
 
   // Workflows: bound calendar, three output trays and a little approval stamp.
   const workflow = subgroup(office,'Workflow station',[9.48,1.24,-.42]);
-  box(workflow,m.wood,0,.12,-.1,1.1,.09,.61,{soft:true});
+  box(workflow,w.wood,0,.12,-.1,1.1,.09,.61,{soft:true});
   box(workflow,m.stone,0,.55,-.15,1.05,.92,.08,{soft:true,rotation:[-.14,0,0]});
   box(workflow,m.chalk,0,.55,-.095,.97,.83,.025,{rotation:[-.14,0,0]});
   box(workflow,m.ink,0,.9,-.033,.97,.17,.026);
@@ -334,20 +329,20 @@ export function createInteriorDistricts() {
   for(let row=0;row<2;row++) for(let col=0;col<4;col++) box(workflow,m.stone,-.34+col*.225,.69-row*.22,-.035,.14,.14,.017);
   const booked=box(workflow,m.leaf,.11,.47,-.01,.14,.14,.022,{dynamic:true});
   for(let n=0;n<3;n++) {
-    box(workflow,m.metal,.73,.07+n*.11,.13,.37,.045,.56,{soft:true});
+    box(workflow,w.metal,.73,.07+n*.11,.13,.37,.045,.56,{soft:true});
     box(workflow,m.chalk,.73,.103+n*.11,.1,.29,.016,.43);
   }
   const stamp=subgroup(office,'approval stamp',[9.48,1.6,.65]);
   box(stamp,m.ink,0,0,0,.4,.12,.31,{soft:true,dynamic:true});
-  cylinder(stamp,m.wood,0,.19,0,.13,.28,{dynamic:true});
-  ball(stamp,m.wood,0,.36,0,.26,[1.35,.7,1],true);
+  cylinder(stamp,w.wood,0,.19,0,.13,.28,{dynamic:true});
+  ball(stamp,w.wood,0,.36,0,.26,[1.35,.7,1],true);
 
   // Covered in/out trays hide the hand-off between successive cases naturally.
   for(const [x,incoming] of [[3.65,true],[10.58,false]]) {
-    box(office,m.wood,x,1.64,.65,1.02,.09,1.02,{soft:true});
-    box(office,m.wood,x,1.43,1.12,1.02,.4,.08,{soft:true});
-    box(office,m.wood,x,1.43,.18,1.02,.4,.08,{soft:true});
-    box(office,m.wood,x+(incoming?-.47:.47),1.43,.65,.08,.4,.94);
+    box(office,w.wood,x,1.64,.65,1.02,.09,1.02,{soft:true});
+    box(office,w.wood,x,1.43,1.12,1.02,.4,.08,{soft:true});
+    box(office,w.wood,x,1.43,.18,1.02,.4,.08,{soft:true});
+    box(office,w.wood,x+(incoming?-.47:.47),1.43,.65,.08,.4,.94);
     text(office,incoming?'EINGANG':'ERLEDIGT',x,1.45,1.168,.84,.24,{size:64});
   }
 
@@ -358,15 +353,13 @@ export function createInteriorDistricts() {
   const seal=box(dossier,m.orange,.19,.051,.24,.17,.014,.14,{soft:true,dynamic:true});
   // Shelves, books and a small table give the atelier depth and human scale.
   for(const x of [3.78,10.3]) {
-    for(let n=0;n<3;n++) box(office,m.wood,x,.78+n*.57,-3.28,1.08,.07,.5);
+    for(let n=0;n<3;n++) box(office,w.wood,x,.78+n*.57,-3.28,1.08,.07,.5);
     for(const dx of [-.49,.49]) box(office,m.ink,x+dx,1.23,-3.3,.045,2.46,.43);
     for(let n=0;n<7;n++) box(office,[m.stone,m.ink,m.roof,m.blue][n%4],x-.4+n*.12,1.06+(n%2)*.57,-3.27,.085,.43+(n%3)*.04,.34);
   }
-  cylinder(office,m.wood,7.3,.89,2.1,1.42,.12);
+  cylinder(office,w.wood,7.3,.89,2.1,1.42,.12);
   cylinder(office,m.ink,7.3,.45,2.1,.12,.87);
   cylinder(office,m.stone,7.3,.04,2.1,.65,.08);
-  box(office,m.chalk,7.19,.965,2.12,.53,.018,.4,{rotation:[0,-.23,0]});
-  cylinder(office,m.blue,7.65,1.06,2.2,.14,.2);
   for(const [x,z] of [[6.3,2.16],[8.29,2.16]]) {
     cylinder(office,m.blue,x,.64,z,.58,.12);
     for(const sx of [-1,1]) box(office,m.ink,x+sx*.18,.325,z,.04,.65,.04);
@@ -393,6 +386,7 @@ export function createInteriorDistricts() {
     box(item.parent,index%7===2?m.curtain:m.roomWarm,p.x,p.y+h*.28,p.z+d/2+.008,w*.94,h*.32,.008);
   }
   createInteriorDetails(cityAPI);
+  detailFurniture({...cityAPI,m:w},desktop);
   const shared = subgroup(group, 'Rear connecting passage');
 
   // Keep each district's static draw batches together. Matrix copies are taken
@@ -490,6 +484,7 @@ export function createInteriorDistricts() {
   const landmarks = Object.fromEntries(Object.entries(architecture.landmarks).map(([key, point]) => [key, point.clone().multiplyScalar(.8)]));
   function dispose() {
     if (disposed) return; disposed = true;
+    workforceMaterials.stop();
     const geometries = new Set(), materials = new Set(), textures = new Set();
     group.traverse(object => {
       if (object.isInstancedMesh) object.dispose();
@@ -504,5 +499,5 @@ export function createInteriorDistricts() {
     textures.forEach(item => item.dispose());
     group.clear(); group.removeFromParent();
   }
-  return { group, update, hitTargets, districts, bounds, entryClearance, landmarks, ready:cityMaterials.ready(), dispose };
+  return { group, update, hitTargets, districts, bounds, entryClearance, landmarks, ready:Promise.all([cityMaterials.ready(),workforceMaterials.ready]), dispose };
 }
