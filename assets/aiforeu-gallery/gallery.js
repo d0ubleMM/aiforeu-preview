@@ -1,8 +1,9 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
 import { createExhibits } from './exhibits.js?v=bomber-1';
 import { AREAS, clamp, ease, sampleGallery } from './journey.js';
-import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js';
+import { INTRO, landingProgress, sampleBomberIntro } from './bomber-intro.js?v=flight-2';
 import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';
+import { createFlightWake } from './flight-wake.js';
 
 const mounted=new WeakMap();
 const content={
@@ -25,11 +26,12 @@ export function mountWorld(host,{selected='logo'}={}){
   const stage=host.querySelector('[data-world-stage]'),frame=host.querySelector('.world-experience'),canvas=document.createElement('canvas');
   const fallback=host.querySelector('[data-world-fallback]'),copy=host.querySelector('[data-gallery-copy]'),nav=host.querySelector('[data-gallery-nav]');
   const previous=host.querySelector('[data-gallery-previous]'),next=host.querySelector('[data-gallery-next]'),credit=host.querySelector('[data-gallery-credit]');
+  const wordmark=host.querySelector('[data-gallery-wordmark]');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)'),abort=new AbortController();
   const on=(target,event,fn,options={})=>target?.addEventListener(event,fn,{...options,signal:abort.signal});
   if(reduced.matches&&selected==='logo')selected='bomber';
   let renderer,exhibits,env,disposed=false,raf=0,visible=true,lost=false,ready=false,progress=landingProgress(selected)||0,view=selected,pose=null,lastRange=null,reading=null;
-  let bomber=null,bomberState='loading',bomberBounds=null,bomberMaterials=[];
+  let bomber=null,wake=null,bomberState='loading',bomberBounds=null,bomberMaterials=[],oldFloors=[];
   let motionPreference=reduced.matches;
   try{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
@@ -96,23 +98,39 @@ export function mountWorld(host,{selected='logo'}={}){
     distance*=1.06;camera.position.copy(target).addScaledVector(direction,distance);camera.lookAt(target);camera.updateMatrixWorld();
     key.position.set(sample.centre-4.5,8.5,5.5);key.target.position.set(sample.centre,1,0);rim.position.set(sample.centre+4,6,-4);rim.target.position.set(sample.centre,1,0);
     const blend=inIntro?opening.blend:1;
+    const room=inIntro?ease((progress-INTRO.entryStart-.008)/.035):1;
+    const brand=inIntro?opening.brand:0,lockup=inIntro?opening.lockup:0;
+    if(wordmark){wordmark.hidden=brand<=0;wordmark.style.opacity=String(brand);wordmark.style.transform=`translate(-50%,calc(-50% + ${(1-brand)*24}px))`;}
+    host.toggleAttribute('data-brand-intro',brand>.01);
     if(inIntro){
       camera.position.lerpVectors(new THREE.Vector3(...opening.pose.position),camera.position,blend);target.lerpVectors(new THREE.Vector3(...opening.pose.target),target,blend);
+      camera.position.sub(target).multiplyScalar(1+(portrait?.08:1.1)*lockup).add(target);
       camera.fov=THREE.MathUtils.lerp(opening.pose.fov,35,blend);
-      key.position.lerpVectors(new THREE.Vector3(-25,42,28),key.position,blend);key.target.position.lerpVectors(new THREE.Vector3(),key.target.position,blend);
-      rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,blend);
+      key.position.lerpVectors(new THREE.Vector3(-25,42,28),key.position,room);key.target.position.lerpVectors(new THREE.Vector3(),key.target.position,room);
+      rim.position.lerpVectors(new THREE.Vector3(30,18,-22),rim.position,room);
     }
-    camera.setViewOffset(rect.width,rect.height,portrait?0:-rect.width*.145*blend,portrait?-74*blend:0,rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-    scene.fog=inIntro&&progress<=.278?null:fog;ambient.intensity=THREE.MathUtils.lerp(.75,1.15,blend);key.intensity=THREE.MathUtils.lerp(2.8,3.1,blend);rim.intensity=THREE.MathUtils.lerp(.9,1.1,blend);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.3,1.05,blend);scene.environmentIntensity=.65;
-    exhibits.root.visible=!inIntro||progress>=INTRO.entryStart;exhibits.floor.visible=!inIntro||progress>.278;
+    camera.setViewOffset(rect.width,rect.height,portrait?0:-rect.width*.145*blend,(portrait?-74*blend:0)+rect.height*.14*lockup,rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
+    const atmosphere=inIntro?ease((progress-INTRO.entryStart-.012)/.060):1;
+    fog.near=THREE.MathUtils.lerp(800,21,atmosphere);fog.far=THREE.MathUtils.lerp(1200,65,atmosphere);
+    ambient.intensity=THREE.MathUtils.lerp(.75,1.15,room);key.intensity=THREE.MathUtils.lerp(2.8,3.1,room);rim.intensity=THREE.MathUtils.lerp(.9,1.1,room);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.3,1.05,room);scene.environmentIntensity=.65;
+    exhibits.root.visible=!inIntro||progress>=INTRO.entryStart;
+    // The same neutral material and plane run from the cabin to the gallery.
+    // Introduce it through the roof opening, before the outer shell dissolves.
+    const floorOpacity=inIntro?ease((progress-INTRO.entryStart-.006)/.025):1;
+    exhibits.floor.visible=floorOpacity>0;exhibits.floor.material.opacity=floorOpacity;exhibits.floor.material.transparent=floorOpacity<1;exhibits.floor.material.depthWrite=floorOpacity>=1;
     if(bomber){
       bomber.group.visible=inIntro;bomber.setForm(opening.pose.form);bomber.setOpen(opening.pose.open);
-      const opacity=inIntro?1-ease((progress-.265)/.018):0;
+      bomber.group.rotation.set(...opening.rotation);oldFloors.forEach(mesh=>{mesh.visible=false;});
+      wake?.update(opening.rotation,inIntro?opening.flight:0);
+      const opacity=inIntro?1-ease((progress-INTRO.entryEnd-.015)/.025):0;
       bomber.group.visible=inIntro&&opacity>0;
-      for(const {material,base} of bomberMaterials){material.opacity=base.opacity*opacity;material.transparent=base.transparent||opacity<1;material.depthWrite=base.depthWrite&&opacity>=1;}
+      for(const {material,base} of bomberMaterials){
+        if(material.name==='Laibung'){material.color.lerp(exhibits.floor.material.color,room);material.metalness*=1-room;material.roughness=THREE.MathUtils.lerp(material.roughness,.74,room);}
+        material.opacity=base.opacity*opacity;material.transparent=base.transparent||opacity<1;material.depthWrite=base.depthWrite&&opacity>=1;
+      }
     }
     fallback.hidden=!(inIntro&&!bomber);
-    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:inIntro?opening.pose.open:1};
+    pose={position:camera.position.toArray(),target:target.toArray(),view,centre:sample.centre,inspection:sample.inspection,form:inIntro?opening.pose.form:1,open:inIntro?opening.pose.open:1,rotation:inIntro?opening.rotation:[0,0,0]};
     renderer.render(scene,camera);lastRange=r;
   }
   const active=()=>!disposed&&!lost&&visible&&!document.hidden&&!document.body.classList.contains('global-menu-open');
@@ -144,7 +162,7 @@ export function mountWorld(host,{selected='logo'}={}){
   const menuObserver=new MutationObserver(()=>{stop();schedule();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(stage);
   function dispose({preserve=false,keepCanvas=false}={}){
-    if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
+    if(disposed)return;disposed=true;stop();abort.abort();observer.disconnect();menuObserver.disconnect();sizeObserver.disconnect();exhibits.dispose();bomber?.dispose();wake?.dispose();env.dispose();key.shadow.map?.dispose();renderer.dispose();
     if(keepCanvas)canvas.style.visibility='hidden';else canvas.remove();fallback.hidden=false;nav.hidden=true;stage.dataset.worldReady='fallback';if(!preserve)host.setAttribute('data-gallery-static','');mounted.delete(host);if(window.AiforeuGallery===api)delete window.AiforeuGallery;
   }
   const api={select,dispose,get model(){return ready?'ready':'loading';},get bomber(){return bomberState;},get view(){return view;},get scroll(){return {progress,...range()};},get pose(){return structuredClone(pose);},get running(){return !!raf;},get stats(){return {...renderer.info.render};}};
@@ -152,9 +170,9 @@ export function mountWorld(host,{selected='logo'}={}){
   const aircraft=createBomberSkin({signal:abort.signal}).then(loaded=>{
     if(disposed){loaded.dispose();return;}
     bomber=loaded;bomberState='ready';bomberBounds={min:loaded.closedBounds.min.toArray(),max:loaded.closedBounds.max.toArray()};
-    const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;[].concat(o.material).forEach(m=>materials.add(m));}});
+    const materials=new Set();bomber.group.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;if(/^(Interior_Floor|Bridge_Floor)/.test(o.name))oldFloors.push(o);[].concat(o.material).forEach(m=>materials.add(m));}});
     bomberMaterials=[...materials].map(material=>({material,base:{opacity:material.opacity,transparent:material.transparent,depthWrite:material.depthWrite}}));
-    scene.add(bomber.group);draw();schedule();
+    bomber.setForm(1);wake=createFlightWake(bomber);scene.add(bomber.group,wake.group);draw();schedule();
   }).catch(()=>{if(!disposed){bomberState='unavailable';draw();schedule();}});
   Promise.all([exhibits.ready,aircraft]).then(()=>{if(!disposed){ready=true;draw();schedule();}});
   return api;

@@ -1,0 +1,9 @@
+/* One large brand lockup. Its mark is the same geometry that becomes the aircraft. */
+.gallery-wordmark{position:absolute;z-index:3;left:50%;top:66%;margin:0;transform:translate(-50%,-50%);font:500 clamp(70px,16vw,230px)/.88 var(--body);letter-spacing:-.055em;white-space:nowrap;color:#f2f4f6;pointer-events:none}
+.landing-page:has(.gallery-hero[data-brand-intro]) .global-header:not([data-hero-ended]) .global-brand{visibility:hidden}
+.gallery-hero[data-brand-intro] .gallery-fallback img{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);width:43%;max-width:none}
+@media(max-width:760px) and (min-height:501px){
+ .gallery-wordmark{font-size:21.5vw;letter-spacing:-.055em;top:58%}
+ .gallery-hero[data-brand-intro] .gallery-fallback img{width:82%}
+}
+@media(max-height:500px){.gallery-wordmark{font-size:20svh;top:74%}.gallery-hero[data-brand-intro] .gallery-fallback img{max-height:40svh;object-fit:contain}}
