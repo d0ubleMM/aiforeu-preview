@@ -3,8 +3,8 @@ import { createExhibits } from './exhibits.js?v=cabin-1';
 import { AREAS, DESK_LAYOUT, clamp, ease, sampleGallery } from './journey.js?v=cabin-1';
 import { INTRO, landingProgress } from './bomber-intro.js?v=brand-3';
 import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';
-import { sampleFilm, cabinOverview } from './film-timeline.js?v=cabin-1';
-import { createRearHangar } from './rear-hangar.js?v=cabin-1';
+import { sampleFilm, cabinOverview, FLIGHT } from './film-timeline.js?v=lowpass-1';
+import { createRearHangar } from './rear-hangar.js?v=lowpass-1';
 
 const mounted=new WeakMap();
 const content={
@@ -48,6 +48,8 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
   const key=new THREE.DirectionalLight('#ffffff',3.1);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-24,right:24,top:24,bottom:-24,near:.1,far:80});key.shadow.bias=-.0002;key.shadow.normalBias=.015;scene.add(key,key.target);
   const rim=new THREE.DirectionalLight('#e7edff',1.1);scene.add(rim,rim.target);
   const apronKey=capture?new THREE.DirectionalLight('#edf0ee',1.6):null;
+  const runwayBounce=capture?new THREE.DirectionalLight('#a6b5bf',2.4):null;
+  if(runwayBounce)scene.add(runwayBounce,runwayBounce.target);
   if(apronKey){apronKey.position.set(-35,65,-25);apronKey.target.position.set(0,0,-4);apronKey.castShadow=true;apronKey.shadow.mapSize.set(2048,2048);Object.assign(apronKey.shadow.camera,{left:-76,right:76,top:48,bottom:-48,near:1,far:180});apronKey.shadow.bias=-.0002;apronKey.shadow.normalBias=.04;apronKey.shadow.radius=3;scene.add(apronKey,apronKey.target);}
   function sync(sample){
     const changed=view!==sample.view||!host.dataset.galleryView;view=sample.view;host.dataset.galleryView=view;
@@ -69,7 +71,7 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
   function draw(){
     if(disposed||lost)return;
     if(filmSample){filmSample=sampleFilm(filmSample.time,{aspect:camera.aspect});progress=filmSample.progress;}
-    const inIntro=!!filmSample&&filmSample.time<13.4;
+    const inIntro=!!filmSample&&filmSample.time<FLIGHT.inside;
     const galleryProgress=clamp((progress-INTRO.galleryStart)/(1-INTRO.galleryStart));
     const sample=sampleGallery(galleryProgress);
     if(overview){sample.view='overview';sample.centre=0;sample.inspection=.65;sample.opacity=1;}
@@ -106,7 +108,7 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
       const start=transition.cameraFrom,t=ease(transition.elapsed/transition.duration);
       camera.position.lerpVectors(new THREE.Vector3(...start.position),camera.position,t);target.lerpVectors(new THREE.Vector3(...start.target),target,t);camera.fov=THREE.MathUtils.lerp(start.fov,camera.fov,t);offset=offset.map((v,i)=>THREE.MathUtils.lerp(start.offset[i],v,t));
     }
-    camera.setViewOffset(rect.width,rect.height,...offset,rect.width,rect.height);camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
+    camera.setViewOffset(rect.width,rect.height,...offset,rect.width,rect.height);camera.lookAt(target);camera.rotateZ(filmSample?.camera.roll||0);camera.updateProjectionMatrix();camera.updateMatrixWorld();
     const room=filmSample?filmSample.room:1,centre=sample.centre;
     key.position.set(centre-4.5,5.8,DESK_LAYOUT.z-5.5);key.target.position.set(centre,1,DESK_LAYOUT.z);
     rim.position.set(centre+4,6,DESK_LAYOUT.z+4);rim.target.position.set(centre,1,DESK_LAYOUT.z);
@@ -115,7 +117,11 @@ export function mountWorld(host,{selected='overview',capture=false}={}){
     const exteriorFog=filmSample?.rear?Math.max(160,260/camera.aspect):800;
     fog.near=THREE.MathUtils.lerp(exteriorFog,35,room);fog.far=THREE.MathUtils.lerp(Math.min(1200,exteriorFog*3),100,room);
     ambient.intensity=THREE.MathUtils.lerp(filmSample?.rear ? .38 : .72,1.15,room);key.intensity=THREE.MathUtils.lerp(filmSample?.rear ? .8 : 3.2,3.1,room);rim.intensity=THREE.MathUtils.lerp(filmSample?.rear?2.6:3.2,1.1,room);renderer.toneMappingExposure=THREE.MathUtils.lerp(1.25,1.05,room);scene.environmentIntensity=.65;
-    key.castShadow=room>.8;if(apronKey)apronKey.intensity=filmSample?.rear?1.6*(1-room):0;
+    key.castShadow=room>.8;if(apronKey){
+      apronKey.intensity=filmSample?.rear?1.6*(1-room):0;
+      const p=filmSample?.position||[0,0,0];apronKey.position.set(p[0]-35,65,p[2]-25);apronKey.target.position.set(p[0],0,p[2]);
+    }
+    if(runwayBounce){const p=filmSample?.position||[0,0,0];runwayBounce.intensity=filmSample?.rear?2.4*(1-room):0;runwayBounce.position.set(p[0]+8,-15,p[2]-10);runwayBounce.target.position.fromArray(p);}
     if(bomber){
       bomber.group.visible=!!filmSample;bomber.setForm(1);bomber.setOpen(0);
       bomber.group.rotation.set(...(filmSample?.rotation||[0,0,0]));bomber.group.position.set(...(filmSample?.position||[0,0,0]));oldFloors.forEach(mesh=>{mesh.visible=false;});

@@ -84,11 +84,13 @@ export function createRearHangar(){
     const rod=mesh(bay,new THREE.CylinderGeometry(.055,.055,1,16),metal),sleeve=mesh(bay,new THREE.CylinderGeometry(.10,.10,1,16),edge);rods.push({rod,sleeve,side});
   }
   // Landing gear, parking marks and a cast shadow establish ground contact.
+  const suspension=[];
   for(const [x,z] of [[-10,-3],[10,-3],[0,16]]){
-    mesh(airframe,new THREE.CylinderGeometry(.10,.13,1.2,16),metal,[x,-.39,z]);beam(airframe,metal,[x,-.75,z],[x+.5,-.05,z+.5],.10);
+    const strut=mesh(airframe,new THREE.CylinderGeometry(.10,.13,1.2,16),metal,[x,-.39,z]);beam(airframe,metal,[x,-.75,z],[x+.5,-.05,z+.5],.10);
+    const axle=new THREE.Group();airframe.add(axle);suspension.push({strut,axle});
     for(const offset of [-.27,.27]){
-      const wheel=mesh(airframe,new THREE.TorusGeometry(.29,.15,12,32),rubber,[x+offset,-.92,z]);wheel.rotation.y=Math.PI/2;
-      const hub=mesh(airframe,new THREE.CylinderGeometry(.17,.17,.23,16),metal,[x+offset,-.92,z]);hub.rotation.z=Math.PI/2;
+      const wheel=mesh(axle,new THREE.TorusGeometry(.29,.15,12,32),rubber,[x+offset,-.92,z]);wheel.rotation.y=Math.PI/2;
+      const hub=mesh(axle,new THREE.CylinderGeometry(.17,.17,.23,16),metal,[x+offset,-.92,z]);hub.rotation.z=Math.PI/2;
     }
   }
   const apron=new THREE.Group();root.add(apron);
@@ -98,6 +100,20 @@ export function createRearHangar(){
   const apronMaterial=mat('#090d11',{roughness:.87,metalness:.08,envMapIntensity:.12,roughnessMap:grain});
   const ground=mesh(apron,new THREE.PlaneGeometry(2400,2400),apronMaterial,[0,-1.365,0]);ground.rotation.x=-Math.PI/2;ground.castShadow=false;
   for(const x of [-7.4,7.4])box(apron,marking,[x,-1.351,-27],[.065,.012,24]);box(apron,marking,[0,-1.351,-15.6],[14.9,.012,.065]);
+  // Passing runway marks provide a foreground speed reference at eye level.
+  for(let z=-178;z<-42;z+=14)box(apron,marking,[0,-1.35,z],[.38,.012,6]).castShadow=false;
+  for(const side of [-1,1]){
+    box(apron,marking,[side*21,-1.35,-110],[.14,.012,160]).castShadow=false;
+    for(let z=-178;z<-40;z+=18)box(apron,marking,[side*21,-1.30,z],[.32,.10,.48]).castShadow=false;
+  }
+  const hazeCanvas=document.createElement('canvas');hazeCanvas.width=hazeCanvas.height=64;
+  const ctx=hazeCanvas.getContext('2d'),gradient=ctx.createRadialGradient(32,32,1,32,32,32);
+  gradient.addColorStop(0,'rgba(190,198,200,.8)');gradient.addColorStop(.38,'rgba(160,170,176,.28)');gradient.addColorStop(1,'rgba(160,170,176,0)');ctx.fillStyle=gradient;ctx.fillRect(0,0,64,64);
+  const hazeTexture=new THREE.CanvasTexture(hazeCanvas);textures.push(hazeTexture);
+  const haze=[];
+  for(const side of [-1,1])for(let i=0;i<3;i++){
+    const material=new THREE.SpriteMaterial({map:hazeTexture,transparent:true,opacity:0,depthWrite:false,toneMapped:false}),sprite=new THREE.Sprite(material);root.add(sprite);haze.push({sprite,material,side,i});
+  }
   const cabinLight=new THREE.PointLight('#e3e8e5',24,27,2);cabinLight.position.set(0,5,-8);airframe.add(cabinLight);
   const spill=[];
   for(const side of [-1,1]){
@@ -116,6 +132,12 @@ export function createRearHangar(){
   function update(state){
     const active=state?.rear||0,opacity=state?.shellOpacity??0;root.visible=active>0&&opacity>0;cut.value=active>0?1:0;if(!root.visible)return;
     airframe.position.set(...state.position);airframe.rotation.set(...state.rotation);upper.rotation.x=Math.PI*.51*state.door;ramp.rotation.x=REAR_ENTRY.rampAngle*state.ramp;
+    const compression=state.gearCompression||0;
+    for(const {strut,axle} of suspension){axle.position.y=compression;strut.scale.y=1-compression/1.2;strut.position.y=-.39+compression*.5;}
+    for(const {sprite,material,side,i} of haze){
+      const age=(state.touchdown??-1)-i*.045;const visible=age>0&&age<1.1;sprite.visible=visible;
+      if(visible){material.opacity=.28*(1-Math.exp(-age*22))*Math.exp(-age*3);sprite.position.set(side*(10+age*.7),-.8+age*.6,-13-age*5-i*.2);sprite.scale.set(1+age*5,.5+age*2.3,1);}
+    }
     cabinLight.intensity=24*state.door*opacity;spill.forEach(s=>{s.intensity=65*state.door*opacity;});light.emissiveIntensity=3*state.door;
     for(const {rod,sleeve,side} of rods){
       const a=new THREE.Vector3(side*4.8,5.1,-12.3),b=new THREE.Vector3(side*4.7,6.8-2.7*Math.cos(upper.rotation.x),-14.7-2.7*Math.sin(upper.rotation.x));
@@ -124,6 +146,6 @@ export function createRearHangar(){
     }
     for(const m of materials){m.opacity=opacity;const transparent=opacity<1;if(m.transparent!==transparent){m.transparent=transparent;m.needsUpdate=true;}m.depthWrite=opacity>=1;}
   }
-  function dispose(){root.removeFromParent();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}
+  function dispose(){root.removeFromParent();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());haze.forEach(h=>h.material.dispose());}
   return {root,attachSkin,update,dispose};
 }
