@@ -90,11 +90,11 @@
 
 /* Grey office scenes have their own space beside or below the text. */
 .gray-room-page{--room:#303238;--room-soft:#d1d3d7;--room-quiet:#b3b7bf}
-.gray-room-page .global-header:not([data-solid]){--global-nav-paper:var(--room);background:var(--room)}
 .gray-room-page .film-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,4vw,64px);min-height:560px;padding-block:64px}
+.gray-room-page .film-hero::after{content:'';position:absolute;z-index:1;inset:0 0 auto;height:clamp(180px,22vw,320px);background:linear-gradient(#0c0e11,rgba(12,14,17,0));pointer-events:none}
 .gray-room-page .film-hero-copy{grid-area:1 / 1;width:100%;max-width:580px}
 .gray-room-page .film-hero h1{width:auto;max-width:100%;font-size:clamp(38px,4.2vw,64px);line-height:1.08;letter-spacing:-.045em}
-.gray-room-page .film-hero-media{position:relative;grid-area:1 / 2;top:auto;right:auto;width:100%;aspect-ratio:4/3;transform:none;mix-blend-mode:normal;margin:0}
+.gray-room-page .film-hero-media{position:relative;z-index:0;grid-area:1 / 2;top:auto;right:auto;width:100%;aspect-ratio:4/3;transform:none;mix-blend-mode:normal;margin:0}
 .gray-room-page .film-hero--row{display:flex;flex-direction:column;align-items:stretch;gap:12px;min-height:0;padding-block:72px 28px}
 .gray-room-page .film-hero--row .film-hero-copy{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:center;gap:28px 64px;width:100%;max-width:none}
 .gray-room-page .film-hero--row .film-hero-copy h1{grid-area:1 / 1;font-size:clamp(38px,4.1vw,64px)}

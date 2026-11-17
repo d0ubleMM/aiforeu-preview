@@ -4,6 +4,7 @@ html:has(.landing-page){background:#0c0e11}
 .landing-page .global-header:not([data-hero-ended]){--global-nav-paper:#0c0e11;background:rgba(12,14,17,.8);border-bottom-color:rgba(255,255,255,.07);transition:background .4s ease,border-color .4s ease}
 /* The opening film shares the page background. */
 .js .landing-page .global-header:not([data-hero-ended]):not([data-solid]){background:rgba(12,14,17,0);border-bottom-color:rgba(255,255,255,0);-webkit-backdrop-filter:none;backdrop-filter:none}
+.landing-page .global-header:not([data-hero-ended])[data-solid]{background:#0c0e11}
 /* The open offers panel always sits on a solid bar. */
 .js .landing-page .global-header:not([data-hero-ended])[data-offers-open]{background:rgba(12,14,17,.97);border-bottom-color:rgba(255,255,255,.07)}
 .landing-page .global-header:not([data-hero-ended]) .global-offers>summary{color:#cbd4e1}

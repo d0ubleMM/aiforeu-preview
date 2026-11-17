@@ -9,28 +9,25 @@
 
   // 1 · The small opening film and the words give way as the page moves on.
   const night = document.querySelector('[data-night]');
-  let nightFrame = 0, nightEnd = 0;
+  let nightFrame = 0;
   const paintNight = () => {
     nightFrame = 0;
     const out = reduced.matches ? 0 : clamp(scrollY / Math.max(1, night.offsetHeight * .9));
     night.style.setProperty('--night-out', out.toFixed(3));
   };
 
-  function measure() {
-    if (night) nightEnd = night.offsetTop + night.offsetHeight;
-  }
   function paintHeader() {
-    header?.toggleAttribute('data-solid', scrollY > nightEnd - (header?.offsetHeight || 0) - 2);
+    header?.toggleAttribute('data-solid', scrollY > 16);
   }
   function onScroll() {
     if (night && !nightFrame) nightFrame = requestAnimationFrame(paintNight);
     paintHeader();
   }
   if (night) {
-    measure(); onScroll();
+    onScroll();
     addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', () => { measure(); onScroll(); });
-    addEventListener('load', () => { measure(); onScroll(); });
+    addEventListener('resize', onScroll);
+    addEventListener('load', onScroll);
     reduced.addEventListener('change', onScroll);
   }
 

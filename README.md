@@ -2,37 +2,24 @@
 
 Static website files for the AIFOREU design preview. The development repository and its history are kept separately.
 
-Shared organization preview: https://aiforeu.github.io/aiforeu-preview/
+Main preview: https://d0ublemm.github.io/aiforeu-preview/
 
-The previous preview at https://d0ublemm.github.io/aiforeu-preview/ is synchronized
-to this repository's main branch.
+The organization address https://aiforeu.github.io/aiforeu-preview/ redirects
+here, preserving the page, query and fragment. Publish website exports only to
+`d0ubleMM/aiforeu-preview` (`main:/`). The organization repository publishes only
+its redirect folder (`main:/docs`), and must not receive mirrored website exports.
 
 ## Homepage
 
-A small, softly blended film accompanies the opening message at the upper
-right. It plays once and holds its final frame; it does not fill the screen.
-The page then travels along five lit workplaces, one per offer (voice agents,
-desktop automation, workflows, traffic planning, IVE). It states what the
-company stands for, opens its two areas, lists the further offers and ends
-with a quiet contact question. The aircraft appears only in the opening. Each workplace has its name, one
-short description and a direct link. Detailed scenarios belong to the area
-pages. The subpage openings are described below.
+The near-black opening retains its small film. It blends into the original grey
+3D room with one white desk at a time: Voice, Desktop, Workflows and VerkehrsAI.
+Visitors select a desk with the direct selectors or previous/next buttons.
+Normal page scrolling, reduced motion, static artwork and direct-link fallbacks
+remain available. The compact product overview follows the room.
 
-- `index.html`, `assets/home-story.css`, `assets/home-story.js`: structure,
-  styling and behaviour. The script pins the stage and moves the row of
-  workplaces sideways with the scroll; the light and the clip are on the
-  workplace in front of the visitor. The rail and the arrow keys glide straight
-  to a workplace. It also lights up the statement while it is read and plays the
-  other clips only while they are on screen.
-- Each workplace is a white desk filmed in darkness. The page blends the film
-  with `mix-blend-mode: lighten`, so its black dissolves into the page colour and
-  the desk stands in the page itself.
-- With reduced motion, and without scripts, the workplaces follow one another
-  down the page as still pictures. On upright screens each desk sits above its
-  text.
-- `assets/aiforeu-home/`: all pictures and clips of the homepage and the subpages.
-- The rail under the workplaces links directly to the five areas, without an
-  additional layer of explanatory labels.
+- `assets/home-story.*`: opening film, navigation background and statement.
+- `assets/office-room.*` and `assets/aiforeu-gallery/`: interactive desks.
+- `assets/aiforeu-room/`: stills rendered from the same desk models.
 
 ## Navigation
 
@@ -42,24 +29,17 @@ source) plus the project overview; the phone menu lists the same pages. The
 panel is a native `<details>`, so it opens without script; `assets/navigation.js`
 adds closing by Escape, by a click elsewhere and when focus leaves it. The
 header markup is repeated in each HTML file: change it in all of them together.
-The platform is called "Die Plattform" in the menu and on the homepage because
-its product name is going to change.
+The main platform is Agentario. VerkehrsAI has one entry, including VerkehrsOS research.
 
 ## Subpages
 
-Every subpage opens in the same night as the homepage: a dark stage with the
-page's heading and, beside it, a filmed scene from the same studio (a desk, a
-row of desks). The company page shows the three connected workplaces; contact
-shows the notebook desk as a still picture. `assets/page-film.css` styles the stage,
-`assets/page-film.js` plays its clip while it is on screen and gives the header
-its light bar back once the stage has passed. Below the stage each page goes on
-in its own light layout. `verkehrsai.html` keeps its own opening and shows the
-junction at night with its clip. Blog articles, imprint and privacy are
-unchanged.
+Company and product pages share the dark header and grey room with the homepage.
+Text and artwork occupy separate layout areas; the company page puts its row of
+desks below the introduction. `assets/page-film.*` styles the opening and returns
+the header to its light version over light page content. VerkehrsAI and the
+VerkehrsOS research project share `verkehrsai.html`; the old address redirects.
 
-Stylesheets, scripts, pictures and clips that change must get a new `?v=` in the
-pages that link them: browsers keep the old file otherwise, and a page with new
-markup and an old stylesheet falls apart.
+Version changed stylesheets, scripts and media in their referencing pages.
 
 ## Projects page
 
@@ -76,10 +56,8 @@ are kept in `.higgsfield-local/`, which is not published.
   each still picture from the first frame of its loop, so nothing shifts when a
   clip starts to play. Needs ffmpeg with libx264 and Python with Pillow:
   `FFMPEG=/path/to/ffmpeg PYTHON=/path/to/python scripts/build-home-media.sh`.
-- The earlier homepage showed a 3D room. Its files (`assets/aiforeu-gallery/`,
-  the `assets/aiforeu-gallery-*-entry.js` and `assets/aiforeu-brand-flight-entry.js`
-  scripts and the `assets/gallery*.css` stylesheets) are still in the repository,
-  but no page loads them.
+- The homepage reuses the original gallery through `assets/office-room.js`.
+  The older flight and pinned scroll entry points are not mounted.
 
 ## Source synchronization
 

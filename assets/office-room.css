@@ -2,8 +2,11 @@
 .office-home .night{min-height:600px;min-height:min(76svh,740px)}
 .office-home .night h1{font-size:clamp(52px,7.3vw,112px);line-height:.98}
 .office-home .night-copy{opacity:1;padding-bottom:64px}
-.office-room{background:#303238;color:#fff;scroll-margin-top:var(--global-header-height,73px);border-block:1px solid #ffffff1a}
-.office-room .world-experience{height:clamp(560px,48vw,720px);background:#303238;max-width:1800px;margin-inline:auto}
+.office-room{position:relative;isolation:isolate;background:#303238;color:#fff;scroll-margin-top:var(--global-header-height,73px)}
+.office-room .world-experience::before,.office-room .world-experience::after{content:'';position:absolute;z-index:1;left:0;right:0;pointer-events:none}
+.office-room .world-experience::before{top:0;height:clamp(100px,12vw,180px);background:linear-gradient(#0c0e11,rgba(12,14,17,0))}
+.office-room .world-experience::after{bottom:0;height:112px;background:linear-gradient(rgba(12,14,17,0),#0c0e11)}
+.office-room .world-experience{height:clamp(560px,48vw,720px);background:#303238;margin-inline:auto}
 .office-room .world-stage{position:absolute;inset:0;background:#303238}
 .office-room .world-stage canvas{width:100%;height:100%;position:absolute;inset:0;display:block}
 .office-copy{position:absolute;z-index:2;left:var(--hero-edge);top:50%;transform:translateY(-50%);width:26%;max-width:340px;pointer-events:none}
@@ -34,6 +37,8 @@
  .office-home .night-copy{padding-bottom:36px}
  .office-home .night h1{font-size:clamp(44px,13vw,68px)}
  .office-room .world-experience{height:660px}
+ .office-room .world-experience::before{height:180px}
+ .office-room .world-experience::after{height:140px}
  .office-copy{top:28px;left:var(--gutter);right:var(--gutter);width:auto;max-width:none;transform:none}
  .office-family{font-size:12px;margin-bottom:10px}
  .office-copy h2{font-size:34px}
