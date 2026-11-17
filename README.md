@@ -11,25 +11,31 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The near-black opening fills the viewport and retains its small film. A shared
-grey stage separates the two main business areas. Agentario shows one example
+The near-black opening fills the viewport. A hand-drawn isometric street develops
+through twelve epochs, from a muddy path and horse carriages through cobbles,
+early motorcars and concrete roads to a green city with flying cars. The time
+lapse plays independently of scrolling, with pause, replay and a position slider.
+
+A shared grey stage separates the two main business areas. Agentario shows one example
 from an incoming call through work in software to the next workflow step.
 VerkehrsAI has an illustrative 3D junction with moving traffic and a drawing
 plane that lifts above the model. The area selectors and example steps can be
-selected directly; ordinary page scrolling also moves between the scenes.
+selected directly. The document scrolls normally, without pinned sections or
+automatic area changes caused by scrolling.
 
 IVE and AnyUse follow as independent projects, with an IVE screenshot and an
-explicitly labelled AnyUse example. The original closing animation remains:
-words drift apart while the contact button moves to the centre. Reverse
-scrolling restores the text.
+explicitly labelled AnyUse example. The contact section follows in the normal
+document flow, without a separate scroll runway.
 
-Reduced motion and short viewports use a normal, stacked layout with direct
-area navigation. A pause control stops the ambient movement. The content and
-links remain available without JavaScript, with vector artwork if WebGL is
-unavailable.
+Reduced motion disables automatic movement. A pause control stops ambient
+movement; the introduction also pauses offscreen and while the menu is open.
+Without JavaScript, both business areas and all links remain in the document,
+and the opening illustration uses a static first frame. The junction has vector
+artwork if WebGL is unavailable.
 
 - `assets/home-story.*`: full-screen opening, navigation and statement.
-- `assets/business-scenes.*`: area layout, example workflow and scroll transitions.
+- `assets/road-evolution.*` and `assets/road-evolution/`: illustrated opening and playback.
+- `assets/business-scenes.*`: area layout and directly selectable example workflow.
 - `assets/business-junction.js` and `.svg`: public illustrative geometry and fallback.
 - `assets/aiforeu-room/`: original grey-room desk stills used on subpages.
 
@@ -60,8 +66,11 @@ desk pictures, and each project has one line on how it belongs to the others.
 
 ## Generated artwork
 
-Pictures and clips were generated with Higgsfield. The raw output and the briefs
-are kept in `.higgsfield-local/`, which is not published.
+The road-evolution illustration was generated with the built-in Imagegen tool.
+Its twelve frames share one WebP atlas; playback uses a canvas reveal between
+stages. Original artwork and prompt history remain in the development repository.
+Earlier pictures and clips were generated with Higgsfield. Their raw output and
+briefs are kept in `.higgsfield-local/`, which is not published.
 
 - `scripts/build-home-media.sh`: rebuilds every clip as a seamless loop and takes
   each still picture from the first frame of its loop, so nothing shifts when a
