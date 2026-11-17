@@ -11,18 +11,27 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The near-black opening fills the viewport and retains its small film. It blends into the original grey
-3D room with one white desk at a time: Voice, Desktop, Workflows and VerkehrsAI.
-Visitors select a desk with the direct selectors or previous/next buttons.
-Normal page scrolling, reduced motion, static artwork and direct-link fallbacks
-remain available. The compact product overview follows the room. The original
-closing animation is restored: its words drift apart as visitors scroll, and
-the contact button moves to the centre. Reverse scrolling restores the text;
-reduced motion and no-JavaScript retain the readable static closing section.
+The near-black opening fills the viewport and retains its small film. A shared
+grey stage separates the two main business areas. Agentario shows one example
+from an incoming call through work in software to the next workflow step.
+VerkehrsAI has an illustrative 3D junction with moving traffic and a drawing
+plane that lifts above the model. The area selectors and example steps can be
+selected directly; ordinary page scrolling also moves between the scenes.
 
-- `assets/home-story.*`: opening film, navigation background and statement.
-- `assets/office-room.*` and `assets/aiforeu-gallery/`: interactive desks.
-- `assets/aiforeu-room/`: stills rendered from the same desk models.
+IVE and AnyUse follow as independent projects, with an IVE screenshot and an
+explicitly labelled AnyUse example. The original closing animation remains:
+words drift apart while the contact button moves to the centre. Reverse
+scrolling restores the text.
+
+Reduced motion and short viewports use a normal, stacked layout with direct
+area navigation. A pause control stops the ambient movement. The content and
+links remain available without JavaScript, with vector artwork if WebGL is
+unavailable.
+
+- `assets/home-story.*`: full-screen opening, navigation and statement.
+- `assets/business-scenes.*`: area layout, example workflow and scroll transitions.
+- `assets/business-junction.js` and `.svg`: public illustrative geometry and fallback.
+- `assets/aiforeu-room/`: original grey-room desk stills used on subpages.
 
 ## Navigation
 
@@ -46,9 +55,8 @@ Version changed stylesheets, scripts and media in their referencing pages.
 
 ## Projects page
 
-`projekte.html` shows the three areas of the platform with the same desk
-pictures as the homepage, and each project has one line on how it belongs to
-the others.
+`projekte.html` shows the three capabilities of Agentario with the original
+desk pictures, and each project has one line on how it belongs to the others.
 
 ## Generated artwork
 
@@ -59,8 +67,8 @@ are kept in `.higgsfield-local/`, which is not published.
   each still picture from the first frame of its loop, so nothing shifts when a
   clip starts to play. Needs ffmpeg with libx264 and Python with Pillow:
   `FFMPEG=/path/to/ffmpeg PYTHON=/path/to/python scripts/build-home-media.sh`.
-- The homepage reuses the original gallery through `assets/office-room.js`.
-  The older flight and pinned scroll entry points are not mounted.
+- The homepage uses `assets/business-scenes.js`; the original desk-gallery
+  entry point and older flight entry points are not mounted.
 
 ## Source synchronization
 

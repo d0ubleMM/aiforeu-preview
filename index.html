@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css"><link rel="stylesheet" href="assets/lu-schluss.css"><link rel="stylesheet" href="assets/home-story.css?v=20261117-fullscreen"><link rel="stylesheet" href="assets/office-room.css?v=20261117-fullscreen">
+<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css"><link rel="stylesheet" href="assets/lu-schluss.css"><link rel="stylesheet" href="assets/home-story.css?v=20261117-fullscreen"><link rel="stylesheet" href="assets/business-scenes.css?v=20261117-scenes2">
 <script>document.documentElement.classList.add('js')</script>
 <meta name="robots" content="noindex, nofollow">
 </head>
@@ -97,61 +97,97 @@
  </div>
 </section>
 
-<section class="office-room" id="rundgang" aria-label="Unsere Arbeitsbereiche" data-world data-office-single>
- <div class="world-experience">
-  <div class="office-copy" data-gallery-copy aria-live="polite" aria-atomic="true">
-   <span class="office-family" data-gallery-family>Agentario</span>
-   <h2 data-gallery-title>Voice</h2>
-   <p data-gallery-description>Agentario nimmt Anrufe an und führt die nächsten Schritte aus.</p>
-   <a class="office-link" data-gallery-link href="agentario/voice/">Voice entdecken <span aria-hidden="true">↗</span></a>
-  </div>
-  <div class="world-stage" data-world-stage role="img" aria-label="Einzelne Arbeitsplätze im grauen Raum: Voice, Desktop, Workflows und VerkehrsAI">
-   <div class="office-fallback" data-world-fallback><img src="assets/aiforeu-room/voice.jpg?v=20261116" alt="Ein weißer Bürotisch mit Mikrofon im grauen Raum." width="1600" height="1200" loading="lazy"></div>
-  </div>
-  <nav class="office-controls" aria-label="Arbeitsplatz auswählen">
-   <button type="button" data-cabin-select="voice" aria-pressed="true">Voice</button>
-   <button type="button" data-cabin-select="desktop" aria-pressed="false">Desktop</button>
-   <button type="button" data-cabin-select="workflows" aria-pressed="false">Workflows</button>
-   <button type="button" data-cabin-select="traffic" aria-pressed="false">VerkehrsAI</button>
+<section class="business-scenes" id="rundgang" aria-label="Unsere Geschäftsbereiche" data-business-scenes>
+ <span class="business-anchor" id="produkte"></span><span class="business-anchor" id="wege"></span>
+ <div class="business-stage">
+  <nav class="business-nav landing-width" aria-label="Geschäftsbereich wählen">
+   <a href="#agentario-scene" data-area="agentario"><span>01</span><strong>Agentario</strong><small>Für Unternehmen</small></a>
+   <a href="#traffic-scene" data-area="traffic"><span>02</span><strong>VerkehrsAI</strong><small>Für Kommunen &amp; Planungsbüros</small></a>
+   <button class="business-motion" type="button" data-motion-toggle aria-label="Animation pausieren" aria-pressed="false" title="Animation pausieren"><span aria-hidden="true">Ⅱ</span></button>
   </nav>
-  <nav class="office-sequence" data-gallery-nav aria-label="Zwischen den Tischen wechseln" hidden><button type="button" data-gallery-previous disabled>← Zurück</button><button type="button" data-gallery-next>Desktop →</button></nav>
-  <p class="office-credit" data-gallery-credit hidden>Illustration · Luftbild: <a href="https://opengeodata.lgln.niedersachsen.de/">LGLN (2026)</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a></p>
-  <nav class="office-fallback-links" aria-label="Arbeitsbereiche entdecken"><a href="agentario/voice/">Voice ↗</a><a href="agentario/desktop/">Desktop ↗</a><a href="agentario/workflows/">Workflows ↗</a><a href="verkehrsai.html">VerkehrsAI ↗</a></nav>
+  <div class="business-panels">
+   <article class="business-panel business-agentario landing-width" id="agentario-scene" aria-labelledby="agentario-scene-title" data-scene="agentario" data-step="voice">
+    <div class="business-copy">
+     <p class="business-eyebrow">Agentario · Eine Plattform</p>
+     <h2 id="agentario-scene-title">Aus einem Anruf<br>wird ein Ablauf.</h2>
+     <p>Agentario nimmt Anliegen auf, arbeitet in Ihren Programmen und verbindet die nächsten Schritte.</p>
+     <a class="business-link" href="agentario/">Agentario entdecken <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="agentario-visual" aria-label="Beispiel: Vom Anruf zur vorbereiteten Rückrufaufgabe">
+     <div class="agentario-window">
+      <div class="agentario-window-bar"><strong><img src="agentario/agentario-mark.svg" alt="" width="20" height="13">Agentario</strong><span>Beispielablauf</span><i aria-hidden="true">•••</i></div>
+      <div class="agentario-window-content">
+       <div class="agentario-voice" data-step-view="voice">
+        <div class="agentario-call"><div class="call-orb" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M10 5 6 8c-1 9 9 19 18 18l3-4-6-4-3 3c-4-2-6-4-8-8l3-3Z"/></svg></div><span>Ein Anliegen kommt rein</span><strong>„Können Sie mich zu<br>meinem Angebot zurückrufen?“</strong></div>
+        <div class="call-wave" aria-hidden="true"><i style="--bar:0;--bar-height:7px"></i><i style="--bar:1;--bar-height:12px"></i><i style="--bar:2;--bar-height:9px"></i><i style="--bar:3;--bar-height:21px"></i><i style="--bar:4;--bar-height:33px"></i><i style="--bar:5;--bar-height:19px"></i><i style="--bar:6;--bar-height:41px"></i><i style="--bar:7;--bar-height:26px"></i><i style="--bar:8;--bar-height:14px"></i><i style="--bar:9;--bar-height:30px"></i><i style="--bar:10;--bar-height:46px"></i><i style="--bar:11;--bar-height:35px"></i><i style="--bar:12;--bar-height:20px"></i><i style="--bar:13;--bar-height:11px"></i><i style="--bar:14;--bar-height:25px"></i><i style="--bar:15;--bar-height:40px"></i><i style="--bar:16;--bar-height:19px"></i><i style="--bar:17;--bar-height:31px"></i><i style="--bar:18;--bar-height:44px"></i><i style="--bar:19;--bar-height:27px"></i><i style="--bar:20;--bar-height:17px"></i><i style="--bar:21;--bar-height:8px"></i><i style="--bar:22;--bar-height:19px"></i><i style="--bar:23;--bar-height:12px"></i><i style="--bar:24;--bar-height:7px"></i></div>
+        <div class="agentario-note"><span aria-hidden="true">↳</span><p>Agentario erfasst das Anliegen.<br><strong>Rückruf zum Angebot vorbereiten</strong></p></div>
+       </div>
+       <div class="agentario-desktop" data-step-view="desktop" hidden>
+        <div class="demo-app-heading"><span>Kundenverwaltung</span><span>Kontakt → Aktivitäten</span></div>
+        <p class="demo-record-label">Neue Aufgabe</p><h3>Rückruf zum Angebot</h3>
+        <dl class="demo-record"><div><dt>Anliegen</dt><dd>Rückfrage zum Angebot</dd></div><div><dt>Quelle</dt><dd>Telefonat mit Agentario</dd></div><div><dt>Zuständig</dt><dd>Vertrieb</dd></div></dl>
+        <div class="demo-record-state"><span aria-hidden="true">✓</span> Informationen übertragen</div>
+       </div>
+       <div class="agentario-workflow" data-step-view="workflows" hidden>
+        <p class="demo-record-label">Ein zusammenhängender Ablauf</p><h3>Bereit für Ihr Team.</h3>
+        <ol class="demo-flow"><li><span aria-hidden="true">✓</span><div><strong>Anliegen erfasst</strong><small>Aus dem Gespräch übernommen</small></div></li><li><span aria-hidden="true">✓</span><div><strong>Aufgabe vorbereitet</strong><small>In der Kundenverwaltung</small></div></li><li><span aria-hidden="true">→</span><div><strong>Ans Team übergeben</strong><small>Rückruf durch den Vertrieb</small></div></li></ol>
+       </div>
+      </div>
+      <div class="agentario-window-foot"><span class="demo-state-dot" aria-hidden="true"></span><span data-step-caption>Anliegen verstehen</span><span data-step-count>01 / 03</span></div>
+     </div>
+     <p class="scene-illustration">Schematisches Beispiel · Ihre Abläufe geben den Weg vor.</p>
+    </div>
+    <div class="business-panel-foot">
+     <div class="business-steps" aria-label="Schritt im Agentario-Beispiel wählen">
+      <button type="button" data-step-select="voice" aria-pressed="true"><span>01</span><strong>Voice</strong><small>Anliegen verstehen</small></button>
+      <button type="button" data-step-select="desktop" aria-pressed="false"><span>02</span><strong>Desktop</strong><small>In Software arbeiten</small></button>
+      <button type="button" data-step-select="workflows" aria-pressed="false"><span>03</span><strong>Workflows</strong><small>Schritte verbinden</small></button>
+     </div>
+     <a href="#traffic-scene" class="business-next" data-area="traffic">Weiter zu VerkehrsAI <span aria-hidden="true">↓</span></a>
+    </div>
+   </article>
+   <article class="business-panel business-traffic landing-width" id="traffic-scene" aria-labelledby="traffic-scene-title" data-scene="traffic">
+    <div class="business-copy">
+     <p class="business-eyebrow">VerkehrsAI · Planung &amp; Verkehr</p>
+     <h2 id="traffic-scene-title">Pläne verstehen.<br>Verkehr gestalten.</h2>
+     <p>Wir erschließen Lage- und Signalpläne für die digitale Verkehrsplanung. Mit VerkehrsOS als gemeinsamem Forschungsprojekt mit IOTEC.</p>
+     <a class="business-link" href="verkehrsai.html">VerkehrsAI entdecken <span aria-hidden="true">↗</span></a>
+     <p class="business-research">EU-geförderte Forschung</p>
+    </div>
+    <div class="junction-visual">
+     <div class="junction-model" data-junction role="img" aria-label="Illustratives räumliches Modell einer Kreuzung mit Fahrzeugen, Gebäuden und einer eingeblendeten Planebene">
+      <img class="junction-poster" src="assets/business-junction.svg" alt="" width="1000" height="760" loading="lazy">
+     </div>
+     <div class="junction-label"><span aria-hidden="true">⌖</span><div><strong data-junction-label>Die Kreuzung im Zusammenhang</strong><small>Illustratives Modell</small></div></div>
+    </div>
+    <div class="business-panel-foot">
+     <div class="business-steps traffic-steps" aria-label="Ansicht der Kreuzung wählen">
+      <button type="button" data-traffic-select="model" aria-pressed="true"><span>01</span><strong>Kreuzung</strong><small>Räumlich verstehen</small></button>
+      <button type="button" data-traffic-select="plan" aria-pressed="false"><span>02</span><strong>Planebenen</strong><small>Informationen verbinden</small></button>
+     </div>
+     <a href="#weitere-projekte" class="business-next">Weitere Projekte <span aria-hidden="true">↓</span></a>
+    </div>
+   </article>
+  </div>
+  <div class="business-progress" aria-hidden="true"><span></span></div>
  </div>
 </section>
 
-<section class="products landing-width" id="produkte" aria-labelledby="products-title">
- <header class="products-heading"><h2 id="products-title">Unsere Produkte</h2><a href="projekte.html">Alle Projekte <span aria-hidden="true">↗</span></a></header>
- <div class="product-platform" id="wege">
-  <div class="product-intro">
-   <p class="product-audience">Für Unternehmen</p>
-   <h3><a href="agentario/">Agentario <span aria-hidden="true">↗</span></a></h3>
-   <p>Voice-Agenten, Desktop-Automatisierung und Workflows in einer Plattform.</p>
-   <a class="product-text-link" href="autonomous-workforce.html">Autonomous Workforce <span aria-hidden="true">↗</span></a>
-  </div>
-  <ul class="product-functions">
-   <li id="platz-voice"><a href="agentario/voice/"><span><strong>Voice-Agenten</strong><span>Anrufe annehmen, Fragen beantworten und Anliegen weitergeben.</span></span><span class="product-arrow" aria-hidden="true">↗</span></a></li>
-   <li id="platz-desktop"><a href="agentario/desktop/"><span><strong>Desktop</strong><span>Daten übertragen und Formulare in Ihren Programmen ausfüllen.</span></span><span class="product-arrow" aria-hidden="true">↗</span></a></li>
-   <li id="platz-workflows"><a href="agentario/workflows/"><span><strong>Workflows</strong><span>Arbeitsschritte verbinden und Freigaben festlegen.</span></span><span class="product-arrow" aria-hidden="true">↗</span></a></li>
-  </ul>
- </div>
- <div class="product-others">
-  <article class="product-traffic" id="platz-traffic" aria-labelledby="traffic-title">
-   <p class="product-audience">Für Kommunen und Planungsbüros</p>
-   <h3 id="traffic-title"><a href="verkehrsai.html">VerkehrsAI <span aria-hidden="true">↗</span></a></h3>
-   <p>Lage- und Signalpläne erschließen, prüfen und weiterbearbeiten.</p>
-   <p class="product-note">Mit IOTEC entwickeln wir VerkehrsOS als EU-gefördertes Forschungsprojekt.</p>
-   <a class="product-text-link" href="verkehrsai.html#verkehrsos">Zum Forschungsprojekt <span aria-hidden="true">↗</span></a>
+<section class="project-showcase landing-width" id="weitere-projekte" aria-labelledby="projects-title">
+ <header class="project-showcase-heading"><div><p class="business-eyebrow">Weitere Projekte · Open Source</p><h2 id="projects-title">Werkzeuge für<br>die Arbeit mit KI.</h2></div><a class="business-link" href="projekte.html">Alle Projekte <span aria-hidden="true">↗</span></a></header>
+ <div class="project-showcase-grid">
+  <article class="project-showcase-item" id="platz-ive">
+   <a href="ive.html" class="project-preview project-preview-ive" aria-label="IVE entdecken"><img src="assets/ive/terminals-dark.webp" alt="IVE mit mehreren nebeneinander geöffneten Agenten-Terminals." width="1600" height="762" loading="lazy" decoding="async"></a>
+   <div class="project-showcase-copy"><h3><a href="ive.html">IVE <span aria-hidden="true">↗</span></a></h3><p>Claude Code, Codex und Gemini in einem Fenster. Für den Mac.</p></div>
   </article>
-  <div class="product-open">
-   <p class="product-audience">Open Source</p>
-   <ul class="product-functions">
-    <li id="platz-ive"><a href="ive.html"><span><strong>IVE</strong><span>Claude Code, Codex und Gemini in einem Fenster. Für den Mac.</span></span><span class="product-arrow" aria-hidden="true">↗</span></a></li>
-    <li><a href="anyuse.html"><span><strong>AnyUse</strong><span>Wiederkehrende Aufgaben erfassen und Automatisierungen vorschlagen. In der Alpha.</span></span><span class="product-arrow" aria-hidden="true">↗</span></a></li>
-   </ul>
-  </div>
+  <article class="project-showcase-item">
+   <a href="anyuse.html" class="project-preview project-preview-anyuse" aria-label="AnyUse entdecken">
+    <div class="anyuse-example"><div class="anyuse-example-top"><strong>AnyUse</strong><span>Beispiel</span></div><p>„Suche meine Rechnungen.“</p><ol><li><span>01</span>Einmal erledigen<i aria-hidden="true">✓</i></li><li><span>02</span>Mit neuen Eingaben prüfen<i aria-hidden="true">✓</i></li><li><span>03</span>Als Werkzeug wiederverwenden<i aria-hidden="true">↗</i></li></ol><div class="anyuse-example-result"><span aria-hidden="true">↳</span> Aus einem Ablauf wird ein Werkzeug.</div></div>
+   </a>
+   <div class="project-showcase-copy"><h3><a href="anyuse.html">AnyUse <span aria-hidden="true">↗</span></a></h3><p>Arbeitsabläufe erfassen und Automatisierungen daraus entwickeln. In der Alpha.</p></div>
+  </article>
  </div>
- <div class="product-help"><p>Sie möchten einen konkreten Ablauf automatisieren?</p><a href="automatisierungen.html">Gemeinsam umsetzen <span aria-hidden="true">↗</span></a></div>
+ <div class="project-help"><p>Sie möchten einen konkreten Ablauf automatisieren?</p><a class="business-link" href="automatisierungen.html">Gemeinsam umsetzen <span aria-hidden="true">↗</span></a></div>
 </section>
 
 <section class="story-principle landing-width" id="haltung" aria-labelledby="purpose-title">
@@ -175,6 +211,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/home-story.js?v=20261117-fullscreen" defer></script><script src="assets/office-room.js?v=20261117-fullscreen" defer></script><script src="assets/lu-schluss.js" defer></script>
+<script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/home-story.js?v=20261117-fullscreen" defer></script><script src="assets/business-scenes.js?v=20261117-scenes2" defer></script><script src="assets/lu-schluss.js" defer></script>
 </body>
 </html>
