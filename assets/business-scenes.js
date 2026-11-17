@@ -12,7 +12,6 @@
   const smooth = n => { n = clamp(n); return n * n * (3 - 2 * n); };
   const steps = ['voice', 'desktop', 'workflows'];
   const stepProgress = [.045, .215, .355];
-  const captions = ['Anliegen verstehen', 'In Ihrer Software weiterarbeiten', 'Den nächsten Schritt verbinden'];
   const anchors = {'#agentario-scene': .045, '#traffic-scene': .61, '#platz-voice': .045, '#platz-desktop': .215, '#platz-workflows': .355, '#platz-traffic': .61};
   let enhanced = false, progress = 0, area = '', step = '', trafficMode = 'model';
   let frame = 0, inView = false, model = null, modelLoading = false;
@@ -26,9 +25,6 @@
     agentario.dataset.step = value;
     root.querySelectorAll('[data-step-view]').forEach(view => { view.hidden = view.dataset.stepView !== value; });
     root.querySelectorAll('[data-step-select]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.stepSelect === value)));
-    const index = steps.indexOf(value);
-    root.querySelector('[data-step-caption]').textContent = captions[index];
-    root.querySelector('[data-step-count]').textContent = `0${index + 1} / 03`;
     if (!reduced.matches && inView) root.querySelector(`[data-step-view="${value}"]`).animate(
       [{opacity: .35, transform: 'translateY(9px)'}, {opacity: 1, transform: 'translateY(0)'}],
       {duration: 320, easing: 'cubic-bezier(.2,.7,.2,1)'}
