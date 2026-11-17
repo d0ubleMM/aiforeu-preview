@@ -125,6 +125,8 @@ html:has(.landing-page){background:#0c0e11}
 .story-dawn-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;padding-block:26px;font:400 13px/1.5 var(--body);color:#c9d2e0}
 .story-dawn-foot a{color:inherit;text-decoration:none}
 .story-dawn-foot a:hover{color:#fff}
+.office-home .lu-schluss-strecke{margin-top:clamp(72px,10vw,144px)}
+.office-home .lu-schluss-strecke>.story-dawn{margin-top:0;background:var(--room)}
 .landing-page .site-footer{position:relative}
 
 @media(max-width:760px){.story-principle-copy{margin-left:0}}

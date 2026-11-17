@@ -1,7 +1,7 @@
 /* The original four desks, in their shared room. Regular page scrolling. */
-.office-home .night{min-height:600px;min-height:min(76svh,740px)}
+.office-home .night{min-height:100vh;min-height:100svh;min-height:100dvh}
 .office-home .night h1{font-size:clamp(52px,7.3vw,112px);line-height:.98}
-.office-home .night-copy{opacity:1;padding-bottom:64px}
+.office-home .night-copy{padding-bottom:64px}
 .office-room{position:relative;isolation:isolate;background:#303238;color:#fff;scroll-margin-top:var(--global-header-height,73px)}
 .office-room .world-experience::before,.office-room .world-experience::after{content:'';position:absolute;z-index:1;left:0;right:0;pointer-events:none}
 .office-room .world-experience::before{top:0;height:clamp(100px,12vw,180px);background:linear-gradient(#0c0e11,rgba(12,14,17,0))}
@@ -33,7 +33,6 @@
 .office-room :focus-visible{outline:2px solid #fff;outline-offset:6px}
 .office-home .products{padding-top:72px}
 @media(max-width:760px){
- .office-home .night{min-height:620px;min-height:min(80svh,680px)}
  .office-home .night-copy{padding-bottom:36px}
  .office-home .night h1{font-size:clamp(44px,13vw,68px)}
  .office-room .world-experience{height:660px}

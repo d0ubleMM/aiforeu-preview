@@ -11,11 +11,14 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The near-black opening retains its small film. It blends into the original grey
+The near-black opening fills the viewport and retains its small film. It blends into the original grey
 3D room with one white desk at a time: Voice, Desktop, Workflows and VerkehrsAI.
 Visitors select a desk with the direct selectors or previous/next buttons.
 Normal page scrolling, reduced motion, static artwork and direct-link fallbacks
-remain available. The compact product overview follows the room.
+remain available. The compact product overview follows the room. The original
+closing animation is restored: its words drift apart as visitors scroll, and
+the contact button moves to the centre. Reverse scrolling restores the text;
+reduced motion and no-JavaScript retain the readable static closing section.
 
 - `assets/home-story.*`: opening film, navigation background and statement.
 - `assets/office-room.*` and `assets/aiforeu-gallery/`: interactive desks.
