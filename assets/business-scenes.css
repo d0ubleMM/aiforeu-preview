@@ -46,8 +46,8 @@
 .is-enhanced .business-panels{flex:1;position:relative;min-height:0}
 .is-enhanced .business-panel{position:absolute;inset:0;min-height:0;height:100%;padding-top:22px;padding-bottom:30px}
 .is-enhanced .business-progress{display:block}
-.is-enhanced .business-agentario{opacity:calc(1 - var(--scene-mix,0));transform:translateX(calc(var(--scene-mix,0) * -70px))}
-.is-enhanced .business-traffic{opacity:var(--scene-mix,0);transform:translateX(calc((1 - var(--scene-mix,0)) * 90px))}
+.is-enhanced .business-agentario{opacity:clamp(0,calc(1 - var(--scene-mix,0)*2),1);transform:translateX(calc(var(--scene-mix,0) * -70px))}
+.is-enhanced .business-traffic{opacity:clamp(0,calc(var(--scene-mix,0)*2 - 1),1);transform:translateX(calc((1 - var(--scene-mix,0)) * 90px))}
 .business-panel[inert]{pointer-events:none}
 .business-scenes:not(.is-enhanced) .business-panel{padding-block:48px;min-height:780px;scroll-margin-top:calc(var(--global-header-height,73px) + 116px)}
 .business-scenes:not(.is-enhanced) .business-nav{position:sticky;top:var(--global-header-height,73px);background:#303238}
