@@ -1,5 +1,5 @@
 import * as THREE from '../agentario-scene/vendor/three.module.min.js';
-import { createExhibits } from './exhibits.js?v=gray-room-1';
+import { createExhibits } from './exhibits.js?v=process-20261118';
 import { AREAS, DESK_LAYOUT, clamp, ease, sampleGallery } from './journey.js?v=cabin-1';
 import { INTRO, landingProgress } from './bomber-intro.js?v=brand-3';
 import { createBomberSkin } from '../aiforeu-bomber-sharp/skin.js';

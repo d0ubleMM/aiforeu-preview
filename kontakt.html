@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css?v=20261118-neutral-footer">
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/company-pages.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css">
+<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/process-sculpture.css?v=20261118"><link rel="stylesheet" href="assets/company-pages.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
 <link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
@@ -31,7 +31,7 @@
 <!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
 </head>
-<body class="company-page contact-page film-page gray-room-page">
+<body class="company-page contact-page film-page gray-room-page process-art-page">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <header class="global-header">
  <div class="global-header-inner">
@@ -92,7 +92,43 @@
 </dialog>
 <main id="inhalt" tabindex="-1">
 <section class="film-hero" aria-labelledby="contact-title" data-film-hero>
- <div class="film-hero-media" aria-hidden="true"><img src="assets/aiforeu-room/notes.jpg?v=20261116" alt="" width="1600" height="1200" fetchpriority="high" decoding="async"></div>
+ <div class="film-hero-media"><figure class="process-sculpture" data-process-sculpture>
+ <div class="process-sculpture-bar"><span>Beispiel</span><button type="button" data-process-play aria-label="Ablauf abspielen" hidden><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M4 8a6 6 0 1 1 .4 5M4 3v5h5"/></svg><span>Abspielen</span></button></div>
+ <div class="process-sculpture-art" aria-hidden="true">
+  <svg class="process-route" viewBox="0 0 800 550" fill="none">
+   <defs><linearGradient id="process-rail" x1="110" y1="400" x2="690" y2="170" gradientUnits="userSpaceOnUse"><stop stop-color="#585b60"/><stop offset=".5" stop-color="#b5b8bc"/><stop offset="1" stop-color="#51555b"/></linearGradient></defs>
+   <path class="process-rail-shadow" d="M128 348C220 348 238 387 312 387S352 272 436 272S486 284 530 284S571 199 663 199"/>
+   <path class="process-rail" d="M128 340C220 340 238 379 312 379S352 264 436 264S486 276 530 276S571 191 663 191"/>
+   <path class="process-rail-light" d="M128 337C220 337 238 376 312 376S352 261 436 261S486 273 530 273S571 188 663 188"/>
+   <path class="process-signal" pathLength="1" d="M128 337C220 337 238 376 312 376S352 261 436 261S486 273 530 273S571 188 663 188"/>
+  </svg>
+  <div class="process-object process-incoming">
+   <div class="process-object-shadow"></div>
+   <div class="process-envelope">
+    <div class="process-letter"><i></i><i></i><i></i><b></b></div>
+    <div class="process-envelope-back"></div><div class="process-envelope-front"></div><div class="process-envelope-fold"></div>
+   </div>
+  </div>
+  <div class="process-object process-processing">
+   <div class="process-object-shadow"></div>
+   <div class="process-document process-document-back"></div>
+   <div class="process-document">
+    <div class="process-doc-symbol"><svg viewBox="0 0 32 32"><path d="M7 5h11l7 7v15H7zM18 5v8h7M11 19h10M11 23h6"/></svg></div>
+    <div class="process-doc-rule"></div>
+    <div class="process-doc-row"><i></i><b></b></div><div class="process-doc-row"><i></i><b></b></div><div class="process-doc-row"><i></i><b></b></div>
+    <div class="process-doc-bottom"><span></span><svg viewBox="0 0 18 18"><path d="m4 9 3 3 7-7"/></svg></div>
+   </div>
+   <div class="process-scan"></div>
+  </div>
+  <div class="process-object process-approval">
+   <div class="process-object-shadow"></div>
+   <div class="process-ring"><div class="process-ring-inner"><svg viewBox="0 0 72 72"><circle cx="36" cy="25" r="10"/><path d="M17 55v-4c0-10 8-16 19-16s19 6 19 16v4"/></svg></div></div>
+   <span class="process-review-dot"></span>
+  </div>
+ </div>
+ <figcaption class="process-sculpture-labels"><span>EINGANG</span><span>VORBEREITUNG</span><span>MANUELLE FREIGABE</span></figcaption>
+</figure>
+</div>
  <div class="film-hero-copy">
   <h1 id="contact-title">Welche Arbeit soll verschwinden?</h1>
   <p class="film-hero-lead">Eine Aufgabe, die immer wieder anfällt. Ein Ablauf mit zu vielen manuellen Schritten. Erzählen Sie uns davon.</p>
@@ -112,6 +148,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/project-contact.js?v=20261118-languages"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script>
+<script src="assets/process-sculpture.js?v=20261118"></script><script src="assets/project-contact.js?v=20261118-languages"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script>
 </body>
 </html>

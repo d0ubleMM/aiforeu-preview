@@ -151,3 +151,7 @@
 .projects-entry-relation{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;line-height:1.55;color:#4B5565}
 .projects-entry-relation strong{display:block;margin-bottom:3px;font-size:12px;font-weight:600;letter-spacing:.02em;color:#1F2937}
 .projects-entry-relation+.projects-link,.projects-entry-relation+.projects-entry-status{margin-top:18px}
+
+/* The process objects stay complete inside their compact preview. */
+.projects-platform-process{mix-blend-mode:normal;mask-image:none;-webkit-mask-image:none}
+.projects-platform-process img{object-fit:contain;transform:none}

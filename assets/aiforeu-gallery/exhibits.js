@@ -10,8 +10,7 @@ export function createExhibits() {
   const m={white:mat('white satin desk','#ffffff',{roughness:.32}),frame:mat('white powder coat','#f5f6f7',{roughness:.48,metalness:.12}),
     metal:mat('brushed aluminium','#b0b5ba',{metalness:.85,roughness:.26}),ink:mat('black anodised aluminium','#151719',{metalness:.45,roughness:.32}),
     micBody:mat('microphone housing','#17191c',{metalness:.6,roughness:.28}),rubber:mat('black rubber','#101113',{roughness:.94}),
-    leaf:mat('status lamp','#36b681',{emissive:'#36b681',emissiveIntensity:.3}),paper:mat('paper edges','#f6f6f3',{roughness:.9}),
-    blue:mat('cobalt','#1645b8',{roughness:.7}),yellow:mat('yellow paper','#dfac00',{roughness:.95,toneMapped:false}),orange:mat('orange paper','#d23a0d',{roughness:.95,toneMapped:false})};
+    leaf:mat('status lamp','#36b681',{emissive:'#36b681',emissiveIntensity:.3}),paper:mat('paper edges','#f6f6f3',{roughness:.9})};
   const canvasTexture=(width,height,paint)=>{const c=document.createElement('canvas');c.width=width;c.height=height;paint(c.getContext('2d'),width,height);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;textures.add(t);return t;};
   const grille=canvasTexture(256,256,c=>{c.fillStyle='#6e7379';c.fillRect(0,0,256,256);c.fillStyle='#0e1012';for(let y=4;y<256;y+=8)for(let x=4;x<256;x+=8){c.beginPath();c.arc(x+(y%16?0:4),y,2.6,0,Math.PI*2);c.fill();}});
   grille.wrapS=grille.wrapT=THREE.RepeatWrapping;grille.repeat.set(2,2);
@@ -31,8 +30,8 @@ export function createExhibits() {
     box(g,m.frame,0,1.22,-.78,3.9,.08,.07);
     box(g,m.frame,0,1.12,-.72,3.2,.13,.23);
   };
-  const make=(name,i)=>{
-    const g=subgroup(root,name,[DESK_LAYOUT.first+i*DESK_LAYOUT.spacing,0,DESK_LAYOUT.z]);g.rotation.y=Math.PI;groups.push(g);desk(g);
+  const make=(name,i,withDesk=true)=>{
+    const g=subgroup(root,name,[DESK_LAYOUT.first+i*DESK_LAYOUT.spacing,0,DESK_LAYOUT.z]);g.rotation.y=Math.PI;groups.push(g);if(!withDesk)return g;desk(g);
     box(g,m.frame,0,1.17,1.12,4.5,.29,.055);
     const label=canvasTexture(1024,128,(c,w,h)=>{c.fillStyle='#f5f6f7';c.fillRect(0,0,w,h);c.fillStyle='#30363d';c.textAlign='center';c.textBaseline='middle';c.font='500 72px Arial';c.fillText(['Voice','Desktop','Workflows','VerkehrsAI'][i],w/2,h/2);});
     const labelMat=new THREE.MeshBasicMaterial({map:label,toneMapped:false});owned.add(labelMat);mesh(g,geometry.plane,labelMat,[0,1.17,1.15],[2.5,.265,1]);
@@ -65,19 +64,13 @@ export function createExhibits() {
   box(keyboard,m.white,0,.039,.149,.48,.018,.059,{soft:true});
   mesh(desktop,new THREE.SphereGeometry(.5,32,16),m.white,[1.13,1.50,.64],[.32,.13,.48]);box(desktop,m.metal,1.13,1.565,.61,.016,.009,.07);
 
-  const workflows=make('workflows',2),notes=[];
-  // Paper is made from bent surfaces, not rounded cubes. The stack assembles
-  // only as the visitor scrolls through this station.
-  const noteGeometry=new THREE.PlaneGeometry(.80,.80,12,12);const positions=noteGeometry.attributes.position;
-  for(let i=0;i<positions.count;i++){const y=positions.getY(i),x=positions.getX(i);positions.setZ(i,Math.pow(Math.max(0,y+.05),2)*.24+Math.pow(x,2)*.035);}noteGeometry.computeVertexNormals();
-  const noteMats=[m.yellow,m.blue,m.orange].map(material=>{const copy=material.clone();copy.side=THREE.DoubleSide;owned.add(copy);return copy;});
-  for(let i=0;i<30;i++){
-    const stack=i%3,layer=Math.floor(i/3),angle=Math.sin(i*13.7)*.28;
-    const paper=mesh(workflows,noteGeometry,noteMats[stack],[0,0,0],[1,1,1],[-Math.PI/2,0,angle]);
-    notes.push({paper,stack,layer,angle,index:i});
-  }
-  box(workflows,m.metal,1.72,1.49,-.5,.27,.09,.75,{soft:true});
-  for(let i=0;i<4;i++)box(workflows,m.ink,1.72,1.54,-.73+i*.15,.19,.009,.025);
+  // A floating process illustration replaces the old desk and coloured paper.
+  const workflows=make('workflows',2,false);
+  const processMat=new THREE.SpriteMaterial({transparent:true,depthWrite:false,toneMapped:false});owned.add(processMat);
+  const processArt=new THREE.Sprite(processMat);processArt.position.set(0,1.9,0);processArt.scale.set(5.2,3.575,1);workflows.add(processArt);
+  pending.push(new THREE.TextureLoader().loadAsync(new URL('../process-sculpture/objects.png',import.meta.url).href).then(texture=>{
+    if(disposed){texture.dispose();return;}texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=8;textures.add(texture);processMat.map=texture;processMat.needsUpdate=true;processArt.material.map=texture;processArt.material.needsUpdate=true;
+  }));
 
   const traffic=make('traffic',3),mapBoard=subgroup(traffic,'aerial light table',[0,2.10,-.08]);
   mapBoard.rotation.x=.5;box(mapBoard,m.frame,0,.08,0,3.92,.16,2.70,{soft:true});
@@ -127,12 +120,6 @@ export function createExhibits() {
   }
   function update(sample,reduced=false,studio=0){
     groups.forEach(g=>{const proximity=Math.exp(-(((g.position.x-sample.centre)/3.7)**4));fadeGroup(g,1-studio+studio*proximity);});
-    const t=reduced||sample.view!=='workflows' ? .65 : sample.inspection;
-    for(const {paper,stack,layer,angle,index} of notes){
-      const spread=1-t,side=stack-1;
-      paper.position.set(side*.83+Math.sin(index*8.9)*spread*.34,1.454+layer*.009,-.1+Math.cos(index*4.3)*spread*.38);
-      paper.rotation.set(-Math.PI/2,0,angle*(.3+spread));
-    }
     const mapProgress=sample.view==='traffic'&&!reduced?sample.inspection:1;
     mapLines.visible=true;marker.scale.setScalar(.7+mapProgress*.3);
     if(roadTrace)roadTrace.geometry.setDrawRange(0,Math.floor(roadTrace.geometry.attributes.position.count*mapProgress/2)*2);
