@@ -3,7 +3,7 @@
   'use strict';
   const host = document.querySelector('[data-mark-sculpture]');
   if (!host) return;
-  const moduleURL = new URL('mark-sculpture-scene.js?v=20261118-cinema', document.currentScript.src);
+  const moduleURL = new URL('mark-sculpture-scene.js?v=20261118-fragments', document.currentScript.src);
   const hero = host.closest('.night'), frameHost = hero.querySelector('.night-frame');
   const copy = hero.querySelector('.night-copy'), stage = host.querySelector('.mark-canvas');
   const header = document.querySelector('.global-header');
@@ -62,6 +62,7 @@
       readProgress(); progress = target;
       scene.render(progress*scene.duration, pointer);
       host.dataset.progress = progress.toFixed(4);
+      host.dataset.pieces = String(scene.pieceCount);
       host.dataset.ready = 'true'; dirty = false; schedule();
     } catch { failed = true; host.removeAttribute('data-ready'); setMode(); }
   }
