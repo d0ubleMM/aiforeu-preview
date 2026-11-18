@@ -72,7 +72,7 @@
   async function loadModel() {
     if (loading) return;
     loading = true;
-    try {const {mountJunction} = await import('./business-junction.js?v=20261117-scenes2'); model = mountJunction(root.querySelector('[data-junction]')); syncModel();}
+    try {const {mountJunction} = await import('./business-junction.js?v=20261118-fluid'); model = mountJunction(root.querySelector('[data-junction]')); syncModel();}
     catch {root.dataset.junctionState = 'static';}
   }
   new IntersectionObserver(entries => {

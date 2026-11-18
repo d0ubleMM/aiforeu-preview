@@ -4,7 +4,7 @@ import * as THREE from './agentario-scene/vendor/three.module.min.js';
 export function mountJunction(host) {
   let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({alpha: true, antialias: true, powerPreference: 'low-power'});
+    renderer = new THREE.WebGLRenderer({alpha: true, antialias: true, powerPreference: 'high-performance'});
   } catch { return null; }
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.6));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -126,8 +126,8 @@ export function mountJunction(host) {
     frame=0;
     if(lost||!visible||!state.active||!state.moving){last=0;return;}
     if(!last)last=time;
-    const elapsed=time-last;
-    if(elapsed>=1000/30){clock+=Math.min(elapsed,100)/1000;last=time;draw();}
+    clock+=Math.min(time-last,60)/1000;
+    last=time;draw();
     frame=requestAnimationFrame(tick);
   }
   function update(next) {
