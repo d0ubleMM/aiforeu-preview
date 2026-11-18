@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css?v=20261118-neutral-footer">
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/projects.css?v=20261118-process"><link rel="stylesheet" href="assets/ive-previews.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css">
+<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/projects.css?v=20261118-process"><link rel="stylesheet" href="assets/ive-previews.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css"><link rel="stylesheet" href="assets/product-experience.css?v=20261119">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
 <link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
@@ -31,7 +31,7 @@
 <!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
 </head>
-<body class="projects-page film-page gray-room-page">
+<body class="projects-page film-page gray-room-page product-ui-page">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <header class="global-header">
  <div class="global-header-inner">
@@ -93,7 +93,86 @@
 <main id="inhalt" tabindex="-1">
 
 <section class="film-hero film-hero--row" aria-labelledby="projects-title" data-film-hero>
- <div class="film-hero-media"><img src="assets/aiforeu-room/overview.jpg?v=20261118-process" alt="" width="1920" height="1080" fetchpriority="high" decoding="async"></div>
+ <div class="film-hero-media"><section class="product-experience experience-overview" data-product-experience data-lu-worte="aus" data-initial-view="voice">
+ <nav class="experience-tabs" aria-label="Unsere Bereiche">
+  <a href="agentario/voice/" data-experience-select="voice"><span data-i18n-ignore>Voice</span><span aria-hidden="true">↗</span></a>
+  <a href="agentario/desktop/" data-experience-select="desktop"><span data-i18n-ignore>Desktop</span><span aria-hidden="true">↗</span></a>
+  <a href="agentario/workflows/" data-experience-select="workflows"><span data-i18n-ignore>Workflows</span><span aria-hidden="true">↗</span></a>
+  <a href="verkehrsai.html" data-experience-select="traffic"><span data-i18n-ignore>VerkehrsAI</span><span aria-hidden="true">↗</span></a>
+ </nav>
+ <div class="experience-main">
+  <article class="experience-panel" data-experience-panel="voice">
+   <div class="experience-heading"><h2>Ein Gespräch. Der nächste Schritt.</h2><p>Gespräche führen, Anliegen einordnen und mit Kontext an Ihr Team übergeben.</p></div>
+   <!-- demo:voice -->
+   <div class="experience-demo voice-demo" aria-hidden="true">
+    <div class="voice-call"><span class="voice-call-dot"></span><span>Eingehender Anruf</span><span class="demo-dots">•••</span></div>
+    <div class="voice-wave"><i style="--bar:0.200;--i:0"></i><i style="--bar:0.747;--i:1"></i><i style="--bar:0.943;--i:2"></i><i style="--bar:0.698;--i:3"></i><i style="--bar:0.236;--i:4"></i><i style="--bar:0.503;--i:5"></i><i style="--bar:0.533;--i:6"></i><i style="--bar:0.349;--i:7"></i><i style="--bar:0.205;--i:8"></i><i style="--bar:0.267;--i:9"></i><i style="--bar:0.456;--i:10"></i><i style="--bar:0.524;--i:11"></i><i style="--bar:0.296;--i:12"></i><i style="--bar:0.546;--i:13"></i><i style="--bar:0.893;--i:14"></i><i style="--bar:0.851;--i:15"></i><i style="--bar:0.394;--i:16"></i><i style="--bar:0.598;--i:17"></i><i style="--bar:0.940;--i:18"></i><i style="--bar:0.829;--i:19"></i><i style="--bar:0.392;--i:20"></i><i style="--bar:0.436;--i:21"></i><i style="--bar:0.583;--i:22"></i><i style="--bar:0.444;--i:23"></i><i style="--bar:0.244;--i:24"></i><i style="--bar:0.212;--i:25"></i><i style="--bar:0.366;--i:26"></i><i style="--bar:0.503;--i:27"></i><i style="--bar:0.391;--i:28"></i><i style="--bar:0.390;--i:29"></i><i style="--bar:0.798;--i:30"></i><i style="--bar:0.904;--i:31"></i><i style="--bar:0.571;--i:32"></i><i style="--bar:0.419;--i:33"></i><i style="--bar:0.882;--i:34"></i><i style="--bar:0.924;--i:35"></i><i style="--bar:0.557;--i:36"></i><i style="--bar:0.326;--i:37"></i><i style="--bar:0.595;--i:38"></i><i style="--bar:0.538;--i:39"></i><i style="--bar:0.316;--i:40"></i><i style="--bar:0.208;--i:41"></i></div>
+    <div class="voice-transcript"><p class="voice-line voice-line-caller"><span>Anrufer</span>„Ich möchte einen Termin vereinbaren.“</p><p class="voice-line voice-line-agent"><span>Agentario</span>„Gerne. Worum geht es?“</p></div>
+    <div class="voice-handoff"><span class="demo-check">✓</span><span>Anliegen erfasst</span><span class="voice-handoff-arrow">→</span><span>Ihr Team</span></div>
+   </div>
+   <!-- /demo:voice -->
+   <a class="experience-link" href="agentario/voice/">Voice entdecken <span aria-hidden="true">↗</span></a>
+  </article>
+  <article class="experience-panel" data-experience-panel="desktop" hidden>
+   <div class="experience-heading"><h2>Ihre Software. Ein Schritt weiter.</h2><p>Bestehende Programme bedienen, wenn eine passende Schnittstelle fehlt.</p></div>
+   <!-- demo:desktop -->
+   <div class="experience-demo desktop-demo" aria-hidden="true">
+    <div class="desktop-window"><div class="demo-window-bar"><span class="window-traffic-lights"><i></i><i></i><i></i></span><span>Angebot</span><span>Entwurf</span></div>
+     <div class="desktop-paper"><div class="desktop-doc-icon"><svg viewBox="0 0 32 32"><path d="M8 4h11l6 6v18H8zM19 4v7h6M12 17h9M12 22h7"/></svg></div><div class="desktop-doc-heading"><strong>Angebot vorbereiten</strong><span>Aus der Kundenanfrage</span></div>
+      <div class="desktop-row"><span>Prozessanalyse</span><i></i><span class="desktop-tick">✓</span></div><div class="desktop-row desktop-row-active"><span>Integration</span><i></i><span class="desktop-tick">✓</span></div><div class="desktop-row"><span>Einrichtung &amp; Übergabe</span><i></i><span class="desktop-tick">✓</span></div>
+      <div class="desktop-doc-footer"><span>Entwurf bereit</span><span>Zur Prüfung <b>↗</b></span></div>
+     </div>
+     <svg class="desktop-cursor" viewBox="0 0 28 34"><path d="m3 2 21 17-11 1-5 10z"/></svg>
+    </div>
+    <div class="desktop-result"><span class="demo-check">✓</span><span>Vorbereitet für Ihr Team.</span></div>
+   </div>
+   <!-- /demo:desktop -->
+   <a class="experience-link" href="agentario/desktop/">Desktop entdecken <span aria-hidden="true">↗</span></a>
+  </article>
+  <article class="experience-panel" data-experience-panel="workflows" hidden>
+   <div class="experience-heading"><h2>Aus Aufgaben wird ein Ablauf.</h2><p>Agenten, Software und menschliche Freigaben zu einem Ablauf verbinden.</p></div>
+   <!-- demo:workflows -->
+   <div class="experience-demo workflow-demo" aria-hidden="true">
+    <div class="workflow-caption"><span>Anfrage bearbeiten</span><span>Mit menschlicher Freigabe</span></div>
+    <div class="workflow-steps">
+     <div class="workflow-node workflow-input"><svg viewBox="0 0 40 40"><rect x="6" y="10" width="28" height="22" rx="3"/><path d="m7 12 13 10 13-10"/></svg><strong>Eingang</strong><span>Neue Anfrage</span><i></i></div>
+     <div class="workflow-connector"><span></span></div>
+     <div class="workflow-node workflow-prepare"><svg viewBox="0 0 40 40"><path d="M11 5h13l7 7v23H11zM24 5v8h7M16 20h10M16 26h7"/></svg><strong>Vorbereitung</strong><span>Unterlagen ordnen</span><i></i></div>
+     <div class="workflow-connector"><span></span></div>
+     <div class="workflow-node workflow-person"><svg viewBox="0 0 40 40"><circle cx="20" cy="13" r="6"/><path d="M9 34v-3c0-7 5-11 11-11s11 4 11 11v3"/></svg><strong>Ihr Team</strong><span>Prüfen &amp; freigeben</span><i></i></div>
+    </div>
+    <div class="workflow-review"><span></span><p>Die Entscheidung bleibt bei Ihnen.</p></div>
+   </div>
+   <!-- /demo:workflows -->
+   <a class="experience-link" href="agentario/workflows/">Workflows entdecken <span aria-hidden="true">↗</span></a>
+  </article>
+  <article class="experience-panel" data-experience-panel="traffic" hidden>
+   <div class="experience-heading"><h2>Verkehr verstehen. Besser planen.</h2><p>KI für Verkehrsplanung. Mit VerkehrsOS als Forschungsprojekt mit IOTEC.</p></div>
+   <!-- demo:traffic -->
+   <div class="experience-demo traffic-demo" aria-hidden="true">
+    <div class="traffic-map-top"><span>Verkehrsplanung</span><span>Illustration</span></div>
+    <svg class="experience-map" viewBox="0 0 720 380" fill="none">
+     <defs><pattern id="experience-map-grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" stroke="#cbd0cf" stroke-width=".5"/></pattern></defs>
+     <rect width="720" height="380" fill="#e9ece8"/><rect width="720" height="380" fill="url(#experience-map-grid)"/>
+     <g fill="#d3d8d3" stroke="#bec6c0"><rect x="44" y="28" width="107" height="65" rx="3"/><rect x="175" y="28" width="64" height="97" rx="3"/><rect x="58" y="118" width="82" height="35" rx="3"/><rect x="438" y="30" width="100" height="67" rx="3"/><rect x="561" y="26" width="112" height="117" rx="3"/><rect x="35" y="274" width="119" height="82" rx="3"/><rect x="179" y="270" width="67" height="91" rx="3"/><rect x="431" y="281" width="73" height="77" rx="3"/><rect x="536" y="270" width="134" height="86" rx="3"/></g>
+     <path d="M-20 210H740M340-20v420" stroke="#b8c0bb" stroke-width="83"/>
+     <path d="M-20 210H740M340-20v420" stroke="#f9faf7" stroke-width="77"/>
+     <path d="M-20 210H740M340-20v420" stroke="#c0c7c1" stroke-width="1.5" stroke-dasharray="9 11"/>
+     <g stroke="#c9cec8" stroke-width="5"><path d="M278 174v72M402 174v72M304 149h72M304 272h72" stroke-dasharray="4 7"/></g>
+     <path class="traffic-route-base" d="M14 229H280Q322 229 322 187V6" stroke="#d6c49d" stroke-width="4" stroke-linecap="round"/>
+     <path class="traffic-route" pathLength="1" d="M14 229H280Q322 229 322 187V6" stroke="#9b7844" stroke-width="4" stroke-linecap="round"/>
+     <g fill="#545e58"><rect x="171" y="188" width="20" height="9" rx="3"/><rect x="482" y="224" width="20" height="9" rx="3"/><rect x="350" y="91" width="9" height="20" rx="3"/><rect x="317" y="312" width="9" height="20" rx="3"/></g>
+     <circle cx="322" cy="229" r="7" fill="#d3b984" stroke="#fff" stroke-width="3"/>
+    </svg>
+    <div class="traffic-map-bottom"><span><i></i>Verkehrsfluss</span><span>Ein klarer Blick auf die Kreuzung.</span></div>
+   </div>
+   <!-- /demo:traffic -->
+   <a class="experience-link" href="verkehrsai.html">VerkehrsAI entdecken <span aria-hidden="true">↗</span></a>
+  </article>
+  <div class="experience-controls"><span>Beispiel</span><div class="experience-progress" aria-hidden="true"><i></i></div><button type="button" data-experience-play hidden><span data-experience-play-label>Abspielen</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4v12l10-6z"/></svg></button></div>
+ </div>
+</section>
+</div>
  <div class="film-hero-copy">
   <h1 id="projects-title">Eigene Produkte. Klare Aufgaben.</h1>
   <p class="film-hero-lead">Agentario ist unsere Plattform für die AI Workforce im Unternehmen. Daneben entwickeln wir eigenständige Werkzeuge für Automatisierung, Softwareentwicklung und Verkehrsplanung.</p>
@@ -108,9 +187,9 @@
   <div class="projects-platform" aria-label="Drei Bereiche innerhalb der Agentario-Plattform">
    <div class="projects-platform-label"><span>Agentario</span><span>Eine gemeinsame Plattform</span></div>
    <div class="projects-platform-areas">
-    <div class="projects-platform-area"><div class="projects-platform-art projects-platform-photo"><img src="assets/aiforeu-room/voice.jpg?v=20261116" alt="Weißer Arbeitsplatz mit Mikrofon und Telefon im grauen Raum." width="1600" height="1200" loading="lazy" decoding="async"></div><h3>Voice</h3><p>Gespräche führen, Anliegen einordnen und mit Kontext an Ihr Team übergeben.</p></div>
-    <div class="projects-platform-area"><div class="projects-platform-art projects-platform-photo"><img src="assets/aiforeu-room/desktop.jpg?v=20261116" alt="Weißer Arbeitsplatz mit Bildschirm, Tastatur und Maus im grauen Raum." width="1600" height="1200" loading="lazy" decoding="async"></div><h3>Desktop</h3><p>Bestehende Programme bedienen, wenn eine passende Schnittstelle fehlt.</p></div>
-    <div class="projects-platform-area"><div class="projects-platform-art projects-platform-photo projects-platform-process"><img src="assets/process-sculpture/objects.png?v=20261118" alt="" width="1600" height="1100" loading="lazy" decoding="async"></div><h3>Workflows</h3><p>Agenten, Software und menschliche Freigaben zu einem Ablauf verbinden.</p></div>
+    <div class="projects-platform-area"><h3>Voice</h3><p>Gespräche führen, Anliegen einordnen und mit Kontext an Ihr Team übergeben.</p></div>
+    <div class="projects-platform-area"><h3>Desktop</h3><p>Bestehende Programme bedienen, wenn eine passende Schnittstelle fehlt.</p></div>
+    <div class="projects-platform-area"><h3>Workflows</h3><p>Agenten, Software und menschliche Freigaben zu einem Ablauf verbinden.</p></div>
    </div>
    <p class="projects-platform-foundation">Ihr Team gestaltet die Zusammenarbeit.<span>Aufgaben · Übergaben · Freigaben</span></p>
   </div>
@@ -149,6 +228,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/ive-previews.js"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script>
+<script src="assets/ive-previews.js"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script><script src="assets/product-experience.js?v=20261119" defer></script>
 </body>
 </html>
