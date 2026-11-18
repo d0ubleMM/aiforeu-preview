@@ -66,10 +66,16 @@
       host.dataset.ready = 'true'; dirty = false; schedule();
     } catch { failed = true; host.removeAttribute('data-ready'); setMode(); }
   }
+  let resizeFrame = 0;
   const observer = new ResizeObserver(() => {
-    hero.style.setProperty('--night-copy-height', `${copy.offsetHeight}px`);
-    hero.style.setProperty('--night-frame-height', `${frameHost.offsetHeight}px`);
-    dirty = true; schedule();
+    if (resizeFrame) return;
+    // Writing the parent's height inside ResizeObserver causes a layout loop on short screens.
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0;
+      hero.style.setProperty('--night-copy-height', `${copy.offsetHeight}px`);
+      hero.style.setProperty('--night-frame-height', `${frameHost.offsetHeight}px`);
+      dirty = true; schedule();
+    });
   });
   observer.observe(copy); observer.observe(frameHost);
   new IntersectionObserver(entries => {
