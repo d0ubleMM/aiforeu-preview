@@ -11,10 +11,11 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The near-black opening fills the viewport. A hand-drawn isometric street develops
-through twelve epochs, from a muddy path and horse carriages through cobbles,
-early motorcars and concrete roads to a green city with flying cars. The time
-lapse plays independently of scrolling, with pause, replay and a position slider.
+The near-black opening fills the viewport. The original AIFOREU mark appears as
+a large white/silver 3D sculpture in a softly lit graphite studio. Three solid
+components join to form the mark, rest, then slowly separate. The motion runs
+independently of scrolling and can be paused. Very short phone screens allow
+enough document height to keep both the sculpture and contact action readable.
 
 A shared grey stage separates the two main business areas. Agentario shows one example
 from an incoming call through work in software to the next workflow step.
@@ -30,11 +31,11 @@ document flow, without a separate scroll runway.
 Reduced motion disables automatic movement. A pause control stops ambient
 movement; the introduction also pauses offscreen and while the menu is open.
 Without JavaScript, both business areas and all links remain in the document,
-and the opening illustration uses a static first frame. The junction has vector
+and the opening uses a rendered still of the sculpture. The junction has vector
 artwork if WebGL is unavailable.
 
 - `assets/home-story.*`: full-screen opening, navigation and statement.
-- `assets/road-evolution.*` and `assets/road-evolution/`: illustrated opening and playback.
+- `assets/mark-sculpture.*`, `mark-sculpture-scene.js` and `mark-sculpture/`: 3D opening, playback and rendered fallbacks.
 - `assets/business-scenes.*`: area layout and directly selectable example workflow.
 - `assets/business-junction.js` and `.svg`: public illustrative geometry and fallback.
 - `assets/aiforeu-room/`: original grey-room desk stills used on subpages.
@@ -66,9 +67,11 @@ desk pictures, and each project has one line on how it belongs to the others.
 
 ## Generated artwork
 
-The road-evolution illustration was generated with the built-in Imagegen tool.
-Its twelve frames share one WebP atlas; playback uses a canvas reveal between
-stages. Original artwork and prompt history remain in the development repository.
+The current sculpture is built directly from `assets/aiforeu-mark.svg` using the
+existing vendored Three.js distribution. The fallback WebP images are renders
+of that same model. Materials, lighting and geometry are local; no external 3D
+model or image-generation service is required. The earlier road-evolution atlas
+is no longer mounted on the homepage.
 Earlier pictures and clips were generated with Higgsfield. Their raw output and
 briefs are kept in `.higgsfield-local/`, which is not published.
 

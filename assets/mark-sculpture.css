@@ -1,0 +1,18 @@
+/* The original AIFOREU mark, sculpted in a softly lit graphite studio. */
+.night:has([data-mark-sculpture]){min-height:max(100vh,calc(var(--night-copy-height,340px) + var(--global-header-height,73px) + 190px));min-height:max(100dvh,calc(var(--night-copy-height,340px) + var(--global-header-height,73px) + 190px))}
+.night:has([data-mark-sculpture]) .night-copy{padding-top:24px}
+.night-mark{position:absolute;top:calc(var(--global-header-height,73px) + 10px);left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - var(--gutter)*2));height:min(530px,calc(100% - var(--global-header-height,73px) - var(--night-copy-height,340px) - 20px));margin:0}
+.mark-stage{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 66%,#393d4555,transparent 67%)}
+.mark-poster,.mark-canvas,.mark-canvas canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+.mark-poster{object-fit:contain}
+.mark-canvas{opacity:0;transition:opacity .5s ease}
+.night-mark[data-ready] .mark-canvas{opacity:1}
+.night-mark[data-ready] .mark-poster{visibility:hidden}
+.mark-motion{position:absolute;right:6%;bottom:0;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;color:#a7adb5;font:400 12px/1 var(--body);cursor:pointer}
+.mark-motion::before{position:absolute;inset:6px;content:'';border:1px solid #ffffff35;border-radius:50%;transition:border-color .2s}
+.mark-motion:hover{color:#fff}.mark-motion:hover::before{border-color:#ffffff99}
+.mark-motion[hidden],.night-mark:not([data-ready]) .mark-motion{display:none}
+@media(max-width:1100px){.night-mark{width:calc(100% - var(--gutter)*2);height:min(470px,calc(100% - var(--global-header-height,73px) - var(--night-copy-height,400px) - 20px))}}
+@media(max-width:760px){.night-mark{top:calc(var(--global-header-height,65px) + 8px);width:calc(100% - 24px);height:calc(100% - var(--global-header-height,65px) - var(--night-copy-height,400px) - 20px)}.mark-motion{right:5%;bottom:-12px}}
+html:not(.js) .night-mark{position:relative;top:auto;left:auto;transform:none;flex:none;margin:0 auto;height:clamp(190px,40vh,460px)}
+@media(prefers-reduced-motion:reduce){.mark-canvas{transition:none}}
