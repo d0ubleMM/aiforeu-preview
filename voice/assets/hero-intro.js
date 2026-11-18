@@ -102,7 +102,12 @@
   });
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', () => { measure(); schedule(); }, { passive: true });
-  new ResizeObserver(() => { measure(); schedule(); }).observe(hero);
+  let resizeFrame = 0;
+  new ResizeObserver(() => {
+    if (!resizeFrame) resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0; measure(); schedule();
+    });
+  }).observe(hero);
   window.addEventListener('hashchange', () => { if (location.hash) finish(); });
   window.addEventListener('pageshow', schedule);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) schedule(); });

@@ -166,7 +166,7 @@
  controllers.forEach(model=>observer.observe(model.root));
  if(controllers.length){
   measure();
-  const resize=new ResizeObserver(()=>{if(!measuring)measure();});controllers.forEach(model=>resize.observe(model.stage));resize.observe(document.querySelector('main'));
+  let resizeFrame=0;const resize=new ResizeObserver(()=>{if(!resizeFrame)resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;if(!measuring)measure();});});controllers.forEach(model=>resize.observe(model.stage));resize.observe(document.querySelector('main'));
   window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',measure,{passive:true});
   reduced.addEventListener('change',()=>{controllers.forEach(model=>model.stop?.());measure();});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;controllers.forEach(model=>model.stop?.());}else schedule();});
