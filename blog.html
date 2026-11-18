@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css?v=20261118-neutral-footer">
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/blog.css"><link rel="stylesheet" href="assets/product-experience.css?v=20261119">
+<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/blog.css"><link rel="stylesheet" href="assets/product-experience.css?v=20261119-palette">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
 <link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
@@ -152,17 +152,17 @@
    <div class="experience-demo traffic-demo" aria-hidden="true">
     <div class="traffic-map-top"><span>Verkehrsplanung</span><span>Illustration</span></div>
     <svg class="experience-map" viewBox="0 0 720 380" fill="none">
-     <defs><pattern id="experience-map-grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" stroke="#cbd0cf" stroke-width=".5"/></pattern></defs>
-     <rect width="720" height="380" fill="#e9ece8"/><rect width="720" height="380" fill="url(#experience-map-grid)"/>
-     <g fill="#d3d8d3" stroke="#bec6c0"><rect x="44" y="28" width="107" height="65" rx="3"/><rect x="175" y="28" width="64" height="97" rx="3"/><rect x="58" y="118" width="82" height="35" rx="3"/><rect x="438" y="30" width="100" height="67" rx="3"/><rect x="561" y="26" width="112" height="117" rx="3"/><rect x="35" y="274" width="119" height="82" rx="3"/><rect x="179" y="270" width="67" height="91" rx="3"/><rect x="431" y="281" width="73" height="77" rx="3"/><rect x="536" y="270" width="134" height="86" rx="3"/></g>
-     <path d="M-20 210H740M340-20v420" stroke="#b8c0bb" stroke-width="83"/>
-     <path d="M-20 210H740M340-20v420" stroke="#f9faf7" stroke-width="77"/>
-     <path d="M-20 210H740M340-20v420" stroke="#c0c7c1" stroke-width="1.5" stroke-dasharray="9 11"/>
-     <g stroke="#c9cec8" stroke-width="5"><path d="M278 174v72M402 174v72M304 149h72M304 272h72" stroke-dasharray="4 7"/></g>
-     <path class="traffic-route-base" d="M14 229H280Q322 229 322 187V6" stroke="#d6c49d" stroke-width="4" stroke-linecap="round"/>
-     <path class="traffic-route" pathLength="1" d="M14 229H280Q322 229 322 187V6" stroke="#9b7844" stroke-width="4" stroke-linecap="round"/>
-     <g fill="#545e58"><rect x="171" y="188" width="20" height="9" rx="3"/><rect x="482" y="224" width="20" height="9" rx="3"/><rect x="350" y="91" width="9" height="20" rx="3"/><rect x="317" y="312" width="9" height="20" rx="3"/></g>
-     <circle cx="322" cy="229" r="7" fill="#d3b984" stroke="#fff" stroke-width="3"/>
+     <defs><pattern id="experience-map-grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" stroke="var(--map-grid)" stroke-width=".5"/></pattern></defs>
+     <rect width="720" height="380" fill="var(--map-ground)"/><rect width="720" height="380" fill="url(#experience-map-grid)"/>
+     <g fill="var(--map-building)" stroke="var(--map-building-edge)"><rect x="44" y="28" width="107" height="65" rx="3"/><rect x="175" y="28" width="64" height="97" rx="3"/><rect x="58" y="118" width="82" height="35" rx="3"/><rect x="438" y="30" width="100" height="67" rx="3"/><rect x="561" y="26" width="112" height="117" rx="3"/><rect x="35" y="274" width="119" height="82" rx="3"/><rect x="179" y="270" width="67" height="91" rx="3"/><rect x="431" y="281" width="73" height="77" rx="3"/><rect x="536" y="270" width="134" height="86" rx="3"/></g>
+     <path d="M-20 210H740M340-20v420" stroke="var(--map-road-edge)" stroke-width="83"/>
+     <path d="M-20 210H740M340-20v420" stroke="var(--map-road)" stroke-width="77"/>
+     <path d="M-20 210H740M340-20v420" stroke="var(--map-marking)" stroke-width="1.5" stroke-dasharray="9 11"/>
+     <g stroke="var(--map-crossing)" stroke-width="5"><path d="M278 174v72M402 174v72M304 149h72M304 272h72" stroke-dasharray="4 7"/></g>
+     <path class="traffic-route-base" d="M14 229H280Q322 229 322 187V6" stroke="var(--map-route-base)" stroke-width="4" stroke-linecap="round"/>
+     <path class="traffic-route" pathLength="1" d="M14 229H280Q322 229 322 187V6" stroke="var(--map-route)" stroke-width="4" stroke-linecap="round"/>
+     <g fill="var(--map-vehicle)"><rect x="171" y="188" width="20" height="9" rx="3"/><rect x="482" y="224" width="20" height="9" rx="3"/><rect x="350" y="91" width="9" height="20" rx="3"/><rect x="317" y="312" width="9" height="20" rx="3"/></g>
+     <circle cx="322" cy="229" r="7" fill="var(--map-route)" stroke="var(--map-ground)" stroke-width="3"/>
     </svg>
     <div class="traffic-map-bottom"><span><i></i>Verkehrsfluss</span><span>Ein klarer Blick auf die Kreuzung.</span></div>
    </div>

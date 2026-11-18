@@ -1,0 +1,18 @@
+/* VerkehrsAI: graphite and silver across the map, research and contact sections. */
+.page-traffic{--night:#0d0f11;--ink:#25292d;--muted:#62686e;--paper:#f5f6f7;--surface:#fff;--line:#dce0e3;--accent:#b8c5d2;--traffic-deep:#141719;--traffic-light-text:#f5f6f7}
+.page-traffic .traffic-research-section{background:#0d0f11;border-top:1px solid #ffffff12}
+.page-traffic .traffic-research-copy p,.page-traffic .traffic-research-partners p{color:#bdc2c7}
+.page-traffic .traffic-research-partners p{border-color:#32373d}
+.page-traffic .traffic-plan-section{background:#f5f6f7}
+.page-traffic .traffic-contact-panel>div:first-child>p:not(.eyebrow),.page-traffic .traffic-pilot-notes>p{color:#bdc2c7}
+.page-traffic .traffic-pilot-notes,.page-traffic .traffic-pilot-notes>div{border-color:#373d43}
+.page-traffic .traffic-pilot-notes>div>span,.page-traffic .traffic-pilot-notes .traffic-small-label{color:#a8afb7}
+.page-traffic .traffic-contact-panel .button:hover{background:#e3e6e9;border-color:#e3e6e9}
+.page-traffic .traffic-mockup{color:#2c3136}
+.page-traffic .tm-window{border-color:#d6dce0;box-shadow:0 28px 60px -45px #11182033}
+.page-traffic .tm-appbar{background:#f8f9fa;border-color:#dde1e4}
+.page-traffic :is(.tm-example,.tm-heading>span,.tm-inventory dt,.tm-detail>p),.page-traffic .traffic-mockup figcaption{color:#626a72}
+.page-traffic :is(.tm-result,.tm-detail){border-color:#dde1e4}
+.page-traffic :is(.tm-inventory>div,.tm-streets li){border-color:#e7eaed}
+.page-traffic .tm-motion-control{color:#3c434b;border-color:#a4adb677}
+.page-traffic .tm-motion-control:focus-visible{outline-color:#555f69}

@@ -80,11 +80,13 @@
 .workflow-review{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 6px 3px;border-top:1px solid #cdd4c9;font-size:11px;color:#697661}.workflow-review>span{width:5px;height:5px;background:#bb9257;border-radius:50%}.workflow-review p{margin:0}
 [data-step="0"] .workflow-prepare,[data-step="0"] .workflow-person,[data-step="1"] .workflow-person{opacity:.5}
 /* Traffic: a deliberately illustrative vector plan; crisp at every pixel density. */
-.traffic-demo{background:#e9ece8;color:#4c5a50;display:flex;flex-direction:column}
-.traffic-map-top,.traffic-map-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 18px;font-size:11px;background:#f1f3ee}
-.traffic-map-top>span:first-child{font-weight:500}.traffic-map-top>span:last-child{color:#98a196}
+.traffic-demo{--map-ground:#191c1f;--map-grid:#34393e;--map-building:#262b30;--map-building-edge:#41474e;--map-road-edge:#535b63;--map-road:#30363c;--map-marking:#848d96;--map-crossing:#a1a8af;--map-route-base:#69737e;--map-route:#e5ebf1;--map-vehicle:#a7b0b8;background:var(--map-ground);color:#c6cbd1;border:1px solid #343a40;display:flex;flex-direction:column}
+.product-experience[data-view="traffic"],.product-experience[data-initial-view="traffic"]{--experience-accent:#d4dce4}
+.product-experience[data-view="traffic"] .experience-tabs a[aria-selected=true]{color:#eff3f7}
+.traffic-map-top,.traffic-map-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 18px;font-size:11px;background:#202428}
+.traffic-map-top>span:first-child{font-weight:500}.traffic-map-top>span:last-child{color:#a8b0b8}
 .experience-map{display:block;width:100%;height:240px;min-height:0;flex:1}
-.traffic-map-bottom{font-size:10px;border-top:1px solid #d5dbd1}.traffic-map-bottom>span:first-child{display:flex;align-items:center;gap:7px}.traffic-map-bottom i{display:block;width:16px;height:2px;background:#b18b4f}
+.traffic-map-bottom{font-size:10px;border-top:1px solid #343a40}.traffic-map-bottom>span:first-child{display:flex;align-items:center;gap:7px}.traffic-map-bottom i{display:block;width:16px;height:2px;background:var(--map-route)}
 .traffic-route{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--demo-progress,1))}
 /* A focused example uses precisely the same surface and interaction. */
 .experience-focused{grid-template-columns:minmax(0,1fr)}
