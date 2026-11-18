@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-source-language="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +23,13 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css"><link rel="stylesheet" href="assets/home-story.css?v=20261118-evolution"><link rel="stylesheet" href="assets/business-scenes.css?v=20261118-fluid"><link rel="stylesheet" href="assets/mark-sculpture.css?v=20261118-fragments">
+<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css"><link rel="stylesheet" href="assets/home-story.css?v=20261118-languages"><link rel="stylesheet" href="assets/business-scenes.css?v=20261118-fluid"><link rel="stylesheet" href="assets/mark-sculpture.css?v=20261118-fragments">
 <script>document.documentElement.classList.add('js')</script>
+<!-- shared-language:start -->
+<link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
+<script>document.documentElement.dataset.languagePending='';</script>
+<script src="assets/languages.js?v=79306dcdc4d1" defer></script>
+<!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body class="landing-page office-home">
@@ -56,6 +61,7 @@
    <a href="blog.html">Blog</a>
   </nav>
   <a class="global-contact" href="kontakt.html">Kontakt <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <span data-site-language-switch></span>
   <button class="global-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="global-menu" aria-haspopup="dialog"><span class="global-menu-lines" aria-hidden="true"><span></span><span></span></span></button>
  </div>
 </header>
@@ -92,7 +98,7 @@
   <div class="mark-stage"><picture><source media="(max-width:760px)" srcset="assets/mark-sculpture/poster-mobile.webp?v=20261118-fragments"><img class="mark-poster" src="assets/mark-sculpture/poster.webp?v=20261118-fragments" width="1600" height="1120" alt="" fetchpriority="high"></picture><div class="mark-canvas"></div></div>
  </figure>
  <div class="night-copy">
-  <h1 id="landing-title"><span><span>KI, die Arbeit</span></span> <span><span>übernimmt.</span></span></h1>
+  <h1 id="landing-title"><span><span>KI, die Arbeit übernimmt.</span></span></h1>
   <div class="night-aside">
    <p>Anrufe annehmen. Daten übertragen. Zwischen Programmen wechseln. Pläne prüfen. Jeden Tag bleibt Zeit in Aufgaben stecken, die sich wiederholen.</p>
    <div class="night-actions"><a class="landing-button" href="kontakt.html">Mit uns sprechen <span aria-hidden="true">↗</span></a><a class="night-start" href="#rundgang">Produkte ansehen <span aria-hidden="true">↓</span></a></div>
@@ -113,7 +119,7 @@
    <article class="business-panel business-agentario landing-width" id="agentario-scene" aria-labelledby="agentario-scene-title" data-scene="agentario" data-step="voice">
     <div class="business-copy">
      <p class="business-eyebrow">Agentario · Eine Plattform</p>
-     <h2 id="agentario-scene-title">Aus einem Anruf<br>wird ein Ablauf.</h2>
+     <h2 id="agentario-scene-title">Aus einem Anruf wird ein Ablauf.</h2>
      <p>Agentario nimmt Anliegen auf, arbeitet in Ihren Programmen und verbindet die nächsten Schritte.</p>
      <a class="business-link" href="agentario/">Agentario entdecken <span aria-hidden="true">↗</span></a>
     </div>
@@ -152,7 +158,7 @@
    <article class="business-panel business-traffic landing-width" id="traffic-scene" aria-labelledby="traffic-scene-title" data-scene="traffic">
     <div class="business-copy">
      <p class="business-eyebrow">VerkehrsAI · Planung &amp; Verkehr</p>
-     <h2 id="traffic-scene-title">Pläne verstehen.<br>Verkehr gestalten.</h2>
+     <h2 id="traffic-scene-title">Pläne verstehen. Verkehr gestalten.</h2>
      <p>Wir erschließen Lage- und Signalpläne für die digitale Verkehrsplanung. Mit VerkehrsOS als gemeinsamem Forschungsprojekt mit IOTEC.</p>
      <a class="business-link" href="verkehrsai.html">VerkehrsAI entdecken <span aria-hidden="true">↗</span></a>
      <p class="business-research">EU-geförderte Forschung</p>
@@ -176,7 +182,7 @@
 </section>
 
 <section class="project-showcase landing-width" id="weitere-projekte" aria-labelledby="projects-title">
- <header class="project-showcase-heading"><div><p class="business-eyebrow">Weitere Projekte · Open Source</p><h2 id="projects-title">Werkzeuge für<br>die Arbeit mit KI.</h2></div><a class="business-link" href="projekte.html">Alle Projekte <span aria-hidden="true">↗</span></a></header>
+ <header class="project-showcase-heading"><div><p class="business-eyebrow">Weitere Projekte · Open Source</p><h2 id="projects-title">Werkzeuge für die Arbeit mit KI.</h2></div><a class="business-link" href="projekte.html">Alle Projekte <span aria-hidden="true">↗</span></a></header>
  <div class="project-showcase-grid">
   <article class="project-showcase-item" id="platz-ive">
    <a href="ive.html" class="project-preview project-preview-ive" aria-label="IVE entdecken"><img src="assets/ive/terminals-dark.webp" alt="IVE mit mehreren nebeneinander geöffneten Agenten-Terminals." width="1600" height="762" loading="lazy" decoding="async"></a>
@@ -198,7 +204,7 @@
 </section>
 
 <section class="story-dawn" id="kontakt" aria-labelledby="landing-contact-title">
- <div class="story-dawn-copy landing-width"><h2 id="landing-contact-title">Was soll morgen<br>einfacher sein?</h2><a class="landing-button" href="kontakt.html">Mit uns sprechen <span aria-hidden="true">↗</span></a></div>
+ <div class="story-dawn-copy landing-width"><h2 id="landing-contact-title">Was soll morgen einfacher sein?</h2><a class="landing-button" href="kontakt.html">Mit uns sprechen <span aria-hidden="true">↗</span></a></div>
  <div class="story-dawn-foot landing-width"><span>Osnabrück &amp; Berlin</span><a href="mailto:contact@aiforgov.eu">contact@aiforgov.eu <span aria-hidden="true">↗</span></a></div>
 </section>
 
@@ -213,6 +219,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/home-story.js?v=20261118-evolution" defer></script><script src="assets/business-scenes.js?v=20261118-fluid" defer></script><script src="assets/mark-sculpture.js?v=20261118-fragments" defer></script>
+<script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/home-story.js?v=20261118-languages" defer></script><script src="assets/business-scenes.js?v=20261118-fluid" defer></script><script src="assets/mark-sculpture.js?v=20261118-fragments" defer></script>
 </body>
 </html>

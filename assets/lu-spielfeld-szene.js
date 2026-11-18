@@ -4,7 +4,7 @@ import { createPile, randomSource, sweepPile, beginDrag, moveDrag, endDrag, step
 
 const INSTANCES = new WeakMap();
 const COLORS = ['#f6df72', '#f5e7a0', '#efb171', '#c3d8e5'];
-const WORDS = [['Rückruf', '14:30'], ['Angebot', 'prüfen'], ['Termin', 'bestätigen'], ['Rechnung', 'zuordnen'], ['Mail', 'beantworten'], ['Freigabe', 'einholen'], ['Ticket', 'ergänzen'], ['Daten', 'übertragen'], ['Lieferung', 'nachfragen'], ['Beleg', 'ablegen'], ['Kontakt', 'aktualisieren'], ['Heute:', 'nachfassen']];
+const WORDS = ['Rückruf 14:30', 'Angebot prüfen', 'Termin bestätigen', 'Rechnung zuordnen', 'Mail beantworten', 'Freigabe einholen', 'Ticket ergänzen', 'Daten übertragen', 'Lieferung nachfragen', 'Beleg ablegen', 'Kontakt aktualisieren', 'Heute: nachfassen'];
 
 function paperTexture(color, text) {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512;
@@ -22,7 +22,15 @@ function paperTexture(color, text) {
   c.translate(59, 150); c.rotate((random() - .5) * .07);
   c.font = '600 84px AiforeuNotes, cursive'; c.fillStyle = '#273747';
   c.textBaseline = 'alphabetic';
-  WORDS[text].forEach((line, i) => c.fillText(line, i ? 7 : 0, i * 96, 390));
+  const label = window.AiforeuLanguage?.t(WORDS[text], 'de') || WORDS[text];
+  const lines = []; let line = '';
+  for (const word of label.split(' ')) {
+    const next = line ? line + ' ' + word : word;
+    if (line && c.measureText(next).width > 390) { lines.push(line); line = word; } else line = next;
+  }
+  if (line) lines.push(line);
+  const spacing = Math.min(96, 280 / Math.max(1, lines.length - 1));
+  lines.forEach((line, i) => c.fillText(line, i ? 7 : 0, i * spacing, 390));
   c.lineWidth = 3; c.strokeStyle = '#273747'; c.lineCap = 'round';
   if (text % 3 === 0) {
     c.beginPath(); c.moveTo(8, 119); c.quadraticCurveTo(87, 126, 205 + random() * 70, 119); c.stroke();
@@ -30,6 +38,7 @@ function paperTexture(color, text) {
     c.beginPath(); c.moveTo(10, 189); c.lineTo(23, 204); c.lineTo(57, 165); c.stroke();
   }
   const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace; texture.anisotropy = 8;
+  texture.userData.label = label;
   return texture;
 }
 
@@ -195,6 +204,14 @@ async function start(host) {
   }, { rootMargin: '40px' }); visibilityObserver.observe(surface);
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopFrame(); else wake(); }, options);
   motion.addEventListener('change', () => { stopFrame(); endDrag(pile); settlePile(pile); draw(); }, options);
+  window.addEventListener('aiforeu:language-ready', () => {
+    for (const [id, [front]] of materials) {
+      const [color, text] = id.split('-').map(Number), previous = front.map;
+      front.map = paperTexture(COLORS[color], text); textures.add(front.map);
+      textures.delete(previous); previous.dispose(); front.needsUpdate = true;
+    }
+    draw();
+  }, options);
   canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); host.classList.add('lu-spielfeld--fallback'); destroy(); }, options);
   function destroy() {
     if (disposed) return;
@@ -210,7 +227,7 @@ async function start(host) {
   }
   const api = { destroy, get laeuft() { return !!frame; }, get karten() { return pile.notes.length; },
     get energie() { return pile.energy; }, get zeit() { return elapsed; },
-    getState: () => ({ disposed, reducedMotion: motion.matches, dragging: pile.drag?.id ?? null, notes: pile.notes.map(({ x, y, z, yaw }) => ({ x, y, z, yaw })) }),
+    getState: () => ({ disposed, reducedMotion: motion.matches, dragging: pile.drag?.id ?? null, labels: [...textures].map(texture => texture.userData.label), notes: pile.notes.map(({ x, y, z, yaw }) => ({ x, y, z, yaw })) }),
   };
   buildSheets(); resize();
   host.classList.add('lu-spielfeld--bereit');

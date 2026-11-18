@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-source-language="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +22,13 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/business-paths.css"><link rel="stylesheet" href="assets/integrations.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-spielfeld.css"><link rel="stylesheet" href="assets/lu-spielfeld-stable.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css">
+<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/business-paths.css"><link rel="stylesheet" href="assets/integrations.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-spielfeld.css"><link rel="stylesheet" href="assets/lu-spielfeld-stable.css?v=20261118-languages"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css">
 <script>document.documentElement.classList.add('js')</script>
+<!-- shared-language:start -->
+<link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
+<script>document.documentElement.dataset.languagePending='';</script>
+<script src="assets/languages.js?v=79306dcdc4d1" defer></script>
+<!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body class="business-path path-workforce film-page gray-room-page">
@@ -55,6 +60,7 @@
    <a href="blog.html">Blog</a>
   </nav>
   <a class="global-contact" href="kontakt.html">Kontakt <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <span data-site-language-switch></span>
   <button class="global-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="global-menu" aria-haspopup="dialog"><span class="global-menu-lines" aria-hidden="true"><span></span><span></span></span></button>
  </div>
 </header>
@@ -89,7 +95,7 @@
  <div class="film-hero-media"><img src="assets/aiforeu-room/overview.jpg?v=20261116" alt="Vier weiße Arbeitsplätze für Voice, Desktop, Workflows und VerkehrsAI in einem ruhigen grauen Raum." width="1920" height="1080" fetchpriority="high" decoding="async"></div>
  <div class="film-hero-copy">
   <a class="film-hero-back" href="index.html"><span aria-hidden="true">←</span> AIFOREU</a>
-  <h1 id="workforce-title">Eine Workforce.<br>Für Ihr Unternehmen.</h1>
+  <h1 id="workforce-title">Eine Workforce. Für Ihr Unternehmen.</h1>
   <p class="film-hero-lead">Agenten, die ganze Aufgabenbereiche übernehmen können – im Kundenkontakt, in Operations und in der Administration. Zusammen mit Ihrem Team, verbunden mit den Systemen, in denen Sie bereits arbeiten.</p>
   <div class="film-hero-actions"><a class="film-hero-button" href="/aiforeu-preview/agentario/">Agentario entdecken <span aria-hidden="true">→</span></a><a class="film-hero-link" href="#workforce-plattform">Den Bereich kennenlernen <span aria-hidden="true">↓</span></a></div>
  </div>
@@ -98,9 +104,9 @@
 <section class="lu-spielfeld bp-width" data-lu-spielfeld aria-label="Notizzettel aus dem Arbeitsalltag">
  <div class="lu-spielfeld-flaeche">
   <ol class="lu-spielfeld-ruhe" aria-label="Beispielaufgaben auf Notizzetteln">
-   <li>Rückruf<br>14:30</li><li>Angebot<br>prüfen</li><li>Termin<br>bestätigen</li><li>Rechnung<br>zuordnen</li>
-   <li>Mail<br>beantworten</li><li>Freigabe<br>einholen</li><li>Ticket<br>ergänzen</li><li>Daten<br>übertragen</li>
-   <li>Lieferung<br>nachfragen</li><li>Beleg<br>ablegen</li><li>Kontakt<br>aktualisieren</li><li>Heute:<br>nachfassen</li>
+   <li>Rückruf 14:30</li><li>Angebot prüfen</li><li>Termin bestätigen</li><li>Rechnung zuordnen</li>
+   <li>Mail beantworten</li><li>Freigabe einholen</li><li>Ticket ergänzen</li><li>Daten übertragen</li>
+   <li>Lieferung nachfragen</li><li>Beleg ablegen</li><li>Kontakt aktualisieren</li><li>Heute: nachfassen</li>
   </ol>
  </div>
 </section>
@@ -129,7 +135,7 @@
 </section>
 
 <section class="bp-roles" aria-labelledby="workforce-roles-title"><div class="bp-width bp-roles-grid">
- <div class="bp-roles-heading"><h2 id="workforce-roles-title">Arbeit, die<br> zusammengehört.</h2><p>Diese Beispiele zeigen mögliche Aufgabenbereiche. Welche Schritte Agenten übernehmen und wo Ihr Team entscheidet, wird im konkreten Ablauf festgelegt.</p></div>
+ <div class="bp-roles-heading"><h2 id="workforce-roles-title">Arbeit, die  zusammengehört.</h2><p>Diese Beispiele zeigen mögliche Aufgabenbereiche. Welche Schritte Agenten übernehmen und wo Ihr Team entscheidet, wird im konkreten Ablauf festgelegt.</p></div>
  <div class="bp-role-details">
   <details open><summary><span>Kundenkontakt</span><span class="bp-details-sign" aria-hidden="true">+</span></summary><div><p>Anliegen aufnehmen, Informationen finden, den Vorgang festhalten und den nächsten Schritt vorbereiten. Eine fachliche Rückfrage geht mit dem bisherigen Kontext an Ihr Team.</p><p class="bp-role-sequence">Gespräch → Anliegen → Weiterbearbeitung</p><a class="bp-link" href="/aiforeu-preview/agentario/use-cases/customer-support/">Kundenservice als Anwendungsfall <span aria-hidden="true">↗</span></a></div></details>
   <details><summary><span>Operations</span><span class="bp-details-sign" aria-hidden="true">+</span></summary><div><p>Interne Anfragen einordnen, Angaben ergänzen und ein Ticket im zuständigen System vorbereiten. Bei Ausnahmen übernimmt die verantwortliche Person.</p><p class="bp-role-sequence">Anfrage → Einordnung → Zuständiges Team</p><a class="bp-link" href="/aiforeu-preview/agentario/use-cases/enterprise-helpdesk/">Enterprise Helpdesk kennenlernen <span aria-hidden="true">↗</span></a></div></details>
@@ -138,7 +144,7 @@
 </div></section>
 
 <section class="integrations" aria-labelledby="workforce-tools-title"><div class="integrations-inner">
- <div class="integrations-heading"><h2 id="workforce-tools-title">Die Tools Ihres Teams.<br>Ein gemeinsamer Ablauf.</h2><p>Individuelle Anbindungen auf Anfrage. Wir entwickeln die Verbindung passend zu Ihren Systemen, Zugriffsregeln und dem Ablauf, den Sie automatisieren möchten.</p></div>
+ <div class="integrations-heading"><h2 id="workforce-tools-title">Die Tools Ihres Teams. Ein gemeinsamer Ablauf.</h2><p>Individuelle Anbindungen auf Anfrage. Wir entwickeln die Verbindung passend zu Ihren Systemen, Zugriffsregeln und dem Ablauf, den Sie automatisieren möchten.</p></div>
  <div class="integrations-grid" aria-label="Anbindung kennenlernen">
   <a href="/aiforeu-preview/agentario/workflows/?integration=slack"><img src="assets/integrations/slack.svg" alt="" width="32" height="32" loading="lazy"><span>Slack</span><span class="integration-arrow" aria-hidden="true">↗</span></a>
   <a href="/aiforeu-preview/agentario/workflows/?integration=notion"><img src="assets/integrations/notion.svg" alt="" width="32" height="32" loading="lazy"><span>Notion</span><span class="integration-arrow" aria-hidden="true">↗</span></a>
@@ -152,12 +158,12 @@
 </div></section>
 
 <section class="bp-section bp-width" aria-labelledby="workforce-start-title">
- <div class="bp-editorial"><div><h2 id="workforce-start-title">Verstehen. Gestalten.<br> Gemeinsam einsetzen.</h2></div><div class="bp-prose"><p>Der Einstieg kann ein bestehender Prozess oder eine konkrete Aufgabe sein. Aus der Analyse oder Ihrer Beschreibung entsteht ein Entwurf, den Ihr Team mit Systemen, Wissen und den passenden Regeln verbindet.</p><p>Vor dem Einsatz werden typische Fälle und Ausnahmen durchgespielt. Im Betrieb helfen nachvollziehbare Abläufe dabei, Ergebnisse zu prüfen und Verbesserungen gezielt anzugehen.</p><a class="bp-link" href="/aiforeu-preview/agentario/features/">Aufbau und Fähigkeiten ansehen <span aria-hidden="true">↗</span></a></div></div>
+ <div class="bp-editorial"><div><h2 id="workforce-start-title">Verstehen. Gestalten.  Gemeinsam einsetzen.</h2></div><div class="bp-prose"><p>Der Einstieg kann ein bestehender Prozess oder eine konkrete Aufgabe sein. Aus der Analyse oder Ihrer Beschreibung entsteht ein Entwurf, den Ihr Team mit Systemen, Wissen und den passenden Regeln verbindet.</p><p>Vor dem Einsatz werden typische Fälle und Ausnahmen durchgespielt. Im Betrieb helfen nachvollziehbare Abläufe dabei, Ergebnisse zu prüfen und Verbesserungen gezielt anzugehen.</p><a class="bp-link" href="/aiforeu-preview/agentario/features/">Aufbau und Fähigkeiten ansehen <span aria-hidden="true">↗</span></a></div></div>
  <aside class="bp-supporting" aria-labelledby="workforce-supporting-title"><h3 id="workforce-supporting-title">Ergänzende Projekte von AIFOREU</h3><p>Eigenständige Werkzeuge für andere Aufgaben rund um die Automatisierung.</p><div><a href="anyuse.html"><strong>AnyUse</strong><span>Arbeitsabläufe erfassen und Automatisierungsvorschläge finden.</span><span aria-hidden="true">↗</span></a><a href="ive.html"><strong>IVE</strong><span>Der Arbeitsplatz für KI-Programmierhelfer auf dem Mac.</span><span aria-hidden="true">↗</span></a></div></aside>
 </section>
 
 <section class="bp-contact" aria-labelledby="workforce-next-title"><div class="bp-width">
- <h2 id="workforce-next-title">Welche Arbeit soll<br> Ihre Workforce übernehmen?</h2>
+ <h2 id="workforce-next-title">Welche Arbeit soll  Ihre Workforce übernehmen?</h2>
  <div class="bp-contact-bottom"><p>Wir besprechen Ihren Aufgabenbereich und einen passenden Einstieg mit Agentario.</p><a class="bp-button bp-button-light" href="kontakt.html?thema=Agentario">Einstieg besprechen <span aria-hidden="true">↗</span></a></div>
  <a class="bp-other-path" href="verkehrsai.html">Sie planen Straßen und Kreuzungen? <span>VerkehrsAI <span aria-hidden="true">→</span></span></a>
 </div></section>
@@ -175,6 +181,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/lu-worte.js"></script><script src="assets/lu-spielfeld-stable.js"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script>
+<script src="assets/lu-worte.js"></script><script src="assets/lu-spielfeld-stable.js?v=20261118-languages"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script>
 </body>
 </html>

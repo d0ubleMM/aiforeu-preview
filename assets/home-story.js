@@ -32,6 +32,10 @@
   // 2 · Words light up one after the other while the heading crosses the screen.
   const heading = document.querySelector('[data-story-words]');
   if (heading && !reduced.matches) {
+    // Translate each complete sentence before the decorative word split.
+    // Keep those source sentences across language changes.
+    const sentences = [...heading.children].map(node => ({node, source: (window.AiforeuLanguage?.sourceText(node) || node.textContent).trim()}));
+    heading.dataset.i18nIgnore = '';
     const words = [];
     const split = node => {
       for (const child of [...node.childNodes]) {
@@ -46,7 +50,6 @@
         child.replaceWith(pieces);
       }
     };
-    split(heading);
     let wordsFrame = 0;
     const paint = () => {
       wordsFrame = 0;
@@ -58,7 +61,16 @@
     const schedule = () => { if (!wordsFrame) wordsFrame = requestAnimationFrame(paint); };
     addEventListener('scroll', schedule, { passive: true });
     addEventListener('resize', schedule);
-    paint();
+    const rebuild = () => {
+      words.length = 0;
+      for (const sentence of sentences) {
+        sentence.node.textContent = window.AiforeuLanguage?.t(sentence.source, 'de') || sentence.source;
+        split(sentence.node);
+      }
+      paint();
+    };
+    addEventListener('aiforeu:language-ready', rebuild);
+    if (window.AiforeuLanguage?.ready) rebuild();
   }
 
 })();

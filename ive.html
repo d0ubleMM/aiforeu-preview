@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-source-language="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,11 @@
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
 <link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/devtools-pages.css"><link rel="stylesheet" href="assets/ive-previews.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css">
 <script>document.documentElement.classList.add('js')</script>
+<!-- shared-language:start -->
+<link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
+<script>document.documentElement.dataset.languagePending='';</script>
+<script src="assets/languages.js?v=79306dcdc4d1" defer></script>
+<!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body class="product-page page-ive film-page gray-room-page">
@@ -55,6 +60,7 @@
    <a href="blog.html">Blog</a>
   </nav>
   <a class="global-contact" href="kontakt.html">Kontakt <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <span data-site-language-switch></span>
   <button class="global-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="global-menu" aria-haspopup="dialog"><span class="global-menu-lines" aria-hidden="true"><span></span><span></span></span></button>
  </div>
 </header>
@@ -89,7 +95,7 @@
  <div class="film-hero-media"><img src="assets/aiforeu-room/ive.jpg?v=20261116" alt="Weißer Arbeitsplatz mit Bildschirm, Tastatur und Maus im grauen Raum." width="1600" height="1200" fetchpriority="high" decoding="async"></div>
  <div class="film-hero-copy">
   <a class="film-hero-back" href="projekte.html"><span aria-hidden="true">←</span> Alle Projekte</a>
-  <h1 id="ive-title">Ihre Agenten.<br>Ein Arbeitsplatz.</h1>
+  <h1 id="ive-title">Ihre Agenten. Ein Arbeitsplatz.</h1>
   <p class="film-hero-lead">Aufgaben parallel starten. Sehen, wer Sie braucht. Änderungen prüfen. IVE bringt Ihre KI-Programmierhelfer in ein gemeinsames Fenster.</p>
   <div class="film-hero-actions"><a class="film-hero-button" href="https://ive.dev/download.html">Für Mac laden <span aria-hidden="true">↗</span></a><a class="film-hero-link" href="https://ive.dev/try.html">Im Browser ausprobieren <span aria-hidden="true">↗</span></a></div>
   <p class="film-hero-meta">Open Source · Apache 2.0 · Kein IVE-Konto</p>
@@ -130,7 +136,7 @@
 
 <section class="section dev-ownership" aria-labelledby="ive-own-title">
  <div class="wrap">
-  <div class="dev-section-heading"><div><h2 id="ive-own-title">Ihr Rechner.<br>Ihre Zugänge. Ihre Entscheidung.</h2></div><p>IVE gibt Ihrer Arbeit einen gemeinsamen Ort. Ihre vorhandenen Programmierhelfer und deren Anbieter bleiben Teil Ihres Setups.</p></div>
+  <div class="dev-section-heading"><div><h2 id="ive-own-title">Ihr Rechner. Ihre Zugänge. Ihre Entscheidung.</h2></div><p>IVE gibt Ihrer Arbeit einen gemeinsamen Ort. Ihre vorhandenen Programmierhelfer und deren Anbieter bleiben Teil Ihres Setups.</p></div>
   <dl class="dev-ownership-grid">
    <div><span class="dev-feature-symbol" aria-hidden="true"><svg viewBox="0 0 28 28"><rect x="3" y="4" width="22" height="15" rx="2"/><path d="M10 24h8M14 19v5"/></svg></span><dt>Läuft auf Ihrem Mac</dt><dd>IVE läuft lokal auf Ihrem Rechner. Ihre Programmierhelfer verbinden sich wie gewohnt mit ihren Modellanbietern.</dd></div>
    <div><span class="dev-feature-symbol" aria-hidden="true"><svg viewBox="0 0 28 28"><circle cx="10" cy="11" r="5"/><path d="m14 15 9 9M18 19l3-3M21 22l3-3"/></svg></span><dt>Ihre bestehenden Logins</dt><dd>Nutzen Sie Ihre Zugänge für Claude Code, Codex und Gemini. Ein zusätzliches IVE-Konto ist nicht erforderlich.</dd></div>
@@ -143,12 +149,12 @@
 <section class="dev-mobile-note" aria-labelledby="ive-mobile-title">
  <div class="wrap dev-mobile-note-inner">
   <div class="dev-device-pair" aria-hidden="true"><svg viewBox="0 0 160 108"><rect class="dev-device-outline" x="4" y="9" width="109" height="73" rx="7"/><path class="dev-device-outline" d="M43 97h31M58 82v15"/><path class="dev-device-code" d="m21 30 8 7-8 7M36 44h23"/><path class="dev-device-line" d="M21 57h63M21 64h48"/><rect class="dev-device-phone" x="113" y="39" width="39" height="65" rx="8"/><path class="dev-device-phone-line" d="M127 45h11M121 60h23M121 67h17M121 75h23"/><path class="dev-device-check" d="m124 88 4 4 10-10"/></svg></div>
-  <div><h2 id="ive-mobile-title">Kurz antworten.<br>Auch unterwegs.</h2></div>
+  <div><h2 id="ive-mobile-title">Kurz antworten. Auch unterwegs.</h2></div>
   <div><p>Die iPhone-App kommt demnächst in den App Store. In der Browser-Demo können Sie die mobile Ansicht mit Terminals und Rückfragen bereits ausprobieren.</p><a class="dev-text-link" href="https://ive.dev/#iphone">iPhone-Vorschau ansehen <span aria-hidden="true">↗</span></a></div>
  </div>
 </section>
 
-<section class="section dev-bottom-cta" aria-labelledby="ive-try-title"><div class="wrap"><div class="dev-cta-surface"><div><h2 id="ive-try-title">Bringen Sie Ihre Agenten<br>an einen Tisch.</h2><p>Starten Sie auf Ihrem Mac oder lernen Sie IVE zuerst in der Browser-Demo kennen.</p></div><div class="dev-cta-actions"><a class="button" href="https://ive.dev/download.html">Für Mac laden <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="https://ive.dev/try.html">Browser-Demo öffnen <span aria-hidden="true">↗</span></a><a class="dev-text-link" href="https://github.com/michaelAGI/ive">Quellcode auf GitHub <span aria-hidden="true">↗</span></a></div></div></div></section>
+<section class="section dev-bottom-cta" aria-labelledby="ive-try-title"><div class="wrap"><div class="dev-cta-surface"><div><h2 id="ive-try-title">Bringen Sie Ihre Agenten an einen Tisch.</h2><p>Starten Sie auf Ihrem Mac oder lernen Sie IVE zuerst in der Browser-Demo kennen.</p></div><div class="dev-cta-actions"><a class="button" href="https://ive.dev/download.html">Für Mac laden <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="https://ive.dev/try.html">Browser-Demo öffnen <span aria-hidden="true">↗</span></a><a class="dev-text-link" href="https://github.com/michaelAGI/ive">Quellcode auf GitHub <span aria-hidden="true">↗</span></a></div></div></div></section>
 
 </main>
 <footer class="site-footer">

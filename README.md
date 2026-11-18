@@ -11,31 +11,30 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The near-black opening fills the viewport. The original AIFOREU mark appears as
-a large white/silver 3D sculpture in a softly lit graphite studio. Three solid
-components join to form the mark, rest, then slowly separate. The motion runs
-independently of scrolling and can be paused. Very short phone screens allow
-enough document height to keep both the sculpture and contact action readable.
+The near-black opening carries a compact white/silver AIFOREU sculpture in the
+background. Fourteen pieces assemble and separate with ordinary forward and
+reverse scrolling. A short sticky section keeps the headline and contact
+actions readable. Once scrolling stops, the sculpture stops rendering.
 
 A shared grey stage separates the two main business areas. Agentario shows one example
 from an incoming call through work in software to the next workflow step.
 VerkehrsAI has an illustrative 3D junction with moving traffic and a drawing
 plane that lifts above the model. The area selectors and example steps can be
-selected directly. The document scrolls normally, without pinned sections or
-automatic area changes caused by scrolling.
+selected directly. These areas use ordinary scrolling and do not switch
+automatically as the visitor scrolls.
 
 IVE and AnyUse follow as independent projects, with an IVE screenshot and an
 explicitly labelled AnyUse example. The contact section follows in the normal
 document flow, without a separate scroll runway.
 
-Reduced motion disables automatic movement. A pause control stops ambient
-movement; the introduction also pauses offscreen and while the menu is open.
+Reduced motion uses a static opening. A pause control stops ambient movement
+in the business examples.
 Without JavaScript, both business areas and all links remain in the document,
 and the opening uses a rendered still of the sculpture. The junction has vector
 artwork if WebGL is unavailable.
 
 - `assets/home-story.*`: full-screen opening, navigation and statement.
-- `assets/mark-sculpture.*`, `mark-sculpture-scene.js` and `mark-sculpture/`: 3D opening, playback and rendered fallbacks.
+- `assets/mark-sculpture.*`, `mark-sculpture-scene.js` and `mark-sculpture/`: 3D opening, scroll poses and rendered fallbacks.
 - `assets/business-scenes.*`: area layout and directly selectable example workflow.
 - `assets/business-junction.js` and `.svg`: public illustrative geometry and fallback.
 - `assets/aiforeu-room/`: original grey-room desk stills used on subpages.
@@ -49,6 +48,21 @@ panel is a native `<details>`, so it opens without script; `assets/navigation.js
 adds closing by Escape, by a click elsewhere and when focus leaves it. The
 header markup is repeated in each HTML file: change it in all of them together.
 The main platform is Agentario. VerkehrsAI has one entry, including VerkehrsOS research.
+
+## Languages
+
+The company pages, Agentario and Voice share a language button. German is the
+default. The 43-language selection includes all 24 EU official languages plus
+19 other European national or regional languages. The current page, query
+parameters and fragment survive a switch; the choice is retained on subsequent
+pages. Visitor-entered text remains unchanged.
+
+Translations are built in advance and served from `assets/i18n/`; there is no
+visitor-side translation service. The additional languages are machine
+translated, with editorial corrections to prominent copy. Browser checks do
+not replace a native-language editorial review. Original product recordings,
+logos and German Voice audio remain original; surrounding text and transcripts
+follow the selected language.
 
 ## Subpages
 

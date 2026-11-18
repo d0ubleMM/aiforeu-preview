@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-source-language="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +26,11 @@
 <link rel="stylesheet" href="assets/navigation.css?v=20261114">
 <link rel="stylesheet" href="assets/blog.css">
 <script>document.documentElement.classList.add('js')</script>
+<!-- shared-language:start -->
+<link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
+<script>document.documentElement.dataset.languagePending='';</script>
+<script src="assets/languages.js?v=79306dcdc4d1" defer></script>
+<!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body class="blog-page">
@@ -57,6 +62,7 @@
    <a href="blog.html" aria-current="location">Blog</a>
   </nav>
   <a class="global-contact" href="kontakt.html">Kontakt <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <span data-site-language-switch></span>
   <button class="global-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="global-menu" aria-haspopup="dialog"><span class="global-menu-lines" aria-hidden="true"><span></span><span></span></span></button>
  </div>
 </header>
@@ -101,9 +107,9 @@
 
   <h2>Welche Bausteine hat die KI-Agenten-Plattform?</h2>
   <p>Agentario vereint drei Fähigkeiten unter gemeinsamen Kontrollen: Voice-Agenten führen Gespräche mit Ihren Kundinnen und Kunden, Desktop-Agenten bedienen Software, und die Workflow-Engine koordiniert beides mit Ihren Geschäftssystemen.</p>
-  <p><strong>Voice:</strong> Die <a href="agentario/voice/">Voice-Agenten</a> nehmen Anrufe entgegen, rufen selbst an und arbeiten auch im Chat. Weil die Gespräche im Vollduplex laufen, können Anrufende den Agenten unterbrechen. Antworten stützen sich auf freigegebene Quellen wie Dokumente, FAQs und PDFs. Auf CRM, ERP oder Kalender greift der Agent über eine kontrollierte Anbindung zu; Sie bestimmen, welche Daten und Aktionen er nutzen darf. Komplexe Gespräche übergibt er samt Verlauf an die zuständige Person. Vor dem Einsatz lässt sich ein Agent mit simulierten Gesprächen testen, etwa mit einem ungeduldigen Anrufer.</p>
+  <p><strong>Voice:</strong> <a href="agentario/voice/">Die Voice-Agenten</a> nehmen Anrufe entgegen, rufen selbst an und arbeiten auch im Chat. Weil die Gespräche im Vollduplex laufen, können Anrufende den Agenten unterbrechen. Antworten stützen sich auf freigegebene Quellen wie Dokumente, FAQs und PDFs. Auf CRM, ERP oder Kalender greift der Agent über eine kontrollierte Anbindung zu; Sie bestimmen, welche Daten und Aktionen er nutzen darf. Komplexe Gespräche übergibt er samt Verlauf an die zuständige Person. Vor dem Einsatz lässt sich ein Agent mit simulierten Gesprächen testen, etwa mit einem ungeduldigen Anrufer.</p>
   <p><strong>Desktop:</strong> <a href="agentario/desktop/">Desktop-Agenten</a> klicken, tippen und lesen in den Anwendungen, die Ihr Team bereits nutzt, von Formularen und Tabellen bis zu Dialogen und Fehlermeldungen. Gedacht ist das vor allem für Systeme ohne brauchbare Schnittstelle, etwa ältere Fachanwendungen oder Behördenportale. Eine Kollegin oder ein Kollege zeigt die Aufgabe einmal vor. Die daraus entstandene Routine geben vor dem ersten Lauf die Menschen frei, die diese Arbeit heute erledigen. Bei einer Ausnahme versucht die Routine den Schritt erneut oder legt ihn einer Person zur Freigabe vor; jede Aktion wird protokolliert. Bildschirmaufnahme und die KI, die sie auswertet, laufen auf dem Rechner selbst; Bildschirminhalte gehen laut Agentario-Seite nicht in die Cloud von AIFOREU.</p>
-  <p><strong>Workflows:</strong> In der <a href="agentario/workflows/">Workflow-Engine</a> bauen Sie Abläufe auf einer visuellen Arbeitsfläche, mit Bedingungen, Verzweigungen und parallelen Pfaden. Alternativ beschreiben Sie den Prozess in Alltagssprache, und die KI entwirft einen Workflow: feste Schritte für die Routine, KI-Schritte dort, wo eine Einschätzung gebraucht wird. Ihr Team prüft die Logik, bevor etwas in Betrieb geht. Starten kann ein Workflow durch einen Anruf, eine E-Mail, einen Webhook, von Hand oder nach Zeitplan. Beispiele zeigt die Seite <a href="workflows.html">Workflows</a>.</p>
+  <p><strong>Workflows:</strong> <a href="agentario/workflows/">In der Workflow-Engine bauen Sie Abläufe auf einer visuellen Arbeitsfläche, mit Bedingungen, Verzweigungen und parallelen Pfaden.</a> Alternativ beschreiben Sie den Prozess in Alltagssprache, und die KI entwirft einen Workflow: feste Schritte für die Routine, KI-Schritte dort, wo eine Einschätzung gebraucht wird. Ihr Team prüft die Logik, bevor etwas in Betrieb geht. Starten kann ein Workflow durch einen Anruf, eine E-Mail, einen Webhook, von Hand oder nach Zeitplan. Beispiele zeigt die Seite <a href="workflows.html">Workflows</a>.</p>
 
   <h2>Wie Voice, Desktop und Workflows zusammenspielen</h2>
   <p>Der Nutzen entsteht, wenn ein Vorgang nicht an der Grenze eines Werkzeugs endet. Hat ein System eine Schnittstelle, wird es darüber angebunden. Gibt es nur eine Bildschirmoberfläche, bedient ein Desktop-Agent die Anwendung. Fehlt eine Verbindung ganz, wird sie geplant, getestet und dokumentiert neu gebaut.</p>
