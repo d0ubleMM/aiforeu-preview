@@ -11,11 +11,9 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The 15-second background film follows a recorded Codex run checking 18 sample
-invoices. It shows the sample records, the terminal session and the two invoice
-numbers that appeared more than once. The caption opens the original recording.
-Desktop and portrait screens have their own film and poster. Reduced motion
-and data-saving connections start with the poster and a play button.
+The opening shows how Agentario turns an incoming call into a calendar
+appointment. Its 2.8-second loop plays automatically. The three steps are
+labelled on desktop and mobile, and reduced motion shows the completed flow.
 
 The company uses black and white with original color photographs. Michael
 Ramich, Maximilian Schwarz and Jason Rickert appear on the homepage and company
@@ -59,8 +57,8 @@ approval. VerkehrsAI and the VerkehrsOS research project share `verkehrsai.html`
 
 ## Media
 
-`assets/hero-film/` contains the background film, matching stills and original
-recording. The headshots in `assets/people/` are hosted locally. Michael and
+`assets/automation-flow/` contains the animation and its fallbacks.
+The headshots in `assets/people/` are hosted locally. Michael and
 Maximilian use their LinkedIn portraits, and Jason uses his XING portrait.
 
 ## Source synchronization

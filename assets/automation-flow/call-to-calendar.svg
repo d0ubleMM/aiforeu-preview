@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="304" viewBox="0 0 720 304" aria-hidden="true">
+  <defs>
+    <radialGradient id="field"><stop stop-color="#292929"/><stop offset=".55" stop-color="#151515"/><stop offset="1" stop-color="#0b0b0b"/></radialGradient>
+    <radialGradient id="falloff"><stop offset=".43" stop-color="white"/><stop offset="1" stop-color="black"/></radialGradient>
+    <radialGradient id="pool"><stop stop-color="black" stop-opacity=".74"/><stop offset="1" stop-color="black" stop-opacity="0"/></radialGradient>
+    <pattern id="dots" width="13" height="13" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".82" fill="#545454"/></pattern>
+    <mask id="grid-mask"><ellipse cx="360" cy="150" rx="360" ry="150" fill="url(#falloff)"/></mask>
+    <linearGradient id="dark-rim" x2=".7" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#939393"/><stop offset=".3" stop-color="#525252"/><stop offset=".68" stop-color="#292929"/><stop offset="1" stop-color="#686868"/>
+    </linearGradient>
+    <linearGradient id="dark-face" x2=".45" y2="1">
+      <stop stop-color="#373737"/><stop offset=".42" stop-color="#262626"/><stop offset="1" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="chip-rim" x1=".08" y1="0" x2=".94" y2=".96">
+      <stop stop-color="#fafafa"/><stop offset=".18" stop-color="#999"/><stop offset=".43" stop-color="#555"/><stop offset=".60" stop-color="#c9c9c9"/><stop offset="1" stop-color="#646464"/>
+    </linearGradient>
+    <linearGradient id="chip-face" x1="0" y1="0" x2=".91" y2="1">
+      <stop stop-color="#e5e5e5"/><stop offset=".27" stop-color="#f9f9f9"/><stop offset=".53" stop-color="#d0d0d0"/><stop offset=".80" stop-color="#b3b3b3"/><stop offset="1" stop-color="#cecece"/>
+    </linearGradient>
+    <linearGradient id="pin" x2="0" y2="1"><stop stop-color="#999"/><stop offset=".47" stop-color="#5c5c5c"/><stop offset="1" stop-color="#303030"/></linearGradient>
+    <linearGradient id="sheen"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".49" stop-color="#fff" stop-opacity=".56"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <pattern id="grain" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 .6h4" stroke="#363636" stroke-opacity=".12" stroke-width=".6"/></pattern>
+    <pattern id="h-pins" width="13" height="14" x="308" y="0" patternUnits="userSpaceOnUse"><rect x="3" width="6" height="14" rx="1.2" fill="url(#pin)"/></pattern>
+    <pattern id="v-pins" width="14" height="13" x="0" y="99" patternUnits="userSpaceOnUse"><rect y="3" width="14" height="6" rx="1.2" fill="url(#pin)"/></pattern>
+    <clipPath id="chip-clip"><rect x="293" y="73" width="134" height="134" rx="19"/></clipPath>
+    <path id="in-wire" d="M140 143h49q7 0 12-5l18-18q5-5 12-5h52"/>
+    <path id="out-wire" d="M437 165h45q7 0 12-5l12-12q5-5 12-5h49"/>
+  </defs>
+  <style>
+    .ring,.wave,.gleam,.incoming,.outgoing,.result,.tick { animation-duration:2.8s; animation-iteration-count:infinite; }
+    .ring { transform-origin:96px 143px; animation-name:ring; animation-timing-function:ease-out; }
+    .wave { animation-name:wave; }
+    .incoming,.outgoing { stroke-dasharray:23 155; stroke-linecap:round; fill:none; animation-timing-function:linear; }
+    .incoming { animation-name:input; }
+    .outgoing { animation-name:output; }
+    .gleam { animation-name:compute; animation-timing-function:ease-in-out; }
+    .result { animation-name:book; }
+    .tick { stroke-dasharray:20; animation-name:tick; }
+    @keyframes ring { 0%{opacity:.52;transform:scale(1)} 23%,100%{opacity:0;transform:scale(1.22)} }
+    @keyframes wave { 0%,17%{opacity:1} 24%,92%{opacity:.27} 100%{opacity:1} }
+    @keyframes input { 0%{opacity:1;stroke-dashoffset:4} 25%{opacity:1;stroke-dashoffset:-101} 26%,100%{opacity:0;stroke-dashoffset:-101} }
+    @keyframes compute { 0%,17%{transform:translateX(0);opacity:0} 24%{opacity:.96} 42%{transform:translateX(224px);opacity:.76} 46%,100%{transform:translateX(248px);opacity:0} }
+    @keyframes output { 0%,32%{opacity:0;stroke-dashoffset:19} 33%{opacity:1;stroke-dashoffset:15} 56%{opacity:1;stroke-dashoffset:-101} 57%,100%{opacity:0;stroke-dashoffset:-101} }
+    @keyframes book { 0%,48%{opacity:.16} 58%,91%{opacity:1} 100%{opacity:.16} }
+    @keyframes tick { 0%,52%{opacity:0;stroke-dashoffset:20} 61%,91%{opacity:1;stroke-dashoffset:0} 100%{opacity:0;stroke-dashoffset:0} }
+    @media (prefers-reduced-motion:reduce) {
+      .ring,.wave,.gleam,.incoming,.outgoing,.result,.tick { animation:none; }
+      .ring,.gleam,.incoming,.outgoing { opacity:0; }
+      .result,.tick { opacity:1;stroke-dashoffset:0; }
+    }
+  </style>
+  <rect width="720" height="304" fill="#0b0b0b"/>
+  <ellipse cx="360" cy="150" rx="362" ry="152" fill="url(#field)"/>
+  <rect width="720" height="304" fill="url(#dots)" mask="url(#grid-mask)" opacity=".59"/>
+  <g fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <g stroke="#393939" stroke-width="1.15">
+      <path d="M140 134h43q5 0 9-4l22-22q5-5 12-5h57m-143 50h61q5 0 9-4l14-14q5-5 12-5h47"/>
+      <path d="M437 152h40q7 0 12-5l8-8q5-5 12-5h58m-130 44h50q6 0 11-5l16-16q5-5 12-5h41"/>
+    </g>
+    <g stroke="#676767" stroke-width="2"><use href="#in-wire"/><use href="#out-wire"/></g>
+  </g>
+  <g fill="none" stroke="#8f8f8f"><circle cx="96" cy="143" r="48" class="ring"/></g>
+  <g>
+    <ellipse cx="97" cy="180" rx="66" ry="29" fill="url(#pool)"/>
+    <rect x="51.5" y="98.5" width="89" height="89" rx="24" fill="url(#dark-rim)"/>
+    <rect x="53.3" y="100.3" width="85.4" height="85.4" rx="22.5" fill="url(#dark-face)" stroke="#161616" stroke-width="1.2"/>
+    <g transform="translate(70 117)" fill="none" stroke="#f1f1f1" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+      <path d="m9 6 7-2 6 11-5 5c3 7 10 14 17 17l5-5 11 6-2 7c-1 4-4 5-8 4C23 46 7 29 4 13c-.7-4 1-6 5-7Z"/>
+      <g class="wave"><path d="M32 7a16 16 0 0 1 13 13"/><path d="M32.5 14a9 9 0 0 1 6 6"/></g>
+    </g>
+  </g>
+  <g>
+    <ellipse cx="363" cy="213" rx="119" ry="40" fill="url(#pool)"/>
+    <g fill="url(#h-pins)"><path d="M307 55h106v14H307zM307 212h106v14H307z"/></g>
+    <g fill="url(#v-pins)"><path d="M272 88h15v106h-15zM433 88h15v106h-15z"/></g>
+    <rect x="283" y="63" width="154" height="158" rx="26" fill="#080808"/>
+    <rect x="284" y="64" width="152" height="152" rx="25" fill="url(#chip-rim)" stroke="#727272" stroke-width="1.1"/>
+    <rect x="287.5" y="67.5" width="145" height="145" rx="22.5" fill="#171717" stroke="#303030" stroke-width="1.4"/>
+    <rect x="292.5" y="72.5" width="135" height="135" rx="19" fill="url(#chip-face)" stroke="#ededed"/>
+    <g clip-path="url(#chip-clip)">
+      <rect x="292" y="72" width="136" height="136" fill="url(#grain)"/>
+      <g class="gleam"><path d="m173 53 71 0 83 175h-71z" fill="url(#sheen)"/></g>
+    </g>
+    <!-- The company mark uses the same path and viewBox as aiforeu-mark.svg. -->
+    <svg x="319" y="116" width="82" height="49" viewBox="14 18 228 136">
+      <path fill-rule="evenodd" fill="#181818" d="M128,24 L236,148 L200,128 L176,148 L128,116 L80,148 L56,128 L20,148 Z M152,88 A24,24 0 1,0 104,88 A24,24 0 1,0 152,88 Z"/>
+    </svg>
+  </g>
+  <g>
+    <ellipse cx="624" cy="180" rx="79" ry="28" fill="url(#pool)"/>
+    <rect x="566.5" y="103.5" width="115" height="84" rx="13" fill="url(#dark-face)" stroke="url(#dark-rim)" stroke-width="2"/>
+    <path d="M568 126h112" stroke="#828282"/>
+    <g fill="#151515" stroke="#bcbcbc" stroke-width="2"><rect x="582" y="97" width="6" height="15" rx="3"/><rect x="660" y="97" width="6" height="15" rx="3"/></g>
+    <g class="result" fill="#f6f6f6">
+      <text x="624" y="165" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="600" font-size="31" letter-spacing="-1">14:30</text>
+    </g>
+    <g class="tick">
+      <circle cx="674" cy="183" r="12.5" fill="#ededed" stroke="#151515" stroke-width="2" stroke-dasharray="none"/>
+      <path d="m668.5 183 3.7 3.7 7.4-8" fill="none" stroke="#151515" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g fill="none" stroke="#f6f6f6" stroke-width="4">
+    <path class="incoming" pathLength="100" d="M140 143h49q7 0 12-5l18-18q5-5 12-5h52"/>
+    <path class="outgoing" pathLength="100" d="M437 165h45q7 0 12-5l12-12q5-5 12-5h49"/>
+  </g>
+</svg>

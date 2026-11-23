@@ -25,12 +25,18 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/hero-work.css?v=20261123-reel"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-flight"><link rel="stylesheet" href="assets/ive-models.css?v=20261123"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-team">
+<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-flow2"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-flight"><link rel="stylesheet" href="assets/ive-models.css?v=20261123"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-team">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
 <link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
-<script>document.documentElement.dataset.languagePending='';</script>
+<script>(() => {
+  let chosen = new URLSearchParams(location.search).get('lang');
+  if (!chosen) { try { chosen = localStorage.getItem('aiforeu.language'); } catch {} }
+  if (chosen && chosen !== document.documentElement.dataset.sourceLanguage) {
+    document.documentElement.dataset.languagePending = '';
+  }
+})();</script>
 <script src="assets/languages.js?v=79306dcdc4d1" defer></script>
 <!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
@@ -95,15 +101,7 @@
  </div>
 </dialog>
 <main id="inhalt" tabindex="-1">
-<section class="opening-film opening-reel" aria-labelledby="landing-title" data-opening-film>
-  <div class="opening-media" aria-hidden="true">
-    <picture>
-      <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/hero-film/agent-run-mobile.webp" width="768" height="1280">
-      <img src="assets/hero-film/agent-run-desktop.webp" width="1600" height="900" alt="" fetchpriority="high">
-    </picture>
-    <video muted playsinline loop preload="none" disablepictureinpicture tabindex="-1"
-      data-landscape="assets/hero-film/agent-run-desktop.mp4" data-portrait="assets/hero-film/agent-run-mobile.mp4"></video>
-  </div>
+<section class="opening-film opening-automation" aria-labelledby="landing-title">
   <div class="opening-inner cine-width">
     <div class="opening-copy">
       <p class="opening-origin">Osnabrück &amp; Berlin</p>
@@ -114,17 +112,22 @@
         <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
       </div>
     </div>
-    <div class="opening-controls">
-      <a class="opening-capture" href="assets/hero-film/hero-desktop-work.mp4" data-original-portrait="assets/hero-film/hero-mobile-work.mp4" aria-describedby="work-caption">
-        <span data-i18n-ignore>Codex CLI</span><span>Originalaufnahme ansehen</span><span aria-hidden="true">↗</span>
-      </a>
-      <p class="cine-sr" id="work-caption">Codex prüft 18 Belege. Die Rechnungsnummer RE-1053 kommt dreimal vor, RE-1042 zweimal.</p>
-      <button class="opening-toggle" type="button" data-film-toggle hidden>
-        <span class="film-glyph" aria-hidden="true"></span>
-        <span class="cine-sr" data-play-label>Film abspielen</span>
-        <span class="cine-sr" data-pause-label hidden>Film pausieren</span>
-      </button>
-    </div>
+    <figure class="automation-flow" aria-label="Schematisches Beispiel">
+      <div class="automation-media" aria-hidden="true" inert>
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="assets/automation-flow/call-to-calendar.webp" width="1440" height="608">
+          <img src="assets/automation-flow/call-to-calendar.svg" alt="" width="720" height="304" fetchpriority="high">
+        </picture>
+        <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback>
+          <source src="assets/automation-flow/call-to-calendar.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)">
+        </video>
+      </div>
+      <ol class="automation-stations" aria-label="Terminvereinbarung">
+        <li>Anruf</li>
+        <li data-i18n-ignore>Agentario</li>
+        <li>Termin <time datetime="14:30" class="cine-sr" data-i18n-ignore>14:30</time></li>
+      </ol>
+    </figure>
   </div>
 </section>
 
@@ -399,6 +402,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/cinema-home.js?v=20261123-reel" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-flight" defer></script>
+<script src="assets/automation-hero.js?v=20261123-flow" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-flight" defer></script>
 </body>
 </html>
