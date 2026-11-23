@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-card"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-team">
+<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-kiwi"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-team">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -113,21 +113,20 @@
           <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <figure class="automation-flow" aria-label="Schematisches Beispiel">
+      <figure class="automation-flow" aria-labelledby="kiwi-caption">
         <div class="automation-media" aria-hidden="true" inert>
           <picture>
-            <source media="(prefers-reduced-motion: reduce)" srcset="assets/automation-flow/call-to-calendar.webp" width="1440" height="608">
-            <img src="assets/automation-flow/call-to-calendar.svg" alt="" width="720" height="304" fetchpriority="high">
+            <source media="(prefers-reduced-motion: reduce) and (orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/kiwi-mobile-still.webp" width="768" height="960">
+            <source media="(prefers-reduced-motion: reduce)" srcset="assets/agentario-kiwi/kiwi-desktop-still.webp" width="1440" height="810">
+            <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/kiwi-mobile-loop.webp" width="768" height="960">
+            <img src="assets/agentario-kiwi/kiwi-desktop-loop.webp" alt="" width="1440" height="810" fetchpriority="high">
           </picture>
           <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback>
-            <source src="assets/automation-flow/call-to-calendar.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)">
+            <source media="(prefers-reduced-motion: no-preference) and (orientation: portrait) and (max-width: 1100px)" src="assets/agentario-kiwi/kiwi-mobile.mp4" type="video/mp4">
+            <source media="(prefers-reduced-motion: no-preference)" src="assets/agentario-kiwi/kiwi-desktop.mp4" type="video/mp4">
           </video>
         </div>
-        <ol class="automation-stations" aria-label="Terminvereinbarung">
-          <li>Anruf</li>
-          <li data-i18n-ignore>Agentario</li>
-          <li>Termin <time datetime="14:30" class="cine-sr" data-i18n-ignore>14:30</time></li>
-        </ol>
+        <figcaption id="kiwi-caption">Agentario vereinbart am Telefon einen Termin für 14:30 Uhr.</figcaption>
       </figure>
     </div>
   </section>
@@ -410,6 +409,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/automation-hero.js?v=20261123-flow" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
+<script src="assets/automation-hero.js?v=20261123-kiwi" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
 </body>
 </html>

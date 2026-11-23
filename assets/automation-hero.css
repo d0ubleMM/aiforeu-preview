@@ -11,9 +11,9 @@
 .opening-automation { --automation-ground: #0b0b0b; background: var(--automation-ground); }
 .opening-automation .opening-inner {
   display: grid;
-  grid-template-columns: minmax(0, .88fr) minmax(0, 1.18fr);
+  grid-template-columns: minmax(0, .87fr) minmax(0, 1.35fr);
   align-items: center;
-  gap: clamp(18px, 3.3vw, 60px);
+  gap: clamp(12px, 1.8vw, 32px);
   min-height: clamp(465px, calc(82svh - var(--global-header-height) - 2 * var(--card-inset)), 780px);
   padding-block: clamp(54px, 9svh, 105px);
 }
@@ -23,7 +23,11 @@
 .opening-automation .opening-lead { max-width: 35ch; }
 
 .automation-flow { min-width: 0; margin: 0; align-self: center; }
-.automation-media { position: relative; aspect-ratio: 720 / 304; pointer-events: none; }
+.automation-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+}
 .automation-media picture, .automation-media img, .automation-media video {
   display: block;
   width: 100%;
@@ -31,6 +35,7 @@
   object-fit: contain;
 }
 .automation-media video { position: absolute; inset: 0; opacity: 0; }
+.automation-media video::-webkit-media-controls { display: none !important; }
 .automation-media[data-playing] video { opacity: 1; }
 .automation-media[data-playing] img { visibility: hidden; }
 .automation-media::after {
@@ -38,28 +43,23 @@
   position: absolute;
   inset: -1px;
   background:
-    linear-gradient(90deg, var(--automation-ground) 0%, transparent 7%, transparent 93%, var(--automation-ground) 100%),
-    linear-gradient(180deg, var(--automation-ground) 0%, transparent 16%, transparent 77%, var(--automation-ground) 100%);
+    linear-gradient(90deg, var(--automation-ground), transparent 2.5%, transparent 97.5%, var(--automation-ground)),
+    linear-gradient(0deg, var(--automation-ground), transparent var(--film-bottom-fade, 3%)),
+    linear-gradient(180deg, var(--automation-ground), transparent var(--film-top-fade, 3%));
 }
-.automation-stations {
-  position: relative;
-  display: grid;
-  grid-template-columns: 26.6667% 1fr 26.6667%;
-  align-items: start;
-  margin: -8.5% 0 0;
-  padding: 0;
-  list-style: none;
+.automation-flow figcaption {
+  margin: 7px 0 0;
+  color: #bcbcbc;
+  font: 450 clamp(13px, 1vw, 15px)/1.45 var(--cine-sans);
   text-align: center;
-  color: #bfbfbf;
-  font: 500 clamp(14px, 1.28vw, 20px)/1.35 var(--cine-sans);
+  text-wrap: balance;
 }
-.automation-stations li:nth-child(2) { color: #eee; font-weight: 620; }
 
-/* The signal path is language-independent; translated labels can arrive later. */
+/* The film can play while the selected language is loading. */
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation {
   visibility: visible;
 }
-html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation :is(.opening-copy, .automation-stations) {
+html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation :is(.opening-copy, figcaption) {
   visibility: hidden;
 }
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .cinema-home .aif-language-loading {
@@ -70,22 +70,44 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
   clip-path: inset(50%);
   pointer-events: none;
 }
-@media (orientation: portrait) and (max-width: 1100px), (max-width: 700px) {
+@media (orientation: portrait) and (max-width: 1100px), (max-width: 529px) {
   .opening-automation .opening-inner {
     grid-template-columns: minmax(0, 1fr);
     align-content: center;
-    gap: clamp(26px, 4.4svh, 54px);
+    gap: clamp(16px, 2.7svh, 36px);
     min-height: clamp(460px, calc(81svh - var(--global-header-height) - 2 * var(--card-inset)), 820px);
-    padding-block: clamp(24px, 5svh, 56px) clamp(34px, 6svh, 62px);
+    padding-block: clamp(14px, 2.7svh, 36px) clamp(28px, 4.5svh, 52px);
   }
-  .opening-automation .automation-flow { grid-row: 1; width: min(calc(100% + 12px), 640px); justify-self: center; }
+  .opening-automation .automation-flow { grid-row: 1; width: min(calc(100% + 12px), clamp(246px, 41svh, 465px)); justify-self: center; }
   .opening-automation .opening-copy { max-width: 610px; }
   .opening-automation .opening-copy h1 { font-size: clamp(39px, 9.4vw, 72px); }
   .opening-automation .opening-origin { margin-bottom: 13px; }
   .opening-automation .opening-lead { margin-top: 15px; }
   .opening-automation .opening-actions { margin-top: 20px; }
 }
-@media (orientation: landscape) and (max-height: 520px) and (min-width: 701px) {
+@media (orientation: portrait) and (max-width: 1100px) {
+  .automation-media { aspect-ratio: 4 / 5; }
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .opening-automation .automation-flow { width: calc(100% + 12px); }
+  .automation-media {
+    --film-top-fade: 13%;
+    --film-bottom-fade: 15%;
+    aspect-ratio: 1.15;
+    overflow: hidden;
+  }
+  .automation-media :is(img, video) { object-fit: cover; object-position: center 54%; }
+}
+@media (orientation: portrait) and (max-width: 400px) and (max-height: 700px) {
+  .opening-automation .opening-inner { gap: 9px; padding-block: 10px 24px; }
+  .automation-media { aspect-ratio: 1.32; }
+  .automation-flow figcaption { font-size: 12px; }
+  .opening-automation .opening-origin { margin-bottom: 6px; }
+  .opening-automation .opening-copy h1 { font-size: clamp(35px, 9.4vw, 39px); }
+  .opening-automation .opening-lead { margin-top: 8px; }
+  .opening-automation .opening-actions { margin-top: 11px; }
+}
+@media (orientation: landscape) and (max-height: 520px) and (min-width: 530px) {
   .opening-automation .opening-inner { min-height: 285px; padding-block: 24px; }
   .opening-automation .opening-copy h1 { font-size: clamp(34px, 4.8vw, 48px); }
   .opening-automation .opening-origin { margin-bottom: 8px; }

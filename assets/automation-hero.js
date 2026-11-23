@@ -1,20 +1,32 @@
 (() => {
-  const media = document.querySelector('.automation-media');
-  if (!media) return;
-  const clip = media.querySelector('video');
+  const stage = document.querySelector('.automation-media');
+  if (!stage) return;
+  const video = stage.querySelector('video');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const portrait = matchMedia('(orientation: portrait) and (max-width: 1100px)');
 
-  // The vector underneath already runs. Reveal the movie only after it plays.
-  function reflect() {
-    media.toggleAttribute('data-playing', !reduced.matches && !clip.paused && clip.readyState >= 2 && !clip.error);
+  function showFilm() {
+    stage.toggleAttribute('data-playing', !reduced.matches && !video.paused && video.readyState >= 2 && !video.error);
   }
-  clip.addEventListener('playing', reflect);
-  for (const event of ['pause', 'waiting', 'emptied', 'error']) {
-    clip.addEventListener(event, () => media.removeAttribute('data-playing'));
+  function showPicture() {
+    stage.removeAttribute('data-playing');
   }
-  reduced.addEventListener('change', () => {
-    media.removeAttribute('data-playing');
-    clip.load();
-  });
-  reflect();
+  function playWhenAllowed() {
+    if (reduced.matches) return;
+    video.play().catch(() => {
+      if (video.paused) showPicture();
+    });
+  }
+  function chooseSource() {
+    showPicture();
+    video.load();
+    playWhenAllowed();
+  }
+
+  video.addEventListener('playing', showFilm);
+  for (const type of ['pause', 'waiting', 'emptied', 'error']) video.addEventListener(type, showPicture);
+  reduced.addEventListener('change', chooseSource);
+  portrait.addEventListener('change', chooseSource);
+  showFilm();
+  playWhenAllowed();
 })();

@@ -11,9 +11,10 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The opening shows how Agentario turns an incoming call into a calendar
-appointment. Its 2.8-second loop plays automatically. The three steps are
-labelled on desktop and mobile, and reduced motion shows the completed flow.
+The rounded opening plays a 7.5-second miniature film. Agentario is a kiwi bird
+who answers the phone, carries a request to a desk calendar and taps the 14:30
+appointment. Portrait screens follow the bird with a separate tracking shot.
+Visitors who prefer reduced motion see the confirmed booking.
 
 The company uses black and white with original color photographs. Michael
 Ramich, Maximilian Schwarz and Jason Rickert appear on the homepage and company
@@ -57,7 +58,8 @@ approval. VerkehrsAI and the VerkehrsOS research project share `verkehrsai.html`
 
 ## Media
 
-`assets/automation-flow/` contains the animation and its fallbacks.
+`assets/agentario-kiwi/` contains the wide and portrait H.264 films, their stills
+and the animated WebP alternatives.
 The headshots in `assets/people/` are hosted locally. Michael and
 Maximilian use their LinkedIn portraits, and Jason uses his XING portrait.
 
