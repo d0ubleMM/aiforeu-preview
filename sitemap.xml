@@ -2,7 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://aiforgov.eu/anyuse.html</loc></url>
   <url><loc>https://aiforgov.eu/automatisierungen.html</loc></url>
-  <url><loc>https://aiforgov.eu/autonomous-workforce.html</loc></url>
   <url><loc>https://aiforgov.eu/blog-agentario-plattform.html</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://aiforgov.eu/blog-eu-kofinanzierung.html</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://aiforgov.eu/blog-ki-telefonassistent.html</loc><lastmod>2026-11-12</lastmod></url>
@@ -15,9 +14,10 @@
   <url><loc>https://aiforgov.eu/ive.html</loc></url>
   <url><loc>https://aiforgov.eu/kontakt.html</loc></url>
   <url><loc>https://aiforgov.eu/projekte.html</loc></url>
+  <url><loc>https://aiforgov.eu/terminbeispiel.html</loc></url>
   <url><loc>https://aiforgov.eu/unternehmen.html</loc></url>
   <url><loc>https://aiforgov.eu/verkehrsai.html</loc></url>
-  <url><loc>https://aiforgov.eu/workflows.html</loc></url>
+  <url><loc>https://aiforgov.eu/workflow-beispiele.html</loc></url>
   <url><loc>https://aiforgov.eu/agentario/about/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/compare/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/desktop/</loc></url>
@@ -37,6 +37,7 @@
   <url><loc>https://aiforgov.eu/agentario/use-cases/enterprise-helpdesk/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/use-cases/generate-knowledge/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/use-cases/healthcare/</loc></url>
+  <url><loc>https://aiforgov.eu/agentario/use-cases/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/use-cases/invoice-processing/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/use-cases/livechat/</loc></url>
   <url><loc>https://aiforgov.eu/agentario/use-cases/personal-assistant/</loc></url>

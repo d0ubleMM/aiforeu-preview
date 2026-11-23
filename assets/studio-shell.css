@@ -1,25 +1,9 @@
 /* Common editorial frame. Product-specific demos retain their own controls. */
 :root{--global-nav-paper:var(--paper);--global-nav-ink:var(--ink);--global-nav-line:var(--line);--button-radius:5px;--content-width:1400px;--gutter:36px}
 body.studio-shell{background:var(--paper);color:var(--ink)}
-body.studio-shell .global-header{background:var(--paper)!important;color:var(--ink)!important;border-bottom:1px solid var(--line)!important;backdrop-filter:blur(18px)!important}
-body.studio-shell .global-header-inner{max-width:1512px;padding-inline:56px;gap:32px;min-height:79px}
-body.studio-shell .global-header .global-brand img{filter:brightness(0)!important;width:32px;height:22px}
-body.studio-shell .global-brand{font-weight:650;letter-spacing:-.045em;font-size:21px}
-body.studio-shell .global-header .global-navigation>a,body.studio-shell .global-header .global-offers>summary{color:var(--muted)!important;font-size:14px}
-body.studio-shell .global-header .global-navigation>a:hover,body.studio-shell .global-header .global-offers>summary:hover{color:var(--ink)!important}
-body.studio-shell .global-header .global-contact{border-radius:5px;background:var(--ink)!important;color:var(--on-dark)!important;min-height:43px;padding:11px 22px;font-size:14px}
-body.studio-shell .global-header .global-contact:hover{background:var(--graphite-raised)!important;color:var(--on-dark)!important}
-body.studio-shell .global-header :focus-visible{outline-color:var(--ink)!important}
 body.studio-shell .aif-language-button{border-color:var(--line-strong);border-radius:5px;font-size:12px;min-height:43px}
-body.studio-shell .global-offers-panel{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:0 25px 45px -30px #0004}
-body.studio-shell .global-offers-inner{padding-block:34px 23px;max-width:1400px}
-body.studio-shell .global-offers-group>p{font-size:13px;margin-bottom:16px}
-body.studio-shell .global-offers-group>a{padding-block:11px}
-body.studio-shell .global-offers-group>a>strong{font-size:18px}
-body.studio-shell .global-offers-group>a>span{font-size:14px;margin-top:5px;max-width:32ch}
-body.studio-shell .global-menu-primary>a{font-weight:500}
 body.studio-shell :is(.company-button,.offer-button,.film-hero-button,.dev-button,.bp-button){border-radius:5px}
-body.studio-shell :is(.film-hero-button,.film-hero-link,.company-button,.offer-button,.dev-button)>span[aria-hidden],body.studio-shell .global-contact>svg{display:none}
+body.studio-shell :is(.film-hero-button,.film-hero-link,.company-button,.offer-button,.dev-button)>span[aria-hidden]{display:none}
 body.studio-shell .film-hero{background:var(--paper);color:var(--ink);padding-top:78px;padding-bottom:78px;gap:48px;border-bottom:1px solid var(--line)}
 body.studio-shell .film-hero h1{color:var(--ink);font-weight:500;letter-spacing:-.06em;text-wrap:initial;font-size:clamp(42px,4.8vw,72px);line-height:1.03}
 body.studio-shell .film-hero-lead{color:var(--muted);font-size:18px;line-height:1.65}
@@ -37,33 +21,14 @@ body.studio-shell.studio-editorial-page .film-hero h1{font-size:clamp(46px,5.8vw
 body.studio-shell.studio-editorial-page .film-hero-lead{max-width:37ch;margin:0 0 5px;font-size:18px;line-height:1.65}
 body.studio-shell.contact-page .film-hero h1{font-size:clamp(42px,5.3vw,80px)}
 body.studio-shell.studio-editorial-page .film-hero-actions{grid-column:2;margin:0}
-body.studio-shell .site-footer{background:var(--night);padding-top:64px;color:var(--on-dark);border-top:1px solid var(--line-dark)}
-body.studio-shell .site-footer .wrap{max-width:1512px;padding-inline:56px}
-body.studio-shell .site-footer .footer-top{padding-bottom:60px;gap:42px}
-body.studio-shell .site-footer .footer-top h2{font-size:14px;font-weight:500;color:var(--on-dark)}
-body.studio-shell .footer-links a{font-size:14px;line-height:1.5;color:var(--muted-on-dark);min-height:26px}
-body.studio-shell .footer-brand p{font-size:15px;color:var(--muted-on-dark)}
-body.studio-shell .footer-wordmark{font-size:clamp(50px,19.8vw,310px);line-height:.85;letter-spacing:-.075em;font-weight:600;text-align:center;padding:0 18px 36px;color:var(--line-dark);user-select:none;overflow:hidden}
-body.studio-shell .footer-bottom{padding-block:24px;font-size:13px}
 body.studio-shell .project-form{border-radius:8px}
 body.studio-shell .project-form :is(input,select,textarea){border-radius:5px;border-color:var(--line-strong);background:var(--surface)}
-@media(max-width:1200px){body.studio-shell .global-header-inner{padding-inline:36px}body.studio-shell .site-footer .wrap{padding-inline:36px}body.studio-shell.studio-editorial-page .film-hero-copy{gap:32px 40px}body.studio-shell .film-hero{gap:30px}}
-@media(max-width:1000px){body.studio-shell .global-header-inner{min-height:65px;gap:12px}body.studio-shell .global-header .global-brand{margin-right:auto}}
-@media(max-width:760px){body.studio-shell .film-hero{padding-block:40px 50px}body.studio-shell .film-hero h1{font-size:42px;max-width:none}body.studio-shell .film-hero-lead{font-size:16px}body.studio-shell.studio-editorial-page .film-hero{padding-block:42px 45px}body.studio-shell.studio-editorial-page .film-hero-copy{grid-template-columns:1fr;gap:25px}body.studio-shell.studio-editorial-page .film-hero-copy > :is(h1,.film-hero-lead){grid-area:auto}body.studio-shell.studio-editorial-page .film-hero h1{font-size:clamp(43px,8vw,64px);max-width:14ch}body.studio-shell.studio-editorial-page .film-hero-lead{font-size:16px;max-width:40ch}body.studio-shell.studio-editorial-page .film-hero-actions{grid-column:1}body.studio-shell .site-footer .footer-top{gap:32px}}
-@media(max-width:650px){:root{--gutter:20px}body.studio-shell .global-header-inner{padding-inline:20px}body.studio-shell .global-brand{font-size:20px}body.studio-shell .site-footer .wrap{padding-inline:20px}body.studio-shell .site-footer{padding-top:45px}body.studio-shell .footer-wordmark{padding-bottom:24px}body.studio-shell .footer-bottom{font-size:12px}body.studio-shell .global-offers-inner{padding-inline:0}body.studio-shell .film-hero{padding-inline:20px}}
-@media(prefers-reduced-motion:reduce){body.studio-shell .global-header{transition:none}}
+@media(max-width:1200px){body.studio-shell.studio-editorial-page .film-hero-copy{gap:32px 40px}body.studio-shell .film-hero{gap:30px}}
+@media(max-width:760px){body.studio-shell .film-hero{padding-block:40px 50px}body.studio-shell .film-hero h1{font-size:42px;max-width:none}body.studio-shell .film-hero-lead{font-size:16px}body.studio-shell.studio-editorial-page .film-hero{padding-block:42px 45px}body.studio-shell.studio-editorial-page .film-hero-copy{grid-template-columns:1fr;gap:25px}body.studio-shell.studio-editorial-page .film-hero-copy > :is(h1,.film-hero-lead){grid-area:auto}body.studio-shell.studio-editorial-page .film-hero h1{font-size:clamp(43px,8vw,64px);max-width:14ch}body.studio-shell.studio-editorial-page .film-hero-lead{font-size:16px;max-width:40ch}body.studio-shell.studio-editorial-page .film-hero-actions{grid-column:1}}
+@media(max-width:650px){:root{--gutter:20px}body.studio-shell .film-hero{padding-inline:20px}}
 body.studio-shell .film-hero-copy{animation:none}
 :root{--global-header-height:80px}
 @media(max-width:1000px){:root{--global-header-height:66px}}
-
-/* The selected destination stays identifiable by its underline. */
-.studio-shell .global-menu .global-brand img { filter: brightness(0); }
-body.studio-shell .global-header :is(.global-offers[data-current] > summary, .global-navigation > a[aria-current]) { color: var(--ink) !important; }
-bodybody.studio-shell .global-offers[data-current] > summary { text-decoration: underline; text-underline-offset: .32em; }
-.studio-shell .global-contact lu-fuell { background: var(--graphite-raised); }
-.studio-shell .global-menu :focus-visible { outline-color: var(--ink); }
-.studio-shell .global-menu-primary > a[aria-current] > span { color: var(--ink); }
-.studio-shell .site-footer a:hover { color: var(--on-dark); text-decoration: underline; }
 
 .studio-shell :is(.aif-language-loading,.aif-language-error,.aif-language-dialog) { background: var(--paper); color: var(--ink); }
 .studio-shell .aif-language-dialog { border-color: var(--line); box-shadow: 0 24px 90px #0003; }

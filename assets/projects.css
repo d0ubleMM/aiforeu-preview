@@ -165,3 +165,7 @@
   text-decoration: underline;
   text-underline-offset: .3em;
 }
+
+.project-modules { display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 24px; margin-top: 32px; border-top: 1px solid #666; }
+.project-modules a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: inherit; text-underline-offset: .24em; }
+.project-modules span { font-size: .85em; }

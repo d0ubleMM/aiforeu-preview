@@ -60,6 +60,11 @@
       "source": "src/App.jsx"
     },
     {
+      "path": "/aiforeu-preview/agentario/use-cases/",
+      "title": "Use Cases",
+      "source": "src/App.jsx"
+    },
+    {
       "path": "/aiforeu-preview/agentario/use-cases/customer-support/",
       "title": "24/7 Customer Support",
       "source": "src/pages/UseCasePage.jsx"
