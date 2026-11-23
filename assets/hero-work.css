@@ -1,56 +1,104 @@
-/* Keep the actual software output visible at a useful size in both layouts. */
-.opening-technical {
-  background: var(--night, #111);
-}
-.opening-technical .opening-inner {
-  display: grid;
-  grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr);
+.opening-reel { overflow: clip; }
+.opening-reel .opening-inner {
+  min-height: clamp(520px, calc(86svh - var(--global-header-height)), 880px);
   align-items: center;
-  gap: clamp(26px, 4vw, 72px);
-  min-height: clamp(440px, 67svh, 740px);
-  padding-block: clamp(48px, 7vw, 112px);
+  padding-block: clamp(96px, 13svh, 160px);
 }
-.opening-technical .opening-copy { width: 100%; }
-.opening-technical .opening-copy h1 { max-width: 13ch; font-size: clamp(44px, 5.25vw, 80px); }
-.opening-technical .opening-origin { margin-bottom: 20px; }
-.opening-technical .opening-lead { max-width: 43ch; }
-.opening-work {
-  display: flex; flex-direction: column;
-  min-width: 0;
-  margin: 0;
-  border-block: 1px solid #fff3;
-  color: #f4f4f4;
+
+.opening-reel .opening-copy { width: min(46%, 640px); }
+.opening-reel .opening-origin { margin-bottom: clamp(16px, 2vw, 30px); }
+.opening-reel .opening-copy h1 { max-width: 12ch; font-size: clamp(44px, 5.65vw, 88px); }
+.opening-reel .opening-lead { max-width: 35ch; }
+
+.opening-reel .opening-media :is(img, video) { object-position: center; }
+.opening-reel .opening-media::after {
+  background:
+    linear-gradient(90deg, #0b0b0bdb, #0b0b0b88 36%, transparent 61%),
+    linear-gradient(to top, #0b0b0bd4, transparent 21%);
 }
-.opening-technical .opening-media {
-  position: relative; inset: auto; z-index: auto;
-  width: 100%; height: auto; overflow: hidden; background: #111;
+
+.opening-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(14px, 2.5vw, 36px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
-.opening-technical .opening-media picture,
-.opening-technical .opening-media img {
-  position: static; display: block; width: 100%; height: auto;
+.opening-capture {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  min-height: 44px;
+  align-content: center;
+  color: white;
+  font: 500 14px/1.4 var(--body);
+  text-decoration: none;
 }
-.opening-technical .opening-media video { object-fit: contain; object-position: center; }
-.opening-technical .opening-media::after { display: none; }
-.opening-work figcaption {
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  order: -1; padding: 9px 2px; border-bottom: 1px solid #fff2;
+.opening-capture > :first-child { font-weight: 650; }
+.opening-capture > :nth-child(2) { text-decoration: underline; text-underline-offset: 3px; }
+.opening-capture:hover > :nth-child(2) { text-decoration-thickness: 2px; }
+.opening-controls .opening-toggle {
+  position: static;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  background: #111e;
 }
-.opening-work figcaption > div { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 11px; }
-.opening-work figcaption span { color: #c7c7c7; font-size: 14px; }
-.opening-work figcaption strong { font-weight: 530; font-size: 15px; }
-.opening-work .opening-toggle {
-  position: relative; inset: auto; flex: 0 0 44px;
-  min-width: 44px; min-height: 44px; background: transparent;
+
+@media (orientation: portrait) and (max-width: 1100px) {
+  .opening-reel .opening-inner {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    min-height: clamp(480px, calc(93svh - var(--global-header-height)), 990px);
+    padding-block: clamp(220px, 40svh, 480px) 12px;
+  }
+  .opening-reel .opening-copy { position: relative; isolation: isolate; width: min(100%, 600px); }
+  .opening-reel .opening-copy::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -96px;
+    bottom: -100px;
+    left: calc(-1 * var(--cine-gutter));
+    width: 100vw;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, #0c0c0cf2 96px, #0c0c0c 160px);
+  }
+  .opening-reel .opening-copy h1 { font-size: clamp(40px, 9.8vw, 70px); }
+  .opening-reel .opening-origin { margin-bottom: 12px; }
+  .opening-reel .opening-lead { margin-top: 14px; }
+  .opening-reel .opening-actions { margin-top: 18px; }
+  .opening-reel .opening-media :is(img, video) { object-position: center 21%; }
+  .opening-reel .opening-media::after {
+    background: linear-gradient(to top, #0c0c0c 0%, #0c0c0cfa 25%, #0c0c0caa 45%, transparent 65%);
+  }
+  .opening-controls { position: static; justify-content: flex-start; margin-top: 8px; }
+  .opening-capture { position: relative; }
+  .opening-capture { font-size: 13px; }
+  .opening-controls .opening-toggle {
+    position: absolute;
+    top: 14px;
+    right: 0;
+    bottom: auto;
+  }
 }
-@media (max-width: 820px) {
-  .opening-technical .opening-inner { grid-template-columns: minmax(0,1fr); min-height: 0; gap: 28px; padding-block: 32px 22px; }
-  .opening-technical .opening-copy h1 { font-size: clamp(40px,7.4vw,58px); }
-  .opening-technical .opening-origin { margin-bottom: 12px; }
-  .opening-technical .opening-lead { margin-top: 16px; }
-  .opening-technical .opening-actions { margin-top: 18px; }
-  .opening-work { width: 100%; }
-}
-@media (max-height: 520px) and (min-width: 821px) {
-  .opening-technical .opening-inner { padding-block: 20px; min-height: 0; }
-  .opening-technical .opening-copy h1 { font-size: clamp(37px,4.5vw,55px); }
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .opening-reel .opening-inner { min-height: 300px; padding-block: 20px 55px; }
+  .opening-reel .opening-media::after {
+    background: linear-gradient(90deg, #0b0b0bf5 15%, #0b0b0bed 36%, #0b0b0bbd 52%, transparent 75%);
+  }
+  .opening-reel .opening-copy { width: 59%; }
+  .opening-reel .opening-copy h1 { max-width: 15ch; font-size: clamp(32px, 4.55vw, 48px); }
+  .opening-reel .opening-origin { margin-bottom: 8px; }
+  .opening-reel .opening-lead { margin-top: 10px; }
+  .opening-reel .opening-actions { margin-top: 12px; }
+  .opening-controls { position: static; }
+  .opening-controls .opening-toggle { position: absolute; top: 10px; right: 0; }
+  .opening-capture { position: absolute; left: 0; bottom: 4px; font-size: 12px; }
 }

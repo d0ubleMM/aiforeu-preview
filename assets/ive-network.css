@@ -2,26 +2,35 @@
 .ive-copy .ive-net-links .cine-link { margin: 0; }
 .ive-net {
   --net-paper: #fafafa; --net-ink: #151515;
-  container-type: inline-size;
-  margin: 0; min-width: 0;
+  container-type: inline-size; margin: 0; min-width: 0;
   border: 1px solid #d4d4d4; color: var(--net-ink); background: var(--net-paper);
 }
 .ive-net-stage {
-  position: relative; isolation: isolate; overflow: hidden;
-  height: clamp(310px, 25vw, 415px);
-  background-image: radial-gradient(circle, #26262624 .72px, transparent .9px);
-  background-size: 14px 14px; background-position: center;
+  height: clamp(325px, 31vw, 430px); position: relative; isolation: isolate; overflow: hidden;
+  background-image: radial-gradient(ellipse at 50% 20%, transparent 15%, #fafafad1 88%),
+    radial-gradient(circle, #92929267 .7px, transparent 1px);
+  background-size: cover, 16px 16px; background-position: center;
 }
 .ive-net-wires { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ive-net-wires path { stroke: #383838; stroke-width: 1.3; vector-effect: non-scaling-stroke; stroke-linecap: round; fill: none; }
-.ive-net-tall { display: none; }
+.ive-net-wires path { stroke: #999; stroke-width: 1.25; vector-effect: non-scaling-stroke; stroke-linecap: round; fill: none; }
 .ive-net-node { position: absolute; width: 0; height: 0; left: var(--net-x); top: var(--net-y); }
-.ive-net-origin { --net-x: 17%; --net-y: 48%; --net-size: 112px; --net-label-top: 46px; }
-.ive-net-hub { --net-x: 82%; --net-y: 48%; --net-size: 66px; --net-label-top: 41px; }
-.ive-net-pet { --net-x: 50%; --net-size: 52px; --net-label-top: 30px; }
-.ive-net-claude { --net-y: 20%; }
-.ive-net-codex { --net-y: 48%; }
-.ive-net-gemini { --net-y: 76%; }
+.ive-net-origin { --net-x: 50%; --net-y: 22%; --net-size: clamp(188px, 39cqw, 310px); z-index: 2; pointer-events: none; }
+.ive-net-flight { display: block; position: absolute; left: 0; top: 0; }
+.ive-net-airframe {
+  display: block; width: var(--net-size); aspect-ratio: 16/9;
+  transform: translate(-50%, -50%); background-size: 600% 600%;
+}
+.ive-net-airframe img { display: block; width: 100%; height: auto; }
+.ive-net-shadow {
+  position: absolute; left: 0; top: 22px; width: calc(var(--net-size) * .75); height: 19px;
+  margin-left: calc(var(--net-size) * -.375); border-radius: 50%;
+  background: radial-gradient(ellipse, #1e202638, #4b4d500a 58%, transparent 72%);
+}
+.ive-net-pet { --net-y: 50%; --net-size: 49px; --net-label-top: 23px; }
+.ive-net-claude { --net-x: 14%; }
+.ive-net-codex { --net-x: 38%; }
+.ive-net-gemini { --net-x: 62%; }
+.ive-net-opencode { --net-x: 86%; }
 .ive-net-jumper { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 .ive-net-node .ive-net-symbol {
   position: absolute; left: 0; top: 0; display: block;
@@ -30,10 +39,10 @@
 .ive-net-pet .ive-net-symbol { image-rendering: pixelated; }
 .ive-net-name {
   position: absolute; top: var(--net-label-top); left: 0; transform: translateX(-50%);
-  padding-inline: 4px; background: var(--net-paper); color: var(--net-ink);
-  font: 570 14px/1.35 var(--body,system-ui); letter-spacing: -.015em; white-space: nowrap;
+  padding-inline: 3px; background: var(--net-paper); color: var(--net-ink);
+  font: 570 13px/1.35 var(--body,system-ui); letter-spacing: -.015em; white-space: nowrap;
 }
-.ive-net-origin .ive-net-name { color: #5c5c5c; font-size: 11px; letter-spacing: .06em; }
+.ive-net-hub { --net-x: 50%; --net-y: 82%; --net-size: 51px; --net-label-top: 30px; }
 .ive-net-hub .ive-net-name { font-weight: 700; }
 .ive-net figcaption {
   display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 0 12px;
@@ -42,29 +51,32 @@
 }
 .ive-net-replay {
   display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 6px 0;
-  border: 0; background: transparent; color: #202020; font: inherit; text-align: left; cursor: pointer;
+  border: 0; background: transparent; color: #202020; font: inherit; cursor: pointer;
 }
 .ive-net-replay[hidden] { display: none; }
 .ive-net-replay:hover span { text-decoration: underline; text-underline-offset: .22em; }
-.ive-net[data-net-state="ready"] :is(.ive-net-jumper, .ive-net-pet .ive-net-name, .ive-net-wires) { opacity: 0; }
+.ive-net[data-net-state="ready"] :is(.ive-net-origin, .ive-net-jumper, .ive-net-pet .ive-net-name, .ive-net-wires) { opacity: 0; }
 @container (max-width: 460px) {
-  .ive-net-stage { height: clamp(330px, 87cqw, 400px); }
-  .ive-net-wide { display: none; }
-  .ive-net-tall { display: inline; }
-  .ive-net-origin { --net-x: 50%; --net-y: 14%; --net-size: 74px; --net-label-top: 28px; }
-  .ive-net-pet { --net-y: 43%; --net-size: 45px; --net-label-top: 25px; }
-  .ive-net-claude { --net-x: 18%; }
-  .ive-net-codex { --net-x: 50%; }
-  .ive-net-gemini { --net-x: 82%; }
-  .ive-net-hub { --net-x: 50%; --net-y: 80%; --net-size: 52px; --net-label-top: 32px; }
-  .ive-net-name { font-size: 12px; }
+  .ive-net-stage { height: clamp(320px, 80cqw, 350px); }
+  .ive-net-origin { --net-size: clamp(150px, 48cqw, 190px); }
+  .ive-net-pet { --net-size: 39px; --net-label-top: 19px; }
+  .ive-net-hub { --net-size: 45px; --net-label-top: 26px; }
+  .ive-net-name { font-size: clamp(10px, 3.1cqw, 12px); }
   .ive-net figcaption { padding: 4px 12px; }
 }
 @media (prefers-reduced-motion: reduce), print {
-  .ive-net[data-net-state] :is(.ive-net-jumper, .ive-net-pet .ive-net-name, .ive-net-wires) { opacity: 1; }
+  .ive-net[data-net-state] :is(.ive-net-origin, .ive-net-jumper, .ive-net-pet .ive-net-name, .ive-net-wires) { opacity: 1; }
   .ive-net-replay { display: none; }
 }
 @container (max-width: 320px) {
   .ive-net-replay { justify-content: center; min-width: 44px; }
   .ive-net-replay span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
+.ive-net-choose {
+  position: absolute; left: 0; top: -24px; transform: translateX(-50%);
+  width: clamp(52px, 19cqw, 92px); height: calc(var(--net-label-top) + 47px);
+  border: 0; background: transparent; cursor: pointer;
+}
+.ive-net-choose:focus-visible { outline: 2px solid #171717; outline-offset: 2px; }
+.ive-net-pet.is-selected .ive-net-name { text-decoration: underline; text-underline-offset: .23em; }
+.ive-net-wires .is-selected { stroke: #181818; stroke-width: 1.8; }

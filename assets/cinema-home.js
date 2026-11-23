@@ -8,6 +8,8 @@
   const playLabel = toggle.querySelector('[data-play-label]');
   const pauseLabel = toggle.querySelector('[data-pause-label]');
   const portrait = matchMedia('(orientation: portrait) and (max-width: 1100px)');
+  const original = opening.querySelector('[data-original-portrait]');
+  const originalLandscape = original?.href;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const connection = navigator.connection;
   let inView = false;
@@ -55,11 +57,15 @@
   });
 
   function changeFormat() {
+    updateOriginalLink();
     failed = false;
     toggle.hidden = false;
     video.pause();
     opening.removeAttribute('data-has-frame');
     sync();
+  }
+  function updateOriginalLink() {
+    if (original) original.href = portrait.matches ? original.dataset.originalPortrait : originalLandscape;
   }
   function changePreference() {
     wantsPlayback = !reduced.matches && !connection?.saveData;
@@ -72,6 +78,7 @@
   document.addEventListener('visibilitychange', sync);
   addEventListener('pagehide', () => video.pause());
   addEventListener('pageshow', sync);
+  updateOriginalLink();
   toggle.hidden = false;
   new IntersectionObserver(([entry]) => {
     inView = entry.isIntersecting;

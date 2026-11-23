@@ -11,17 +11,19 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The opening shows a real Codex terminal run finding duplicate invoices in an
-example database. The desktop and mobile cuts each have a matching poster.
-The motion control can start or pause the recording. Reduced motion and
-data-saving connections start with the poster.
+The 15-second background film follows a recorded Codex run checking 18 sample
+invoices. It shows the sample records, the terminal session and the two invoice
+numbers that appeared more than once. The caption opens the original recording.
+Desktop and portrait screens have their own film and poster. Reduced motion
+and data-saving connections start with the poster and a play button.
 
 The company uses black and white with original color photographs. Michael
-Ramich and Maximilian Schwarz introduce themselves on the homepage and company
-page. The contact page links to their profiles above the project form.
+Ramich, Maximilian Schwarz and Jason Rickert appear on the homepage and company
+page with their roles and profile links. The contact page introduces Michael and
+Maximilian above the project form.
 Agentario includes a playable delivery enquiry and the signed customer reference.
-VerkehrsAI has its own research section. IVE shows its agent companions, followed
-by AnyUse and the contact link.
+VerkehrsAI has its own research section. The IVE animation lets visitors select
+an agent and inspect its model families. OpenCode is marked as in development.
 
 ## Navigation
 
@@ -57,10 +59,9 @@ approval. VerkehrsAI and the VerkehrsOS research project share `verkehrsai.html`
 
 ## Media
 
-`assets/hero-film/` contains the edited screen recording and matching stills.
-The headshots in `assets/people/` are local copies of the two team members’
-LinkedIn profile pictures. The site only contacts LinkedIn when a visitor
-chooses a profile link.
+`assets/hero-film/` contains the background film, matching stills and original
+recording. The headshots in `assets/people/` are hosted locally. Michael and
+Maximilian use their LinkedIn portraits, and Jason uses his XING portrait.
 
 ## Source synchronization
 

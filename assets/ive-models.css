@@ -1,0 +1,111 @@
+.ive-models {
+  display: grid;
+  gap: 1rem 2.5rem;
+  padding: 1rem clamp(1rem, 3cqi, 1.6rem) 1.25rem;
+  border-block-start: 1px solid #d4d4d4;
+  background: #fff;
+  color: #191919;
+  font-family: var(--body, system-ui);
+}
+
+.ive-models-control,
+.ive-models-result {
+  min-inline-size: 0;
+}
+
+.ive-models-control {
+  display: none;
+}
+
+.ive-models-control label,
+.ive-models .ive-models-label {
+  display: block;
+  margin: 0 0 .45rem;
+  color: #525252;
+  font: 560 .8rem/1.4 var(--body, system-ui);
+}
+
+.ive-models-control select {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding: .45rem .55rem;
+  border: 1px solid #a5a5a5;
+  border-radius: 4px;
+  color: inherit;
+  background-color: #fff;
+  font: 620 1rem/1.35 var(--body, system-ui);
+  cursor: pointer;
+}
+
+.ive-models-control select:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.ive-models-family + .ive-models-family {
+  margin-block-start: 1rem;
+}
+
+.ive-models-branches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ive-models-branches li {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 0;
+  font: 630 1rem/1.4 var(--body, system-ui);
+}
+
+.ive-models-branches li::before {
+  content: "";
+  box-sizing: border-box;
+  inline-size: .5rem;
+  block-size: .55rem;
+  margin-block-start: -.35rem;
+  border-inline-start: 1px solid #858585;
+  border-block-end: 1px solid #858585;
+}
+
+.ive-models-family p {
+  max-inline-size: 42ch;
+  margin: .45rem 0 0;
+  color: #4e4e4e;
+  font: 450 .875rem/1.5 var(--body, system-ui);
+  overflow-wrap: anywhere;
+}
+
+@supports selector(:has(option:checked)) {
+  .ive-models-control {
+    display: block;
+  }
+
+  .ive-models-fallback,
+  .ive-models-family {
+    display: none;
+  }
+
+  .ive-models-family + .ive-models-family {
+    margin-block-start: 0;
+  }
+
+  .ive-models:has(option[value="claude"]:checked) [data-models-for="claude"],
+  .ive-models:has(option[value="codex"]:checked) [data-models-for="codex"],
+  .ive-models:has(option[value="gemini"]:checked) [data-models-for="gemini"],
+  .ive-models:has(option[value="opencode"]:checked) [data-models-for="opencode"] {
+    display: block;
+  }
+
+  @container (min-width: 460px) {
+    .ive-models {
+      grid-template-columns: minmax(10rem, .75fr) minmax(0, 1fr);
+    }
+  }
+}
