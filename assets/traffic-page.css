@@ -28,3 +28,54 @@
 @media(max-width:900px){.traffic-result-intro{grid-template-columns:1fr;gap:24px}.traffic-result-intro>p{max-width:58ch}.traffic-contact-panel{grid-template-columns:1fr;padding:40px;gap:36px}.traffic-pilot-notes{border-left:0;border-top:1px solid #424242;padding:28px 0 0;max-width:500px}}
 @media(max-width:560px){.traffic-result-intro h2{font-size:40px}.traffic-result-intro>p{font-size:17px}.traffic-contact-panel{padding:28px 24px;border-radius:12px}.traffic-contact-panel h2{font-size:34px}.traffic-contact-panel>div:first-child>p:not(.eyebrow){font-size:16px}.traffic-contact-section{padding-bottom:60px}.page-traffic main .road-scene h1{font-size:clamp(36px,9.5vw,48px)}}
 @media print{.traffic-contact-panel{break-inside:avoid;box-shadow:none}}
+
+/* The junction fills the opening. The separate plan example follows below. */
+.studio-shell.page-traffic .traffic-film-opening {
+  min-height: clamp(545px, 76svh, 850px);
+  align-items: center;
+  padding-block: clamp(54px, 8svh, 92px);
+  background: #101010;
+  color: #fff;
+  border-bottom: 0;
+}
+.traffic-film-opening .film-hero-media { inset: 0; height: 100%; animation: none; }
+.traffic-film-opening .film-hero-media :is(img,video) { object-position: 58% 50%; }
+.traffic-film-opening::after {
+  background: linear-gradient(90deg, rgb(7 8 9 / .94) 0%, rgb(7 8 9 / .85) 30%, rgb(7 8 9 / .52) 50%, transparent 78%);
+}
+.traffic-film-opening .film-hero-copy { width: min(49%, 580px); }
+.studio-shell.page-traffic .traffic-film-opening h1 {
+  width: auto;
+  max-width: 13ch;
+  color: white;
+  font-family: "Schibsted Grotesk", var(--display);
+  letter-spacing: -.05em;
+  text-wrap: balance;
+}
+.studio-shell.page-traffic .traffic-film-opening :is(.film-hero-back,.film-hero-lead,.film-hero-meta,.film-hero-link) { color: #f0f0f0; }
+.page-traffic main .traffic-film-opening .film-hero-back { margin-bottom: 16px; }
+.page-traffic main .traffic-film-opening .film-hero-lead { margin-top: 22px; }
+.page-traffic main .traffic-film-opening .film-hero-meta { margin-top: 18px; }
+.studio-shell.page-traffic .traffic-film-opening .film-hero-button { color: #101010; background: #fff; }
+.studio-shell.page-traffic .traffic-film-opening .film-hero-button:hover { background: #e9e9e9; }
+.studio-shell.page-traffic .traffic-film-opening .film-hero-link { border-color: #ffffff80; }
+.studio-shell.page-traffic .traffic-film-opening :focus-visible { outline-color: white; }
+@media (orientation: portrait) and (max-width: 1100px), (max-width: 700px) {
+  .studio-shell.page-traffic .traffic-film-opening {
+    align-items: stretch;
+    justify-content: end;
+    min-height: clamp(565px, 79svh, 850px);
+    padding-block: clamp(124px, 23svh, 235px) clamp(30px, 5svh, 56px);
+  }
+  .traffic-film-opening .film-hero-copy { width: min(100%, 580px); }
+  .traffic-film-opening .film-hero-media { inset: 0; }
+  .traffic-film-opening::after {
+    background: linear-gradient(0deg, rgb(7 8 9 / .94) 0%, rgb(7 8 9 / .85) 45%, rgb(7 8 9 / .63) 62%, rgb(7 8 9 / .04) 91%);
+  }
+  .page-traffic main .traffic-film-opening .film-hero-back { margin-bottom: 5px; }
+  .page-traffic main .traffic-film-opening .film-hero-lead { margin-top: 16px; }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  .studio-shell.page-traffic .traffic-film-opening { min-height: 330px; padding-block: 26px; }
+  .traffic-film-opening .film-hero-copy { width: min(77%, 610px); }
+}

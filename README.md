@@ -17,11 +17,12 @@ appointment. Portrait screens follow the bird with a separate tracking shot.
 Visitors who prefer reduced motion see the confirmed booking.
 
 The company uses black and white with original color photographs. Michael
-Ramich, Maximilian Schwarz and Jason Rickert appear on the homepage and company
+Ramich, Maximilian Schwarz, Jason Rickert and Felix Schmidt appear on the homepage and company
 page with their roles and profile links. The contact page introduces Michael and
 Maximilian above the project form.
 Agentario includes a playable delivery enquiry and the signed customer reference.
-VerkehrsAI has its own research section. The IVE animation lets visitors select
+The VerkehrsAI chapter and detail page open with the moving junction. Both link
+directly to the interactive map of Berliner Platz in Osnabrück. The IVE animation lets visitors select
 an agent and inspect its model families. OpenCode is marked as in development.
 
 ## Navigation

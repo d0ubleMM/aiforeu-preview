@@ -18,18 +18,42 @@
     paint();
   }
 
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
   const clips = [...document.querySelectorAll('video[data-film-clip]')];
-  if (still || !clips.length || !('IntersectionObserver' in window)) return;
-  const observer = new IntersectionObserver(entries => {
-    for (const { target, isIntersecting } of entries) {
-      if (!isIntersecting) { target.pause(); continue; }
-      if (!target.src) { target.preload = 'auto'; target.src = target.dataset.src; }
-      target.play().catch(() => {});
+  if (!clips.length || !('IntersectionObserver' in window)) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const portrait = matchMedia('(orientation: portrait) and (max-width: 1100px)');
+  const visible = new Set();
+
+  function update(clip) {
+    if (reduced.matches || navigator.connection?.saveData) {
+      clip.pause();
+      clip.removeAttribute('data-playing');
+      if (clip.hasAttribute('src')) { clip.removeAttribute('src'); clip.load(); }
+      return;
     }
-  }, { rootMargin: '20% 0px' });
+    if (!visible.has(clip) || document.hidden) { clip.pause(); return; }
+    const src = portrait.matches && clip.dataset.portraitSrc ? clip.dataset.portraitSrc : clip.dataset.src;
+    if (clip.getAttribute('src') !== src) {
+      clip.removeAttribute('data-playing');
+      clip.preload = 'auto';
+      clip.src = src;
+    }
+    clip.play().catch(() => {});
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (isIntersecting) visible.add(target);
+      else visible.delete(target);
+      update(target);
+    }
+  });
   for (const clip of clips) {
-    clip.addEventListener('playing', () => clip.setAttribute('data-playing', ''), { once: true });
+    clip.addEventListener('playing', () => clip.setAttribute('data-playing', ''));
+    clip.addEventListener('error', () => clip.removeAttribute('data-playing'));
     observer.observe(clip);
   }
+  reduced.addEventListener('change', () => clips.forEach(update));
+  portrait.addEventListener('change', () => clips.forEach(update));
+  document.addEventListener('visibilitychange', () => clips.forEach(update));
 })();
