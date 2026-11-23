@@ -18,7 +18,12 @@
 .ive-net-flight { display: block; position: absolute; left: 0; top: 0; }
 .ive-net-airframe {
   display: block; width: var(--net-size); aspect-ratio: 16/9;
-  transform: translate(-50%, -50%); background-size: 600% 600%;
+  position: relative; transform: translate(-50%, -50%);
+}
+/* The atlas omits transparent space around the same camera viewport. */
+.ive-net-poses {
+  position: absolute; left: 7.5%; top: 20%; width: 80%; height: calc(200% / 3);
+  background-size: 600% 600%; background-repeat: no-repeat;
 }
 .ive-net-airframe img { display: block; width: 100%; height: auto; }
 .ive-net-shadow {
@@ -26,7 +31,7 @@
   margin-left: calc(var(--net-size) * -.375); border-radius: 50%;
   background: radial-gradient(ellipse, #1e202638, #4b4d500a 58%, transparent 72%);
 }
-.ive-net-pet { --net-y: 50%; --net-size: 49px; --net-label-top: 23px; }
+.ive-net-pet { --net-y: 50%; --net-size: 54px; --net-label-top: 28px; }
 .ive-net-claude { --net-x: 14%; }
 .ive-net-codex { --net-x: 38%; }
 .ive-net-gemini { --net-x: 62%; }
@@ -36,11 +41,10 @@
   position: absolute; left: 0; top: 0; display: block;
   width: var(--net-size); max-width: none; height: auto; transform: translate(-50%,-50%);
 }
-.ive-net-pet .ive-net-symbol { image-rendering: pixelated; }
 .ive-net-name {
   position: absolute; top: var(--net-label-top); left: 0; transform: translateX(-50%);
   padding-inline: 3px; background: var(--net-paper); color: var(--net-ink);
-  font: 570 13px/1.35 var(--body,system-ui); letter-spacing: -.015em; white-space: nowrap;
+  font: 610 14px/1.3 var(--body,system-ui); letter-spacing: 0; white-space: nowrap;
 }
 .ive-net-hub { --net-x: 50%; --net-y: 82%; --net-size: 51px; --net-label-top: 30px; }
 .ive-net-hub .ive-net-name { font-weight: 700; }
@@ -59,9 +63,9 @@
 @container (max-width: 460px) {
   .ive-net-stage { height: clamp(320px, 80cqw, 350px); }
   .ive-net-origin { --net-size: clamp(150px, 48cqw, 190px); }
-  .ive-net-pet { --net-size: 39px; --net-label-top: 19px; }
+  .ive-net-pet { --net-size: 44px; --net-label-top: 23px; }
   .ive-net-hub { --net-size: 45px; --net-label-top: 26px; }
-  .ive-net-name { font-size: clamp(10px, 3.1cqw, 12px); }
+  .ive-net-name { font-size: clamp(12px, 3.55cqw, 14px); }
   .ive-net figcaption { padding: 4px 12px; }
 }
 @media (prefers-reduced-motion: reduce), print {
@@ -69,6 +73,8 @@
   .ive-net-replay { display: none; }
 }
 @container (max-width: 320px) {
+  .ive-net-claude .ive-net-name { left: 4px; }
+  .ive-net-name { padding-inline: 1px; }
   .ive-net-replay { justify-content: center; min-width: 44px; }
   .ive-net-replay span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }

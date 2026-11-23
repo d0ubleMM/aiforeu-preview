@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/page-film.css?v=20261123-mono"><link rel="stylesheet" href="assets/devtools-pages.css?v=20261123-mono"><link rel="stylesheet" href="assets/ive-previews.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-details.css?v=20261123-mono"><link rel="stylesheet" href="assets/product-experience.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/page-film.css?v=20261123-mono"><link rel="stylesheet" href="assets/devtools-pages.css?v=20261123-mono"><link rel="stylesheet" href="assets/ive-previews.css?v=20261123-retina"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-details.css?v=20261123-mono"><link rel="stylesheet" href="assets/product-experience.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -94,7 +94,12 @@
 </dialog>
 <main id="inhalt" tabindex="-1">
 <section class="film-hero" aria-labelledby="ive-title" data-film-hero>
- <div class="film-hero-media experience-product-shot"><img src="assets/ive/attention-light.webp" alt="Rückfrage in einer IVE-Sitzung: Der Agent bittet um Erlaubnis, npm test auszuführen. Die Antwort steht direkt beim Auftrag." width="800" height="714" fetchpriority="high" decoding="async"></div>
+ <div class="film-hero-media experience-product-shot">
+      <picture>
+        <source media="(max-width: 520px)" srcset="assets/ive/posters/permission-hero-phone-720.webp 720w, assets/ive/posters/permission-hero-phone-1080.webp 1080w, assets/ive/posters/permission-hero-phone-1440.webp 1440w" sizes="calc(100vw - 48px)" width="360" height="360">
+        <img src="assets/ive/posters/permission-hero-wide-840.webp" srcset="assets/ive/posters/permission-hero-wide-840.webp 840w, assets/ive/posters/permission-hero-wide-1680.webp 1680w, assets/ive/posters/permission-hero-wide-2520.webp 2520w" sizes="(max-width: 650px) calc(100vw - 48px), (max-width: 760px) calc(99.1vw - 74px), (max-width: 1050px) calc(55.2vw - 58px), (max-width: 1200px) calc(59.6vw - 64px), (max-width: 1400px) calc(59.6vw - 75px), 759px" width="840" height="750" alt="Rückfrage in einer IVE-Sitzung: Der Agent bittet um Erlaubnis, npm test auszuführen. Die Antwort steht direkt beim Auftrag." fetchpriority="high" decoding="async">
+      </picture>
+     </div>
  <div class="film-hero-copy">
   <a class="film-hero-back" href="projekte.html"><span aria-hidden="true">←</span> Alle Projekte</a>
   <h1 id="ive-title">Ihre Agenten. Ein Arbeitsplatz.</h1>
@@ -115,19 +120,45 @@
    </div>
    <div class="dev-screen-panels">
     <div id="ive-panel-board" class="dev-screen-panel" data-ive-panel="board"><figure>
-     <div class="dev-screen-image" data-ive-preview="terminals"><picture><source media="(max-width: 720px)" srcset="assets/ive/demo/posters/terminals-m.webp" width="780" height="1040"><img src="assets/ive/terminals.webp" srcset="assets/ive/terminals.webp 1600w, assets/ive/demo/posters/terminals@2x.webp 3200w" sizes="(max-width: 720px) calc(100vw - 64px), (max-width: 1280px) calc(100vw - 106px), 1174px" alt="IVE mit zehn parallelen Sitzungen. Links zeigt die Projektliste, welche Agenten arbeiten, warten oder fertig sind." width="1600" height="1000" fetchpriority="high" decoding="async"></picture></div>
+     <div class="dev-screen-image" data-ive-preview="terminals">
+      <picture>
+        <source media="(max-width: 520px)" srcset="assets/ive/posters/board-phone-720.webp 720w, assets/ive/posters/board-phone-1080.webp 1080w, assets/ive/posters/board-phone-1440.webp 1440w" sizes="calc(100vw - 60px)" width="360" height="480">
+        <source media="(max-width: 720px)" srcset="assets/ive/posters/board-tablet-1248.webp 1248w, assets/ive/posters/board-tablet-2028.webp 2028w" sizes="(max-width: 650px) calc(100vw - 60px), calc(97.5vw - 76px)" width="624" height="832">
+        <source media="(max-width: 1100px)" srcset="assets/ive/posters/board-compact-924.webp 924w, assets/ive/posters/board-compact-1848.webp 1848w, assets/ive/posters/board-compact-2772.webp 2772w" sizes="calc(97.5vw - 76px)" width="924" height="560">
+        <img src="assets/ive/posters/board-wide-1320.webp" srcset="assets/ive/posters/board-wide-1320.webp 1320w, assets/ive/posters/board-wide-2640.webp 2640w, assets/ive/posters/board-wide-3960.webp 3960w" sizes="(max-width: 650px) calc(100vw - 60px), (max-width: 1400px) calc(97.5vw - 76px), 1289px" width="1320" height="800" alt="IVE mit zehn parallelen Sitzungen. Links zeigt die Projektliste, welche Agenten arbeiten, warten oder fertig sind." fetchpriority="high" decoding="async">
+      </picture>
+     </div>
      <figcaption><div><h2>Mehrere Aufgaben. Ein gemeinsamer Überblick.</h2><p>Claude Code, Codex und Gemini (Antigravity CLI) laufen in eigenen Sitzungen. Sie sehen sofort, wo Arbeit weiterläuft und wo Sie gefragt sind.</p></div><span class="dev-state-key"><span><i class="dev-dot dev-dot-blue"></i> Arbeitet</span><span><i class="dev-dot dev-dot-amber"></i> Braucht Sie</span><span><i class="dev-dot dev-dot-green"></i> Bereit zur Prüfung</span></span></figcaption>
     </figure></div>
     <div id="ive-panel-attention" class="dev-screen-panel" data-ive-panel="attention"><figure>
-     <div class="dev-screen-image dev-screen-image-focus" data-ive-preview="attention"><img src="assets/ive/attention-light.webp" alt="Rückfrage in einer IVE-Sitzung: Der Agent bittet um Erlaubnis, npm test auszuführen. Die Antwort steht direkt beim Auftrag." width="800" height="714" loading="lazy" decoding="async"></div>
+     <div class="dev-screen-image dev-screen-image-focus" data-ive-preview="attention">
+      <picture>
+        <source media="(max-width: 520px)" srcset="assets/ive/posters/permission-phone-720.webp 720w, assets/ive/posters/permission-phone-1080.webp 1080w, assets/ive/posters/permission-phone-1440.webp 1440w" sizes="calc(100vw - 60px)" width="360" height="432">
+        <img src="assets/ive/posters/permission-wide-640.webp" srcset="assets/ive/posters/permission-wide-640.webp 640w, assets/ive/posters/permission-wide-1280.webp 1280w, assets/ive/posters/permission-wide-1920.webp 1920w" sizes="(max-width: 650px) calc(100vw - 60px), (max-width: 734px) calc(97.5vw - 76px), 640px" width="640" height="768" alt="Rückfrage in einer IVE-Sitzung: Der Agent bittet um Erlaubnis, npm test auszuführen. Die Antwort steht direkt beim Auftrag." loading="lazy" decoding="async">
+      </picture>
+     </div>
      <figcaption><div><h2>Die Rückfrage steht direkt beim Auftrag.</h2><p>Antworten und Freigaben bleiben im Zusammenhang der Sitzung. Sie entscheiden, wie es weitergeht, während die anderen Agenten weiterarbeiten.</p></div><a class="dev-dark-link" href="https://ive.dev/try.html?at=attention&amp;tour=0">Rückfrage ausprobieren <span aria-hidden="true">↗</span></a></figcaption>
     </figure></div>
     <div id="ive-panel-review" class="dev-screen-panel" data-ive-panel="review"><figure>
-     <div class="dev-screen-image" data-ive-preview="review"><picture><source media="(max-width: 720px)" srcset="assets/ive/demo/posters/review-m.webp" width="780" height="1040"><img src="assets/ive/review.webp" srcset="assets/ive/review.webp 1600w, assets/ive/demo/posters/review@2x.webp 3200w" sizes="(max-width: 720px) calc(100vw - 64px), (max-width: 1280px) calc(100vw - 106px), 1174px" alt="IVE-Codeprüfung mit einer Liste geänderter Dateien und einem zeilenweisen Vergleich der Änderungen." width="1600" height="1000" loading="lazy" decoding="async"></picture></div>
+     <div class="dev-screen-image" data-ive-preview="review">
+      <picture>
+        <source media="(max-width: 520px)" srcset="assets/ive/posters/review-phone-720.webp 720w, assets/ive/posters/review-phone-1080.webp 1080w, assets/ive/posters/review-phone-1440.webp 1440w" sizes="calc(100vw - 60px)" width="360" height="480">
+        <source media="(max-width: 720px)" srcset="assets/ive/posters/review-tablet-1248.webp 1248w, assets/ive/posters/review-tablet-2028.webp 2028w" sizes="(max-width: 650px) calc(100vw - 60px), calc(97.5vw - 76px)" width="624" height="832">
+        <source media="(max-width: 1100px)" srcset="assets/ive/posters/review-compact-924.webp 924w, assets/ive/posters/review-compact-1848.webp 1848w, assets/ive/posters/review-compact-2772.webp 2772w" sizes="calc(97.5vw - 76px)" width="924" height="560">
+        <img src="assets/ive/posters/review-wide-1320.webp" srcset="assets/ive/posters/review-wide-1320.webp 1320w, assets/ive/posters/review-wide-2640.webp 2640w, assets/ive/posters/review-wide-3960.webp 3960w" sizes="(max-width: 650px) calc(100vw - 60px), (max-width: 1400px) calc(97.5vw - 76px), 1289px" width="1320" height="800" alt="IVE-Codeprüfung mit einer Liste geänderter Dateien und einem zeilenweisen Vergleich der Änderungen." loading="lazy" decoding="async">
+      </picture>
+     </div>
      <figcaption><div><h2>Vom fertigen Auftrag zur geprüften Änderung.</h2><p>Geänderte Dateien und Unterschiede stehen direkt im Arbeitsplatz. Prüfen Sie das Ergebnis und geben Sie Rückmeldung, wo noch etwas fehlt.</p></div><span class="dev-caption-note">Dateien · Unterschiede · Rückmeldung</span></figcaption>
     </figure></div>
     <div id="ive-panel-workflow" class="dev-screen-panel" data-ive-panel="workflow"><figure>
-     <div class="dev-screen-image" data-ive-preview="pipelines"><picture><source media="(max-width: 720px)" srcset="assets/ive/demo/posters/pipelines-m.webp" width="780" height="1040"><img src="assets/ive/pipelines.webp" srcset="assets/ive/pipelines.webp 1600w, assets/ive/demo/posters/pipelines@2x.webp 3200w" sizes="(max-width: 720px) calc(100vw - 64px), (max-width: 1280px) calc(100vw - 106px), 1174px" alt="IVE-Arbeitsfläche mit verbundenen Schritten zum Ausführen, Prüfen, Bewerten und Beheben einer Aufgabe." width="1600" height="1000" loading="lazy" decoding="async"></picture></div>
+     <div class="dev-screen-image" data-ive-preview="pipelines">
+      <picture>
+        <source media="(max-width: 520px)" srcset="assets/ive/posters/pipelines-phone-720.webp 720w, assets/ive/posters/pipelines-phone-1080.webp 1080w, assets/ive/posters/pipelines-phone-1440.webp 1440w" sizes="calc(100vw - 60px)" width="360" height="480">
+        <source media="(max-width: 720px)" srcset="assets/ive/posters/pipelines-tablet-1248.webp 1248w, assets/ive/posters/pipelines-tablet-2028.webp 2028w" sizes="(max-width: 650px) calc(100vw - 60px), calc(97.5vw - 76px)" width="624" height="832">
+        <source media="(max-width: 1100px)" srcset="assets/ive/posters/pipelines-compact-924.webp 924w, assets/ive/posters/pipelines-compact-1848.webp 1848w, assets/ive/posters/pipelines-compact-2772.webp 2772w" sizes="calc(97.5vw - 76px)" width="924" height="560">
+        <img src="assets/ive/posters/pipelines-wide-1650.webp" srcset="assets/ive/posters/pipelines-wide-1650.webp 1650w, assets/ive/posters/pipelines-wide-3300.webp 3300w, assets/ive/posters/pipelines-wide-3960.webp 3960w" sizes="(max-width: 650px) calc(100vw - 60px), (max-width: 1400px) calc(97.5vw - 76px), 1289px" width="1650" height="1000" alt="IVE-Arbeitsfläche mit verbundenen Schritten zum Ausführen, Prüfen, Bewerten und Beheben einer Aufgabe." loading="lazy" decoding="async">
+      </picture>
+     </div>
      <figcaption><div><h2>Agenten und Prüfungen zusammenbringen.</h2><p>Beginnen Sie mit einer einzelnen Aufgabe. Verbinden Sie bei Bedarf weitere Agenten und Prüfschritte zu einem wiederholbaren Ablauf.</p></div><a class="dev-dark-link" href="https://ive.dev/product.html">IVE im Detail <span aria-hidden="true">↗</span></a></figcaption>
     </figure></div>
    </div>
@@ -170,6 +201,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/devtools-pages.js"></script><script src="assets/ive-previews.js"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js?v=20261123-mono"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script><script src="assets/product-experience.js?v=20261123-clear" defer></script>
+<script src="assets/devtools-pages.js"></script><script src="assets/ive-previews.js?v=20261123-retina"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js?v=20261123-mono"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script><script src="assets/product-experience.js?v=20261123-clear" defer></script>
 </body>
 </html>

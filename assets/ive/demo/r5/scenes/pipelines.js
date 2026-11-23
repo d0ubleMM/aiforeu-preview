@@ -22,6 +22,7 @@ const sessions = () => [
 const PLACED = {
   wide: { execute: [400, 200], verify: [700, 200], evaluate: [1000, 200], fix: [850, 380] },
   narrow: { execute: [40, 70], verify: [300, 70], evaluate: [560, 70], fix: [430, 240] },
+  phone: { execute: [0, 0], verify: [260, 0], evaluate: [520, 0], fix: [520, 126] },
 };
 const pipelineFor = (layout) => ({
   id: 'signin', name: 'Sign-in checks loop',
@@ -53,7 +54,6 @@ function init() {
     sessions: sessions(),
     view: 'chooser', // chooser | canvas | detail
     run: null,
-    pan: 0, // the canvas pan on narrow stages (the app's own translate), in px
   };
 }
 const S = (st, id) => st.sessions.find((s) => s.id === id);
@@ -76,7 +76,6 @@ s.do((st) => {
   st.run.stages.verify = running('Pipeline Testing Worker (Claude Code)');
   S(st, 'interface').state = 'done';
   S(st, TESTER).hidden = false;
-  st.pan = 1;
 });
 s.hold(1.6);
 // Verify reports fail; Evaluate takes the "Fix issues" edge; Fix runs in Execute's session.
@@ -125,15 +124,37 @@ export default {
   init,
   render(st, ctx) {
     const narrow = ctx.width < 1100;
-    const tight = ctx.width < 760; // a phone: the graph is wider than the canvas
-    const pipeline = pipelineFor(narrow ? 'narrow' : 'wide');
-    // Narrow stages place the nodes closer; on a phone the loop (Verify, Evaluate, Fix) comes
-    // into view once the run moves there, with the app's own canvas pan.
-    const pan = tight ? { x: st.pan ? -250 : 20, y: 30 } : narrow ? { x: 28, y: 30 } : { x: 0, y: 0 };
+    // Company-site frames vary with the page column. Use the original editor's
+    // zoom/pan and native 200 × 80 stage cards; the timeline still owns the run.
+    const tight = ctx.width < 590;
+    const layout = tight ? 'phone' : narrow ? 'narrow' : 'wide';
+    const pipeline = pipelineFor(layout);
+    const canvasWidth = ctx.width - 26 - (narrow ? 0 : 288);
+    const positions = PLACED[layout];
+    let zoom = 1;
+    let pan;
+    if (tight) {
+      const stages = st.run?.stages;
+      const focus = stages?.evaluate.status === 'completed' || stages?.fix.status === 'running'
+        ? 'evaluate' : stages?.verify.status === 'running' ? 'verify' : 'execute';
+      // Fix sits directly below Evaluate so the failed check and its branch
+      // share the viewport before the next cycle returns to Verify.
+      pan = { x: (canvasWidth - 200) / 2 - positions[focus][0], y: 14 };
+    } else {
+      const xs = Object.values(positions).map(([x]) => x);
+      const ys = Object.values(positions).map(([, y]) => y);
+      const graphWidth = Math.max(...xs) - Math.min(...xs) + 200;
+      const graphHeight = Math.max(...ys) - Math.min(...ys) + 80;
+      zoom = Math.min(1, (canvasWidth - 48) / graphWidth);
+      pan = {
+        x: (canvasWidth - graphWidth * zoom) / 2 - Math.min(...xs) * zoom,
+        y: Math.max(14, (ctx.height - 170 - graphHeight * zoom) / 2) - Math.min(...ys) * zoom,
+      };
+    }
     let overlay;
     if (st.view === 'chooser') overlay = pipelineChooser({ own: [pipeline] });
     else {
-      overlay = pipelineCanvas({ pipeline, run: st.run, pan, narrow, tight });
+      overlay = pipelineCanvas({ pipeline, run: st.run, pan, zoom, narrow, tight });
       if (st.view === 'detail') overlay = [overlay, runDetail({ pipeline, run: st.run, tight })];
     }
     return shell({

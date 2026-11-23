@@ -1,20 +1,82 @@
-/* Render UI text at native CSS pixels, with no bitmap enlargement or composited scaling. */
-.dev-workspace{scroll-margin-top:calc(var(--global-header-height,73px) + 16px)}
-[data-ive-preview]{position:relative;isolation:isolate}
-.ive-preview-frame{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none;background:#f8f8f8}
-.ive-preview-ready>.ive-preview-frame{opacity:1}
-.ive-preview-ready>picture,.ive-preview-ready>img{visibility:hidden}
-.ive-preview-toggle{display:block;margin:10px 22px 0 auto;min-height:36px;padding:7px 12px;border:1px solid #4f4f4f;border-radius:4px;background:transparent;color:inherit;font:500 12px/1.4 var(--body)}
-.ive-preview-toggle:hover{background:#ffffff12}
-.dev-screen-image picture{display:block;width:100%;height:100%}
-.dev-screen-image[data-ive-preview]{aspect-ratio:1.65}
-.dev-screen-image-focus[data-ive-preview]{padding:0}
-.dev-screen-image-focus .ive-preview-frame{width:min(100%,640px);left:50%;transform:translateX(-50%)}
-.dev-screen-image-focus>img{max-width:400px;margin-inline:auto}
-.projects-ive-image[data-ive-preview]{aspect-ratio:1.6;padding:0}
-.projects-ive-figure>.ive-preview-toggle{margin-right:0;color:var(--ink);border-color:var(--line)}
-.projects-ive-figure>figcaption{margin-top:10px}
-@media(max-width:720px){
-  .dev-screen-image[data-ive-preview],.projects-ive-image[data-ive-preview]{aspect-ratio:3/4}
-  .dev-screen-image-focus[data-ive-preview]{aspect-ratio:1/1.2}
+/* The app renders its own type and icons at native size inside each frame. */
+.dev-workspace { scroll-margin-top: calc(var(--global-header-height,73px) + 16px); }
+[data-ive-preview] { position: relative; isolation: isolate; }
+.ive-preview-frame {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  opacity: 0; pointer-events: none; background: #f8f8f8;
+}
+.ive-preview-ready > .ive-preview-frame { opacity: 1; }
+/* The poster's description still describes the playing, decorative iframe. */
+.ive-preview-ready > :is(picture,img) { opacity: 0; }
+.dev-screen-image picture, .projects-ive-image picture { display: block; width: 100%; height: 100%; }
+.projects-ive-image picture img, .dev-screen-image picture img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.dev-screen-image[data-ive-preview] { aspect-ratio: 1.65; }
+.dev-screen-image-focus[data-ive-preview] { padding: 0; }
+.dev-screen-image-focus .ive-preview-frame, .dev-screen-image-focus > picture {
+  width: min(100%,640px); margin-inline: auto;
+}
+.projects-ive-image[data-ive-preview] { aspect-ratio: 1.6; padding: 0; }
+.page-ive.product-ui-page .experience-product-shot {
+  padding: clamp(3px,.45vw,7px); border: 1px solid #3c3c3c; border-radius: 12px;
+  box-shadow: 0 10px 32px -18px #09090955;
+}
+.page-ive .experience-product-shot picture { display: block; }
+.page-ive .dev-workspace {
+  border-radius: 12px; box-shadow: none;
+}
+.page-ive .dev-workspace-top { padding: 18px clamp(14px,2vw,26px) 12px; }
+.page-ive .dev-workspace-name { font: 600 16px/1.4 var(--body); letter-spacing: -.02em; }
+.page-ive .dev-ive-mark {
+  /* The same vector mark as the IVE hub on the homepage. */
+  width: 26px; height: 26px; padding: 0; font-size: 0;
+  background: url('ive-network/ive-symbol.svg') center/contain no-repeat;
+}
+.page-ive .dev-screen-label, .page-ive .dev-caption-note {
+  font: 500 12px/1.45 var(--body); color: var(--dev-muted-on-dark);
+}
+.page-ive .dev-tabs { gap: 4px; padding: 0 clamp(12px,2vw,24px) 12px; }
+.page-ive .dev-tabs button { border-radius: 5px; min-height: 44px; }
+.page-ive .dev-tabs button[aria-selected="true"] {
+  background: var(--on-dark); color: var(--night); border-color: var(--on-dark);
+}
+.page-ive .dev-tabs button:focus-visible, .ive-preview-toggle:focus-visible {
+  outline: 2px solid currentColor; outline-offset: 2px;
+}
+.page-ive .dev-screen-image { margin-inline: clamp(8px,1.25vw,18px); }
+.page-ive .dev-state-key { font: 500 12px/1.5 var(--body); }
+.ive-preview-toggle {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 44px; margin: 4px clamp(14px,2vw,24px) 0 auto; padding: 4px 6px;
+  border: 0; border-radius: 3px; background: transparent; color: inherit;
+  font: 550 13px/1.4 var(--body); cursor: pointer;
+}
+.ive-preview-toggle::before {
+  content: ''; width: 9px; height: 11px; box-sizing: border-box;
+  border-inline: 3px solid currentColor;
+}
+.ive-preview-toggle[aria-pressed="true"]::before {
+  border: 0; background: currentColor; clip-path: polygon(0 0,100% 50%,0 100%);
+}
+.ive-preview-toggle:hover { text-decoration: underline; text-underline-offset: .22em; }
+.ive-preview-toggle[hidden] { display: none; }
+.dev-screen-panel figure:has(> .ive-preview-toggle), .projects-ive-figure:has(> .ive-preview-toggle) {
+  display: flex; flex-direction: column;
+}
+.projects-ive-figure > .ive-preview-toggle { margin-right: 0; color: var(--ink); }
+.projects-ive-figure > figcaption { margin-top: 10px; }
+@media (max-width: 720px) {
+  .dev-screen-image[data-ive-preview], .projects-ive-image[data-ive-preview] { aspect-ratio: 3/4; }
+  .dev-screen-image-focus[data-ive-preview] { aspect-ratio: 1/1.2; }
+  /* The live approval has both conversation history and an action tray. */
+  .dev-screen-image-focus.ive-preview-ready { min-height: 550px; }
+  .page-ive .dev-workspace-top { align-items: baseline; }
+  .page-ive .dev-workspace-name { font-size: 14px; }
+  .page-ive .dev-screen-label { font-size: 11px; }
+  .page-ive .dev-tabs { padding-inline: 9px; }
+  .page-ive .dev-tabs button { padding-inline: 8px; }
+  .page-ive .dev-state-key { gap: 8px 14px; }
+}
+@media print {
+  .ive-preview-frame, .ive-preview-toggle { display: none; }
+  .ive-preview-ready > :is(picture,img) { opacity: 1; }
 }

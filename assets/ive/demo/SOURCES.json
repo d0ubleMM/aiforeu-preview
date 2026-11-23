@@ -64,12 +64,16 @@
     {
       "path": "r5/scenes/pipelines.js",
       "source": "https://ive.dev/assets/demo/r5/scenes/pipelines.js",
-      "sha256": "0876e586fce2c539b1e5df742c5f16738ed5bac2994c4d9e3149f9c167560551"
+      "sha256": "83b14ce652eaa156a0cd0e9d57c80d813dd2cf3d7f85d61119b7c9bb9528e5ad",
+      "upstream_sha256": "0876e586fce2c539b1e5df742c5f16738ed5bac2994c4d9e3149f9c167560551",
+      "local_adaptation": "Company embed adjusts graph coordinates and zoom to the figure width and follows the active stage on phones. Original timeline and fixture data retained."
     },
     {
       "path": "r5/scenes/pipelines.css",
       "source": "https://ive.dev/assets/demo/r5/scenes/pipelines.css",
-      "sha256": "1ee54699732f06883ce8e0640ab6d13b912d7f6ecb69a843e623d0f77dbeb611"
+      "sha256": "54a187d3b3d1ee177728f31f07480a4867ebae05c472404db75fd822fd00a7f8",
+      "upstream_sha256": "1ee54699732f06883ce8e0640ab6d13b912d7f6ecb69a843e623d0f77dbeb611",
+      "local_adaptation": "Company embed arranges the original controls and results for narrow frame widths."
     },
     {
       "path": "r5/lib/mod-review.js",

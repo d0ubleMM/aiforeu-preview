@@ -7,6 +7,7 @@
     const shadow = origin.querySelector('.ive-net-shadow');
     const airframe = origin.querySelector('.ive-net-airframe');
     const poster = airframe.querySelector('img');
+    const poses = airframe.querySelector('.ive-net-poses');
     const pets = [...stage.querySelectorAll('.ive-net-pet')];
     const paths = [...stage.querySelectorAll('.ive-net-wires path')];
     const replay = figure.querySelector('.ive-net-replay');
@@ -40,22 +41,28 @@
 
     let animations = [];
     let generation = 0;
-    let atlasReady;
+    const atlases = new Map();
     let stageSize = '';
     function loadAtlas() {
-      if (!atlasReady) {
+      const pixels = airframe.offsetWidth * Math.min(window.devicePixelRatio || 1, 3);
+      const width = pixels <= 320 ? 320 : pixels <= 640 ? 640 : 960;
+      if (!atlases.has(width)) {
         const atlas = new Image();
-        atlas.src = new URL('bomber-flight.webp', poster.src).href;
-        atlasReady = atlas.decode().then(() => atlas.src).catch(() => '');
+        const filename = width === 320 ? 'bomber-flight.webp' : 'bomber-flight-' + width + '.webp';
+        atlas.src = new URL(filename, poster.src).href;
+        atlases.set(width, atlas.decode().then(() => atlas.src).catch(() => {
+          atlases.delete(width);
+          return '';
+        }));
       }
-      return atlasReady;
+      return atlases.get(width);
     }
     function settle() {
       generation++;
       for (const animation of animations) animation.cancel();
       animations = [];
       poster.style.visibility = '';
-      airframe.style.backgroundImage = '';
+      poses.style.backgroundImage = '';
       figure.dataset.netState = 'complete';
     }
     function animate(element, frames, timing) {
@@ -75,13 +82,13 @@
       figure.dataset.netState = 'playing';
       const width = stage.clientWidth;
       const height = stage.clientHeight;
-      airframe.style.backgroundImage = 'url("' + source + '")';
+      poses.style.backgroundImage = 'url("' + source + '")';
       poster.style.visibility = 'hidden';
       const frames = Array.from({length: 36}, (_, frame) => ({
         offset: frame / 35, easing: 'steps(1, end)',
         backgroundPosition: (frame % 6 * 20) + '% ' + (Math.floor(frame / 6) * 20) + '%'
       }));
-      animate(airframe, frames, {duration: 1450, fill: 'forwards'});
+      animate(poses, frames, {duration: 1450, fill: 'forwards'});
 
       // The camera poses supply the changing perspective. This curve moves the
       // same ship from the distant edge to the fixed hatch used by every pet.

@@ -14,15 +14,20 @@
   });
   const send = (p, type, extra = {}) => p.frame?.contentWindow?.postMessage({ target: 'ive-demo', type, ...extra }, location.origin);
   function sync(p) {
+    const enabled = p.ready || p.paused;
+    p.button.hidden = !enabled;
+    const pressed = String(p.paused);
+    if (p.button.getAttribute('aria-pressed') !== pressed) {
+      p.button.textContent = p.paused ? 'Abspielen' : 'Pause';
+      p.button.setAttribute('aria-label', p.paused ? 'IVE-Vorschau abspielen' : 'IVE-Vorschau anhalten');
+      p.button.setAttribute('aria-pressed', pressed);
+    }
     if (!p.ready) return;
     const playing = p.visible && !p.paused && !document.hidden && !p.host.closest('[hidden]');
     if (playing !== p.playing) {
       send(p, playing ? 'play' : 'pause');
       p.playing = playing;
     }
-    p.button.textContent = p.paused ? 'Abspielen' : 'Pause';
-    p.button.setAttribute('aria-label', p.paused ? 'IVE-Vorschau abspielen' : 'IVE-Vorschau anhalten');
-    p.button.setAttribute('aria-pressed', String(p.paused));
   }
   function mount(p) {
     if (p.frame) return;
@@ -37,7 +42,11 @@
     p.frame = frame;
     p.host.append(frame);
   }
-  previews.forEach(p => p.button.addEventListener('click', () => { p.paused = !p.paused; sync(p); }));
+  previews.forEach(p => p.button.addEventListener('click', () => {
+    p.paused = !p.paused;
+    if (!p.paused) mount(p);
+    sync(p);
+  }));
   window.addEventListener('message', event => {
     if (event.origin !== location.origin || event.data?.source !== 'ive-demo') return;
     const p = previews.find(item => item.frame?.contentWindow === event.source);
@@ -61,7 +70,7 @@
     entries.forEach(entry => {
       const p = previews.find(item => item.host === entry.target);
       p.visible = entry.isIntersecting;
-      if (p.visible) mount(p);
+      if (p.visible && !p.paused) mount(p);
       sync(p);
     });
   }, { threshold: 0.08 });
@@ -70,5 +79,11 @@
   const hiddenObserver = new MutationObserver(() => previews.forEach(sync));
   document.querySelectorAll('[data-ive-panel]').forEach(panel => hiddenObserver.observe(panel, { attributes: true, attributeFilter: ['hidden'] }));
   document.addEventListener('visibilitychange', () => previews.forEach(sync));
-  reduced.addEventListener('change', () => { previews.forEach(p => { p.paused = reduced.matches; sync(p); }); });
+  reduced.addEventListener('change', () => {
+    previews.forEach(p => {
+      p.paused = reduced.matches;
+      if (!p.paused && p.visible) mount(p);
+      sync(p);
+    });
+  });
 })();

@@ -1,10 +1,20 @@
+.opening-card {
+  --card-inset: clamp(10px, 2vw, 36px);
+  margin: var(--card-inset);
+  border-radius: clamp(20px, 2.5vw, 42px);
+  overflow: clip;
+  background: var(--night);
+}
+.opening-card .cine-width {
+  width: min(calc(100% - 2 * max(18px, var(--cine-gutter) - var(--card-inset))), 1440px);
+}
 .opening-automation { --automation-ground: #0b0b0b; background: var(--automation-ground); }
 .opening-automation .opening-inner {
   display: grid;
   grid-template-columns: minmax(0, .88fr) minmax(0, 1.18fr);
   align-items: center;
   gap: clamp(18px, 3.3vw, 60px);
-  min-height: clamp(465px, calc(82svh - var(--global-header-height)), 780px);
+  min-height: clamp(465px, calc(82svh - var(--global-header-height) - 2 * var(--card-inset)), 780px);
   padding-block: clamp(54px, 9svh, 105px);
 }
 .opening-automation .opening-copy { width: 100%; }
@@ -65,7 +75,7 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
     grid-template-columns: minmax(0, 1fr);
     align-content: center;
     gap: clamp(26px, 4.4svh, 54px);
-    min-height: clamp(460px, calc(85svh - var(--global-header-height)), 820px);
+    min-height: clamp(460px, calc(81svh - var(--global-header-height) - 2 * var(--card-inset)), 820px);
     padding-block: clamp(24px, 5svh, 56px) clamp(34px, 6svh, 62px);
   }
   .opening-automation .automation-flow { grid-row: 1; width: min(calc(100% + 12px), 640px); justify-self: center; }

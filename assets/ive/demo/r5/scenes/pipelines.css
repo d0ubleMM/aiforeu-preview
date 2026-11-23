@@ -2,3 +2,65 @@
    (`.x-panel { max-width: calc(100vw - 1rem) }`); inside the scaled stage the stage is the
    window, so the editor and the run window fill it like in the app. */
 #stage .x-panel { max-width: none; }
+
+/* The scripted click opens the saved pipeline. Keep it above the templates
+   in embedded previews, where the illustrated chooser cannot be scrolled. */
+[data-demo="chooser"] .max-w-4xl { display: flex; flex-direction: column; }
+[data-demo="chooser"] .grid { order: 1; }
+[data-demo="chooser"] [data-demo="create"] { order: 2; }
+
+/* AIFOREU embeds the read-only scene in a phone-sized figure. Keep the native
+   run controls and its four stage results visible in that viewport. */
+@media (max-width: 589px) {
+  [data-demo="editor"] .x-panel > :first-child { display: none; }
+  [data-demo="editor"] .x-panel > :nth-child(2) {
+    flex-wrap: wrap; align-content: start; gap: 5px 10px; padding: 7px 8px;
+  }
+  [data-demo="editor"] .x-panel > :nth-child(2) > div {
+    flex-wrap: wrap; gap: 4px;
+  }
+  [data-demo="editor"] [data-demo="back"],
+  [data-demo="editor"] [data-demo="editor-close"] { display: none; }
+  [data-demo="editor"] .x-panel > :nth-child(2) button {
+    min-height: 26px; padding-block: 2px;
+  }
+  [data-demo="editor"] [data-demo="cycle"] { order: 1; }
+  [data-demo="editor"] [data-demo="zoom"] { right: 3px; bottom: 2px; }
+  [data-demo="run-window"] .x-panel > .flex-1 { flex-direction: column; }
+  [data-demo="run-window"] aside {
+    width: 100% !important; border-right: 0; border-bottom: 1px solid var(--x-line);
+  }
+  [data-demo="run-window"] aside > div {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 6px;
+  }
+  [data-demo="run-window"] aside button {
+    padding: 5px; margin: 0; min-width: 0;
+  }
+  [data-demo="run-window"] aside button > div { gap: 3px; flex-wrap: wrap; }
+  [data-demo="run-window"] header h2 { overflow: visible; white-space: normal; }
+  [data-demo="run-window"] main > div { padding: 8px; }
+  [data-demo="run-window"] header { padding: 7px 10px; }
+  [data-demo="chooser"] .overflow-auto { padding: 10px; }
+  [data-demo="chooser"] .grid { gap: 4px; margin-bottom: 8px; }
+  [data-demo="chooser"] .max-w-4xl > p { margin-bottom: 8px; }
+  [data-demo="chooser"] [data-demo="open-signin"] { padding: 6px; }
+  [data-demo="chooser"] .grid button { padding: 6px; }
+  [data-demo="chooser"] .grid button p, [data-demo="chooser"] .grid button .mt-2 { display: none; }
+  [data-demo="chooser"] .grid button .mb-1 { margin: 0; }
+}
+
+
+@media (max-width: 355px) {
+  [data-demo="run-window"] aside > div { grid-template-columns: 1fr; padding: 4px 8px; gap: 2px; }
+  [data-demo="run-window"] aside button {
+    display: flex; justify-content: space-between; align-items: center;
+    min-height: 24px; padding: 2px 5px;
+  }
+  [data-demo="run-window"] aside button > div + div { margin-top: 0; }
+  [data-demo="run-window"] aside button > div:first-child { flex-shrink: 0; }
+  [data-demo="run-window"] aside button > div + div > :first-child,
+  [data-demo="run-window"] aside button > div + div > :nth-child(n+3) { display: none; }
+  [data-demo="run-window"] main > div { display: flex; flex-direction: column; gap: 6px; }
+  [data-demo="run-window"] main section:nth-child(2) { order: -1; margin: 0; }
+  [data-demo="run-window"] main pre { padding: 6px; }
+}

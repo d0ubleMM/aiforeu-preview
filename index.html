@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-flow2"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-flight"><link rel="stylesheet" href="assets/ive-models.css?v=20261123"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-team">
+<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-card"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-team">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -101,44 +101,46 @@
  </div>
 </dialog>
 <main id="inhalt" tabindex="-1">
-<section class="opening-film opening-automation" aria-labelledby="landing-title">
-  <div class="opening-inner cine-width">
-    <div class="opening-copy">
-      <p class="opening-origin">Osnabrück &amp; Berlin</p>
-      <h1 id="landing-title">KI, die Arbeit übernimmt.</h1>
-      <p class="opening-lead">Wir automatisieren Anrufe und Abläufe in Ihrer Software.</p>
-      <div class="opening-actions">
-        <a class="cine-button team-cta" href="kontakt.html"><span class="team-faces" aria-hidden="true"><img src="assets/people/michael-ramich-96.webp" width="96" height="96" alt=""><img src="assets/people/maximilian-schwarz-96.webp" width="96" height="96" alt=""></span><span>Mit uns sprechen</span> <span aria-hidden="true">↗</span></a>
-        <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
+<div class="opening-card">
+  <section class="opening-film opening-automation" aria-labelledby="landing-title">
+    <div class="opening-inner cine-width">
+      <div class="opening-copy">
+        <p class="opening-origin">Osnabrück &amp; Berlin</p>
+        <h1 id="landing-title">KI, die Arbeit übernimmt.</h1>
+        <p class="opening-lead">Wir automatisieren Anrufe und Abläufe in Ihrer Software.</p>
+        <div class="opening-actions">
+          <a class="cine-button team-cta" href="kontakt.html"><span class="team-faces" aria-hidden="true"><img src="assets/people/michael-ramich-96.webp" width="96" height="96" alt=""><img src="assets/people/maximilian-schwarz-96.webp" width="96" height="96" alt=""></span><span>Mit uns sprechen</span> <span aria-hidden="true">↗</span></a>
+          <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
+      <figure class="automation-flow" aria-label="Schematisches Beispiel">
+        <div class="automation-media" aria-hidden="true" inert>
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset="assets/automation-flow/call-to-calendar.webp" width="1440" height="608">
+            <img src="assets/automation-flow/call-to-calendar.svg" alt="" width="720" height="304" fetchpriority="high">
+          </picture>
+          <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback>
+            <source src="assets/automation-flow/call-to-calendar.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)">
+          </video>
+        </div>
+        <ol class="automation-stations" aria-label="Terminvereinbarung">
+          <li>Anruf</li>
+          <li data-i18n-ignore>Agentario</li>
+          <li>Termin <time datetime="14:30" class="cine-sr" data-i18n-ignore>14:30</time></li>
+        </ol>
+      </figure>
     </div>
-    <figure class="automation-flow" aria-label="Schematisches Beispiel">
-      <div class="automation-media" aria-hidden="true" inert>
-        <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="assets/automation-flow/call-to-calendar.webp" width="1440" height="608">
-          <img src="assets/automation-flow/call-to-calendar.svg" alt="" width="720" height="304" fetchpriority="high">
-        </picture>
-        <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback>
-          <source src="assets/automation-flow/call-to-calendar.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)">
-        </video>
-      </div>
-      <ol class="automation-stations" aria-label="Terminvereinbarung">
-        <li>Anruf</li>
-        <li data-i18n-ignore>Agentario</li>
-        <li>Termin <time datetime="14:30" class="cine-sr" data-i18n-ignore>14:30</time></li>
-      </ol>
-    </figure>
-  </div>
-</section>
+  </section>
 
-<nav class="chapter-index" aria-label="Unsere Produkte">
-  <div class="cine-width">
-    <a href="#agentario-scene"><small>Für Unternehmen</small><strong data-i18n-ignore>Agentario</strong><i aria-hidden="true">↓</i></a>
-    <a href="#traffic-scene"><small>Verkehrsplanung</small><strong>VerkehrsAI</strong><i aria-hidden="true">↓</i></a>
-    <a href="#platz-ive"><small data-i18n-ignore>Open Source · Mac</small><strong>IVE</strong><i aria-hidden="true">↓</i></a>
-    <a href="#platz-anyuse"><small data-i18n-ignore>Open Source · Alpha</small><strong>AnyUse</strong><i aria-hidden="true">↓</i></a>
-  </div>
-</nav>
+  <nav class="chapter-index" aria-label="Unsere Produkte">
+    <div class="cine-width">
+      <a href="#agentario-scene"><small>Für Unternehmen</small><strong data-i18n-ignore>Agentario</strong><i aria-hidden="true">↓</i></a>
+      <a href="#traffic-scene"><small>Verkehrsplanung</small><strong>VerkehrsAI</strong><i aria-hidden="true">↓</i></a>
+      <a href="#platz-ive"><small data-i18n-ignore>Open Source · Mac</small><strong>IVE</strong><i aria-hidden="true">↓</i></a>
+      <a href="#platz-anyuse"><small data-i18n-ignore>Open Source · Alpha</small><strong>AnyUse</strong><i aria-hidden="true">↓</i></a>
+    </div>
+  </nav>
+</div>
 
 <section class="call-chapter cine-paper" id="produkte" aria-labelledby="agentario-title">
   <div class="cine-width" id="agentario-scene">
@@ -290,23 +292,29 @@
       <div class="ive-net-node ive-net-origin" aria-hidden="true">
         <span class="ive-net-shadow"></span>
         <span class="ive-net-flight">
-          <span class="ive-net-airframe"><img src="assets/ive-network/bomber-landed.webp" width="576" height="324" alt="" decoding="async" loading="lazy"></span>
+          <span class="ive-net-airframe">
+            <img src="assets/ive-network/bomber-landed.webp"
+                 srcset="assets/ive-network/bomber-landed.webp 320w, assets/ive-network/bomber-landed-640.webp 640w, assets/ive-network/bomber-landed-960.webp 960w"
+                 sizes="auto, (max-width: 480px) 190px, (max-width: 767px) 250px, 310px"
+                 width="320" height="180" alt="" decoding="async" loading="lazy">
+            <span class="ive-net-poses"></span>
+          </span>
         </span>
       </div>
       <div class="ive-net-node ive-net-pet ive-net-claude" data-agent="claude">
-        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/claude.png" width="24" height="19" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/claude.svg" width="24" height="19" alt="" decoding="async" loading="lazy"></span>
         <span class="ive-net-name" data-i18n-ignore>Claude Code</span>
       </div>
       <div class="ive-net-node ive-net-pet ive-net-codex" data-agent="codex">
-        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/codex.png" width="22" height="21" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/codex.svg" width="22" height="21" alt="" decoding="async" loading="lazy"></span>
         <span class="ive-net-name" data-i18n-ignore>Codex</span>
       </div>
       <div class="ive-net-node ive-net-pet ive-net-gemini" data-agent="gemini">
-        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/gemini.png" width="23" height="19" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/gemini.svg" width="23" height="19" alt="" decoding="async" loading="lazy"></span>
         <span class="ive-net-name" data-i18n-ignore>Gemini CLI</span>
       </div>
       <div class="ive-net-node ive-net-pet ive-net-opencode" data-agent="opencode">
-        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/opencode.png" width="22" height="20" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/opencode.svg" width="22" height="20" alt="" decoding="async" loading="lazy"></span>
         <span class="ive-net-name" data-i18n-ignore>OpenCode</span>
       </div>
       <div class="ive-net-node ive-net-hub">
@@ -402,6 +410,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/automation-hero.js?v=20261123-flow" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-flight" defer></script>
+<script src="assets/automation-hero.js?v=20261123-flow" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
 </body>
 </html>
