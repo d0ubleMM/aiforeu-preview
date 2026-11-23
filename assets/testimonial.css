@@ -16,6 +16,63 @@
 .aiforeu-trust img[alt="Google Developer Groups"]{max-width:170px;width:100%}
 .aiforeu-trust img[alt="ComCare 360"]{max-height:62px}
 .hp-social-proof .aiforeu-testimonial{padding-block:0}
+
+.company-page .aiforeu-trust {
+  scroll-margin-top: calc(var(--global-header-height, 73px) + 16px);
+}
+
+.company-page .aiforeu-trust ul {
+  padding: clamp(20px, 2.5vw, 36px);
+  border-radius: 14px;
+  background: #101010;
+}
+
+.company-page .aiforeu-trust li {
+  position: relative;
+  isolation: isolate;
+}
+
+.company-page .aiforeu-trust li::before {
+  content: "";
+  position: absolute;
+  inset: -12px -6px;
+  z-index: -1;
+  background: radial-gradient(ellipse, rgb(255 255 255 / 19%), transparent 70%);
+  opacity: .32;
+  pointer-events: none;
+}
+
+.company-page .aiforeu-trust img {
+  opacity: 1;
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgb(255 255 255 / 50%));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .company-page .aiforeu-trust li {
+    animation: trust-logo-light 9s ease-in-out infinite;
+    animation-delay: var(--light-delay, 0s);
+  }
+  .company-page .aiforeu-trust li::before {
+    animation: trust-logo-halo 9s ease-in-out infinite;
+    animation-delay: var(--light-delay, 0s);
+  }
+  .company-page .aiforeu-trust li:nth-child(2) { --light-delay: -7.5s; }
+  .company-page .aiforeu-trust li:nth-child(3) { --light-delay: -6s; }
+  .company-page .aiforeu-trust li:nth-child(4) { --light-delay: -4.5s; }
+  .company-page .aiforeu-trust li:nth-child(5) { --light-delay: -3s; }
+  .company-page .aiforeu-trust li:nth-child(6) { --light-delay: -1.5s; }
+}
+
+@keyframes trust-logo-light {
+  0%, 100% { opacity: 1; }
+  20%, 80% { opacity: .7; }
+}
+
+@keyframes trust-logo-halo {
+  0%, 100% { opacity: 1; }
+  20%, 80% { opacity: .12; }
+}
+
 @media(max-width:900px){.aiforeu-trust ul{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 38px}}
 @media(max-width:600px){
  .aiforeu-testimonial{padding-bottom:64px}
@@ -31,4 +88,5 @@
  .aiforeu-trust li{height:48px}
  .aiforeu-trust img{max-height:40px;max-width:145px}
  .aiforeu-trust img[alt="ComCare 360"]{max-height:48px}
+ .company-page .aiforeu-trust img{max-width:100%}
 }
