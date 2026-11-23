@@ -44,9 +44,9 @@
   position: absolute;
   inset: 0;
   object-fit: cover;
-  object-position: 54% 90%;
+  object-position: 100% 28%;
 }
-.traffic-film-card .film-hero-media video { opacity: 0; }
+.traffic-film-card .film-hero-media video { opacity: 0; transition: none; }
 .traffic-film-card .film-hero-media video[data-playing] { opacity: 1; }
 .studio-shell .traffic-film-card::after { content: none; }
 .studio-shell .traffic-film-card > :is(.film-hero-copy, .traffic-layout) {
@@ -128,7 +128,7 @@
     align-self: stretch;
     inset: auto;
   }
-  .traffic-film-card .film-hero-media :is(img, video) { object-position: 50% 90%; }
+  .traffic-film-card .film-hero-media :is(img, video) { object-position: 70% 28%; }
   .studio-shell .traffic-film-card > :is(.film-hero-copy, .traffic-layout) {
     grid-row: 2;
     width: 100%;
