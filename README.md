@@ -11,10 +11,12 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The rounded opening plays a 7.5-second miniature film. Agentario is a kiwi bird
-who answers the phone, carries a request to a desk calendar and taps the 14:30
-appointment. Portrait screens follow the bird with a separate tracking shot.
-Visitors who prefer reduced motion see the confirmed booking.
+A caller asks Agentario to reschedule an appointment. The kiwi checks a full
+14:00 slot, offers 14:30 and moves the existing booking once the caller agrees.
+The rounded opening plays separate nine-second desktop and portrait films at
+60 frames per second, with translated dialogue. A high-resolution still shows
+the outcome for visitors who prefer reduced motion. The [standalone German
+film](assets/agentario-kiwi/umbuchung-de.mp4) includes the same dialogue.
 
 The company uses black and white with original color photographs. Michael
 Ramich, Maximilian Schwarz, Jason Rickert and Felix Schmidt appear on the homepage and company

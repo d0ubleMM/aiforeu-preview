@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-verkehr"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-kiwi"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-felix">
+<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-verkehr"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-umbuchung"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-felix">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -113,20 +113,33 @@
           <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <figure class="automation-flow" aria-labelledby="kiwi-caption">
+      <figure class="automation-flow" data-duration="9" aria-labelledby="kiwi-caption">
         <div class="automation-media" aria-hidden="true" inert>
-          <picture>
-            <source media="(prefers-reduced-motion: reduce) and (orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/kiwi-mobile-still.webp" width="768" height="960">
-            <source media="(prefers-reduced-motion: reduce)" srcset="assets/agentario-kiwi/kiwi-desktop-still.webp" width="1440" height="810">
-            <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/kiwi-mobile-loop.webp" width="768" height="960">
-            <img src="assets/agentario-kiwi/kiwi-desktop-loop.webp" alt="" width="1440" height="810" fetchpriority="high">
-          </picture>
-          <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback>
-            <source media="(prefers-reduced-motion: no-preference) and (orientation: portrait) and (max-width: 1100px)" src="assets/agentario-kiwi/kiwi-mobile.mp4" type="video/mp4">
-            <source media="(prefers-reduced-motion: no-preference)" src="assets/agentario-kiwi/kiwi-desktop.mp4" type="video/mp4">
+          <div class="automation-stills">
+            <picture>
+              <source media="(prefers-reduced-motion: reduce) and (orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/umbuchung-mobile-bestaetigt.webp" width="1440" height="1800">
+              <source media="(prefers-reduced-motion: reduce)" srcset="assets/agentario-kiwi/umbuchung-desktop-bestaetigt.webp" width="2560" height="1440">
+              <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/umbuchung-mobile-anruf.webp" width="1440" height="1800">
+              <img src="assets/agentario-kiwi/umbuchung-desktop-anruf.webp" alt="" width="2560" height="1440" fetchpriority="high">
+            </picture>
+            <span class="still-calendar"></span>
+            <span class="still-agreement"></span>
+            <span class="still-booked"></span>
+          </div>
+          <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback poster="data:image/gif;base64,R0lGODlhAQABAIEAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAgEAAEEBAA7">
+            <source media="(prefers-reduced-motion: no-preference) and (orientation: portrait) and (max-width: 1100px)" src="assets/agentario-kiwi/umbuchung-mobile.mp4" type="video/mp4">
+            <source media="(prefers-reduced-motion: no-preference)" src="assets/agentario-kiwi/umbuchung-desktop.mp4" type="video/mp4">
           </video>
         </div>
-        <figcaption id="kiwi-caption">Agentario vereinbart am Telefon einen Termin für 14:30 Uhr.</figcaption>
+        <figcaption id="kiwi-caption">
+          <span class="automation-summary">Agentario verschiebt einen Termin von Mittwoch um 10:00 Uhr auf Donnerstag um 14:30 Uhr.</span>
+          <div class="automation-cues" aria-hidden="true">
+            <p data-start="0" data-shot="call"><span class="cue-speaker">Anruferin</span><span>„Kann ich meinen Termin auf Donnerstag verschieben?“</span></p>
+            <p data-start="2.4" data-shot="calendar"><span class="cue-speaker" data-i18n-ignore>Agentario</span><span>„14 Uhr ist belegt. Passt Ihnen 14:30 Uhr?“</span></p>
+            <p data-start="4.8" data-shot="agreement"><span class="cue-speaker">Anruferin</span><span>„Ja, 14:30 Uhr passt.“</span></p>
+            <p data-start="7.12" data-shot="booked"><span class="cue-speaker">Termin verschoben</span><span class="cue-result"><time datetime="10:00">Mittwoch, 10:00</time><span aria-hidden="true">→</span><time datetime="14:30">Donnerstag, 14:30</time></span></p>
+          </div>
+        </figcaption>
       </figure>
     </div>
   </section>
@@ -421,6 +434,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/page-film.js?v=20261123-kreuzung" defer></script><script src="assets/automation-hero.js?v=20261123-kiwi" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
+<script src="assets/page-film.js?v=20261123-kreuzung" defer></script><script src="assets/automation-hero.js?v=20261123-umbuchung" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
 </body>
 </html>
