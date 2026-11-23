@@ -166,3 +166,11 @@ body section.product-experience[data-product-experience] {
 }
 
 body.studio-shell.product-ui-page .film-hero h1 { font-family: "Schibsted Grotesk", var(--display); letter-spacing: -.03em; }
+
+.page-workflows .film-hero-copy { container-type: inline-size; }
+
+/* Size the title against its own column so the German compound fits in full. */
+#workflow-title {
+  font-size: min(clamp(2.625rem, 4.8vw, 4.5rem), 11.7cqi);
+  overflow-wrap: normal;
+}
