@@ -11,33 +11,14 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The near-black opening carries a compact white/silver AIFOREU sculpture in the
-background. Fourteen pieces assemble and separate with ordinary forward and
-reverse scrolling. A short sticky section keeps the headline and contact
-actions readable. Once scrolling stops, the sculpture stops rendering.
+The opening uses a continuous evening junction shot with desktop and portrait
+edits. The motion control pauses or restarts the silent film. Reduced motion
+and data-saving connections start on the matching still. The still also
+displays when JavaScript or video playback is unavailable.
 
-A shared grey stage separates the two main business areas. Agentario shows one example
-from an incoming call through work in software to the next workflow step.
-VerkehrsAI has an illustrative 3D junction with moving traffic and a drawing
-plane that lifts above the model. The area selectors and example steps can be
-selected directly. These areas use ordinary scrolling and do not switch
-automatically as the visitor scrolls.
-
-IVE and AnyUse follow as independent projects, with an IVE screenshot and an
-explicitly labelled AnyUse example. The contact section follows in the normal
-document flow, without a separate scroll runway.
-
-Reduced motion uses a static opening. A pause control stops ambient movement
-in the business examples.
-Without JavaScript, both business areas and all links remain in the document,
-and the opening uses a rendered still of the sculpture. The junction has vector
-artwork if WebGL is unavailable.
-
-- `assets/home-story.*`: full-screen opening, navigation and statement.
-- `assets/mark-sculpture.*`, `mark-sculpture-scene.js` and `mark-sculpture/`: 3D opening, scroll poses and rendered fallbacks.
-- `assets/business-scenes.*`: area layout and directly selectable example workflow.
-- `assets/business-junction.js` and `.svg`: public illustrative geometry and fallback.
-- `assets/aiforeu-room/`: original grey-room desk stills used on subpages.
+Agentario includes a recorded German delivery enquiry with a transcript and
+handoff. The VerkehrsAI chapter uses an illustrative plan. IVE links to its
+public iPhone demo, followed by AnyUse, the team and the animated contact link.
 
 ## Navigation
 
@@ -66,35 +47,16 @@ follow the selected language.
 
 ## Subpages
 
-Company and product pages share the dark header and grey room with the homepage.
-Text and artwork occupy separate layout areas; the company page puts its row of
-desks below the introduction. `assets/page-film.*` styles the opening and returns
-the header to its light version over light page content. VerkehrsAI and the
-VerkehrsOS research project share `verkehrsai.html`; the old address redirects.
+The projects and workforce pages show Voice, Desktop, Workflows and VerkehrsAI
+in four tabs. Each product page opens the relevant example directly. In the
+workflow example visitors can review an offer for six monitors and toggle
+approval. VerkehrsAI and the VerkehrsOS research project share `verkehrsai.html`.
 
-Version changed stylesheets, scripts and media in their referencing pages.
+## Media
 
-## Projects page
-
-`projekte.html` shows the three capabilities of Agentario with the original
-desk pictures, and each project has one line on how it belongs to the others.
-
-## Generated artwork
-
-The current sculpture is built directly from `assets/aiforeu-mark.svg` using the
-existing vendored Three.js distribution. The fallback WebP images are renders
-of that same model. Materials, lighting and geometry are local; no external 3D
-model or image-generation service is required. The earlier road-evolution atlas
-is no longer mounted on the homepage.
-Earlier pictures and clips were generated with Higgsfield. Their raw output and
-briefs are kept in `.higgsfield-local/`, which is not published.
-
-- `scripts/build-home-media.sh`: rebuilds every clip as a seamless loop and takes
-  each still picture from the first frame of its loop, so nothing shifts when a
-  clip starts to play. Needs ffmpeg with libx264 and Python with Pillow:
-  `FFMPEG=/path/to/ffmpeg PYTHON=/path/to/python scripts/build-home-media.sh`.
-- The homepage uses `assets/business-scenes.js`; the original desk-gallery
-  entry point and older flight entry points are not mounted.
+`assets/hero-film/` contains the finished landscape and portrait videos and
+posters. The film is a new edit of the existing AIFOREU junction illustration.
+`assets/ive/phone-permission.webp` comes from the public IVE iPhone demo.
 
 ## Source synchronization
 
@@ -105,8 +67,7 @@ matched before integration.
 
 `preview-version.json` identifies the integrated development revision. Rebuilding
 and exporting that source preserves the published pages, navigation, versioned
-assets and deferred scripts. The static workplace fallback also keeps its artwork
-inside narrow screens when motion or JavaScript is disabled.
+assets and deferred scripts. The portrait and landscape posters follow device orientation.
 
 Before another export, fetch this repository and bring any direct preview edits
 back into the development source. Compare the export before pushing. The
