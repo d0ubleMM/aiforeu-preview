@@ -2,103 +2,52 @@
 .opening-card .cine-width {
   width: min(calc(100% - 2 * max(18px, var(--cine-gutter) - var(--card-inset))), 1440px);
 }
-.opening-automation { --automation-ground: #0b0b0b; background: var(--automation-ground); }
+.opening-automation { background: #0b0b0b; }
 .opening-automation .opening-inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: clamp(465px, calc(82svh - var(--global-header-height) - 2 * var(--card-inset)), 780px);
-  padding-block: clamp(54px, 9svh, 105px);
+  justify-content: center;
+  min-height: clamp(460px, calc(82svh - var(--global-header-height) - 2 * var(--card-inset)), 780px);
+  padding-block: clamp(26px, 5svh, 62px);
+  text-align: center;
 }
-.opening-automation .opening-copy { width: min(100%, 590px); }
-.opening-automation .opening-origin { margin-bottom: clamp(16px, 2vw, 30px); }
-.opening-automation .opening-copy h1 { max-width: 12ch; font-size: clamp(44px, 5.65vw, 88px); }
-.opening-automation .opening-lead { max-width: 35ch; }
-
-.automation-flow {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  overflow: hidden;
-  margin: 0;
+.opening-vignette {
+  position: relative;
+  width: clamp(230px, 31vw, 398px);
+  max-width: 100%;
+  aspect-ratio: 960 / 336;
+  margin-bottom: clamp(14px, 2.5svh, 28px);
   pointer-events: none;
-  opacity: .26;
-  mask-image: linear-gradient(90deg, transparent 0%, #0002 22%, #000 77%);
+  opacity: .82;
+  mask-image: radial-gradient(ellipse 69% 72% at center, black 51%, transparent 94%);
 }
-.automation-media {
-  position: absolute;
-  inset: 0 0 0 13%;
-  --shot-fit: cover;
-  --shot-position: center;
-}
-.automation-stills, .automation-media picture, .automation-media img, .automation-media video {
+.opening-vignette img, .opening-vignette video {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: var(--shot-fit);
-  object-position: var(--shot-position);
 }
-.automation-flow figcaption { display: none; }
-.automation-media video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.opening-vignette video { position: absolute; inset: 0; opacity: 0; }
+.opening-vignette video[data-playing] { opacity: 1; }
+.opening-vignette video::-webkit-media-controls { display: none !important; }
+.opening-automation .opening-copy { width: min(100%, 940px); }
+.opening-automation .opening-origin {
+  justify-content: center;
+  margin-bottom: clamp(12px, 1.7vw, 23px);
 }
-.automation-media video { position: absolute; inset: 0; opacity: 0; }
-.automation-media video::-webkit-media-controls { display: none !important; }
-.automation-flow[data-mode="film"] video { opacity: 1; }
-@supports selector(video:playing) {
-  html:not(.js) .automation-media video:playing { opacity: 1; }
+.opening-automation .opening-origin::before { content: none; }
+.opening-automation .opening-copy h1 {
+  max-width: none;
+  font-size: clamp(40px, 5.5vw, 82px);
 }
-.automation-stills { position: relative; }
-.still-calendar { --shot-image: url("agentario-kiwi/umbuchung-desktop-kalender.webp"); }
-.still-agreement { --shot-image: url("agentario-kiwi/umbuchung-desktop-zusage.webp"); }
-.still-booked { --shot-image: url("agentario-kiwi/umbuchung-desktop-bestaetigt.webp"); }
-@media (prefers-reduced-motion: no-preference) {
-  :is(.automation-flow[data-mode="story"], html:not(.js) .automation-flow) .automation-stills > span {
-    position: absolute;
-    inset: 0;
-    background: var(--shot-image) var(--shot-position, center) / var(--shot-fit, contain) no-repeat;
-    opacity: 0;
-    transition: opacity .20s linear;
-  }
-  .automation-flow[data-mode="story"][data-shot="calendar"] .still-calendar,
-  .automation-flow[data-mode="story"][data-shot="agreement"] .still-agreement,
-  .automation-flow[data-mode="story"][data-shot="booked"] .still-booked { opacity: 1; }
-  html:not(.js) .still-calendar { animation: reschedule-calendar 9s linear infinite; }
-  html:not(.js) .still-agreement { animation: reschedule-agreement 9s linear infinite; }
-  html:not(.js) .still-booked { animation: reschedule-booked 9s linear infinite; }
+.opening-automation .opening-lead {
+  max-width: 46ch;
+  margin: clamp(16px, 2vw, 28px) auto 0;
 }
-@keyframes reschedule-calendar {
-  0%, 26.67% { opacity: 0; }
-  29%, 53.33% { opacity: 1; }
-  55.55%, 100% { opacity: 0; }
-}
-@keyframes reschedule-agreement {
-  0%, 53.33% { opacity: 0; }
-  55.55%, 79.11% { opacity: 1; }
-  81.33%, 100% { opacity: 0; }
-}
-@keyframes reschedule-booked {
-  0%, 79.11% { opacity: 0; }
-  81.33%, 97.78% { opacity: 1; }
-  100% { opacity: 0; }
-}
-/* Soften the poster and film at the dark edges of the card. */
-.automation-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, var(--automation-ground), transparent 26%, transparent 85%, var(--automation-ground));
-}
+.opening-automation .opening-actions { justify-content: center; }
 
-/* The film can play while the selected language is loading. */
-html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation {
-  visibility: visible;
-}
-html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation .opening-copy {
-  visibility: hidden;
-}
+html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation { visibility: visible; }
+html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation .opening-copy { visibility: hidden; }
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .cinema-home .aif-language-loading {
   inset: auto;
   width: 1px;
@@ -107,38 +56,19 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
   clip-path: inset(50%);
   pointer-events: none;
 }
-@media (orientation: portrait) and (max-width: 1100px), (max-width: 529px) {
-  .opening-automation .opening-inner {
-    align-items: flex-end;
-    min-height: clamp(430px, 63svh, 690px);
-    padding-block: 55px clamp(30px, 6svh, 56px);
-  }
-  .automation-flow {
-    opacity: .23;
-    mask-image: linear-gradient(180deg, #000 5%, #000b 44%, transparent 87%);
-  }
-  .automation-media { inset: -12% -8% 0 8%; --shot-position: center; }
-  .automation-media::after {
-    background: linear-gradient(90deg, var(--automation-ground), transparent 70%),
-                linear-gradient(0deg, var(--automation-ground), transparent 38%);
-  }
-  .opening-automation .opening-copy h1 { font-size: clamp(39px, 9.4vw, 72px); }
-  .opening-automation .opening-origin { margin-bottom: 13px; }
-  .opening-automation .opening-lead { margin-top: 15px; }
-  .opening-automation .opening-actions { margin-top: 20px; }
+@media (max-width: 700px) {
+  .opening-automation .opening-inner { min-height: clamp(420px, 62svh, 620px); padding-block: 30px; }
+  .opening-automation .opening-copy h1 { font-size: clamp(38px, 8.8vw, 54px); text-wrap: balance; }
+  .opening-automation .opening-lead { max-width: 35ch; }
+  .opening-automation .opening-actions { margin-top: 22px; }
 }
-@media (orientation: portrait) and (max-width: 1100px) {
-  .still-calendar { --shot-image: url("agentario-kiwi/umbuchung-mobile-kalender.webp"); }
-  .still-agreement { --shot-image: url("agentario-kiwi/umbuchung-mobile-zusage.webp"); }
-  .still-booked { --shot-image: url("agentario-kiwi/umbuchung-mobile-bestaetigt.webp"); }
-}
-@media (orientation: landscape) and (max-height: 520px) and (min-width: 530px) {
-  .opening-automation .opening-inner { min-height: 285px; padding-block: 24px; }
-  .opening-automation .opening-copy h1 { font-size: clamp(34px, 4.8vw, 48px); }
+@media (orientation: landscape) and (max-height: 520px) {
+  .opening-automation .opening-inner { min-height: 300px; padding-block: 18px; }
+  .opening-vignette { width: 195px; margin-bottom: 8px; }
   .opening-automation .opening-origin { margin-bottom: 8px; }
-  .opening-automation .opening-lead, .opening-automation .opening-actions { margin-top: 12px; }
+  .opening-automation .opening-copy h1 { font-size: clamp(32px, 4.4vw, 46px); }
+  .opening-automation .opening-lead, .opening-automation .opening-actions { margin-top: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .automation-media video { display: none; }
-  .automation-stills > span { display: none; }
+  .opening-vignette video { display: none; }
 }
