@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-agentario-arrival"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-weiss"><link rel="stylesheet" href="assets/film-card.css?v=20261123-stadtkreuzung">
+<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/product-experience.css?v=20261124-overview"><link rel="stylesheet" href="assets/agentario-produktbilder.css?v=1"><link rel="stylesheet" href="assets/agentario-overview.css?v=1"><link rel="stylesheet" href="assets/automation-hero.css?v=20261124-boarding-edge"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-weiss"><link rel="stylesheet" href="assets/film-card.css?v=20261123-stadtkreuzung">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-review">
 <link rel="stylesheet" href="assets/navigation.css?v=unified1">
 <script>document.documentElement.classList.add('js')</script>
@@ -94,21 +94,11 @@
       </div>
       <div class="opening-vignette">
         <picture>
-          <source media="(orientation: portrait) and (max-width: 1100px), (max-width: 529px)" srcset="assets/agentario-arrival/mobile.webp" width="1000" height="800">
-          <img src="assets/agentario-arrival/desktop.webp" width="1600" height="880" fetchpriority="high" aria-describedby="arrival-agents" alt="Fünf KI-Agenten springen vom AIFOREU-Bomber in die Agentario-Station.">
+          <source media="(orientation: portrait) and (max-width: 1100px), (max-width: 529px)" srcset="assets/agentario-arrival/flyby-mobile.webp" width="1000" height="800">
+          <img src="assets/agentario-arrival/flyby-desktop.webp" width="1600" height="880" fetchpriority="high" aria-describedby="arrival-agents" alt="Die Figuren springen in das gelandete AIFOREU-Flugzeug.">
         </picture>
-        <span id="arrival-agents" data-i18n-ignore hidden>Claude, Codex, Gemini, OpenCode, ChatGPT</span>
-        <video id="arrival-film" data-film-clip data-src="assets/agentario-arrival/desktop.mp4" data-portrait-src="assets/agentario-arrival/mobile.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback></video>
-        <button class="opening-film-toggle" type="button" data-film-toggle aria-controls="arrival-film" hidden>
-          <span data-film-action="pause">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2.5h3v11h-3zm6 0h3v11h-3z"/></svg>
-            <span class="film-control-label">Film pausieren</span>
-          </span>
-          <span data-film-action="play" hidden>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.2v11.6L13.1 8z"/></svg>
-            <span class="film-control-label">Film abspielen</span>
-          </span>
-        </button>
+        <span id="arrival-agents" data-i18n-ignore hidden>Claude, ChatGPT Work (Dewey), Codex</span>
+        <video id="arrival-film" data-film-clip data-src="assets/agentario-arrival/flyby-desktop.mp4" data-portrait-src="assets/agentario-arrival/flyby-mobile.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback></video>
       </div>
     </div>
   </section>
@@ -132,7 +122,7 @@
         <h2 id="agentario-title">Eine Plattform für Ihre KI-Agenten.</h2>
       </div>
       <div class="chapter-intro">
-        <p>Entwerfen Sie einen Ablauf mit dem KI-Modell Ihrer Wahl. In Agentario prüfen Sie die Schritte, etwa wie Rechnungsdaten in die Buchhaltung gelangen und wer unklare Beträge freigibt.</p>
+        <p>Entwerfen Sie einen Ablauf mit dem KI-Modell Ihrer Wahl.</p>
         <ul class="model-providers" aria-label="KI-Werkzeuge für den Workflow-Entwurf">
   <li data-i18n-ignore>
     <img src="assets/model-providers/claude.svg" width="24" height="24" alt="" loading="lazy">
@@ -144,13 +134,120 @@
   </li>
 </ul>
 
-        <nav class="agentario-products" aria-label="Voice, Desktop und Workflows ansehen">
-          <a class="cine-link" href="agentario/voice/" data-i18n-ignore>Voice <span aria-hidden="true">↗</span></a>
-          <a class="cine-link" href="agentario/desktop/" data-i18n-ignore>Desktop <span aria-hidden="true">↗</span></a>
-          <a class="cine-link" href="agentario/workflows/" data-i18n-ignore>Workflows <span aria-hidden="true">↗</span></a>
-        </nav>
       </div>
     </header>
+    <div class="ap-overview">
+      <article class="ap-product" aria-labelledby="ap-voice-name">
+        <div class="ap-visual ap-voice" aria-hidden="true">
+  <svg viewBox="0 0 360 180" focusable="false">
+    <defs>
+      <linearGradient id="ap-phone-shell" x2=".85" y2="1" gradientUnits="objectBoundingBox">
+        <stop stop-color="#6a6a6a"/><stop offset=".28" stop-color="#343434"/><stop offset="1" stop-color="#181818"/>
+      </linearGradient>
+    </defs>
+    <g transform="translate(33 15) rotate(-9 42 74)">
+      <rect x="3" y="3" width="82" height="147" rx="17" fill="#161616" opacity=".14"/>
+      <rect width="82" height="147" rx="17" fill="url(#ap-phone-shell)" stroke="#262626" stroke-width="1.5"/>
+      <rect x="4.2" y="4.2" width="73.6" height="138.6" rx="13" fill="#191919" stroke="#757575" stroke-width=".9"/>
+      <rect x="29" y="11" width="24" height="3" rx="1.5" fill="#6b6b6b"/>
+      <g transform="translate(41 69)">
+        <circle r="26" fill="none" stroke="#414141"/>
+        <circle r="20" fill="#323232"/>
+        <path d="M-10-10c-1.8 1.1-2.5 2.8-2 5.1C-10.5 1.3-1.3 10.7 5.4 12c2.2.5 4.4-.7 5.3-2.9l.7-2c.2-.8-.1-1.4-.8-1.8L6 3.2c-.7-.3-1.4-.2-1.9.5L2.5 5.5c-2.9-1-6.8-5-8-7.7l2-1.8c.6-.5.7-1.2.4-1.9l-2.2-4.6c-.3-.6-.9-1-1.6-.8z" fill="#fff"/>
+      </g>
+      <g fill="#828282">
+        <circle cx="26" cy="117" r="3"/><circle cx="41" cy="117" r="3"/><circle cx="56" cy="117" r="3"/>
+      </g>
+      <rect x="28" y="135" width="26" height="2" rx="1" fill="#777777"/>
+    </g>
+    <!-- This is the waveform used by the site's recorded service-team handoff. -->
+    <path d="M135 64H333" stroke="#c8c8c8"/>
+    <svg x="135" y="30" width="196" height="65" viewBox="6 0 274 64" preserveAspectRatio="none" overflow="hidden">
+      <image href="assets/agentario-call-wave.svg" width="480" height="64"/>
+    </svg>
+    <path d="M166 94v20q0 8 8 8h10" class="ap-wire-fine"/>
+    <path d="m180 119 4 3-4 3" class="ap-wire-fine"/>
+    <g transform="translate(194 106)">
+      <path d="M1 2h113v32H10l-9 7z" fill="#fff" stroke="#a3a3a3" stroke-linejoin="round"/>
+      <circle cx="19" cy="14" r="4" fill="#373737"/>
+      <path d="M11 25c0-7 15-7 15 0" fill="#373737"/>
+      <path d="M36 13h50M36 22h33" class="ap-record-lines"/>
+    </g>
+  </svg>
+</div>
+        <h3 id="ap-voice-name"><a href="agentario/voice/"><span data-i18n-ignore>Voice</span><span aria-hidden="true">↗</span></a></h3>
+        <p>Nimmt Anrufe an und gibt das Anliegen an das zuständige Team weiter.</p>
+        <a class="ap-example" href="voice/index.html#demo" data-ap-open="ap-voice" aria-labelledby="ap-voice-name ap-voice-example"><span id="ap-voice-example">Hörbeispiel</span><span aria-hidden="true">→</span></a>
+      </article>
+      <article class="ap-product" aria-labelledby="ap-desktop-name">
+        <div class="ap-visual ap-desktop" aria-hidden="true">
+  <svg viewBox="0 0 360 180" focusable="false">
+    <!-- Schematic transfer from a contact record into an active form field. -->
+    <g transform="translate(107 19)">
+      <rect x="2" y="4" width="219" height="140" rx="7" fill="#171717" opacity=".09"/>
+      <rect width="219" height="140" rx="7" fill="#fff" stroke="#9a9a9a" stroke-width="1.3"/>
+      <path d="M.7 7c0-3.5 2.8-6.3 6.3-6.3h205c3.5 0 6.3 2.8 6.3 6.3v14H.7z" fill="#dedede"/>
+      <g fill="#868686"><circle cx="11" cy="11" r="2"/><circle cx="18" cy="11" r="2"/><circle cx="25" cy="11" r="2"/></g>
+      <path d="M20 38h57" stroke="#373737" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M20 52h32M20 91h40" stroke="#acacac" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="18" y="59" width="183" height="21" rx="3" fill="#f4f4f4" stroke="#3b3b3b" stroke-width="1.5"/>
+      <path d="M28 69h64" class="ap-record-lines"/><path d="M97 63v12" stroke="#2e2e2e" stroke-width="1.6"/>
+      <rect x="18" y="98" width="120" height="17" rx="3" fill="#fff" stroke="#c9c9c9"/>
+    </g>
+    <path d="M83 119h15c12 0 17-3 25-13l13-14" stroke="#383838" stroke-width="1.6" stroke-dasharray="3 4" fill="none"/>
+    <g transform="translate(22 87) rotate(-6 45 28)">
+      <rect x="2" y="3" width="82" height="53" rx="5" fill="#161616" opacity=".14"/>
+      <rect width="82" height="53" rx="5" fill="#2a2a2a" stroke="#171717"/>
+      <circle cx="19" cy="19" r="5" fill="#f7f7f7"/>
+      <path d="M10 33c.5-9.5 17.5-9.5 18 0" fill="#f7f7f7"/>
+      <path d="M36 18h30M36 24h20" stroke="#e3e3e3" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M11 42h57" stroke="#6b6b6b" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(164 88) rotate(-8)">
+      <path d="m0 0 3 26 6-7 5 10 5-3-5-10 10-1z" fill="#292929" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+    </g>
+  </svg>
+</div>
+        <h3 id="ap-desktop-name"><a href="agentario/desktop/"><span data-i18n-ignore>Desktop</span><span aria-hidden="true">↗</span></a></h3>
+        <p>Überträgt Daten in Ihre Software und bereitet Einträge zur Prüfung vor.</p>
+        <a class="ap-example" href="automatisierungen.html" data-ap-open="ap-desktop" aria-labelledby="ap-desktop-name ap-desktop-example"><span id="ap-desktop-example">Beispiel ansehen</span><span aria-hidden="true">→</span></a>
+      </article>
+      <article class="ap-product" aria-labelledby="ap-workflows-name">
+        <div class="ap-visual ap-workflows" aria-hidden="true">
+  <svg viewBox="0 0 360 180" focusable="false">
+    <defs>
+      <pattern id="ap-canvas-dots" width="13" height="13" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r=".85" fill="#c3c3c3"/>
+      </pattern>
+    </defs>
+    <rect x="14" y="11" width="332" height="158" fill="url(#ap-canvas-dots)"/>
+    <path d="M76 90h43m59 0h13q10 0 16-10l14-23q4-8 15-8h13" class="ap-wire"/>
+    <path d="M192 90q9 0 15 10l14 24q4 8 15 8h13" stroke="#999999" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 4" fill="none"/>
+    <g transform="translate(35 65)">
+      <path d="M4 6h28l9 9v31H4z" fill="#d9d9d9" stroke="#989898"/>
+      <path d="M0 1h28l9 9v32H0z" fill="#fff" stroke="#464646" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M28 1v10h9" fill="none" stroke="#7a7a7a"/>
+      <path d="M8 19h19M8 25h13M8 31h17" class="ap-record-lines"/>
+    </g>
+    <!-- Two outcomes leave the same decision in the workflow canvas. -->
+    <path d="m150 59 29 31-29 31-29-31z" fill="#fff" stroke="#343434" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M142 95v-3a5 5 0 0 1 5-5h9m-5-5 5 5-5 5" class="ap-wire"/>
+    <circle cx="277" cy="49" r="27" fill="#262626"/>
+    <path d="m264 49 9 9 18-19" fill="none" stroke="#fff" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="277" cy="132" r="18" fill="#fff" stroke="#a1a1a1" stroke-width="1.5"/>
+    <path d="M277 122v10l6 4" fill="none" stroke="#737373" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="192" cy="90" r="3" fill="#343434"/>
+  </svg>
+</div>
+        <h3 id="ap-workflows-name"><a href="agentario/workflows/"><span data-i18n-ignore>Workflows</span><span aria-hidden="true">↗</span></a></h3>
+        <p>Verbindet Arbeitsschritte und holt die Freigabe Ihres Teams ein.</p>
+        <a class="ap-example" href="workflow-beispiele.html#workflow-beispiel" data-ap-open="ap-workflows" aria-labelledby="ap-workflows-name ap-workflows-example"><span id="ap-workflows-example">Beispiel ansehen</span><span aria-hidden="true">→</span></a>
+      </article>
+    </div>
+    <p class="team-reference"><a href="unternehmen.html#erfahrung">Bei transformIT europe sind unsere Agenten bereits im Einsatz. <span aria-hidden="true">↗</span></a></p>
+  </div>
+  <dialog class="ap-dialog" id="ap-voice" aria-labelledby="ap-title-voice">
+    <header class="ap-dialog-bar"><span data-i18n-ignore id="ap-title-voice">Agentario Voice</span><form method="dialog"><button type="submit" aria-label="Schließen">×</button></form></header>
     <div class="ac-demo" data-call-demo>
   <div class="ac-player">
     <div class="ac-brand"><img src="agentario/agentario-mark.svg" alt="" width="28" height="20"><span data-i18n-ignore>Agentario Voice</span><span class="ac-demo-label">Hörbeispiel</span></div>
@@ -202,8 +299,42 @@
   </div>
 </div>
 
-    <p class="team-reference"><a href="unternehmen.html#erfahrung">Bei transformIT europe sind unsere Agenten bereits im Einsatz. <span aria-hidden="true">↗</span></a></p>
-  </div>
+  </dialog>
+  <dialog class="ap-dialog" id="ap-desktop" aria-labelledby="ap-title-desktop">
+    <header class="ap-dialog-bar"><span data-i18n-ignore id="ap-title-desktop">Agentario Desktop</span><form method="dialog"><button type="submit" aria-label="Schließen">×</button></form></header>
+    <section class="product-experience experience-focused" data-product-experience data-lu-worte="aus"><article class="experience-panel" data-experience-panel="desktop">
+    <!-- demo:desktop -->
+    <p class="xp-caption">Schematisches Beispiel</p>
+    <h2>Eine Anfrage in die Kundenliste übernehmen</h2>
+    <p class="xp-source">„Hier ist der Musterbetrieb. Bitte rufen Sie uns zurück.“</p>
+    <dl class="xp-record">
+      <div><dt>Unternehmen</dt><dd>Musterbetrieb</dd></div>
+      <div><dt>Nächste Aufgabe</dt><dd>Rückruf</dd></div>
+    </dl>
+    <p class="xp-outcome">Agentario bereitet den Eintrag in der bestehenden Software zur Prüfung vor.</p>
+    <!-- /demo:desktop -->
+    <a class="experience-link" href="agentario/desktop/">Agentario Desktop ansehen <span aria-hidden="true">↗</span></a>
+  </article></section>
+  </dialog>
+  <dialog class="ap-dialog" id="ap-workflows" aria-labelledby="ap-title-workflows">
+    <header class="ap-dialog-bar"><span data-i18n-ignore id="ap-title-workflows">Agentario Workflows</span><form method="dialog"><button type="submit" aria-label="Schließen">×</button></form></header>
+    <section class="product-experience experience-focused" data-product-experience data-lu-worte="aus"><article class="experience-panel" data-experience-panel="workflows">
+    <!-- demo:workflows -->
+    <p class="xp-caption">Schematisches Beispiel</p>
+    <h2>Ein Angebot für den Einkauf</h2>
+    <dl class="xp-record xp-workflow-record">
+      <div><dt>Anfrage per E-Mail</dt><dd class="xp-quote">„Bitte schicken Sie unserem Einkauf ein Angebot über sechs Monitore zu je 180 € netto.“</dd></div>
+      <div><dt>Angebotsentwurf</dt><dd class="xp-draft"><span>6 Monitore × 180 €</span><strong>1.080 € netto</strong><span class="xp-recipient">Empfänger: Einkauf</span></dd></div>
+      <div><dt>Freigabe durch Ihr Team</dt><dd>
+        <p class="xp-review">Menge, Preis und Empfänger prüfen.</p>
+        <button class="xp-approve" type="button" data-workflow-approve aria-pressed="false" hidden><span class="xp-check" aria-hidden="true">✓</span>Versand freigeben</button>
+        <p class="xp-status" role="status" aria-atomic="true"><span data-workflow-pending>Entwurf wartet auf Freigabe.</span><span data-workflow-approved hidden>Im Beispiel zum Versand freigegeben.</span></p>
+      </dd></div>
+    </dl>
+    <!-- /demo:workflows -->
+    <a class="experience-link" href="agentario/workflows/">Agentario Workflows ansehen <span aria-hidden="true">↗</span></a>
+  </article></section>
+  </dialog>
 </section>
 
 <section class="traffic-chapter film-card traffic-film-card" id="traffic-scene" aria-labelledby="traffic-title">
@@ -414,6 +545,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="/aiforeu-preview/impressum.html">Impressum</a><a href="/aiforeu-preview/datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=unified1"></script>
-<script src="assets/page-film.js?v=20261123-agentario-arrival" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
+<script src="assets/page-film.js?v=20261124-boarding" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/agentario-overview.js?v=1" defer></script><script src="assets/product-experience.js?v=20261123-clear" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
 </body>
 </html>

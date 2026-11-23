@@ -34,25 +34,12 @@
 
   for (const clip of clips) {
     const container = clip.parentElement;
-    const button = container.querySelector('[data-film-toggle]');
-    const pauseAction = button?.querySelector('[data-film-action="pause"]');
-    const playAction = button?.querySelector('[data-film-action="play"]');
     const portrait = matchMedia(container.querySelector('picture source[media]')?.media
       || '(orientation: portrait) and (max-width: 1100px)');
-    let pausedByUser = false;
-    let needsGesture = false;
     let failedSource = '';
-
-    function controls(playing) {
-      if (!button) return;
-      button.hidden = false;
-      pauseAction.hidden = !playing;
-      playAction.hidden = playing;
-    }
 
     function update() {
       if (reduced.matches || connection?.saveData) {
-        if (button) button.hidden = true;
         clip.pause();
         clip.removeAttribute('data-playing');
         if (clip.hasAttribute('src')) { clip.removeAttribute('src'); clip.load(); }
@@ -63,46 +50,26 @@
       if (clip.getAttribute('src') !== src) {
         clip.removeAttribute('data-playing');
         failedSource = '';
-        needsGesture = false;
-        clip.preload = pausedByUser ? 'none' : 'auto';
+        clip.preload = 'auto';
         clip.src = src;
       }
-      if (failedSource === src) return;
-      if (pausedByUser || needsGesture) { controls(false); return; }
-      if (!clip.paused) return;
+      if (failedSource === src || !clip.paused) return;
       clip.play().catch(error => {
         if (error.name === 'AbortError' || clip.getAttribute('src') !== src) return;
         clip.removeAttribute('data-playing');
-        if (error.name === 'NotAllowedError' && button) {
-          needsGesture = true;
-          controls(false);
-        }
       });
     }
 
-    button?.addEventListener('click', () => {
-      if (!playAction.hidden) {
-        pausedByUser = false;
-        needsGesture = false;
-        update();
-      } else {
-        pausedByUser = true;
-        clip.pause();
-        controls(false);
-      }
-    });
     clip.addEventListener('playing', () => {
-      if (reduced.matches || connection?.saveData || pausedByUser || document.hidden || !visible.has(clip)) {
+      if (reduced.matches || connection?.saveData || document.hidden || !visible.has(clip)) {
         clip.pause();
         return;
       }
       clip.setAttribute('data-playing', '');
-      controls(true);
     });
     clip.addEventListener('error', () => {
       failedSource = clip.getAttribute('src');
       clip.removeAttribute('data-playing');
-      if (button) button.hidden = true;
     });
     portrait.addEventListener('change', update);
     updates.set(clip, update);

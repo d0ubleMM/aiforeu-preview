@@ -1,0 +1,22 @@
+.ap-visual {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: #f1f1f1;
+  color: #343434;
+}
+.ap-visual > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ap-visual .ap-wire,
+.ap-visual .ap-wire-fine,
+.ap-visual .ap-record-lines {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ap-visual .ap-wire { stroke: #343434; stroke-width: 1.8; }
+.ap-visual .ap-wire-fine { stroke: #959595; stroke-width: 1.4; }
+.ap-visual .ap-record-lines { stroke: #777777; stroke-width: 2.1; }
