@@ -75,6 +75,7 @@
 .business-path .bp-role-details details > div > p { color: var(--bp-muted); font-size: 16px; line-height: 1.7; }
 .business-path .bp-role-details .bp-role-sequence { margin-block: 20px 13px; color: var(--muted); font-size: 12px; }
 .business-path .bp-supporting { border-top: 1px solid var(--bp-line); margin-top: 72px; padding-top: 26px; }
+.business-path .workforce-related { margin-bottom: clamp(48px, 6vw, 80px); }
 .business-path .bp-supporting h3 { font-size: 20px; letter-spacing: -.025em; }
 .business-path .bp-supporting > p { color: var(--bp-muted); font-size: 14px; line-height: 1.65; margin-top: 10px; }
 .business-path .bp-supporting > div { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 23px; }

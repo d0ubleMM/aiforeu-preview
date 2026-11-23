@@ -1,16 +1,17 @@
-/* VerkehrsAI: graphite and silver across the map, research and contact sections. */
-.page-traffic{--traffic-deep:var(--night);--traffic-light-text:var(--on-dark)}
-.page-traffic .traffic-research-section{background:var(--night);border-top:1px solid #ffffff12}
-.page-traffic .traffic-research-copy p,.page-traffic .traffic-research-partners p{color:var(--muted-on-dark)}
-.page-traffic .traffic-research-partners p{border-color:var(--line-dark)}
+/* Daylight extends from the junction into the research and planning sections. */
+.page-traffic{--traffic-deep:#234b35;--traffic-light-text:#fff}
+.page-traffic .traffic-research-section{background:#fff;color:#142c20}
+.page-traffic .traffic-research-copy p,.page-traffic .traffic-research-partners p{color:#394b40}
+.page-traffic .traffic-research-partners p{border-color:#c9d5cc}
+.page-traffic .traffic-research-aiforeu img{filter:none}
 .page-traffic .traffic-plan-section{background:var(--paper)}
-.page-traffic .traffic-contact-panel>div:first-child>p:not(.eyebrow),.page-traffic .traffic-pilot-notes>p{color:var(--muted-on-dark)}
-.page-traffic .traffic-pilot-notes,.page-traffic .traffic-pilot-notes>div{border-color:var(--line-dark)}
-.page-traffic .traffic-pilot-notes>div>span,.page-traffic .traffic-pilot-notes .traffic-small-label{color:var(--muted-on-dark)}
-.page-traffic .traffic-contact-panel .button:hover{background:var(--line);border-color:var(--line)}
+.page-traffic .traffic-contact-panel>div:first-child>p:not(.eyebrow),.page-traffic .traffic-pilot-notes>p{color:#e4eee3}
+.page-traffic .traffic-pilot-notes,.page-traffic .traffic-pilot-notes>div{border-color:#63826d}
+.page-traffic .traffic-pilot-notes>div>span,.page-traffic .traffic-pilot-notes .traffic-small-label{color:#d0e0d1}
+.page-traffic .traffic-contact-panel .button:hover{background:#e8f1df;border-color:#e8f1df}
 .page-traffic .traffic-mockup{color:#303030}
 .page-traffic .tm-window{border-color:#dbdbdb;box-shadow:0 28px 60px -45px #17171733}
-.page-traffic .tm-appbar{background:#f9f9f9;border-color:#e0e0e0}
+.page-traffic .tm-appbar{background:#eff5ec;border-color:#d6e1d4}
 .page-traffic :is(.tm-example,.tm-heading>span,.tm-inventory dt,.tm-detail>p),.page-traffic .traffic-mockup figcaption{color:#696969}
 .page-traffic :is(.tm-result,.tm-detail){border-color:#e0e0e0}
 .page-traffic :is(.tm-inventory>div,.tm-streets li){border-color:#eaeaea}

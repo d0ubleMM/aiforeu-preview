@@ -1,0 +1,146 @@
+/* The homepage opening and the two traffic films share one outer frame. */
+.film-card {
+  --card-inset: clamp(10px, 2vw, 36px);
+  margin: var(--card-inset);
+  border-radius: clamp(20px, 2.5vw, 42px);
+  overflow: clip;
+}
+.studio-shell .film-card.traffic-film-card {
+  --traffic-paper: #e8f1df;
+  --traffic-ink: #142c20;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+  align-items: end;
+  min-height: clamp(520px, 71svh, 800px);
+  padding: 0;
+  gap: 0;
+  border: 0;
+  background: var(--traffic-paper);
+  color: var(--traffic-ink);
+}
+.studio-shell .traffic-film-card > .film-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  transform: none;
+  mask-image: none;
+  mix-blend-mode: normal;
+  animation: none;
+  pointer-events: none;
+}
+.traffic-film-card .film-hero-media :is(picture, img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.traffic-film-card .film-hero-media :is(img, video) {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: 54% 90%;
+}
+.traffic-film-card .film-hero-media video { opacity: 0; }
+.traffic-film-card .film-hero-media video[data-playing] { opacity: 1; }
+.studio-shell .traffic-film-card::after { content: none; }
+.studio-shell .traffic-film-card > :is(.film-hero-copy, .traffic-layout) {
+  position: relative;
+  width: min(41%, 610px);
+  margin: 0;
+  padding: clamp(26px, 3vw, 52px) clamp(30px, 3.45vw, 62px);
+  border-start-end-radius: clamp(14px, 1.5vw, 28px);
+  background: var(--traffic-paper);
+  color: var(--traffic-ink);
+}
+.studio-shell .film-card.traffic-film-card :is(h1, h2) {
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  color: var(--traffic-ink);
+  font: 550 clamp(38px, 3.5vw, 60px)/1.04 "Schibsted Grotesk", var(--display);
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+.studio-shell .traffic-film-card :is(.film-hero-back, .chapter-name) {
+  display: block;
+  min-height: 0;
+  margin: 0 0 16px;
+  color: #315641;
+  font-size: 14px;
+  font-weight: 550;
+}
+.traffic-film-card .chapter-name a { color: inherit; text-decoration: none; }
+.traffic-film-card .chapter-name a:hover { text-decoration: underline; }
+.studio-shell .traffic-film-card .film-hero-lead,
+.traffic-film-card .traffic-copy > p:not(.chapter-name, .research-credit) {
+  max-width: 42ch;
+  margin: 17px 0 0;
+  color: #2f4537;
+  font-size: clamp(16px, 1.12vw, 19px);
+  line-height: 1.48;
+}
+.studio-shell .traffic-film-card .film-hero-actions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px;
+  margin: 22px 0 0;
+}
+.studio-shell .traffic-film-card .film-hero-button {
+  min-height: 44px;
+  padding: 11px 18px;
+  border: 0;
+  color: white;
+  background: #214e36;
+}
+.studio-shell .traffic-film-card .film-hero-button:hover { color: white; background: #163c28; }
+.studio-shell .traffic-film-card :is(.film-hero-link, .cine-link) {
+  min-height: 44px;
+  color: #1b4630;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: .27em;
+  text-decoration-color: #60846c;
+}
+.studio-shell .traffic-film-card :is(.film-hero-link, .cine-link):hover { text-decoration-color: currentColor; }
+.studio-shell .traffic-film-card :focus-visible { outline: 2px solid #214e36; outline-offset: 4px; }
+.studio-shell .traffic-film-card :is(.film-hero-meta, .research-credit) {
+  max-width: none;
+  margin: 14px 0 0;
+  padding: 0;
+  color: #46604e;
+  font-size: 13px;
+}
+.studio-shell .traffic-chapter .cine-link { margin-top: 14px; }
+
+@media (orientation: portrait) and (max-width: 1100px), (max-width: 720px) {
+  .studio-shell .film-card.traffic-film-card {
+    grid-template-rows: minmax(230px, clamp(260px, 43svh, 550px)) auto;
+    align-items: stretch;
+    min-height: 0;
+  }
+  .studio-shell .traffic-film-card > .film-hero-media {
+    grid-row: 1;
+    position: relative;
+    align-self: stretch;
+    inset: auto;
+  }
+  .traffic-film-card .film-hero-media :is(img, video) { object-position: 50% 90%; }
+  .studio-shell .traffic-film-card > :is(.film-hero-copy, .traffic-layout) {
+    grid-row: 2;
+    width: 100%;
+    padding: clamp(24px, 4.8vw, 42px);
+    border-radius: 0;
+  }
+  .studio-shell .film-card.traffic-film-card :is(h1, h2) { font-size: clamp(37px, 7.6vw, 60px); }
+  .studio-shell .traffic-film-card :is(.film-hero-back, .chapter-name) { margin-bottom: 12px; }
+}
+@media (orientation: landscape) and (min-width: 721px) and (max-width: 1040px) {
+  .studio-shell .traffic-film-card > :is(.film-hero-copy, .traffic-layout) { width: min(49%, 420px); padding: 25px; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .studio-shell .film-card.traffic-film-card { min-height: 350px; }
+}

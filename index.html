@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-verkehr"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-umbuchung"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-felix">
+<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-felix"><link rel="stylesheet" href="assets/film-card.css?v=20261123-tageslicht">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-review">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -101,7 +101,7 @@
  </div>
 </dialog>
 <main id="inhalt" tabindex="-1">
-<div class="opening-card">
+<div class="opening-card film-card">
   <section class="opening-film opening-automation" aria-labelledby="landing-title">
     <div class="opening-inner cine-width">
       <div class="opening-copy">
@@ -163,7 +163,18 @@
         <h2 id="agentario-title">Eine Plattform für Ihre KI-Agenten.</h2>
       </div>
       <div class="chapter-intro">
-        <p>Mit Agentario verbinden Sie mehrere Arbeitsschritte in Ihrer Software. Ein Agent kann zum Beispiel Rechnungsdaten auslesen, in Ihr Buchhaltungssystem eintragen und unklare Fälle Ihrem Team zur Prüfung vorlegen.</p>
+        <p>Entwerfen Sie einen Ablauf mit dem KI-Modell Ihrer Wahl. In Agentario prüfen Sie die Schritte, etwa wie Rechnungsdaten in die Buchhaltung gelangen und wer unklare Beträge freigibt.</p>
+        <ul class="model-providers" aria-label="KI-Werkzeuge für den Workflow-Entwurf">
+  <li data-i18n-ignore>
+    <img src="assets/model-providers/claude.svg" width="24" height="24" alt="" loading="lazy">
+    <span>Claude<small>Anthropic</small></span>
+  </li>
+  <li data-i18n-ignore>
+    <img class="model-openai" src="assets/model-providers/openai.svg" width="34" height="34" alt="" loading="lazy">
+    <span>ChatGPT<small>OpenAI</small></span>
+  </li>
+</ul>
+
         <nav class="agentario-products" aria-label="Voice, Desktop und Workflows ansehen">
           <a class="cine-link" href="agentario/voice/" data-i18n-ignore>Voice <span aria-hidden="true">↗</span></a>
           <a class="cine-link" href="agentario/desktop/" data-i18n-ignore>Desktop <span aria-hidden="true">↗</span></a>
@@ -226,13 +237,13 @@
   </div>
 </section>
 
-<section class="traffic-chapter" id="traffic-scene" aria-labelledby="traffic-title">
+<section class="traffic-chapter film-card traffic-film-card" id="traffic-scene" aria-labelledby="traffic-title">
   <div class="film-hero-media" aria-hidden="true" inert>
   <picture>
-   <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/hero-film/hero-mobile-v2.webp" width="720" height="1280">
-   <img src="assets/hero-film/hero-desktop-v2.webp" alt="" width="1920" height="1080" loading="lazy">
+   <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/traffic-film/junction-day-mobile.webp" width="1080" height="900">
+   <img src="assets/traffic-film/junction-day-desktop.webp" alt="" width="2368" height="900" loading="lazy">
   </picture>
-  <video data-film-clip data-src="assets/hero-film/hero-desktop-v2.mp4" data-portrait-src="assets/hero-film/hero-mobile-v2.mp4" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture disableremoteplayback></video>
+  <video data-film-clip data-src="assets/traffic-film/junction-day-desktop.mp4" data-portrait-src="assets/traffic-film/junction-day-mobile.mp4" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture disableremoteplayback></video>
  </div>
 
   <div class="cine-width traffic-layout">
@@ -396,7 +407,7 @@
     </div>
   </article>
   <article class="team-person" id="jason-rickert" aria-labelledby="jason-name">
-    <div class="team-photo"><img src="assets/people/jason-rickert-400.webp?v=studio" srcset="assets/people/jason-rickert-96.webp?v=studio 96w, assets/people/jason-rickert-192.webp?v=studio 192w, assets/people/jason-rickert-400.webp?v=studio 400w, assets/people/jason-rickert-800.webp?v=studio 800w" sizes="auto, (max-width: 650px) 32vw, (max-width: 940px) 42vw, (min-width: 1580px) 330px, 21vw" alt="" width="800" height="800" loading="lazy" decoding="async"></div>
+    <div class="team-photo"><img src="assets/people/jason-rickert-400.webp?v=395b0f7b" srcset="assets/people/jason-rickert-96.webp?v=395b0f7b 96w, assets/people/jason-rickert-192.webp?v=395b0f7b 192w, assets/people/jason-rickert-400.webp?v=395b0f7b 400w, assets/people/jason-rickert-800.webp?v=395b0f7b 800w" sizes="auto, (max-width: 650px) 32vw, (max-width: 940px) 42vw, (min-width: 1580px) 330px, 21vw" alt="" width="800" height="800" loading="lazy" decoding="async"></div>
     <div class="team-person-copy">
       <h3 id="jason-name" data-i18n-ignore>Jason Rickert</h3>
       <p class="team-role">AI Engineer</p>

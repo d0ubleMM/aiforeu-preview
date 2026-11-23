@@ -1,10 +1,4 @@
-.opening-card {
-  --card-inset: clamp(10px, 2vw, 36px);
-  margin: var(--card-inset);
-  border-radius: clamp(20px, 2.5vw, 42px);
-  overflow: clip;
-  background: var(--night);
-}
+.opening-card { background: var(--night); }
 .opening-card .cine-width {
   width: min(calc(100% - 2 * max(18px, var(--cine-gutter) - var(--card-inset))), 1440px);
 }

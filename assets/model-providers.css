@@ -1,0 +1,29 @@
+.model-providers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+.model-providers li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink, #101010);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+.model-providers img { display: block; flex: none; }
+.model-providers .model-openai { margin-inline: -5px; }
+.model-providers small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted, #525252);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+}
