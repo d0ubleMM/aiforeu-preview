@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-felix"><link rel="stylesheet" href="assets/film-card.css?v=20261123-tageslicht">
+<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-hintergrund"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-felix"><link rel="stylesheet" href="assets/film-card.css?v=20261123-tageslicht">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-review">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -103,6 +103,34 @@
 <main id="inhalt" tabindex="-1">
 <div class="opening-card film-card">
   <section class="opening-film opening-automation" aria-labelledby="landing-title">
+    <figure class="automation-flow" data-duration="9" aria-hidden="true" inert>
+      <div class="automation-media">
+        <div class="automation-stills">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce) and (orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/umbuchung-mobile-bestaetigt.webp" width="1440" height="1800">
+            <source media="(prefers-reduced-motion: reduce)" srcset="assets/agentario-kiwi/umbuchung-desktop-bestaetigt.webp" width="2560" height="1440">
+            <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/umbuchung-mobile-anruf.webp" width="1440" height="1800">
+            <img src="assets/agentario-kiwi/umbuchung-desktop-anruf.webp" alt="" width="2560" height="1440" fetchpriority="high">
+          </picture>
+          <span class="still-calendar"></span>
+          <span class="still-agreement"></span>
+          <span class="still-booked"></span>
+        </div>
+        <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback poster="data:image/gif;base64,R0lGODlhAQABAIEAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAgEAAEEBAA7">
+          <source media="(prefers-reduced-motion: no-preference) and (orientation: portrait) and (max-width: 1100px)" src="assets/agentario-kiwi/umbuchung-mobile.mp4" type="video/mp4">
+          <source media="(prefers-reduced-motion: no-preference)" src="assets/agentario-kiwi/umbuchung-desktop.mp4" type="video/mp4">
+        </video>
+      </div>
+      <figcaption id="kiwi-caption">
+        <span class="automation-summary">Agentario verschiebt einen Termin von Mittwoch um 10:00 Uhr auf Donnerstag um 14:30 Uhr.</span>
+        <div class="automation-cues" aria-hidden="true">
+          <p data-start="0" data-shot="call"><span class="cue-speaker">Anruferin</span><span>„Kann ich meinen Termin auf Donnerstag verschieben?“</span></p>
+          <p data-start="2.4" data-shot="calendar"><span class="cue-speaker" data-i18n-ignore>Agentario</span><span>„14 Uhr ist belegt. Passt Ihnen 14:30 Uhr?“</span></p>
+          <p data-start="4.8" data-shot="agreement"><span class="cue-speaker">Anruferin</span><span>„Ja, 14:30 Uhr passt.“</span></p>
+          <p data-start="7.12" data-shot="booked"><span class="cue-speaker">Termin verschoben</span><span class="cue-result"><time datetime="10:00">Mittwoch, 10:00</time><span aria-hidden="true">→</span><time datetime="14:30">Donnerstag, 14:30</time></span></p>
+        </div>
+      </figcaption>
+    </figure>
     <div class="opening-inner cine-width">
       <div class="opening-copy">
         <p class="opening-origin">Osnabrück &amp; Berlin</p>
@@ -113,34 +141,6 @@
           <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <figure class="automation-flow" data-duration="9" aria-labelledby="kiwi-caption">
-        <div class="automation-media" aria-hidden="true" inert>
-          <div class="automation-stills">
-            <picture>
-              <source media="(prefers-reduced-motion: reduce) and (orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/umbuchung-mobile-bestaetigt.webp" width="1440" height="1800">
-              <source media="(prefers-reduced-motion: reduce)" srcset="assets/agentario-kiwi/umbuchung-desktop-bestaetigt.webp" width="2560" height="1440">
-              <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/agentario-kiwi/umbuchung-mobile-anruf.webp" width="1440" height="1800">
-              <img src="assets/agentario-kiwi/umbuchung-desktop-anruf.webp" alt="" width="2560" height="1440" fetchpriority="high">
-            </picture>
-            <span class="still-calendar"></span>
-            <span class="still-agreement"></span>
-            <span class="still-booked"></span>
-          </div>
-          <video autoplay muted playsinline loop preload="auto" tabindex="-1" disablepictureinpicture disableremoteplayback poster="data:image/gif;base64,R0lGODlhAQABAIEAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAgEAAEEBAA7">
-            <source media="(prefers-reduced-motion: no-preference) and (orientation: portrait) and (max-width: 1100px)" src="assets/agentario-kiwi/umbuchung-mobile.mp4" type="video/mp4">
-            <source media="(prefers-reduced-motion: no-preference)" src="assets/agentario-kiwi/umbuchung-desktop.mp4" type="video/mp4">
-          </video>
-        </div>
-        <figcaption id="kiwi-caption">
-          <span class="automation-summary">Agentario verschiebt einen Termin von Mittwoch um 10:00 Uhr auf Donnerstag um 14:30 Uhr.</span>
-          <div class="automation-cues" aria-hidden="true">
-            <p data-start="0" data-shot="call"><span class="cue-speaker">Anruferin</span><span>„Kann ich meinen Termin auf Donnerstag verschieben?“</span></p>
-            <p data-start="2.4" data-shot="calendar"><span class="cue-speaker" data-i18n-ignore>Agentario</span><span>„14 Uhr ist belegt. Passt Ihnen 14:30 Uhr?“</span></p>
-            <p data-start="4.8" data-shot="agreement"><span class="cue-speaker">Anruferin</span><span>„Ja, 14:30 Uhr passt.“</span></p>
-            <p data-start="7.12" data-shot="booked"><span class="cue-speaker">Termin verschoben</span><span class="cue-result"><time datetime="10:00">Mittwoch, 10:00</time><span aria-hidden="true">→</span><time datetime="14:30">Donnerstag, 14:30</time></span></p>
-          </div>
-        </figcaption>
-      </figure>
     </div>
   </section>
 

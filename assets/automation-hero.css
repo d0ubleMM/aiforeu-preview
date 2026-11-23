@@ -4,25 +4,41 @@
 }
 .opening-automation { --automation-ground: #0b0b0b; background: var(--automation-ground); }
 .opening-automation .opening-inner {
-  display: grid;
-  grid-template-columns: minmax(0, .87fr) minmax(0, 1.35fr);
+  display: flex;
   align-items: center;
-  gap: clamp(12px, 1.8vw, 32px);
   min-height: clamp(465px, calc(82svh - var(--global-header-height) - 2 * var(--card-inset)), 780px);
   padding-block: clamp(54px, 9svh, 105px);
 }
-.opening-automation .opening-copy { width: 100%; }
+.opening-automation .opening-copy { width: min(100%, 590px); }
 .opening-automation .opening-origin { margin-bottom: clamp(16px, 2vw, 30px); }
 .opening-automation .opening-copy h1 { max-width: 12ch; font-size: clamp(44px, 5.65vw, 88px); }
 .opening-automation .opening-lead { max-width: 35ch; }
 
-.automation-flow { min-width: 0; margin: 0; align-self: center; }
-.automation-media {
-  position: relative;
-  aspect-ratio: 16 / 9;
+.automation-flow {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  margin: 0;
   pointer-events: none;
+  opacity: .26;
+  mask-image: linear-gradient(90deg, transparent 0%, #0002 22%, #000 77%);
+}
+.automation-media {
+  position: absolute;
+  inset: 0 0 0 13%;
+  --shot-fit: cover;
+  --shot-position: center;
 }
 .automation-stills, .automation-media picture, .automation-media img, .automation-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--shot-fit);
+  object-position: var(--shot-position);
+}
+.automation-flow figcaption { display: none; }
+.automation-media video {
   display: block;
   width: 100%;
   height: 100%;
@@ -68,58 +84,19 @@
   81.33%, 97.78% { opacity: 1; }
   100% { opacity: 0; }
 }
+/* Soften the poster and film at the dark edges of the card. */
 .automation-media::after {
   content: "";
   position: absolute;
-  inset: -1px;
-  background:
-    linear-gradient(90deg, var(--automation-ground), transparent 2.5%, transparent 97.5%, var(--automation-ground)),
-    linear-gradient(0deg, var(--automation-ground), transparent var(--film-bottom-fade, 3%)),
-    linear-gradient(180deg, var(--automation-ground), transparent var(--film-top-fade, 3%));
+  inset: 0;
+  background: linear-gradient(0deg, var(--automation-ground), transparent 26%, transparent 85%, var(--automation-ground));
 }
-.automation-flow figcaption {
-  margin: 0 clamp(0px, 1.6vw, 26px);
-  padding-block-start: clamp(10px, 1.15vw, 18px);
-  border-top: 1px solid #ffffff26;
-  color: #f5f5f5;
-  font: 500 clamp(16px, 1.28vw, 20px)/1.35 var(--cine-sans);
-  text-align: start;
-}
-.automation-summary { display: block; text-wrap: pretty; }
-.automation-cues { display: none; }
-@media (prefers-reduced-motion: no-preference) {
-  .automation-flow:is([data-mode="pending"], [data-mode="film"], [data-mode="story"]) .automation-summary {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-  .automation-flow:is([data-mode="pending"], [data-mode="film"], [data-mode="story"]) .automation-cues { display: grid; }
-}
-.automation-cues p {
-  grid-area: 1 / 1;
-  display: grid;
-  grid-template-columns: minmax(82px, .34fr) minmax(0, 1fr);
-  align-content: start;
-  gap: 4px 14px;
-  visibility: hidden;
-  margin: 0;
-  text-wrap: pretty;
-}
-.automation-cues p[data-current] { visibility: inherit; }
-.cue-speaker { color: #bdbdbd; font: 500 clamp(12px, .93vw, 15px)/1.5 var(--cine-sans); }
-.cue-result { display: flex; flex-wrap: wrap; align-items: baseline; gap: .08em .4em; font-variant-numeric: tabular-nums; }
-.cue-result time:first-child { color: #bdbdbd; }
-.cue-result time:last-child { font-weight: 620; }
 
 /* The film can play while the selected language is loading. */
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation {
   visibility: visible;
 }
-html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation :is(.opening-copy, figcaption) {
+html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation .opening-copy {
   visibility: hidden;
 }
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .cinema-home .aif-language-loading {
@@ -132,47 +109,28 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
 }
 @media (orientation: portrait) and (max-width: 1100px), (max-width: 529px) {
   .opening-automation .opening-inner {
-    grid-template-columns: minmax(0, 1fr);
-    align-content: center;
-    gap: clamp(16px, 2.7svh, 36px);
-    min-height: clamp(460px, calc(81svh - var(--global-header-height) - 2 * var(--card-inset)), 820px);
-    padding-block: clamp(14px, 2.7svh, 36px) clamp(28px, 4.5svh, 52px);
+    align-items: flex-end;
+    min-height: clamp(430px, 63svh, 690px);
+    padding-block: 55px clamp(30px, 6svh, 56px);
   }
-  .opening-automation .automation-flow { grid-row: 1; width: min(calc(100% + 12px), clamp(246px, 41svh, 465px)); justify-self: center; }
-  .opening-automation .opening-copy { max-width: 610px; }
+  .automation-flow {
+    opacity: .23;
+    mask-image: linear-gradient(180deg, #000 5%, #000b 44%, transparent 87%);
+  }
+  .automation-media { inset: -12% -8% 0 8%; --shot-position: center; }
+  .automation-media::after {
+    background: linear-gradient(90deg, var(--automation-ground), transparent 70%),
+                linear-gradient(0deg, var(--automation-ground), transparent 38%);
+  }
   .opening-automation .opening-copy h1 { font-size: clamp(39px, 9.4vw, 72px); }
   .opening-automation .opening-origin { margin-bottom: 13px; }
   .opening-automation .opening-lead { margin-top: 15px; }
   .opening-automation .opening-actions { margin-top: 20px; }
 }
 @media (orientation: portrait) and (max-width: 1100px) {
-  .automation-media { aspect-ratio: 4 / 5; }
   .still-calendar { --shot-image: url("agentario-kiwi/umbuchung-mobile-kalender.webp"); }
   .still-agreement { --shot-image: url("agentario-kiwi/umbuchung-mobile-zusage.webp"); }
   .still-booked { --shot-image: url("agentario-kiwi/umbuchung-mobile-bestaetigt.webp"); }
-  .automation-flow figcaption { margin-inline: 6px; }
-  .automation-cues p { grid-template-columns: minmax(0, 1fr); }
-}
-@media (orientation: portrait) and (max-width: 600px) {
-  .opening-automation .automation-flow { width: calc(100% + 12px); }
-  .automation-media {
-    --shot-fit: cover;
-    --shot-position: center 54%;
-    --film-top-fade: 13%;
-    --film-bottom-fade: 15%;
-    aspect-ratio: 1.15;
-    overflow: hidden;
-  }
-  .automation-media :is(img, video) { object-fit: cover; object-position: center 54%; }
-}
-@media (orientation: portrait) and (max-width: 400px) and (max-height: 700px) {
-  .opening-automation .opening-inner { gap: 9px; padding-block: 10px 24px; }
-  .automation-media { aspect-ratio: 1.32; }
-  .automation-flow figcaption { font-size: 15px; padding-block-start: 8px; }
-  .opening-automation .opening-origin { margin-bottom: 6px; }
-  .opening-automation .opening-copy h1 { font-size: clamp(35px, 9.4vw, 39px); }
-  .opening-automation .opening-lead { margin-top: 8px; }
-  .opening-automation .opening-actions { margin-top: 11px; }
 }
 @media (orientation: landscape) and (max-height: 520px) and (min-width: 530px) {
   .opening-automation .opening-inner { min-height: 285px; padding-block: 24px; }
