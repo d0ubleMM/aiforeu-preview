@@ -1,3 +1,4 @@
+#workflow-beispiel { scroll-margin-top: calc(var(--global-header-height, 73px) + 12px); }
 /* One shared interface for capabilities: typography, native UI and useful examples. */
 .product-ui-page{--room:#0d0f11;--room-soft:#b9bdc0;--room-quiet:#93999e}
 .product-ui-page .film-hero{background:#0d0f11;min-height:0;padding-block:64px 72px;gap:40px}
