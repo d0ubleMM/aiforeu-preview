@@ -11,14 +11,17 @@ its redirect folder (`main:/docs`), and must not receive mirrored website export
 
 ## Homepage
 
-The opening uses a continuous evening junction shot with desktop and portrait
-edits. The motion control pauses or restarts the silent film. Reduced motion
-and data-saving connections start on the matching still. The still also
-displays when JavaScript or video playback is unavailable.
+The opening shows a real Codex terminal run finding duplicate invoices in an
+example database. The desktop and mobile cuts each have a matching poster.
+The motion control can start or pause the recording. Reduced motion and
+data-saving connections start with the poster.
 
-Agentario includes a recorded German delivery enquiry with a transcript and
-handoff. The VerkehrsAI chapter uses an illustrative plan. IVE links to its
-public iPhone demo, followed by AnyUse, the team and the animated contact link.
+The company uses black and white with original color photographs. Michael
+Ramich and Maximilian Schwarz introduce themselves on the homepage and company
+page. The contact page links to their profiles above the project form.
+Agentario includes a playable delivery enquiry and the signed customer reference.
+VerkehrsAI has its own research section. IVE shows its agent companions, followed
+by AnyUse and the contact link.
 
 ## Navigation
 
@@ -54,9 +57,10 @@ approval. VerkehrsAI and the VerkehrsOS research project share `verkehrsai.html`
 
 ## Media
 
-`assets/hero-film/` contains the finished landscape and portrait videos and
-posters. The film is a new edit of the existing AIFOREU junction illustration.
-`assets/ive/phone-permission.webp` comes from the public IVE iPhone demo.
+`assets/hero-film/` contains the edited screen recording and matching stills.
+The headshots in `assets/people/` are local copies of the two team members’
+LinkedIn profile pictures. The site only contacts LinkedIn when a visitor
+chooses a profile link.
 
 ## Source synchronization
 

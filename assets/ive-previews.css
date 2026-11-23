@@ -1,10 +1,10 @@
 /* Render UI text at native CSS pixels, with no bitmap enlargement or composited scaling. */
 .dev-workspace{scroll-margin-top:calc(var(--global-header-height,73px) + 16px)}
 [data-ive-preview]{position:relative;isolation:isolate}
-.ive-preview-frame{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none;background:#f7f8fa}
+.ive-preview-frame{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none;background:#f8f8f8}
 .ive-preview-ready>.ive-preview-frame{opacity:1}
 .ive-preview-ready>picture,.ive-preview-ready>img{visibility:hidden}
-.ive-preview-toggle{display:block;margin:10px 22px 0 auto;min-height:36px;padding:7px 12px;border:1px solid #43506b;border-radius:4px;background:transparent;color:inherit;font:500 12px/1.4 var(--body)}
+.ive-preview-toggle{display:block;margin:10px 22px 0 auto;min-height:36px;padding:7px 12px;border:1px solid #4f4f4f;border-radius:4px;background:transparent;color:inherit;font:500 12px/1.4 var(--body)}
 .ive-preview-toggle:hover{background:#ffffff12}
 .dev-screen-image picture{display:block;width:100%;height:100%}
 .dev-screen-image[data-ive-preview]{aspect-ratio:1.65}

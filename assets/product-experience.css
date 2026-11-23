@@ -1,7 +1,7 @@
 #workflow-beispiel { scroll-margin-top: calc(var(--global-header-height, 73px) + 12px); }
 /* One shared interface for capabilities: typography, native UI and useful examples. */
-.product-ui-page{--room:#0d0f11;--room-soft:#b9bdc0;--room-quiet:#93999e}
-.product-ui-page .film-hero{background:#0d0f11;min-height:0;padding-block:64px 72px;gap:40px}
+.product-ui-page{--room:var(--night);--room-soft:var(--muted-on-dark);--room-quiet:var(--muted-on-dark)}
+.product-ui-page .film-hero{background:var(--night);min-height:0;padding-block:64px 72px;gap:40px}
 .product-ui-page .film-hero::after{display:none}
 .product-ui-page .film-hero h1{hyphens:none;overflow-wrap:anywhere;text-wrap:balance}
 .product-ui-page .film-hero--row{gap:44px;padding-top:56px}
@@ -11,7 +11,7 @@
 .product-ui-page .film-hero--row .film-hero-media,.product-ui-page .film-hero-media{position:relative;align-self:center;z-index:2;aspect-ratio:auto;width:100%;max-width:none;margin:0;mask-image:none;-webkit-mask-image:none;overflow:visible;animation:none}
 .product-ui-page .film-hero--row .film-hero-media{order:2}
 .product-ui-page .film-hero:not(.film-hero--row){grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr)}
-.product-ui-page .experience-product-shot{border:1px solid #ffffff20;background:#1a1d20;padding:12px;border-radius:12px;box-shadow:0 25px 80px #0003}
+.product-ui-page .experience-product-shot{border:1px solid #ffffff20;background:var(--graphite);padding:12px;border-radius:12px;box-shadow:0 25px 80px #0003}
 .product-ui-page .experience-product-shot img{display:block;position:static;width:100%;height:auto;object-fit:contain;border-radius:5px;opacity:1;filter:none}
 
 .product-ui-page .projects-platform-area { min-width: 0; display: block; }
@@ -27,13 +27,12 @@
   .product-ui-page .film-hero--row .film-hero-media { width: 100%; margin: 0; aspect-ratio: auto; }
 }
 
-/* A single readable document below a separate product switcher. */
+/* Each detail page shows the example for that subject. */
 body section.product-experience[data-product-experience] {
-  --xp-ink: #252923;
-  --xp-secondary: #545a52;
-  --xp-rule: #d7dad3;
-  --xp-paper: #f8f9f5;
-  --xp-green: #33583e;
+  --xp-ink: var(--ink);
+  --xp-secondary: var(--muted);
+  --xp-rule: var(--line);
+  --xp-paper: var(--surface);
   --xp-inset: clamp(18px, 4%, 52px);
   container-type: inline-size;
   position: relative;
@@ -49,41 +48,13 @@ body section.product-experience[data-product-experience] {
 }
 .product-experience *, .product-experience *::before { box-sizing: border-box; }
 .product-experience [hidden] { display: none !important; }
-.product-experience[data-product-experience] .experience-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 clamp(12px, 3%, 32px);
-  padding-inline: var(--xp-inset);
-  background: #f0f2ed;
-  border-bottom: 1px solid var(--xp-rule);
-  justify-content: flex-start;
-}
-.product-experience .experience-tabs a {
-  display: inline-grid;
-  align-items: center;
-  min-height: 48px;
-  padding: 8px 0 6px;
-  border-bottom: 2px solid transparent;
-  color: var(--xp-secondary);
-  font-size: 15px;
-  font-weight: 550;
-  text-decoration: none;
-}
-.product-experience .experience-tabs a:hover { color: var(--xp-ink); }
-.product-experience[data-product-experience] .experience-tabs a[aria-selected="true"],
-.product-experience[data-initial-view="voice"]:not([data-ready]) a[data-experience-select="voice"] {
-  color: var(--xp-ink);
-  border-bottom-color: currentColor;
-}
-.product-experience.experience-focused .experience-tabs,
-.product-experience.experience-focused .experience-link { display: none; }
 .product-experience .experience-panel { min-width: 0; padding: clamp(20px, 3.6%, 42px) var(--xp-inset); }
 .product-experience .experience-panel h2 {
   max-width: 34ch;
   margin: 6px 0 clamp(16px, 2.5%, 26px);
   color: var(--xp-ink);
-  font: 500 clamp(24px, 4.5cqw, 40px)/1.12 var(--display,system-ui);
-  letter-spacing: -.045em;
+  font: 550 clamp(23px, 3.1cqw, 32px)/1.2 "Schibsted Grotesk", var(--display,system-ui);
+  letter-spacing: -.015em;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
@@ -133,17 +104,17 @@ body section.product-experience[data-product-experience] {
   min-height: 44px;
   margin-top: 10px;
   padding: 6px 15px;
-  border: 1px solid var(--xp-green);
+  border: 1px solid var(--xp-ink);
   border-radius: 3px;
   background: #fff;
-  color: var(--xp-green);
+  color: var(--xp-ink);
   font: inherit;
   font-size: 14px;
   font-weight: 600;
   text-align: start;
   cursor: pointer;
 }
-.product-experience .xp-approve[aria-pressed="true"] { background: var(--xp-green); color: white; }
+.product-experience .xp-approve[aria-pressed="true"] { background: var(--xp-ink); color: white; }
 .product-experience .xp-approve:hover { box-shadow: inset 0 0 0 1px currentColor; }
 .product-experience .xp-check {
   display: inline-grid;
@@ -152,13 +123,13 @@ body section.product-experience[data-product-experience] {
   border: 1px solid currentColor;
   border-radius: 2px;
   color: transparent;
-  border-color: var(--xp-green);
+  border-color: var(--xp-ink);
   font-size: 12px;
   line-height: 1;
 }
 .product-experience .xp-approve[aria-pressed="true"] .xp-check { color: white; border-color: currentColor; }
 .product-experience .xp-status { margin: 8px 0 0; color: var(--xp-secondary); font-size: 14px; }
-.product-experience [data-workflow-approved] { color: var(--xp-green); }
+.product-experience [data-workflow-approved] { color: var(--xp-ink); }
 .product-experience .experience-link {
   display: inline-flex;
   gap: 8px;
@@ -174,25 +145,24 @@ body section.product-experience[data-product-experience] {
 }
 .product-experience .experience-link span { font-size: 16px; }
 .product-experience :is(a, button):focus-visible,
-.product-experience .experience-panel:focus-visible { outline: 2px solid #2b6345; outline-offset: 3px; }
+.product-experience .experience-panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .product-experience .experience-panel:focus-visible { outline-offset: -3px; }
 .product-experience .xp-plan {
-  --map-ground: #e7eae4; --map-grid: #adb5ac; --map-building: #d2d9cf; --map-building-edge: #afb7ab;
-  --map-road-edge: #b3bbae; --map-road: #fbfcf8; --map-marking: #8b9587; --map-crossing: #a2ada0;
-  --map-route-base: #fff; --map-route: #36644f; --map-vehicle: #788779;
+  --map-ground: #e9e9e9; --map-grid: #b3b3b3; --map-building: #d7d7d7; --map-building-edge: #b4b4b4;
+  --map-road-edge: #b8b8b8; --map-road: #fbfbfb; --map-marking: #929292; --map-crossing: #aaaaaa;
+  --map-route-base: #fff; --map-route: #595959; --map-vehicle: #838383;
   margin: 0; padding: 0;
 }
 .product-experience .experience-map {
   display: block;
   width: 100%;
-  max-height: 250px;
+  height: auto;
+  aspect-ratio: 720 / 380;
   background: var(--map-ground);
 }
 .product-experience .xp-plan figcaption { margin-top: 8px; color: var(--xp-secondary); font-size: 14px; }
 @container (max-width: 530px) {
   .product-experience .xp-record > div { grid-template-columns: minmax(0,1fr); gap: 4px; padding-block: 12px; }
 }
-@container (max-width: 390px) {
-  .product-experience[data-product-experience] .experience-tabs { column-gap: 6px; justify-content: space-between; padding-inline: 10px; }
-  .product-experience .experience-tabs a { font-size: 13px; }
-}
+
+body.studio-shell.product-ui-page .film-hero h1 { font-family: "Schibsted Grotesk", var(--display); letter-spacing: -.03em; }

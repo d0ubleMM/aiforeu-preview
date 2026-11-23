@@ -3,7 +3,7 @@ import * as THREE from './agentario-scene/vendor/three.module.min.js';
 import { createPile, randomSource, sweepPile, beginDrag, moveDrag, endDrag, stepPile, settlePile } from './postits-physics.js';
 
 const INSTANCES = new WeakMap();
-const COLORS = ['#f6df72', '#f5e7a0', '#efb171', '#c3d8e5'];
+const COLORS = ['#dddddd', '#eeeeee', '#c8c8c8', '#d5d5d5'];
 const WORDS = ['Rückruf 14:30', 'Angebot prüfen', 'Termin bestätigen', 'Rechnung zuordnen', 'Mail beantworten', 'Freigabe einholen', 'Ticket ergänzen', 'Daten übertragen', 'Lieferung nachfragen', 'Beleg ablegen', 'Kontakt aktualisieren', 'Heute: nachfassen'];
 
 function paperTexture(color, text) {
@@ -17,10 +17,10 @@ function paperTexture(color, text) {
   }
   c.putImageData(grain, 0, 0);
   const glue = c.createLinearGradient(0, 0, 0, 100);
-  glue.addColorStop(0, '#806d2510'); glue.addColorStop(1, '#806d2500');
+  glue.addColorStop(0, '#00000010'); glue.addColorStop(1, '#00000000');
   c.fillStyle = glue; c.fillRect(0, 0, 512, 100);
   c.translate(59, 150); c.rotate((random() - .5) * .07);
-  c.font = '600 84px AiforeuNotes, cursive'; c.fillStyle = '#273747';
+  c.font = '600 84px AiforeuNotes, cursive'; c.fillStyle = '#272727';
   c.textBaseline = 'alphabetic';
   const label = window.AiforeuLanguage?.t(WORDS[text], 'de') || WORDS[text];
   const lines = []; let line = '';
@@ -31,7 +31,7 @@ function paperTexture(color, text) {
   if (line) lines.push(line);
   const spacing = Math.min(96, 280 / Math.max(1, lines.length - 1));
   lines.forEach((line, i) => c.fillText(line, i ? 7 : 0, i * spacing, 390));
-  c.lineWidth = 3; c.strokeStyle = '#273747'; c.lineCap = 'round';
+  c.lineWidth = 3; c.strokeStyle = '#272727'; c.lineCap = 'round';
   if (text % 3 === 0) {
     c.beginPath(); c.moveTo(8, 119); c.quadraticCurveTo(87, 126, 205 + random() * 70, 119); c.stroke();
   } else if (text % 4 === 0) {
@@ -75,18 +75,18 @@ async function start(host) {
   let pile = createPile({ compact }), sheets = [];
   const materials = new Map(), textures = new Set();
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'default' });
-  renderer.setClearColor('#f5f7fa', 0); renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.setClearColor('#ffffff', 0); renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
   const canvas = renderer.domElement; canvas.setAttribute('aria-hidden', 'true'); surface.append(canvas);
   const scene = new THREE.Scene(), camera = new THREE.OrthographicCamera(-7, 7, 3, -3, .1, 70);
   camera.position.set(0, 9.5, 10.5); camera.lookAt(0, .3, 0);
-  scene.add(new THREE.HemisphereLight('#ffffff', '#b3ad94', 2.15));
-  const key = new THREE.DirectionalLight('#fffaf1', 3.1); key.position.set(-4.5, 10, 4); key.castShadow = true;
+  scene.add(new THREE.HemisphereLight('#ffffff', '#aaaaaa', 2.15));
+  const key = new THREE.DirectionalLight('#ffffff', 3.1); key.position.set(-4.5, 10, 4); key.castShadow = true;
   key.shadow.mapSize.set(compact ? 1024 : 2048, compact ? 1024 : 2048);
   Object.assign(key.shadow.camera, { left: -9, right: 9, top: 8, bottom: -8, near: .1, far: 28 });
   key.shadow.bias = -.0003; key.shadow.normalBias = .025; key.shadow.radius = 6; key.shadow.blurSamples = 12; scene.add(key);
-  const fill = new THREE.DirectionalLight('#dce7ff', .4); fill.position.set(5, 4, -4); scene.add(fill);
+  const fill = new THREE.DirectionalLight('#ffffff', .4); fill.position.set(5, 4, -4); scene.add(fill);
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: .2 }));
   ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; ground.position.y = -.015; scene.add(ground);
 

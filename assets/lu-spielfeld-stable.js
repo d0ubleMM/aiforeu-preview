@@ -9,7 +9,7 @@
     if (api || pending || leftPage) return;
     pending = true;
     try {
-      const { mount } = await import(new URL('./lu-spielfeld-szene.js?v=20261118-languages', source).href);
+      const { mount } = await import(new URL('./lu-spielfeld-szene.js?v=20261123-mono', source).href);
       const instance = await mount(host);
       if (leftPage) instance.destroy(); else api = instance;
     } catch { host.classList.remove('lu-spielfeld--bereit'); host.classList.add('lu-spielfeld--fallback'); }

@@ -17,7 +17,7 @@
 .page-traffic .traffic-research-copy p {
   max-width: 58ch;
   margin-top: 24px;
-  color: #c2cbd8;
+  color: #cacaca;
   font-size: 17px;
   line-height: 1.7;
 }
@@ -50,11 +50,11 @@
   height: auto;
 }
 .page-traffic .traffic-research-partners p {
-  border-top: 1px solid #35445a;
+  border-top: 1px solid #424242;
   padding-top: 24px;
   font-size: 15px;
   line-height: 1.6;
-  color: #c2cbd8;
+  color: #cacaca;
 }
 @media (max-width: 760px) {
   .traffic-research-layout { grid-template-columns: minmax(0, 1fr); }

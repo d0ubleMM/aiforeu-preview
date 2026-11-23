@@ -15,7 +15,7 @@ lu-pf>:nth-child(2){transform:translate(-110%,var(--lu-pf-y,110%))}
 lu-pf[data-richtung="quer"]{--lu-pf-y:0%}
 lu-pf[data-richtung="runter"]>:nth-child(2){transform:translateY(-110%)}
 .lu-k:hover lu-pf[data-richtung="runter"]>:nth-child(1){transform:translateY(110%)}
-lu-fuell{position:absolute;z-index:-1;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--lu-fuell,#c2410c);transform:scale(0);transition:transform .55s cubic-bezier(.65,0,.25,1);pointer-events:none}
+lu-fuell{position:absolute;z-index:-1;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .55s cubic-bezier(.65,0,.25,1);pointer-events:none}
 .lu-k:hover lu-fuell{transform:scale(var(--lu-fuell-s,40))}
-.lu-k.lu-k--hell:hover{color:#fff!important}
+.lu-k.lu-k--hell:hover{color:var(--on-dark)!important}
 @media(prefers-reduced-motion:reduce){.lu-k,.lu-k *{transition:none!important}.lu-k .lu-k-roll,.lu-k:hover .lu-k-roll,.lu-k:focus-visible .lu-k-roll{transform:none}.lu-k:hover lu-pf>:nth-child(1){transform:none}.lu-k lu-pf>:nth-child(2),.lu-k .lu-k-roll::after{display:none}.lu-k:hover lu-fuell{transform:none}.lu-k.lu-k--hell:hover{color:inherit!important}}

@@ -2,16 +2,16 @@
    A dark stage carries the page's heading; beside it stands a filmed scene (a white desk in darkness, blended into the
    stage with lighten, as on the homepage) or, in the wide form, a film fills the stage. Below it the page goes on as before.
    assets/page-film.js plays the clip while it is on screen and hands the header back to its light bar after the stage. */
-.film-page{--room:#0c0e11;--room-soft:#b8bec6;--room-quiet:#8b929c;--room-line:rgba(255,255,255,.16)}
+.film-page{--room:var(--night);--room-soft:var(--muted-on-dark);--room-quiet:var(--muted-on-dark);--room-line:rgba(255,255,255,.16)}
 
 /* The header belongs to the stage until the stage has passed. */
-.film-page .global-header:not([data-solid]){--global-nav-ink:#f5f7fa;--global-nav-paper:#0c0e11;background:#0c0e11;border-bottom-color:rgba(255,255,255,.07);color:#f5f7fa}
-.film-page .global-header:not([data-solid]) .global-brand img{filter:brightness(0) invert(1)}
-.film-page .global-header:not([data-solid]) .global-navigation>a,.film-page .global-header:not([data-solid]) .global-offers>summary{color:#cbd4e1}
-.film-page .global-header:not([data-solid]) .global-navigation>a:hover,.film-page .global-header:not([data-solid]) .global-offers>summary:hover,.film-page .global-header:not([data-solid]) .global-offers[open]>summary,.film-page .global-header:not([data-solid]) .global-offers[data-current]>summary{color:#fff}
-.film-page .global-header:not([data-solid]) .global-contact{background:#f5f7fa;color:#141c28}
-.film-page .global-header:not([data-solid]) .global-contact:hover{background:#dce4ef}
-.film-page .global-header:not([data-solid]) :focus-visible{outline-color:#f5f7fa}
+.film-page:not(.studio-shell) .global-header:not([data-solid]){--global-nav-ink:var(--on-dark);--global-nav-paper:var(--night);background:var(--night);border-bottom-color:rgba(255,255,255,.07);color:var(--on-dark)}
+.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-brand img{filter:brightness(0) invert(1)}
+.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-navigation>a,.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-offers>summary{color:var(--muted-on-dark)}
+.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-navigation>a:hover,.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-offers>summary:hover,.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-offers[open]>summary,.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-offers[data-current]>summary{color:#fff}
+.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-contact{background:var(--on-dark);color:var(--ink)}
+.film-page:not(.studio-shell) .global-header:not([data-solid]) .global-contact:hover{background:var(--line)}
+.film-page:not(.studio-shell) .global-header:not([data-solid]) :focus-visible{outline-color:var(--on-dark)}
 .film-page .global-header{transition:background .3s ease,border-color .3s ease}
 
 .film-hero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:min(84vh,800px);min-height:min(84svh,800px);padding:clamp(40px,7vh,80px) max(var(--gutter),calc((100% - var(--content-width))/2 + var(--gutter)));background:var(--room);color:#fff;overflow:hidden;overflow:clip}
@@ -21,10 +21,10 @@
 .film-hero h1{width:max-content;max-width:min(56vw,700px);margin:0;font:500 clamp(36px,4.6vw,70px)/1.02 var(--display);letter-spacing:-.055em;color:#fff}
 .film-hero-lead{max-width:40ch;margin:clamp(18px,3vh,30px) 0 0;font:400 clamp(16px,1.3vw,19px)/1.55 var(--body);color:var(--room-soft)}
 .film-hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px;margin-top:clamp(22px,3.6vh,36px)}
-.film-hero-button{display:inline-flex;justify-content:space-between;align-items:center;gap:32px;min-height:50px;padding:13px 22px;border-radius:999px;background:#f8f9fa;color:#141b28;text-decoration:none;font:550 14px/1.3 var(--body);transition:background .18s}
-.film-hero-button:hover{background:#dce4ef;color:#141b28}
+.film-hero-button{display:inline-flex;justify-content:space-between;align-items:center;gap:32px;min-height:50px;padding:13px 22px;border-radius:999px;background:var(--on-dark);color:#1a1a1a;text-decoration:none;font:550 14px/1.3 var(--body);transition:background .18s}
+.film-hero-button:hover{background:var(--line);color:#1a1a1a}
 .film-hero-button span,.film-hero-link span{font-size:18px;line-height:1}
-.film-hero-link{display:inline-flex;align-items:center;gap:14px;min-height:44px;border-bottom:1px solid rgba(255,255,255,.3);color:#f8f9fa;text-decoration:none;font:450 14px/1.4 var(--body)}
+.film-hero-link{display:inline-flex;align-items:center;gap:14px;min-height:44px;border-bottom:1px solid rgba(255,255,255,.3);color:var(--on-dark);text-decoration:none;font:450 14px/1.4 var(--body)}
 .film-hero-link:hover{border-bottom-color:#fff}
 .film-hero-meta{max-width:44ch;margin:clamp(16px,2.6vh,26px) 0 0;font:400 13px/1.55 var(--body);color:var(--room-quiet)}
 .film-hero :focus-visible{outline:2px solid #fff;outline-offset:5px}
@@ -37,9 +37,9 @@
 
 /* The wide form: the film fills the stage, the words stand at its foot. */
 .film-hero--wide{align-items:flex-end;min-height:min(90vh,880px);min-height:min(90svh,880px);padding-bottom:clamp(36px,7vh,76px)}
-.film-hero--wide .film-hero-media{inset:0;top:0;right:0;width:auto;aspect-ratio:auto;transform:none;mix-blend-mode:normal;-webkit-mask-image:none;mask-image:none;background:#080c15}
+.film-hero--wide .film-hero-media{inset:0;top:0;right:0;width:auto;aspect-ratio:auto;transform:none;mix-blend-mode:normal;-webkit-mask-image:none;mask-image:none;background:#0c0c0c}
 .film-hero--wide .film-hero-media :is(img,video){object-position:var(--film-at,60% 40%)}
-.film-hero--wide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(rgba(12,14,17,.35) 0%,rgba(12,14,17,0) 20%,rgba(12,14,17,0) 42%,rgba(12,14,17,.62) 76%,rgba(12,14,17,.9) 100%)}
+.film-hero--wide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(rgba(14,14,14,.35) 0%,rgba(14,14,14,0) 20%,rgba(14,14,14,0) 42%,rgba(14,14,14,.62) 76%,rgba(14,14,14,.9) 100%)}
 .film-hero--wide .film-hero-copy{width:min(100%,720px)}
 /* A whole row of desks: a wider scene, still blended into the stage, with the words beside its dark side. */
 .film-hero--row .film-hero-media{right:-3vw;width:min(88vw,150vh,1500px);width:min(88vw,150svh,1500px);aspect-ratio:16/9}
@@ -66,7 +66,7 @@
  .film-hero-lead{max-width:none}
  .film-hero--wide{min-height:min(88vh,760px);min-height:min(88svh,760px);padding-bottom:36px}
  .film-hero--wide .film-hero-media{position:absolute;inset:0 0 38%;align-self:stretch;width:auto;margin:0}
- .film-hero--wide::after{background:linear-gradient(rgba(12,14,17,.3) 0%,rgba(12,14,17,0) 16%,rgba(12,14,17,0) 34%,var(--room) 62%)}
+ .film-hero--wide::after{background:linear-gradient(rgba(14,14,14,.3) 0%,rgba(14,14,14,0) 16%,rgba(14,14,14,0) 34%,var(--room) 62%)}
  .film-hero--row .film-hero-media{right:auto;width:132%;margin:0 0 8px;align-self:flex-start;margin-left:-44%}
  .film-hero h1{width:auto;max-width:none}
 }
@@ -86,12 +86,12 @@
 .film-page .dev-any-hero-grid{grid-template-columns:minmax(0,1fr)}
 .film-page .dev-any-hero-grid>figure{width:min(100%,760px);margin-inline:auto}
 /* The traffic page's own veil was made for a daylight picture; the night picture needs less of it. */
-.bp-road::before{background:linear-gradient(90deg,rgba(11,20,27,.82) 0%,rgba(11,20,27,.6) 34%,rgba(11,20,27,.18) 72%,rgba(11,20,27,0) 100%),linear-gradient(0deg,rgba(11,20,27,.6) 0%,rgba(11,20,27,0) 28%)}
+.bp-road::before{background:linear-gradient(90deg,rgba(19,19,19,.82) 0%,rgba(19,19,19,.6) 34%,rgba(19,19,19,.18) 72%,rgba(19,19,19,0) 100%),linear-gradient(0deg,rgba(19,19,19,.6) 0%,rgba(19,19,19,0) 28%)}
 
 /* Grey office scenes have their own space beside or below the text. */
-.gray-room-page{--room:#303238;--room-soft:#d1d3d7;--room-quiet:#b3b7bf}
+.gray-room-page{--room:#323232;--room-soft:#d3d3d3;--room-quiet:#b7b7b7}
 .gray-room-page .film-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,4vw,64px);min-height:560px;padding-block:64px}
-.gray-room-page .film-hero::after{content:'';position:absolute;z-index:1;inset:0 0 auto;height:clamp(180px,22vw,320px);background:linear-gradient(#0c0e11,rgba(12,14,17,0));pointer-events:none}
+.gray-room-page .film-hero::after{content:'';position:absolute;z-index:1;inset:0 0 auto;height:clamp(180px,22vw,320px);background:linear-gradient(#0e0e0e,rgba(14,14,14,0));pointer-events:none}
 .gray-room-page .film-hero-copy{grid-area:1 / 1;width:100%;max-width:580px}
 .gray-room-page .film-hero h1{width:auto;max-width:100%;font-size:clamp(38px,4.2vw,64px);line-height:1.08;letter-spacing:-.045em}
 .gray-room-page .film-hero-media{position:relative;z-index:0;grid-area:1 / 2;top:auto;right:auto;width:100%;aspect-ratio:4/3;transform:none;mix-blend-mode:normal;margin:0}

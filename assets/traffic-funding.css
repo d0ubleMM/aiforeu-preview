@@ -38,5 +38,5 @@
 }
 @media print {
   .path-traffic .traffic-funding,
-  .page-traffic .traffic-funding { color: #172031; }
+  .page-traffic .traffic-funding { color: #1f1f1f; }
 }

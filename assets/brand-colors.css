@@ -1,0 +1,28 @@
+/* Company UI. Photographs and product captures keep their original colors. */
+:root {
+  --paper: #fff;
+  --surface: #fff;
+  --wash: #f3f3f3;
+  --ink: #101010;
+  --muted: #525252;
+  --line: #d8d8d8;
+  --line-strong: #767676;
+
+  --night: #080808;
+  --graphite: #191919;
+  --graphite-raised: #303030;
+  --line-dark: #474747;
+  --on-dark: #fff;
+  --muted-on-dark: #bdbdbd;
+
+  --accent: var(--ink);
+  --sky: var(--wash);
+  --mint: var(--wash);
+  accent-color: var(--ink);
+}
+
+::selection { background: var(--ink); color: var(--on-dark); }
+:is(.opening-film, .ac-player, .traffic-chapter, .story-dawn, .site-footer) ::selection {
+  background: var(--on-dark);
+  color: var(--ink);
+}

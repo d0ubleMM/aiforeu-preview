@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#F5F7FA">
+<meta name="theme-color" content="#ffffff">
 <title>Automatisierungen – Wiederholte Arbeit vereinfachen · AIFOREU</title>
 <meta name="description" content="Daten übertragen, Unterlagen ablegen, Listen abgleichen: AIFOREU entwickelt Automatisierungen für wiederkehrende Aufgaben. Entdecken Sie konkrete Beispiele und Potenziale mit AnyUse.">
 <meta property="og:type" content="website">
@@ -20,10 +20,11 @@
 <link rel="icon" type="image/svg+xml" href="assets/aiforeu-mark.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/site.css?v=20261118-neutral-footer">
-<link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/page-film.css?v=20261117-coherent"><link rel="stylesheet" href="assets/offers.css"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css"><link rel="stylesheet" href="assets/lu-details.css"><link rel="stylesheet" href="assets/product-experience.css?v=20261123-clear">
-<link rel="stylesheet" href="assets/studio-shell.css?v=20261123">
+<link rel="stylesheet" href="assets/site.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/page-film.css?v=20261123-mono"><link rel="stylesheet" href="assets/offers.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-details.css?v=20261123-mono"><link rel="stylesheet" href="assets/product-experience.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
 <link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
@@ -94,28 +95,7 @@
 <main id="inhalt" tabindex="-1">
 
 <section class="film-hero" aria-labelledby="automation-title" data-film-hero>
- <div class="film-hero-media"><section class="product-experience experience-focused" data-product-experience data-lu-worte="aus" data-initial-view="workflows">
-  <nav class="experience-tabs" aria-label="Produktbeispiel auswählen">
-    <a href="agentario/voice/" data-experience-select="voice" data-i18n-ignore>Voice</a>
-    <a href="agentario/desktop/" data-experience-select="desktop" data-i18n-ignore>Desktop</a>
-    <a href="agentario/workflows/" data-experience-select="workflows" data-i18n-ignore>Workflows</a>
-    <a href="verkehrsai.html" data-experience-select="traffic" data-i18n-ignore>VerkehrsAI</a>
-  </nav>
-
-  <article class="experience-panel" data-experience-panel="voice" hidden>
-    <!-- demo:voice -->
-    <p class="xp-caption">Gesprächsbeispiel</p>
-    <h2>Wann kommt die Lieferung?</h2>
-    <dl class="xp-record">
-      <div><dt>Anrufer</dt><dd>„Um die Lieferung. Kommt die noch diese Woche?“</dd></div>
-      <div><dt>AIFOREU Voice</dt><dd>„Moment, ich geb Ihre Frage ans Service-Team weiter.“</dd></div>
-    </dl>
-    <p class="xp-outcome">Das Service-Team prüft den Liefertermin und antwortet dem Anrufer.</p>
-    <!-- /demo:voice -->
-    <a class="experience-link" href="agentario/voice/">Agentario Voice ansehen <span aria-hidden="true">↗</span></a>
-  </article>
-
-  <article class="experience-panel" data-experience-panel="desktop" hidden>
+ <div class="film-hero-media"><section class="product-experience experience-focused" data-product-experience data-lu-worte="aus"><article class="experience-panel" data-experience-panel="desktop">
     <!-- demo:desktop -->
     <p class="xp-caption">Schematisches Beispiel</p>
     <h2>Eine Anfrage in die Kundenliste übernehmen</h2>
@@ -127,51 +107,7 @@
     <p class="xp-outcome">Agentario bereitet den Eintrag in der bestehenden Software zur Prüfung vor.</p>
     <!-- /demo:desktop -->
     <a class="experience-link" href="agentario/desktop/">Agentario Desktop ansehen <span aria-hidden="true">↗</span></a>
-  </article>
-
-  <article class="experience-panel" data-experience-panel="workflows">
-    <!-- demo:workflows -->
-    <p class="xp-caption">Schematisches Beispiel</p>
-    <h2>Ein Angebot für den Einkauf</h2>
-    <dl class="xp-record xp-workflow-record">
-      <div><dt>Anfrage per E-Mail</dt><dd class="xp-quote">„Bitte schicken Sie unserem Einkauf ein Angebot über sechs Monitore zu je 180 € netto.“</dd></div>
-      <div><dt>Angebotsentwurf</dt><dd class="xp-draft"><span>6 Monitore × 180 €</span><strong>1.080 € netto</strong><span class="xp-recipient">Empfänger: Einkauf</span></dd></div>
-      <div><dt>Freigabe durch Ihr Team</dt><dd>
-        <p class="xp-review">Menge, Preis und Empfänger prüfen.</p>
-        <button class="xp-approve" type="button" data-workflow-approve aria-pressed="false" hidden><span class="xp-check" aria-hidden="true">✓</span>Versand freigeben</button>
-        <p class="xp-status" role="status" aria-atomic="true"><span data-workflow-pending>Entwurf wartet auf Freigabe.</span><span data-workflow-approved hidden>Im Beispiel zum Versand freigegeben.</span></p>
-      </dd></div>
-    </dl>
-    <!-- /demo:workflows -->
-    <a class="experience-link" href="agentario/workflows/">Agentario Workflows ansehen <span aria-hidden="true">↗</span></a>
-  </article>
-
-  <article class="experience-panel" data-experience-panel="traffic" hidden>
-    <!-- demo:traffic -->
-    <p class="xp-caption">Forschung · Illustrativer Lageplan</p>
-    <h2>Welche Zufahrten treffen an der Kreuzung aufeinander?</h2>
-    <figure class="xp-plan">
-      <svg class="experience-map" aria-hidden="true" viewBox="0 0 720 380" fill="none">
-     <defs><pattern id="experience-map-grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" stroke="var(--map-grid)" stroke-width=".5"/></pattern></defs>
-     <rect width="720" height="380" fill="var(--map-ground)"/><rect width="720" height="380" fill="url(#experience-map-grid)"/>
-     <g fill="var(--map-building)" stroke="var(--map-building-edge)"><rect x="44" y="28" width="107" height="65" rx="3"/><rect x="175" y="28" width="64" height="97" rx="3"/><rect x="58" y="118" width="82" height="35" rx="3"/><rect x="438" y="30" width="100" height="67" rx="3"/><rect x="561" y="26" width="112" height="117" rx="3"/><rect x="35" y="274" width="119" height="82" rx="3"/><rect x="179" y="270" width="67" height="91" rx="3"/><rect x="431" y="281" width="73" height="77" rx="3"/><rect x="536" y="270" width="134" height="86" rx="3"/></g>
-     <path d="M-20 210H740M340-20v420" stroke="var(--map-road-edge)" stroke-width="83"/>
-     <path d="M-20 210H740M340-20v420" stroke="var(--map-road)" stroke-width="77"/>
-     <path d="M-20 210H740M340-20v420" stroke="var(--map-marking)" stroke-width="1.5" stroke-dasharray="9 11"/>
-     <g stroke="var(--map-crossing)" stroke-width="5"><path d="M278 174v72M402 174v72M304 149h72M304 272h72" stroke-dasharray="4 7"/></g>
-     <path class="traffic-route-base" d="M14 229H280Q322 229 322 187V6" stroke="var(--map-route-base)" stroke-width="4" stroke-linecap="round"/>
-     <path class="traffic-route" d="M14 229H280Q322 229 322 187V6" stroke="var(--map-route)" stroke-width="4" stroke-linecap="round"/>
-     <g fill="var(--map-vehicle)"><rect x="171" y="188" width="20" height="9" rx="3"/><rect x="482" y="224" width="20" height="9" rx="3"/><rect x="350" y="91" width="9" height="20" rx="3"/><rect x="317" y="312" width="9" height="20" rx="3"/></g>
-     <circle cx="322" cy="229" r="7" fill="var(--map-route)" stroke="var(--map-ground)" stroke-width="3"/>
-    </svg>
-      <figcaption>Die Linie markiert den Weg eines Linksabbiegers durch die Kreuzung.</figcaption>
-    </figure>
-    <p class="xp-outcome">Im Forschungsprojekt VerkehrsOS untersuchen AIFOREU und IOTEC, wie sich Lage- und Signalpläne für die Verkehrsplanung auswerten lassen.</p>
-    <!-- /demo:traffic -->
-    <a class="experience-link" href="verkehrsai.html#planbeispiel">Planbeispiel ansehen <span aria-hidden="true">↗</span></a>
-  </article>
-</section>
-</div>
+  </article></section></div>
  <div class="film-hero-copy">
   <h1 id="automation-title">Automatisieren Sie, was sich wiederholt.</h1>
   <p class="film-hero-lead">Daten übertragen, Unterlagen sortieren, Listen abgleichen: Agentario übernimmt wiederkehrende Schritte in Ihren Programmen. Gemeinsam mit Ihrem Team richten wir die passenden Abläufe ein.</p>
@@ -246,6 +182,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/offers.js"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script><script src="assets/product-experience.js?v=20261123-clear" defer></script>
+<script src="assets/offers.js"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js?v=20261123-mono"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script><script src="assets/product-experience.js?v=20261123-clear" defer></script>
 </body>
 </html>

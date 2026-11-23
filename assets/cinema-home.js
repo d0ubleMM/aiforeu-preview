@@ -3,25 +3,6 @@
 
   const opening = document.querySelector('[data-opening-film]');
   if (!opening) return;
-  const title = document.getElementById('landing-title');
-  const original = title.textContent.trim();
-  title.dataset.i18nIgnore = '';
-  function setTitle() {
-    const language = document.documentElement.lang;
-    const text = window.AiforeuLanguage?.t(original, 'de') || original;
-    // In these two headlines the last word is the action. Other languages wrap as a whole.
-    const split = /^(de|en)(-|$)/i.test(language) ? text.lastIndexOf(' ') : -1;
-    if (split < 0) {
-      title.textContent = text;
-      return;
-    }
-    const action = document.createElement('em');
-    action.textContent = text.slice(split + 1);
-    title.replaceChildren(document.createTextNode(text.slice(0, split + 1)), action);
-  }
-  setTitle();
-  addEventListener('aiforeu:language-ready', setTitle);
-
   const video = opening.querySelector('video');
   const toggle = opening.querySelector('[data-film-toggle]');
   const playLabel = toggle.querySelector('[data-play-label]');

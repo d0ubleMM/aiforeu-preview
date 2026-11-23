@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101416">
+<meta name="theme-color" content="#ffffff">
 <title>AIFOREU – KI, die Arbeit übernimmt.</title>
 <meta name="description" content="AIFOREU entwickelt KI und Software, die repetitive Arbeit übernimmt. Entdecken Sie Agentario, VerkehrsAI, IVE und AnyUse.">
 <meta property="og:type" content="website">
@@ -18,15 +18,15 @@
 <meta property="og:site_name" content="AIFOREU">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="assets/fonts/SchibstedGrotesk-latin-178967.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/Newsreader-latin-f0c28d.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://aiforgov.eu/#organisation","name":"AIFOREU","legalName":"AIFOREU GmbH","url":"https://aiforgov.eu/","logo":"https://aiforgov.eu/assets/apple-touch-icon.png","email":"contact@aiforgov.eu","address":{"@type":"PostalAddress","streetAddress":"Albert-Einstein-Str. 30","postalCode":"49076","addressLocality":"Osnabrück","addressCountry":"DE"},"description":"AIFOREU entwickelt Automatisierungen, verbundene Workflows und KI-Agenten für Unternehmen. Aus Osnabrück und Berlin."},{"@type":"WebSite","@id":"https://aiforgov.eu/#website","url":"https://aiforgov.eu/","name":"AIFOREU","inLanguage":"de-DE","publisher":{"@id":"https://aiforgov.eu/#organisation"}}]}</script>
 <link rel="icon" type="image/svg+xml" href="assets/aiforeu-mark.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/site.css?v=20261118-neutral-footer">
-<link rel="stylesheet" href="assets/navigation.css?v=20261114">
-<link rel="stylesheet" href="assets/cinema-home.css?v=20261123"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored">
-<link rel="stylesheet" href="assets/studio-shell.css?v=20261123">
+<link rel="stylesheet" href="assets/site.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/cinema-home.css?v=20261123-mono"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/hero-work.css?v=20261123"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-portraits">
+<link rel="stylesheet" href="assets/studio-shell.css?v=20261123-mono">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
 <link rel="stylesheet" href="assets/languages.css?v=79306dcdc4d1">
@@ -95,30 +95,36 @@
  </div>
 </dialog>
 <main id="inhalt" tabindex="-1">
-<section class="opening-film" aria-labelledby="landing-title" data-opening-film>
-  <div class="opening-media" aria-hidden="true">
-    <picture>
-      <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/hero-film/hero-mobile-v2.webp">
-      <img src="assets/hero-film/hero-desktop-v2.webp" width="1920" height="1080" alt="" fetchpriority="high">
-    </picture>
-    <video muted playsinline loop preload="none" disablepictureinpicture tabindex="-1"
-      data-landscape="assets/hero-film/hero-desktop-v2.mp4" data-portrait="assets/hero-film/hero-mobile-v2.mp4"></video>
-  </div>
+<section class="opening-film opening-technical" aria-labelledby="landing-title" data-opening-film>
   <div class="opening-inner cine-width">
     <div class="opening-copy">
       <p class="opening-origin">Osnabrück &amp; Berlin</p>
       <h1 id="landing-title">KI, die Arbeit übernimmt.</h1>
       <p class="opening-lead">Wir automatisieren Anrufe und Abläufe in Ihrer Software. Für die Verkehrsplanung erforschen wir, wie KI Straßenpläne liest.</p>
       <div class="opening-actions">
-        <a class="cine-button" href="kontakt.html">Mit uns sprechen <span aria-hidden="true">↗</span></a>
+        <a class="cine-button team-cta" href="kontakt.html"><span class="team-faces" aria-hidden="true"><img src="assets/people/michael-ramich-96.webp" width="96" height="96" alt=""><img src="assets/people/maximilian-schwarz-96.webp" width="96" height="96" alt=""></span><span>Mit uns sprechen</span> <span aria-hidden="true">↗</span></a>
         <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
       </div>
     </div>
-    <button class="opening-toggle" type="button" data-film-toggle hidden>
-      <span class="film-glyph" aria-hidden="true"></span>
-      <span class="cine-sr" data-play-label>Film abspielen</span>
-      <span class="cine-sr" data-pause-label hidden>Film pausieren</span>
-    </button>
+    <figure class="opening-work" aria-labelledby="work-caption">
+      <div class="opening-media" aria-hidden="true">
+        <picture>
+          <source media="(orientation: portrait) and (max-width: 1100px)" srcset="assets/hero-film/hero-mobile-work.webp" width="720" height="720">
+          <img src="assets/hero-film/hero-desktop-work.webp" width="1200" height="900" alt="" fetchpriority="high">
+        </picture>
+        <video muted playsinline loop preload="none" disablepictureinpicture tabindex="-1"
+          data-landscape="assets/hero-film/hero-desktop-work.mp4" data-portrait="assets/hero-film/hero-mobile-work.mp4"></video>
+      </div>
+      <figcaption id="work-caption">
+        <div><span data-i18n-ignore>Codex CLI</span><strong>Doppelte Rechnungen in Beispieldaten finden</strong></div>
+        <p class="cine-sr">Codex prüft 18 Belege. Die Rechnungsnummer RE-1053 kommt dreimal vor, RE-1042 zweimal.</p>
+        <button class="opening-toggle" type="button" data-film-toggle hidden>
+          <span class="film-glyph" aria-hidden="true"></span>
+          <span class="cine-sr" data-play-label>Film abspielen</span>
+          <span class="cine-sr" data-pause-label hidden>Film pausieren</span>
+        </button>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -195,6 +201,38 @@
   </div>
 </div>
 
+    <p class="team-reference"><a href="unternehmen.html#erfahrung">Bei transformIT europe sind unsere Agenten bereits im Einsatz. <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="team-section" id="haltung" aria-labelledby="people-title">
+  <div class="team-layout cine-width" id="team">
+    <div class="team-intro">
+      <h2 id="people-title">Mit wem Sie arbeiten.</h2>
+      <p>Zeigen Sie uns eine Aufgabe, die Ihr Team Zeit kostet. Wir schauen uns gemeinsam an, was Software übernehmen kann und wo Sie selbst entscheiden möchten.</p>
+      <a class="team-action" href="unternehmen.html#team">Unser Team kennenlernen <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="team-roster">
+  <article class="team-person" id="michael-ramich" aria-labelledby="michael-name">
+    <div class="team-photo"><img src="assets/people/michael-ramich-400.webp" alt="" width="400" height="400" loading="lazy" decoding="async"></div>
+    <div class="team-person-copy">
+      <h3 id="michael-name" data-i18n-ignore>Michael Ramich</h3>
+      <p class="team-role">Gründer und Geschäftsführer</p>
+      <p class="team-bio">Michael ist Ihr Ansprechpartner für ein gemeinsames Projekt. Mit ihm können Sie besprechen, welcher Ablauf sich für den Einstieg eignet.</p>
+      <a class="team-profile-link" href="https://www.linkedin.com/in/michaelramich/"><span>Michael auf LinkedIn</span> <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+  <article class="team-person" id="maximilian-schwarz" aria-labelledby="maximilian-name">
+    <div class="team-photo"><img src="assets/people/maximilian-schwarz-400.webp" srcset="assets/people/maximilian-schwarz-400.webp 400w, assets/people/maximilian-schwarz-800.webp 800w" sizes="(max-width: 560px) 32vw, (max-width: 900px) 44vw, 31vw" alt="" width="800" height="800" loading="lazy" decoding="async"></div>
+    <div class="team-person-copy">
+      <h3 id="maximilian-name" data-i18n-ignore>Maximilian Schwarz</h3>
+      <p class="team-role">Produktentwicklung</p>
+      <p class="team-bio">Max entwickelt unsere KI-Werkzeuge. Zu seinen Projekten gehört IVE, der Arbeitsplatz für Entwicklerteams, die mit mehreren Coding-Agenten arbeiten.</p>
+      <a class="team-profile-link" href="https://www.linkedin.com/in/maximilianmichaelschwarz/"><span>Max auf LinkedIn</span> <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+</div>
+
   </div>
 </section>
 
@@ -218,19 +256,57 @@
   <div class="cine-width">
     <header class="tools-heading"><h2 id="tools-title">Open Source</h2><a class="cine-link" href="projekte.html">Alle Projekte <span aria-hidden="true">↗</span></a></header>
     <article class="ive-feature" id="platz-ive" aria-labelledby="ive-title">
-      <div class="ive-copy">
-        <p class="project-wordmark" data-i18n-ignore>IVE</p>
-        <h3 id="ive-title">Kurz antworten. Auch unterwegs.</h3>
-        <p>Claude Code, Codex und Gemini in einem Fenster. Für den Mac.</p>
-        <p class="ive-device-copy">In der iPhone-Demo fragt der Agent, ob er die Tests starten darf. Die Sitzung läuft auf dem Mac weiter.</p>
-        <a class="cine-link" href="https://ive.dev/try.html?at=phone&amp;tour=0">iPhone-Vorschau ansehen <span aria-hidden="true">↗</span></a>
+  <div class="ive-copy">
+    <p class="project-wordmark" data-i18n-ignore>IVE</p>
+    <h3 id="ive-title">Ihre Coding-Agenten in einem Fenster.</h3>
+    <p>Starten Sie Claude Code, Codex und Gemini auf Ihrem Mac. IVE zeigt die Sitzungen nebeneinander und macht sichtbar, wo Ihr Team gefragt ist.</p>
+    <div class="ive-net-links">
+      <a class="cine-link" href="https://ive.dev/">IVE entdecken <span aria-hidden="true">↗</span></a>
+      <a class="cine-link" href="https://ive.dev/try.html?at=phone&amp;tour=0">iPhone-Vorschau ansehen <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <figure class="ive-net" data-ive-network aria-label="Agenten in IVE" data-lu-worte="aus">
+    <div class="ive-net-stage">
+      <svg class="ive-net-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g class="ive-net-wide">
+          <path d="M50 20 C67 20 65 48 82 48"/>
+          <path d="M50 48 H82"/>
+          <path d="M50 76 C67 76 65 48 82 48"/>
+        </g>
+        <g class="ive-net-tall">
+          <path d="M18 43 V59 Q18 64 24 64 H44 Q50 64 50 70 V80"/>
+          <path d="M50 43 V80"/>
+          <path d="M82 43 V59 Q82 64 76 64 H56 Q50 64 50 70 V80"/>
+        </g>
+      </svg>
+      <div class="ive-net-node ive-net-origin">
+        <img class="ive-net-symbol" src="assets/ive-network/bomber.webp" alt="" decoding="async" loading="lazy">
+        <span class="ive-net-name" data-i18n-ignore>AIFOREU</span>
       </div>
-      <figure class="ive-portrait">
-        <!-- Original phone illustration from the public IVE demo at https://ive.dev/#iphone. -->
-        <a class="ive-device" href="https://ive.dev/try.html?at=phone&amp;tour=0" aria-label="iPhone-Vorschau ansehen"><img src="assets/ive/phone-permission.webp" alt="IVE auf dem iPhone. Ein Coding-Agent bittet um Freigabe für seinen Testlauf." width="760" height="1646" loading="lazy" decoding="async"></a>
-        <figcaption><span data-i18n-ignore>IVE / iPhone</span><a href="https://ive.dev/">IVE entdecken <span aria-hidden="true">↗</span></a></figcaption>
-      </figure>
-    </article>
+      <div class="ive-net-node ive-net-pet ive-net-claude">
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/claude.png" width="24" height="19" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-name" data-i18n-ignore>Claude Code</span>
+      </div>
+      <div class="ive-net-node ive-net-pet ive-net-codex">
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/codex.png" width="21" height="21" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-name" data-i18n-ignore>Codex</span>
+      </div>
+      <div class="ive-net-node ive-net-pet ive-net-gemini">
+        <span class="ive-net-jumper"><img class="ive-net-symbol" src="assets/ive-network/gemini.png" width="23" height="19" alt="" decoding="async" loading="lazy"></span>
+        <span class="ive-net-name" data-i18n-ignore>Gemini</span>
+      </div>
+      <div class="ive-net-node ive-net-hub">
+        <img class="ive-net-symbol" src="assets/ive-network/ive-symbol.svg" width="256" height="256" alt="" decoding="async" loading="lazy">
+        <span class="ive-net-name" data-i18n-ignore>IVE</span>
+      </div>
+    </div>
+    <figcaption><span>Produktillustration</span><button class="ive-net-replay" type="button" hidden>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 5v5h5"/><path d="M4.8 10a8 8 0 1 1 .3 5.2"/></svg>
+      <span>Animation erneut abspielen</span>
+    </button></figcaption>
+  </figure>
+</article>
+
     <article class="anyuse-feature" id="platz-anyuse" aria-labelledby="anyuse-title">
       <div class="anyuse-copy">
         <p class="project-wordmark" data-i18n-ignore>AnyUse</p>
@@ -248,16 +324,6 @@
         </ol>
       </figure>
     </article>
-  </div>
-</section>
-
-<section class="people-chapter cine-paper" id="haltung" aria-labelledby="people-title">
-  <div class="cine-width people-layout">
-    <div><p class="chapter-name">Unternehmen</p><h2 id="people-title">Die Menschen hinter AIFOREU.</h2></div>
-    <div><ul class="people-names"><li>Michael Ramich</li><li>Jason Rickert</li><li>Maximilian Schwarz</li></ul>
-      <p>Bei transformIT europe sind unsere Agenten bereits im Einsatz.</p>
-      <a class="cine-link" href="unternehmen.html">Über AIFOREU <span aria-hidden="true">↗</span></a>
-    </div>
   </div>
 </section>
 
@@ -279,6 +345,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/cinema-home.js?v=20261123" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script>
+<script src="assets/cinema-home.js?v=20261123" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123" defer></script>
 </body>
 </html>

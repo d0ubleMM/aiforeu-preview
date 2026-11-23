@@ -10,7 +10,7 @@
 .offer-hero-bottom>p{max-width:620px;font-size:20px;line-height:1.65;color:var(--offer-muted)}
 .offer-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;flex:none}
 .offer-button{display:inline-flex;align-items:center;justify-content:center;gap:20px;min-height:50px;padding:13px 21px;border:1px solid var(--offer-ink);border-radius:999px;background:var(--offer-ink);color:#fff;font-size:14px;line-height:1.45;font-weight:500;text-decoration:none;transition:background .18s}
-.offer-button:hover{background:#354152}
+.offer-button:hover{background:var(--accent)}
 .offer-link{display:inline-flex;align-items:center;gap:17px;min-height:44px;font-size:14px;line-height:1.45;font-weight:500;text-decoration:none}
 .offer-link:hover{text-decoration:underline}
 .offer-link>span[aria-hidden],.offer-button>span[aria-hidden]{transition:transform .2s}
@@ -41,15 +41,15 @@
 .offer-transfer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,1fr);background:#fff;border-block:1px solid var(--offer-line)}
 .offer-transfer-stage{min-width:0;padding:32px 30px;position:relative}
 .offer-transfer-stage+.offer-transfer-stage{border-left:1px solid var(--offer-line)}
-.offer-transfer-stage+.offer-transfer-stage::before{content:"→";position:absolute;left:-15px;top:62px;width:29px;height:29px;background:#fff;display:grid;place-items:center;color:#687585;font-size:20px;line-height:1}
+.offer-transfer-stage+.offer-transfer-stage::before{content:"→";position:absolute;left:-15px;top:62px;width:29px;height:29px;background:#fff;display:grid;place-items:center;color:var(--muted);font-size:20px;line-height:1}
 .offer-transfer-stage>h4{font:600 23px/1.2 var(--body);letter-spacing:-.035em;margin:0 0 25px}
 .offer-record{margin:0;font-size:14px}
-.offer-record>div{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:11px 0;border-top:1px solid #E5E9EE}
+.offer-record>div{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:11px 0;border-top:1px solid var(--wash)}
 .offer-record dt{color:var(--offer-muted)}
 .offer-record dd{margin:0;text-align:right;max-width:60%;font-weight:500;overflow-wrap:anywhere}
 .offer-rule-list{list-style:none;margin:0;padding:0;display:grid;gap:17px;font-size:15px;line-height:1.5}
 .offer-rule-list>li{display:flex;gap:12px}
-.offer-rule-list>li::before{content:"✓";color:#687585;font-size:14px}
+.offer-rule-list>li::before{content:"✓";color:var(--muted);font-size:14px}
 .offer-result-state{font-size:12px;line-height:1.5;color:var(--offer-muted);display:flex;gap:8px;align-items:center;border-top:1px solid var(--offer-line);padding-top:17px;margin-top:15px}
 .offer-result-state::before{content:"";width:7px;height:7px;border-radius:50%;border:1px solid currentColor;flex:none}
 .offer-example-panel[data-example-state=approved] .offer-result-state{color:var(--offer-positive)}
@@ -61,7 +61,7 @@
 .offer-approval-copy strong{display:block;font-weight:550;margin-bottom:2px}
 .offer-approval-copy p{color:var(--offer-muted)}
 .offer-demo-actions{display:flex;gap:8px 20px;align-items:center;flex-wrap:wrap}
-.offer-demo-button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 17px;border:1px solid #A9B5C2;border-radius:999px;background:transparent;color:var(--offer-ink);font-size:13px;line-height:1.4;transition:background .18s}
+.offer-demo-button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 17px;border:1px solid var(--line-strong);border-radius:999px;background:transparent;color:var(--offer-ink);font-size:13px;line-height:1.4;transition:background .18s}
 .offer-demo-button:hover{background:var(--offer-soft)}
 .offer-demo-reset{padding:9px 0;min-height:44px;background:none;text-decoration:underline;text-underline-offset:4px;color:var(--offer-muted);font-size:12px}
 .offer-live{grid-column:1/-1;min-height:1.6em;font-size:13px;line-height:1.6;color:var(--offer-muted);max-width:760px}
@@ -81,27 +81,27 @@
 .offer-route-key{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--offer-muted);margin-top:35px}
 .offer-route-key::before{content:"";height:8px;width:8px;border-radius:50%;background:var(--offer-ink)}
 .offer-route{list-style:none;padding:0;margin:0;position:relative;min-width:0}
-.offer-route::before{content:"";position:absolute;left:17px;top:25px;bottom:50px;width:1px;background:#ADB9C5}
+.offer-route::before{content:"";position:absolute;left:17px;top:25px;bottom:50px;width:1px;background:var(--line-strong)}
 .offer-route>li{position:relative;padding-left:58px;padding-bottom:27px;min-width:0}
 .offer-route>li:last-child{padding-bottom:0}
-.offer-route-dot{position:absolute;left:9px;top:6px;width:17px;height:17px;background:var(--paper);border:1px solid #8897A7;border-radius:50%}
+.offer-route-dot{position:absolute;left:9px;top:6px;width:17px;height:17px;background:var(--paper);border:1px solid var(--line-strong);border-radius:50%}
 .offer-route>li>small{display:block;font-size:11px;line-height:1.4;letter-spacing:.035em;color:var(--offer-muted);margin-bottom:8px}
 .offer-route>li>h4{font:600 22px/1.2 var(--body);letter-spacing:-.035em;margin:0}
 .offer-route>li>p{font-size:14px;line-height:1.65;color:var(--offer-muted);max-width:480px;margin-top:8px}
 .offer-route-checkpoint{background:var(--offer-ink);color:#fff;padding:25px 28px;border-radius:4px;position:relative;margin-top:4px}
 .offer-route-checkpoint::before{content:"";position:absolute;left:-48px;top:29px;width:16px;height:16px;background:var(--offer-ink);border:4px solid var(--paper);outline:1px solid var(--offer-ink);border-radius:50%}
-.offer-route-checkpoint>small{display:block;font-size:11px;letter-spacing:.035em;line-height:1.4;color:#BBC8D5;margin-bottom:10px}
+.offer-route-checkpoint>small{display:block;font-size:11px;letter-spacing:.035em;line-height:1.4;color:var(--muted-on-dark);margin-bottom:10px}
 .offer-route-checkpoint>strong{font-size:23px;line-height:1.2;font-weight:550;letter-spacing:-.03em;display:block}
-.offer-route-checkpoint>p{font-size:14px;line-height:1.65;color:#D3DCE5;margin-top:10px;max-width:420px}
+.offer-route-checkpoint>p{font-size:14px;line-height:1.65;color:var(--on-dark);margin-top:10px;max-width:420px}
 .offer-route-decision{padding:15px 0 0;display:flex;align-items:baseline;gap:10px;font-size:12px;color:var(--offer-muted);line-height:1.6}
 .offer-route-decision>span[aria-hidden]{font-size:18px}
 .offer-route .offer-result-state{margin-top:12px;border-top:0;padding-top:0}
 .offer-example-panel[data-example-state=approved] .offer-route-output .offer-route-dot{background:var(--offer-positive);border-color:var(--offer-positive)}
-.offer-example-panel[data-example-state=query] .offer-route-decision{color:#6B471C;font-weight:500}
-.offer-example-panel[data-example-state=query] .offer-route-checkpoint{box-shadow:inset 4px 0 #D9BC8F}
-.offer-workflow-section .offer-approval{border-top:1px solid #C5CED8;margin-top:35px;padding-top:25px}
+.offer-example-panel[data-example-state=query] .offer-route-decision{color:#4c4c4c;font-weight:500}
+.offer-example-panel[data-example-state=query] .offer-route-checkpoint{box-shadow:inset 4px 0 #bfbfbf}
+.offer-workflow-section .offer-approval{border-top:1px solid var(--line);margin-top:35px;padding-top:25px}
 .offer-workflow-section .offer-demo-button{background:#fff}
-.offer-workflow-section .offer-demo-button:hover{background:#DDE5EC}
+.offer-workflow-section .offer-demo-button:hover{background:var(--wash)}
 
 .offer-fit{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;border-top:1px solid var(--offer-line);padding-top:75px;padding-bottom:100px}
 .offer-fit h2{font-size:clamp(28px,3vw,40px);line-height:1.1;margin-top:21px;max-width:500px}
@@ -112,6 +112,7 @@
 .offer-fit-list dt{font-size:22px;line-height:1.25;font-weight:550;letter-spacing:-.03em}
 .offer-fit-list dd{margin:10px 0 0;font-size:16px;line-height:1.7;color:var(--offer-muted);max-width:520px}
 .offer-agreement{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;padding-block:95px}
+.offer-agreement > *{min-inline-size:0;overflow-wrap:anywhere}
 .offer-agreement h2{font-size:clamp(28px,3vw,40px);line-height:1.1;margin-top:21px}
 .offer-agreement-copy>p{font-size:19px;line-height:1.7;max-width:640px;margin-bottom:28px}
 .offer-agreement-copy ul{padding-left:20px;color:var(--offer-muted);font-size:16px;line-height:1.75;display:grid;gap:12px;margin:0}
@@ -121,17 +122,17 @@
 .offer-questions details:last-child{border-bottom:1px solid var(--offer-line)}
 .offer-questions summary{font-size:16px;line-height:1.5;font-weight:500;padding:21px 24px 21px 0;cursor:pointer;min-height:64px}
 .offer-questions details p{font-size:15px;line-height:1.7;color:var(--offer-muted);max-width:580px;padding-bottom:23px}
-.offer-close{background:#E1E8EE;padding-block:85px 70px}
+.offer-close{background:var(--wash);padding-block:85px 70px}
 .offer-close h2{font-size:clamp(32px,3.7vw,50px);line-height:1.055;margin:24px 0 30px;max-width:900px}
-.offer-close-bottom{display:flex;align-items:center;justify-content:space-between;gap:30px;padding-top:35px;margin-top:48px;border-top:1px solid #B4C0CC}
+.offer-close-bottom{display:flex;align-items:center;justify-content:space-between;gap:30px;padding-top:35px;margin-top:48px;border-top:1px solid var(--line)}
 .offer-close-bottom>p{font-size:16px;line-height:1.6;color:var(--offer-muted);max-width:480px}
 .offer-close-bottom>.offer-link{flex:none}
 .offer-flow-intro{padding-bottom:62px}
 .offer-potentials{padding-block:90px;background:var(--paper)}
 .offer-potentials-lead{max-width:850px;font-size:22px;line-height:1.65}
 .offer-potential-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:45px;list-style:none;margin:45px 0 22px;padding:0}
-.offer-potential-steps>li{border-top:1px solid #AAB7C4;padding-top:22px;position:relative}
-.offer-potential-steps>li+li::before{content:"→";position:absolute;top:-16px;left:-35px;font-size:22px;color:#687585}
+.offer-potential-steps>li{border-top:1px solid var(--line-strong);padding-top:22px;position:relative}
+.offer-potential-steps>li+li::before{content:"→";position:absolute;top:-16px;left:-35px;font-size:22px;color:var(--muted)}
 .offer-potential-steps span{font-size:20px;line-height:1.25;letter-spacing:-.03em;font-weight:550}
 .offer-potential-steps p{font-size:15px;line-height:1.7;color:var(--offer-muted);margin-top:13px}
 .offer-potentials+.offer-fit{border-top:0;padding-top:90px}

@@ -23,10 +23,10 @@
 .blog-eintrag--erst .blog-eintrag-kurz{font-size:19px}
 .blog-vertrauen{background:var(--night);color:var(--paper);border-radius:22px;padding:40px clamp(24px,4vw,48px);margin-bottom:110px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:40px clamp(32px,6vw,96px);align-items:start}
 .blog-vertrauen-teil{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
-.blog-vertrauen h2{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-family:var(--body);color:#aeb8c8}
+.blog-vertrauen h2{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-family:var(--body);color:var(--line-strong)}
 .blog-vertrauen-teil img{width:auto;height:auto;max-height:46px}
 .blog-vertrauen-teil img[src*="eu-kofinanziert"]{max-height:none;width:min(520px,100%)}
-.blog-vertrauen-teil>a:not([aria-label]){font-size:15px;color:#e9edf3;text-underline-offset:4px}
+.blog-vertrauen-teil>a:not([aria-label]){font-size:15px;color:var(--wash);text-underline-offset:4px}
 
 /* Artikel */
 .blog-artikel{width:100%;max-width:calc(760px + 2 * var(--gutter));margin-inline:auto;padding:72px var(--gutter) 110px}

@@ -25,7 +25,7 @@
     }
     const fuell = document.createElement('lu-fuell'); fuell.setAttribute('aria-hidden', 'true'); k.prepend(fuell);
     const bg = getComputedStyle(k).backgroundColor;
-    if (hell(bg)) { k.classList.add('lu-k--hell'); k.style.setProperty('--lu-fuell', '#1f2937'); }
+    if (hell(bg)) k.classList.add('lu-k--hell');
     k.classList.add('lu-k');
     let rahmen = null;
     k.addEventListener('pointerenter', e => {
