@@ -44,7 +44,7 @@
   position: absolute;
   inset: 0;
   object-fit: cover;
-  object-position: 100% 28%;
+  object-position: 58% 95%;
 }
 .traffic-film-card .film-hero-media video { opacity: 0; transition: none; }
 .traffic-film-card .film-hero-media video[data-playing] { opacity: 1; }
@@ -128,7 +128,7 @@
     align-self: stretch;
     inset: auto;
   }
-  .traffic-film-card .film-hero-media :is(img, video) { object-position: 70% 28%; }
+  .traffic-film-card .film-hero-media :is(img, video) { object-position: 52% 95%; }
   .studio-shell .traffic-film-card > :is(.film-hero-copy, .traffic-layout) {
     grid-row: 2;
     width: 100%;
