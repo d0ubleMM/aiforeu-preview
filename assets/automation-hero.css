@@ -19,20 +19,54 @@
 .opening-vignette {
   position: relative;
   width: 100%;
-  aspect-ratio: 20 / 7;
-  pointer-events: none;
-  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent),
-              linear-gradient(to bottom, transparent, black 14%, black 84%, transparent);
-  mask-composite: intersect;
+  min-width: 0;
+  aspect-ratio: 1600 / 880;
+  background: #0b0b0b;
 }
-.opening-vignette img, .opening-vignette video {
+.opening-vignette :is(picture, img, video) {
   display: block;
   width: 100%;
   height: 100%;
 }
-.opening-vignette video { position: absolute; inset: 0; opacity: 0; }
+.opening-vignette :is(img, video) { object-fit: contain; }
+.opening-vignette video { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .opening-vignette video[data-playing] { opacity: 1; }
 .opening-vignette video::-webkit-media-controls { display: none !important; }
+.opening-film-toggle {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+.opening-film-toggle > span {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  border: 1px solid #737373;
+  border-radius: 50%;
+  background: #181818;
+}
+.opening-film-toggle:hover > span { border-color: #dedede; }
+.opening-film-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.opening-film-toggle[hidden], .opening-film-toggle [hidden] { display: none; }
+.film-control-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation { visibility: visible; }
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .opening-automation .opening-copy { visibility: hidden; }
 html[data-language-pending]:not([data-language-ready], [data-language-error]) .cinema-home .aif-language-loading {
@@ -51,7 +85,7 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
     min-height: clamp(460px, calc(81svh - var(--global-header-height) - 2 * var(--card-inset)), 820px);
     padding-block: clamp(18px, 3svh, 36px) clamp(28px, 4.5svh, 52px);
   }
-  .opening-vignette { grid-row: 1; max-width: 620px; justify-self: center; }
+  .opening-vignette { grid-row: 1; aspect-ratio: 5 / 4; max-width: 620px; justify-self: center; }
   .opening-automation .opening-copy { max-width: 610px; }
   .opening-automation .opening-copy h1 { font-size: clamp(39px, 9.4vw, 72px); }
   .opening-automation .opening-origin { margin-bottom: 13px; }
@@ -72,5 +106,5 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
   .opening-automation .opening-lead, .opening-automation .opening-actions { margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .opening-vignette video { display: none; }
+  .opening-vignette video, .opening-film-toggle { display: none; }
 }

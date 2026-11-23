@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/navigation.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-kiwi-rechts"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-weiss"><link rel="stylesheet" href="assets/film-card.css?v=20261123-stadtkreuzung">
+<link rel="stylesheet" href="assets/model-providers.css?v=1"><link rel="stylesheet" href="assets/cinema-home.css?v=20261123-tageslicht"><link rel="stylesheet" href="assets/agentario-call.css?v=20261123-mono"><link rel="stylesheet" href="assets/automation-hero.css?v=20261123-agentario-arrival"><link rel="stylesheet" href="assets/lu-schluss.css?v=20261118-restored"><link rel="stylesheet" href="assets/ive-network.css?v=20261123-retina"><link rel="stylesheet" href="assets/ive-models.css?v=20261123-retina"><link rel="stylesheet" href="assets/team-profiles.css?v=20261123-weiss"><link rel="stylesheet" href="assets/film-card.css?v=20261123-stadtkreuzung">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-review">
 <script>document.documentElement.classList.add('js')</script>
 <!-- shared-language:start -->
@@ -113,9 +113,23 @@
           <a class="cine-link" href="#produkte">Produkte ansehen <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <div class="opening-vignette" aria-hidden="true" inert>
-        <img src="assets/agentario-kiwi/arbeitsablauf.webp" alt="" width="960" height="336" fetchpriority="high">
-        <video data-film-clip data-src="assets/agentario-kiwi/arbeitsablauf.mp4" muted playsinline loop preload="none" tabindex="-1" disablepictureinpicture disableremoteplayback></video>
+      <div class="opening-vignette">
+        <picture>
+          <source media="(orientation: portrait) and (max-width: 1100px), (max-width: 529px)" srcset="assets/agentario-arrival/mobile.webp" width="1000" height="800">
+          <img src="assets/agentario-arrival/desktop.webp" width="1600" height="880" fetchpriority="high" aria-describedby="arrival-agents" alt="Fünf KI-Agenten springen vom AIFOREU-Bomber in die Agentario-Station.">
+        </picture>
+        <span id="arrival-agents" data-i18n-ignore hidden>Claude, Codex, Gemini, OpenCode, ChatGPT</span>
+        <video id="arrival-film" data-film-clip data-src="assets/agentario-arrival/desktop.mp4" data-portrait-src="assets/agentario-arrival/mobile.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback></video>
+        <button class="opening-film-toggle" type="button" data-film-toggle aria-controls="arrival-film" hidden>
+          <span data-film-action="pause">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2.5h3v11h-3zm6 0h3v11h-3z"/></svg>
+            <span class="film-control-label">Film pausieren</span>
+          </span>
+          <span data-film-action="play" hidden>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.2v11.6L13.1 8z"/></svg>
+            <span class="film-control-label">Film abspielen</span>
+          </span>
+        </button>
       </div>
     </div>
   </section>
@@ -421,6 +435,6 @@
  <div class="wrap footer-bottom"><span>© 2026 AIFOREU GmbH</span><div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#inhalt">Nach oben ↑</a></div></div>
 </footer>
 <script src="assets/navigation.js?v=20261114"></script>
-<script src="assets/page-film.js?v=20261123-kreuzung" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
+<script src="assets/page-film.js?v=20261123-agentario-arrival" defer></script><script src="assets/agentario-call.js?v=20261123" defer></script><script src="assets/lu-schluss.js?v=20261118-restored" defer></script><script src="assets/ive-network.js?v=20261123-retina" defer></script>
 </body>
 </html>
