@@ -21,13 +21,8 @@
   width: 100%;
   min-width: 0;
   aspect-ratio: 1600 / 880;
-  background: #0b0b0b;
-}
-/* Feather the video edge into the card across browser video colour transforms. */
-.opening-vignette {
-  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent),
-              linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
-  mask-composite: intersect;
+  /* The film's black matte takes on the card colour in both video and poster. */
+  mix-blend-mode: lighten;
 }
 .opening-vignette :is(picture, img, video) {
   display: block;

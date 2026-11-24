@@ -34,12 +34,19 @@
 
   for (const clip of clips) {
     const container = clip.parentElement;
-    const portrait = matchMedia(container.querySelector('picture source[media]')?.media
+    const portrait = matchMedia(container.querySelector('picture source[media]:not([data-opening-frame])')?.media
       || '(orientation: portrait) and (max-width: 1100px)');
+    const openingFrames = Array.from(container.querySelectorAll('source[data-opening-frame]'),
+      source => ({source, media: source.media}));
     let failedSource = '';
+
+    function useOpeningFrames(show) {
+      for (const {source, media} of openingFrames) source.media = show ? media : 'not all';
+    }
 
     function update() {
       if (reduced.matches || connection?.saveData) {
+        useOpeningFrames(false);
         clip.pause();
         clip.removeAttribute('data-playing');
         if (clip.hasAttribute('src')) { clip.removeAttribute('src'); clip.load(); }
@@ -54,8 +61,10 @@
         clip.src = src;
       }
       if (failedSource === src || !clip.paused) return;
+      useOpeningFrames(true);
       clip.play().catch(error => {
         if (error.name === 'AbortError' || clip.getAttribute('src') !== src) return;
+        useOpeningFrames(false);
         clip.removeAttribute('data-playing');
       });
     }
@@ -69,6 +78,7 @@
     });
     clip.addEventListener('error', () => {
       failedSource = clip.getAttribute('src');
+      useOpeningFrames(false);
       clip.removeAttribute('data-playing');
     });
     portrait.addEventListener('change', update);
