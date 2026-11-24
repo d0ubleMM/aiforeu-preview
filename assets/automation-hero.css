@@ -78,6 +78,53 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
   .opening-automation .opening-origin { margin-bottom: 8px; }
   .opening-automation .opening-lead, .opening-automation .opening-actions { margin-top: 12px; }
 }
+@media (max-width: 600px) and (orientation: portrait), (max-width: 529px) {
+  .opening-automation .opening-inner {
+    min-height: 0;
+    align-content: start;
+    gap: 0;
+    padding-block: clamp(25px, 7vw, 40px) 0;
+  }
+  .opening-automation .opening-origin { margin-bottom: 12px; }
+  .opening-automation .opening-copy h1 {
+    max-width: 13ch;
+    font-size: clamp(38px, 10.8vw, 56px);
+  }
+  .opening-automation .opening-lead {
+    margin-top: 12px;
+    color: #dedede;
+    text-wrap: pretty;
+  }
+  .opening-automation .opening-actions { margin-top: 16px; }
+  .opening-vignette {
+    grid-row: 2;
+    aspect-ratio: 3 / 2;
+  }
+  /* Trim only the empty matte above and below the action; the right boundary
+     of the shot still coincides with the edge of the hero card. */
+  .opening-vignette :is(img, video) { object-fit: cover; }
+}
+@media (min-width: 530px) and (max-width: 950px) and (max-height: 520px) and (orientation: landscape) and (pointer: coarse) {
+  .opening-automation .opening-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding-block: 18px;
+  }
+  .opening-automation .opening-copy h1 { font-size: clamp(34px, 4.6vw, 42px); }
+  .opening-automation .opening-actions a { font-size: 14px; }
+}
+@media (max-width: 600px), (max-width: 950px) and (max-height: 520px) and (pointer: coarse) {
+  .opening-automation .opening-actions { gap: 2px 9px; }
+  .opening-automation .opening-actions .team-cta {
+    min-height: 46px;
+    padding: 8px 12px;
+    column-gap: 6px;
+  }
+  .opening-automation .team-faces img { width: 25px; height: 25px; }
+  .opening-automation .team-faces img + img { margin-left: -10px; }
+  .opening-automation .team-cta > span:last-child[aria-hidden] { display: none; }
+  .opening-automation .opening-actions .cine-link { gap: 6px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .opening-vignette video { display: none; }
 }

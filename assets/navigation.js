@@ -34,14 +34,53 @@
       }
     }
   }
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const groupMotion = new Map();
+  function finishGroup(item, expanded) {
+    const panel = item.querySelector('.nav-panel');
+    groupMotion.get(item)?.cancel();
+    groupMotion.delete(item);
+    item.removeAttribute('data-collapsing');
+    item.open = expanded;
+    panel.inert = false;
+  }
   function closeGroups(except) {
-    disclosures.forEach(item => { if (item !== except) item.open = false; });
+    disclosures.forEach(item => { if (item !== except) finishGroup(item, false); });
+  }
+  function changeGroup(item, expand) {
+    if ((item.open && !item.hasAttribute('data-collapsing')) === expand) return;
+    const panel = item.querySelector('.nav-panel');
+    const from = item.open ? panel.getBoundingClientRect().height : 0;
+    groupMotion.get(item)?.cancel();
+    item.open = true;
+    item.toggleAttribute('data-collapsing', !expand);
+    panel.inert = !expand;
+    if (reducedMotion.matches || !panel.animate) {
+      finishGroup(item, expand);
+      return;
+    }
+    const to = expand ? panel.scrollHeight : 0;
+    const motion = panel.animate([{height: from + 'px'}, {height: to + 'px'}], {
+      duration: expand ? 230 : 175, easing: 'cubic-bezier(.22,.7,.25,1)', fill: 'both'
+    });
+    groupMotion.set(item, motion);
+    motion.onfinish = () => {
+      if (groupMotion.get(item) === motion) finishGroup(item, expand);
+    };
   }
   for (const item of disclosures) {
     const summary = item.querySelector('summary');
-    // Native disclosure remains available before scripts load and with JS disabled.
-    summary.addEventListener('click', () => { if (!item.open) closeGroups(item); });
-    item.addEventListener('toggle', () => { if (item.open) closeGroups(item); });
+    // Desktop and no-script navigation keep the native details behavior.
+    summary.addEventListener('click', event => {
+      if (!menu.open) {
+        if (!item.open) closeGroups(item);
+        return;
+      }
+      event.preventDefault();
+      const expand = !item.open || item.hasAttribute('data-collapsing');
+      disclosures.forEach(other => changeGroup(other, other === item && expand));
+    });
+    item.addEventListener('toggle', () => { if (item.open && !menu.open) closeGroups(item); });
     item.closest('.nav-section').addEventListener('keydown', event => {
       if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
       if (event.target !== summary && !event.target.matches('.nav-overview')) return;
@@ -68,56 +107,105 @@
   window.addEventListener('aiforeu:route', updateLocation);
   window.addEventListener('pageshow', updateLocation);
   updateLocation();
+  const activeVoice = document.querySelector('.voice-product-context a[aria-current]');
+  if (activeVoice) {
+    const strip = activeVoice.closest('.voice-product-context');
+    const revealVoiceLink = () => {
+      if (!mobile.matches || strip.scrollWidth <= strip.clientWidth) return;
+      const bounds = strip.getBoundingClientRect(), link = activeVoice.getBoundingClientRect();
+      const padding = 12;
+      if (link.right > bounds.right - padding) strip.scrollLeft += link.right - bounds.right + padding;
+      else if (link.left < bounds.left + padding) strip.scrollLeft += link.left - bounds.left - padding;
+    };
+    requestAnimationFrame(revealVoiceLink);
+    window.addEventListener('aiforeu:language-ready', revealVoiceLink);
+  }
   if (typeof menu.showModal !== 'function') return;
 
+  const menuBody = menu.querySelector('.global-menu-body');
+  const language = header.querySelector('[data-site-language-switch]');
   let savedScroll;
+  let transition = 0;
+
+  function keepScrollPosition() {
+    if (savedScroll && (scrollX !== savedScroll.x || scrollY !== savedScroll.y)) {
+      window.scrollTo({left:savedScroll.x, top:savedScroll.y, behavior:'instant'});
+    }
+  }
+  window.addEventListener('aiforeu:language-ready', keepScrollPosition);
+
   function restore() {
     if (!savedScroll) return;
-    // Move the very same nav back so translation, aria-current and focus agree.
     header.querySelector('.global-contact').before(nav);
+    if (language) toggle.before(language);
     closeGroups();
+    disclosures.forEach(item => item.setAttribute('name', 'global-sections'));
     document.body.classList.remove('global-menu-open');
-    document.body.style.removeProperty('--global-lock-top');
-    document.body.style.removeProperty('--global-lock-padding');
-    window.scrollTo({left:savedScroll.x, top:savedScroll.y, behavior:'instant'});
+    document.documentElement.classList.remove('global-menu-open');
+    keepScrollPosition();
     savedScroll = undefined;
     toggle.setAttribute('aria-expanded', 'false');
   }
-  function dismiss(returnFocus) {
-    if (!menu.open) return;
+  function reveal() {
+    transition++;
+    menu.setAttribute('data-visible', '');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+  function finishClose(returnFocus) {
+    menu.removeAttribute('data-visible');
     menu.close();
     restore();
     if (returnFocus) (mobile.matches ? toggle : header.querySelector('.global-brand')).focus({preventScroll:true});
   }
+  function dismiss(returnFocus, immediate = false) {
+    if (!menu.open) return;
+    const current = ++transition;
+    menu.removeAttribute('data-visible');
+    toggle.setAttribute('aria-expanded', 'false');
+    if (immediate || reducedMotion.matches || !menuBody.getAnimations) {
+      finishClose(returnFocus);
+      return;
+    }
+    // Native modal focus and scroll containment last through the closing motion.
+    // A second tap can reverse the current CSS transition before its completion.
+    Promise.allSettled(menuBody.getAnimations().map(animation => animation.finished)).then(() => {
+      if (current === transition && menu.open) finishClose(returnFocus);
+    });
+  }
   toggle.addEventListener('click', () => {
     if (!mobile.matches || menu.open) return;
-    const gutter = Math.max(0, innerWidth - document.documentElement.clientWidth);
-    const padding = parseFloat(getComputedStyle(document.body).paddingRight) || 0;
     savedScroll = {x:scrollX, y:scrollY};
-    document.body.style.setProperty('--global-lock-top', -scrollY + 'px');
-    document.body.style.setProperty('--global-lock-padding', (padding + gutter) + 'px');
+    document.documentElement.classList.add('global-menu-open');
     document.body.classList.add('global-menu-open');
     mobileSlot.append(nav);
-    const group = nav.querySelector('.nav-overview[aria-current]')?.closest('.nav-section') || groups[0];
+    if (language) close.before(language);
+    disclosures.forEach(item => item.removeAttribute('name'));
+    const current = nav.querySelector('.nav-overview[aria-current]')?.closest('.nav-section');
     closeGroups();
-    group.querySelector('details').open = true;
+    if (current) current.querySelector('details').open = true;
     try {
       menu.showModal();
-      menu.scrollTop = 0;
-      toggle.setAttribute('aria-expanded', 'true');
+      menuBody.scrollTop = 0;
       close.focus({preventScroll:true});
+      // Commit the closed geometry to let both Safari and Chrome interpolate.
+      menuBody.getBoundingClientRect();
+      reveal();
     } catch {
       restore();
       document.documentElement.classList.remove('global-nav-ready');
     }
   });
-  close.addEventListener('click', () => dismiss(true));
+  close.addEventListener('click', () => {
+    if (menu.hasAttribute('data-visible')) dismiss(true);
+    else reveal();
+  });
   menu.addEventListener('cancel', event => { event.preventDefault(); dismiss(true); });
   menu.addEventListener('close', () => { if (!menu.open) restore(); });
   menu.addEventListener('click', event => {
-    if (event.target.closest('a[href]') && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) dismiss(false);
+    if (event.target === menu && event.clientY >= menu.getBoundingClientRect().bottom) dismiss(true);
+    else if (event.target.closest('a[href]') && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) dismiss(false, true);
   });
-  mobile.addEventListener('change', () => { dismiss(true); closeGroups(); });
-  window.addEventListener('pagehide', () => { dismiss(false); closeGroups(); });
+  mobile.addEventListener('change', () => { dismiss(true, true); closeGroups(); });
+  window.addEventListener('pagehide', () => { dismiss(false, true); closeGroups(); });
   document.documentElement.classList.add('global-nav-ready');
 })();

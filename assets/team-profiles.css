@@ -133,3 +133,13 @@
   .team-compact .team-roster { gap: 12px; }
   .team-compact .team-person { grid-template-columns: 36px minmax(0, 1fr); }
 }
+@media (max-width: 650px) {
+  .team-section .team-action, .team-profile-link, .contact-person-link {
+    min-height: 44px;
+    align-items: center;
+  }
+  .team-compact .team-profile-link { font-size: 14px; }
+  :is(.team-action, .team-profile-link, .contact-person-link):active {
+    text-decoration-thickness: 2px;
+  }
+}

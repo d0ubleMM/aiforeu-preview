@@ -36,22 +36,31 @@
 .nav-service { align-self: start; padding-inline-start: 15px; border-inline-start: 1px solid var(--nav-rule); }
 .global-contact, .global-menu-contact { display: inline-flex; align-items: center; justify-content: center; min-height: 43px; padding: 10px 22px; border-radius: 5px; background: #111; color: #fff; text-decoration: none; font: 500 14px/1.35 var(--nav-font); }
 .global-contact:hover, .global-menu-contact:hover { color: #fff; background: #343434; }
-.global-header [data-site-language-switch] .aif-language-button { min-height: 43px; border: 1px solid #aaa; border-radius: 5px; background: #fff; color: #111; }
+:is(.global-header, .global-menu-top) [data-site-language-switch] .aif-language-button { min-height: 43px; border: 1px solid #aaa; border-radius: 5px; background: #fff; color: #111; }
 .global-header :focus-visible, .global-menu :focus-visible, .global-skip:focus-visible { outline: 2px solid #151515; outline-offset: 3px; }
-.global-menu-toggle, .global-menu-close { align-items: center; justify-content: center; padding: 0; border: 0; color: #111; background: transparent; cursor: pointer; }
-.global-menu-toggle { display: none; width: 44px; height: 44px; flex: none; }
+/* The same brand, language control and menu icon stay on the header baseline. */
+.global-menu-toggle, .global-menu-close { align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #111; cursor: pointer; touch-action: manipulation; }
+.global-menu-toggle { display: none; }
+.global-menu-close { display: inline-flex; }
 .global-menu-lines { display: grid; gap: 5px; }
-.global-menu-lines > span { display: block; width: 21px; height: 1.5px; background: currentColor; }
-.global-menu { position: fixed; inset: 0; width: 100%; max-width: none; height: 100vh; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: #fff; color: #111; overflow-y: auto; overscroll-behavior: contain; }
+.global-menu-lines > span { display: block; width: 21px; height: 1.5px; background: currentColor; border-radius: 2px; }
+.global-menu-close .global-menu-lines > span { transition: transform 220ms cubic-bezier(.22,.72,.2,1); }
+.global-menu[data-visible] .global-menu-lines > span:first-child { transform: translateY(3.25px) rotate(45deg); }
+.global-menu[data-visible] .global-menu-lines > span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+.global-menu { position: fixed; inset: 0 0 auto; width: 100%; max-width: none; height: auto; max-height: 100vh; max-height: 100dvh; margin: 0; padding: 0; border: 0; background: transparent; color: #111; overflow: visible; }
+.global-menu[open] { display: flex; flex-direction: column; }
 .global-menu:not([open]) { display: none; }
-.global-menu::backdrop { background: #fff; }
-.global-menu-top { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 0 22px; min-height: 65px; border-bottom: 1px solid var(--nav-rule); background: #fff; }
-.global-menu-close { display: inline-flex; gap: 12px; min-height: 44px; font: 500 14px/1.4 var(--nav-font); }
-.global-menu-close span { font: 300 30px/1 var(--nav-font); }
-.global-menu-body { width: min(100%, 620px); margin-inline: auto; padding: 16px 22px max(30px, env(safe-area-inset-bottom)); }
+.global-menu::backdrop { background: rgb(9 12 16 / .4); opacity: 0; transition: opacity 180ms ease-out; touch-action: none; }
+.global-menu[data-visible]::backdrop { opacity: 1; transition-duration: 270ms; }
+.global-menu-top { position: relative; z-index: 1; display: flex; flex: none; align-items: center; gap: 12px; min-height: var(--global-header-height); padding: 0 var(--cine-gutter, clamp(22px, 4.4vw, 80px)); border-bottom: 1px solid var(--nav-rule); background: #fff; }
+.global-menu-body { width: 100%; min-height: 0; margin: 0; padding: 5px max(var(--cine-gutter, 22px), (100% - 760px) / 2) max(20px, env(safe-area-inset-bottom)); background: #fff; border-radius: 0 0 18px 18px; overflow-y: auto; overscroll-behavior: contain; clip-path: inset(0 0 100% round 0 0 18px 18px); transition: clip-path 190ms cubic-bezier(.4,0,.65,1); }
+.global-menu[data-visible] .global-menu-body { clip-path: inset(0 round 0 0 18px 18px); transition: clip-path 290ms cubic-bezier(.2,.78,.24,1); }
+.global-menu-body > * { transform: translateY(-7px); transition: transform 180ms ease-out; }
+.global-menu[data-visible] .global-menu-body > * { transform: none; transition-duration: 260ms; }
 .global-menu .global-navigation { display: grid; gap: 0; }
-.global-menu-contact { margin-top: 24px; gap: 22px; min-height: 46px; }
-body.global-menu-open { position: fixed; top: var(--global-lock-top); left: 0; width: 100%; overflow: hidden; padding-right: var(--global-lock-padding); }
+.global-menu-contact { display: flex; justify-content: space-between; gap: 16px; min-height: 51px; margin-top: 18px; padding: 12px 19px; border-radius: 8px; font-size: 16px; }
+.global-menu-contact span { font-size: 21px; line-height: 1; }
+html.global-menu-open { overflow: hidden; overscroll-behavior: none; }
 @media (max-width: 1200px) { .global-header .global-header-inner { gap: 22px; } }
 @media (max-width: 1000px) {
   :root { --global-header-height: 66px; }
@@ -72,8 +81,27 @@ body.global-menu-open { position: fixed; top: var(--global-lock-top); left: 0; w
   html:not(.global-nav-ready) .global-header-inner { padding-block: 10px; }
   html:not(.global-nav-ready) .global-header .global-navigation { order: 5; flex-basis: 100%; }
 }
+@media (max-width: 1000px) {
+  .global-menu .global-navigation > a, .global-menu .nav-overview { min-height: clamp(58px, 7.5svh, 70px); font: 550 clamp(25px, 5.9vw, 31px)/1.2 var(--nav-font); letter-spacing: -.045em; }
+  .global-menu .global-navigation > a { justify-content: space-between; gap: 12px; }
+  .global-menu .global-navigation > a::after { content: ""; flex: none; width: 7px; height: 7px; margin-inline-end: 19px; color: #717171; border: solid currentColor; border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); }
+  .global-menu .nav-disclosure > summary { height: clamp(58px, 7.5svh, 70px); border-radius: 0; background: transparent; }
+  .global-menu .nav-disclosure > summary i { display: grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 50%; background: #f2f2f2; transform: none; }
+  .global-menu .nav-disclosure > summary i::before, .global-menu .nav-disclosure > summary i::after { content: ""; grid-area: 1 / 1; width: 12px; height: 1.5px; background: #353535; }
+  .global-menu .nav-disclosure > summary i::after { transform: rotate(90deg); transition: transform 180ms ease; }
+  .global-menu .nav-disclosure[open]:not([data-collapsing]) > summary i::after { transform: none; }
+  .global-menu .nav-panel { gap: clamp(12px, 5vw, 36px); margin: 0; padding: 0; border: 0; border-radius: 0; overflow: hidden; }
+  .global-menu .nav-links { padding: 1px 0 14px; }
+  .global-menu .nav-links > p { margin: 3px 0 5px; font-size: 12px; }
+  .global-menu .nav-links > a { min-height: 44px; padding: 5px 0; }
+  .global-menu .nav-service { border: 0; }
+  .global-menu :is(a, summary):active { opacity: .65; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .global-menu::backdrop, .global-menu[data-visible]::backdrop, .global-menu .global-menu-lines > span, .global-menu .nav-disclosure > summary i::after, .global-menu[open] .global-menu-body, .global-menu[open] .global-menu-body > * { transition: none; }
+}
 @media (max-width: 420px) {
-  .global-header .global-header-inner { gap: 7px; }
+  .global-header .global-header-inner, .global-menu-top { gap: 7px; }
   .global-header .global-contact { padding-inline: 11px; }
   .global-brand { gap: 6px; font-size: 18px; }
   .global-brand img { width: 25px; }
@@ -104,3 +132,26 @@ body.global-menu-open { position: fixed; top: var(--global-lock-top); left: 0; w
 .global-header.site-header { height: auto; }
 .voice-product-context { display: flex; flex-wrap: wrap; align-items: center; gap: 0 19px; }
 .voice-product-context a[aria-current] { font-weight: 650; text-decoration: underline; text-underline-offset: .25em; }
+@media (max-width: 650px) {
+  main > .voice-product-context {
+    flex-wrap: nowrap;
+    gap: 18px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 4px 20px;
+    scroll-padding-inline: 20px;
+    border-bottom: 1px solid var(--nav-rule);
+    font-size: 14px;
+  }
+  main > .voice-product-context a {
+    flex: none;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+  [data-company-footer] :is(.footer-links, .footer-bottom) a {
+    display: inline-flex;
+    align-items: center;
+    gap: .3em;
+    min-height: 44px;
+  }
+}

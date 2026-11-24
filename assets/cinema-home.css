@@ -161,14 +161,31 @@
   .cine-button { min-height: 46px; padding-inline: 15px; }
   .cine-link, .cine-button { font-size: 14px; }
   .opening-toggle { top: 15px; bottom: auto; min-width: 44px; min-height: 44px; }
-  .chapter-index > div { grid-template-columns: 1fr 1fr; padding-block: 7px; }
-  .chapter-index a { padding: 11px 15px 11px 0; }
+  .chapter-index > div { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-block: 3px; }
+  .chapter-index a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-content: center;
+    align-items: center;
+    gap: 1px 5px;
+    min-height: 61px;
+    padding: 9px 13px 9px 0;
+  }
+  .chapter-index a:active { background: #171717; }
   .chapter-index a:nth-child(odd) { border-left: 0; }
-  .chapter-index a:nth-child(even) { padding-left: 16px; }
+  .chapter-index a:nth-child(even) { padding-inline: 13px 0; }
   .chapter-index a:nth-child(-n+2) { border-bottom: 1px solid #ffffff24; }
-  .chapter-index a:nth-child(even) i { right: 0; }
-  .chapter-index small { font-size: 11px; }
-  .chapter-index strong { font-size: 19px; }
+  .chapter-index small { grid-column: 1 / -1; font-size: 11px; }
+  .chapter-index strong { font-size: 18px; line-height: 1.25; }
+  .chapter-index i { position: static; transform: none; }
+  .call-chapter, .tools-chapter { padding-block: clamp(46px, 10vw, 64px); }
+  .chapter-heading { gap: 12px; margin-bottom: 25px; }
+  .chapter-heading .chapter-name { margin-bottom: 12px; }
+  .tool-proof figcaption a, .story-dawn-foot a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
   .ive-feature, .anyuse-feature, .people-layout { grid-template-columns: minmax(0,1fr); }
   .ive-device { height: clamp(360px,100vw,475px); }
   .ive-device img { width: min(94%, 335px); }

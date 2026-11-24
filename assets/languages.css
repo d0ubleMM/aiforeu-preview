@@ -31,4 +31,37 @@ h1,h2{hyphens:auto;text-wrap:balance;overflow-wrap:break-word}
 .aif-language-error button{padding:12px 24px;border:1px solid currentColor;border-radius:8px;font:24px system-ui;background:white;cursor:pointer}
 .nav-inner{gap:clamp(12px,2vw,28px)}
 @media(max-width:600px){.global-header-inner{gap:9px}.global-header-inner>.global-contact{display:none}.nav-inner>.nav-cta{display:none}.aif-language-dialog{padding:20px}.aif-language-top h2{font-size:23px}.aif-language-list{gap:4px}.aif-language-list a{padding:9px 8px}.aif-language-button{min-width:60px}}
+@media (max-width:600px), (max-height:500px) and (max-width:950px) and (pointer:coarse) {
+  html:has(.aif-language-dialog[open]) { overflow:hidden; }
+  .aif-language-dialog {
+    inset:auto 0 0;
+    width:100%;
+    max-width:none;
+    height:min(72dvh,620px);
+    max-height:calc(100dvh - env(safe-area-inset-top) - 8px);
+    margin:0;
+    padding:12px max(18px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));
+    border:0;
+    border-radius:16px 16px 0 0;
+    overflow:hidden;
+  }
+  .aif-language-dialog[open] { display:flex; flex-direction:column; }
+  .aif-language-dialog::backdrop { backdrop-filter:none; }
+  .aif-language-top { flex:none; margin-bottom:10px; }
+  .aif-language-search { flex:none; margin-bottom:8px; }
+  .aif-language-list {
+    min-height:0;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    align-content:start;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:0 8px;
+    padding:4px;
+  }
+  .aif-language-list a { overflow-wrap:anywhere; }
+  .aif-language-empty { margin:8px 4px; }
+}
+@media (max-height:500px) and (max-width:950px) and (pointer:coarse) {
+  .aif-language-dialog { height:calc(100dvh - 8px); }
+}
 @media print{[data-site-language-switch],.aif-language-dialog{display:none!important}}

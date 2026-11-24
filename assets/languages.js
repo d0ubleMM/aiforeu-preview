@@ -105,10 +105,17 @@
     button.setAttribute('aria-label', `${translated('Sprache wählen', 'de')}: ${manifest.languages.find(item => item.code === language).name}`);
     button.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M5 6.5h14M5 17.5h14"/></svg><span></span>';
     button.querySelector('span').textContent = language.split('-')[0].toUpperCase();
-    button.addEventListener('click', () => {
+    button.addEventListener('click', event => {
       opener = button;
       for (const link of dialog.querySelectorAll('[data-code]')) { const url = new URL(location.href); url.searchParams.set('lang', link.dataset.code); link.href = url.pathname + url.search + url.hash; }
-      const input = dialog.querySelector('input'); input.value = ''; input.dispatchEvent(new Event('input')); dialog.showModal(); input.focus();
+      const input = dialog.querySelector('input');
+      input.value = '';
+      input.dispatchEvent(new Event('input'));
+      dialog.showModal();
+      dialog.querySelector('.aif-language-list').scrollTop = 0;
+      if (event.detail === 0 || !matchMedia('(pointer: coarse)').matches) {
+        input.focus({ preventScroll: true });
+      }
     });
     slot.append(button);
   }
