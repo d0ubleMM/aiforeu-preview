@@ -3,6 +3,102 @@
 .page-traffic main :is(h1,h2,h3,p,figure){margin:0}
 .page-traffic :is(a,button):focus-visible{outline:3px solid var(--accent);outline-offset:5px}
 .page-traffic section[id]{scroll-margin-top:110px}
+
+.traffic-film-opening {
+  display: grid;
+  grid-template-areas: "heading copy" "film film" "credit credit";
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+  align-items: end;
+  column-gap: clamp(32px, 5vw, 80px);
+  width: min(calc(100% - 2 * clamp(22px, 4.4vw, 80px)), 1440px);
+  margin-inline: auto;
+  padding-block-start: clamp(34px, 3.9vw, 66px);
+}
+.traffic-intro-heading {
+  grid-area: heading;
+  display: grid;
+  gap: clamp(14px, 1.3vw, 22px);
+}
+.traffic-intro-audience {
+  color: #345743;
+  font: 550 14px/1.4 var(--body);
+}
+.page-traffic .traffic-intro-heading h1 {
+  max-width: 13.4ch;
+  color: #14291e;
+  font: 500 clamp(48px, 5.5vw, 92px)/.99 "Schibsted Grotesk", var(--display);
+  letter-spacing: -.056em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.traffic-intro-copy {
+  grid-area: copy;
+  display: grid;
+  justify-self: end;
+  width: min(100%, 500px);
+  gap: 16px;
+  color: #37423a;
+  font: 400 clamp(17px, 1.22vw, 20px)/1.48 var(--body);
+}
+.page-traffic .traffic-intro-copy .bp-actions { gap: 2px 18px; }
+.page-traffic .traffic-intro-copy .bp-button {
+  min-height: 44px;
+  padding: 10px 17px;
+  background: #214e36;
+  border-color: #214e36;
+}
+.page-traffic .traffic-intro-copy .bp-button:hover { background: #153b27; border-color: #153b27; }
+.page-traffic .traffic-intro-copy .bp-link { gap: 7px; color: #214e36; }
+.traffic-intro-funding,
+.traffic-film-credit {
+  color: #526057;
+  font: 400 13px/1.5 var(--body);
+}
+.traffic-opening-film { grid-area: film; padding-block-start: clamp(26px, 2.9vw, 48px); }
+.traffic-opening-film .film-hero-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1856 / 792;
+  border-radius: 6px;
+  background: #e6ebe5;
+}
+.traffic-opening-film :is(picture, img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.traffic-opening-film video {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.traffic-opening-film video[data-playing] { opacity: 1; }
+.traffic-film-credit { grid-area: credit; padding-block-start: 10px; text-align: end; }
+.traffic-film-credit a { text-decoration-color: #a9b0aa; }
+.traffic-film-credit a:hover { color: #153b27; text-decoration-color: currentColor; }
+
+@media (orientation: portrait) and (max-width: 1100px) {
+  .traffic-opening-film .film-hero-media { aspect-ratio: 960 / 912; }
+}
+@media (max-width: 800px) {
+  .traffic-film-opening {
+    grid-template-areas: "heading" "film" "copy" "credit";
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .traffic-intro-heading { gap: 10px; }
+  .traffic-opening-film { padding-block-start: 20px; }
+  .traffic-intro-copy { justify-self: start; width: min(100%, 56ch); padding-block-start: 20px; gap: 12px; }
+  .traffic-film-credit { text-align: start; }
+}
+@media (max-width: 560px) {
+  .traffic-film-opening { padding-block-start: 24px; }
+  .page-traffic .traffic-intro-heading h1 { font-size: clamp(37px, 11.6vw, 56px); }
+  .traffic-intro-copy { font-size: 16px; gap: 9px; }
+  .page-traffic .traffic-intro-copy .bp-actions { column-gap: 13px; }
+  .page-traffic .traffic-intro-copy .bp-button { padding-inline: 13px; }
+}
+
 .traffic-plan-section{background:var(--surface)}
 .traffic-result-intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}
 .traffic-result-intro h2{font:500 clamp(38px,4.5vw,64px)/1.06 var(--display);letter-spacing:-.045em}
