@@ -1,22 +1,24 @@
 .ap-visual {
-  width: 100%;
-  min-width: 0;
+  position: relative;
+  aspect-ratio: 16 / 11;
   overflow: hidden;
-  background: #f1f1f1;
-  color: #343434;
+  background: #101010;
 }
-.ap-visual > svg {
+.ap-visual img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
-.ap-visual .ap-wire,
-.ap-visual .ap-wire-fine,
-.ap-visual .ap-record-lines {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.ap-voice img, .ap-desktop img {
+  transform: scale(1.09);
+  transform-origin: 50% 56%;
 }
-.ap-visual .ap-wire { stroke: #343434; stroke-width: 1.8; }
-.ap-visual .ap-wire-fine { stroke: #959595; stroke-width: 1.4; }
-.ap-visual .ap-record-lines { stroke: #777777; stroke-width: 2.1; }
+.ap-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 66%, #101012 100%);
+  pointer-events: none;
+}
+.ap-workflows img { object-fit: contain; }
