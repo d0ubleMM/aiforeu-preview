@@ -1,8 +1,12 @@
-.opening-card { background: var(--night); }
-.opening-card .cine-width {
-  width: min(calc(100% - 2 * max(18px, var(--cine-gutter) - var(--card-inset))), 1440px);
+.opening-card {
+  --opening-gutter: max(18px, var(--cine-gutter) - var(--card-inset));
+  --opening-max-width: 1440px;
+  background: var(--night);
 }
-.opening-automation { background: #0b0b0b; }
+.opening-card .cine-width {
+  width: min(calc(100% - 2 * var(--opening-gutter)), var(--opening-max-width));
+}
+.opening-automation { background: #0b0b0b; container-type: inline-size; }
 .opening-automation .opening-inner {
   display: grid;
   grid-template-columns: minmax(0, .87fr) minmax(0, 1.35fr);
@@ -21,6 +25,8 @@
   width: 100%;
   min-width: 0;
   aspect-ratio: 1600 / 880;
+  /* The entering wing is clipped by the rounded card's outer edge. */
+  left: max(var(--opening-gutter), (100cqw - var(--opening-max-width)) / 2);
   /* The film's black matte takes on the card colour in both video and poster. */
   mix-blend-mode: lighten;
 }
@@ -52,7 +58,7 @@ html[data-language-pending]:not([data-language-ready], [data-language-error]) .c
     min-height: clamp(460px, calc(81svh - var(--global-header-height) - 2 * var(--card-inset)), 820px);
     padding-block: clamp(18px, 3svh, 36px) clamp(28px, 4.5svh, 52px);
   }
-  .opening-vignette { grid-row: 1; aspect-ratio: 5 / 4; max-width: 620px; justify-self: center; }
+  .opening-vignette { grid-row: 1; aspect-ratio: 5 / 4; max-width: 620px; justify-self: end; }
   .opening-automation .opening-copy { max-width: 610px; }
   .opening-automation .opening-copy h1 { font-size: clamp(39px, 9.4vw, 72px); }
   .opening-automation .opening-origin { margin-bottom: 13px; }
