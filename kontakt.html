@@ -32,6 +32,7 @@
 <script src="assets/languages.js?v=1206d3284570" defer></script>
 <!-- shared-language:end -->
 <meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/terminbuchung.css?v=b83541a6de8b">
 </head>
 <body class="studio-editorial-page company-page contact-page film-page gray-room-page product-ui-page studio-shell">
 <a class="global-skip" href="#inhalt" data-source-language="de">Zum Inhalt springen</a>
@@ -81,6 +82,18 @@
   </div>
  </div>
 </section>
+<section id="termin" class="contact-booking company-width" data-terminbuchung aria-labelledby="termin-titel">
+  <div class="contact-booking-head">
+    <div>
+      <h2 id="termin-titel">Erstgespräch</h2>
+      <time datetime="PT25M"><span data-i18n-ignore>25 min</span></time>
+    </div>
+    <a class="company-button" data-terminwahl href="https://script.google.com/macros/s/AKfycbxFhXuKjvyQ2Hh7pY5eMO5uptZ5ur6jeH_uq1t519X57g2G5hRDln3yCvSgwsMRSoW9TQ/exec" target="_blank" rel="noopener noreferrer" aria-controls="terminwahl">Freie Termine</a>
+    <a class="contact-booking-alternate" data-buchungslink href="https://script.google.com/macros/s/AKfycbxFhXuKjvyQ2Hh7pY5eMO5uptZ5ur6jeH_uq1t519X57g2G5hRDln3yCvSgwsMRSoW9TQ/exec" target="_blank" rel="noopener noreferrer" hidden>In neuem Tab öffnen</a>
+  </div>
+  <iframe id="terminwahl" title="Freie Termine" referrerpolicy="no-referrer" tabindex="0" hidden></iframe>
+</section>
+
 <section class="project-contact-layout company-width" aria-label="Projektanfrage"><div class="project-contact-copy">
 <a class="company-mail" href="mailto:contact@aiforgov.eu">contact@aiforgov.eu <span aria-hidden="true">↗</span></a><p>Schreiben Sie uns direkt oder bereiten Sie hier Ihre Anfrage vor.</p><div class="contact-next"><h2>Womit wir anfangen.</h2><p>Wir schauen gemeinsam auf die Aufgabe, Ihre bestehenden Programme und das gewünschte Ergebnis. Danach klären wir, welche Umsetzung sinnvoll ist.</p></div><p class="contact-location">Osnabrück &amp; Berlin</p></div>
 <form class="project-form" data-project-form action="mailto:contact@aiforgov.eu" method="get"><label for="project-topic">Worum geht es?</label><select id="project-topic" name="subject"><option value="Automatisierung besprechen">Automatisierung</option><option value="Workflow besprechen">Workflows</option><option value="Agentario besprechen">Agentario</option><option value="AnyUse besprechen">AnyUse</option><option value="Voice besprechen">AIFOREU Voice</option><option value="VerkehrsAI besprechen">VerkehrsAI</option><option value="Idee besprechen">Etwas anderes</option></select><label for="project-task">Was macht Ihr Team heute immer wieder?</label><textarea id="project-task" name="body" rows="6" required minlength="10" maxlength="3000" placeholder="Zum Beispiel: Wir übertragen jede neue Kundenanfrage aus einer E-Mail in unsere Auftragsverwaltung …"></textarea><p class="project-field-hint">Hilfreich sind die beteiligten Programme und das Ergebnis, das Sie sich wünschen.</p><button class="company-button" type="submit">E-Mail-Entwurf vorbereiten <span aria-hidden="true">↗</span></button><p class="project-send-note">Sie prüfen und versenden die Anfrage anschließend in Ihrem E-Mail-Programm.</p><div class="project-draft" data-project-draft hidden><h2>Ihr Entwurf ist bereit.</h2><p>Öffnen Sie ihn in Ihrem E-Mail-Programm oder kopieren Sie den Text.</p><div class="project-draft-actions"><a class="company-button" data-project-mail href="mailto:contact@aiforgov.eu">E-Mail-Programm öffnen <span aria-hidden="true">↗</span></a><button type="button" data-project-copy>Text kopieren</button></div><label for="project-copy-text">Anfragetext</label><textarea id="project-copy-text" data-project-text readonly rows="5"></textarea><p data-project-status role="status"></p></div></form></section>
@@ -98,5 +111,6 @@
 </footer>
 <script src="assets/navigation.js?v=20261124-mobile"></script>
 <script src="assets/project-contact.js?v=20261118-languages"></script><script src="assets/lu-worte.js"></script><script src="assets/lu-knopf.js?v=20261123-mono"></script><script src="assets/lu-details.js"></script><script src="assets/page-film.js?v=20261117-coherent" defer></script><script src="assets/product-experience.js?v=20261123-clear" defer></script>
+<script src="assets/terminbuchung.js?v=a0289ce5f3df" defer></script>
 </body>
 </html>

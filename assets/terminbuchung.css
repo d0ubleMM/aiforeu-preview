@@ -1,0 +1,41 @@
+.contact-booking {
+  padding-bottom: clamp(44px, 7vw, 90px);
+}
+.contact-booking-head {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(20px, 3vw, 32px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+.contact-booking h2 {
+  margin: 0;
+  font-size: clamp(25px, 3vw, 38px);
+  line-height: 1.12;
+}
+.contact-booking time {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.contact-booking iframe {
+  display: block;
+  width: 100%;
+  height: 680px;
+  border: 0;
+  margin-top: 24px;
+  background: var(--paper);
+}
+.contact-booking [hidden] {
+  display: none;
+}
+.contact-booking-alternate {
+  text-underline-offset: .2em;
+  text-decoration: underline;
+}
+@media (max-width: 600px) {
+  .contact-booking iframe { height: 800px; margin-top: 16px; }
+}
