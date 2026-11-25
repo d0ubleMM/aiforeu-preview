@@ -51,13 +51,6 @@
 .page-anyuse .any-discovery-figure .dev-route-heading { align-items: start; }
 .page-anyuse .any-discovery-figure .dev-route-sample { flex-shrink: 0; }
 .page-anyuse .any-proposal > div { min-width: 0; }
-.page-anyuse .any-proposal .dev-tool-symbol svg {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 .page-anyuse .any-proposal small { overflow-wrap: anywhere; }
 .page-anyuse .dev-any-scope { padding-top: 80px; }
 
@@ -84,7 +77,6 @@
   .page-anyuse .any-project-context div > p { font-size: 16px; max-width: 780px; }
   .page-anyuse .any-project-context .dev-text-link { font-size: 14px; }
   .page-anyuse .any-discovery-figure .dev-route-heading { font-size: 11px; gap: 12px; }
-  .page-anyuse .any-proposal .dev-tool-symbol { width: 32px; height: 32px; }
   .page-anyuse .any-proposal small { font-size: 8px; line-height: 1.5; }
   .page-anyuse .any-proposal strong { font-size: 14px; }
   .page-anyuse .dev-any-scope { padding-top: 52px; }

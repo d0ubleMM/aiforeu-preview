@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/brand-colors.css?v=20261123-mono">
-<link rel="stylesheet" href="assets/page-film.css?v=20261123-mono"><link rel="stylesheet" href="assets/devtools-pages.css?v=20261123-mono"><link rel="stylesheet" href="assets/ive-previews.css?v=20261123-retina"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-details.css?v=20261123-mono"><link rel="stylesheet" href="assets/product-experience.css?v=20261123-mono">
+<link rel="stylesheet" href="assets/page-film.css?v=20261123-mono"><link rel="stylesheet" href="assets/devtools-pages.css?v=20261125b"><link rel="stylesheet" href="assets/ive-previews.css?v=20261123-retina"><link rel="stylesheet" href="assets/lu-worte.css"><link rel="stylesheet" href="assets/lu-knopf.css?v=20261123-mono"><link rel="stylesheet" href="assets/lu-details.css?v=20261123-mono"><link rel="stylesheet" href="assets/product-experience.css?v=20261123-mono">
 <link rel="stylesheet" href="assets/studio-shell.css?v=20261123-review">
 <link rel="stylesheet" href="assets/navigation.css?v=20261124-mobile">
 <script>document.documentElement.classList.add('js')</script>
@@ -92,10 +92,10 @@
   <div class="dev-workspace" id="ive-entdecken" data-ive-gallery>
    <div class="dev-workspace-top"><span class="dev-workspace-name"><span class="dev-ive-mark" aria-hidden="true">›i</span> Ein Blick in IVE</span><span class="dev-screen-label">Animierte Produktvorschau</span></div>
    <div class="dev-tabs" role="tablist" aria-label="IVE-Ansicht wählen" data-ive-tabs hidden>
-    <button type="button" role="tab" id="ive-tab-board" aria-controls="ive-panel-board" aria-selected="true" data-ive-tab="board"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="14" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="11" y="12" width="6" height="5" rx="1"/></svg><span>Überblick</span></button>
-    <button type="button" role="tab" id="ive-tab-attention" aria-controls="ive-panel-attention" aria-selected="false" tabindex="-1" data-ive-tab="attention"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h12v9H9l-4 4v-4H4Z"/><path d="M10 7v3M10 11v.5"/></svg><span>Rückfragen</span></button>
-    <button type="button" role="tab" id="ive-tab-review" aria-controls="ive-panel-review" aria-selected="false" tabindex="-1" data-ive-tab="review"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3h8v14H6M3 7h6M3 12h6M6 9v6M11 7h1M11 12h1"/></svg><span>Änderungen</span></button>
-    <button type="button" role="tab" id="ive-tab-workflow" aria-controls="ive-panel-workflow" aria-selected="false" tabindex="-1" data-ive-tab="workflow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="13" y="13" width="5" height="5" rx="1"/><path d="M7 4.5h8.5V13M4.5 7v8.5H13"/></svg><span>Entwicklungsabläufe</span></button>
+    <button type="button" role="tab" id="ive-tab-board" aria-controls="ive-panel-board" aria-selected="true" data-ive-tab="board"><span>Überblick</span></button>
+    <button type="button" role="tab" id="ive-tab-attention" aria-controls="ive-panel-attention" aria-selected="false" tabindex="-1" data-ive-tab="attention"><span>Rückfragen</span></button>
+    <button type="button" role="tab" id="ive-tab-review" aria-controls="ive-panel-review" aria-selected="false" tabindex="-1" data-ive-tab="review"><span>Änderungen</span></button>
+    <button type="button" role="tab" id="ive-tab-workflow" aria-controls="ive-panel-workflow" aria-selected="false" tabindex="-1" data-ive-tab="workflow"><span>Entwicklungsabläufe</span></button>
    </div>
    <div class="dev-screen-panels">
     <div id="ive-panel-board" class="dev-screen-panel" data-ive-panel="board"><figure>
@@ -150,9 +150,9 @@
  <div class="wrap">
   <div class="dev-section-heading"><div><h2 id="ive-own-title">Ihr Rechner. Ihre Zugänge. Ihre Entscheidung.</h2></div><p>IVE gibt Ihrer Arbeit einen gemeinsamen Ort. Ihre vorhandenen Programmierhelfer und deren Anbieter bleiben Teil Ihres Setups.</p></div>
   <dl class="dev-ownership-grid">
-   <div><span class="dev-feature-symbol" aria-hidden="true"><svg viewBox="0 0 28 28"><rect x="3" y="4" width="22" height="15" rx="2"/><path d="M10 24h8M14 19v5"/></svg></span><dt>Läuft auf Ihrem Mac</dt><dd>IVE läuft lokal auf Ihrem Rechner. Ihre Programmierhelfer verbinden sich wie gewohnt mit ihren Modellanbietern.</dd></div>
-   <div><span class="dev-feature-symbol" aria-hidden="true"><svg viewBox="0 0 28 28"><circle cx="10" cy="11" r="5"/><path d="m14 15 9 9M18 19l3-3M21 22l3-3"/></svg></span><dt>Ihre bestehenden Logins</dt><dd>Nutzen Sie Ihre Zugänge für Claude Code, Codex und Gemini. Ein zusätzliches IVE-Konto ist nicht erforderlich.</dd></div>
-   <div><span class="dev-feature-symbol" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="m10 8-6 6 6 6M18 8l6 6-6 6M16 5l-4 18"/></svg></span><dt>Offen und einsehbar</dt><dd>Der Quellcode ist unter Apache 2.0 verfügbar. Telemetrie ist standardmäßig ausgeschaltet.</dd></div>
+   <div><dt>Läuft auf Ihrem Mac</dt><dd>IVE läuft lokal auf Ihrem Rechner. Ihre Programmierhelfer verbinden sich wie gewohnt mit ihren Modellanbietern.</dd></div>
+   <div><dt>Ihre bestehenden Logins</dt><dd>Nutzen Sie Ihre Zugänge für Claude Code, Codex und Gemini. Ein zusätzliches IVE-Konto ist nicht erforderlich.</dd></div>
+   <div><dt>Offen und einsehbar</dt><dd>Der Quellcode ist unter Apache 2.0 verfügbar. Telemetrie ist standardmäßig ausgeschaltet.</dd></div>
   </dl>
   <a class="dev-text-link" href="https://ive.dev/architecture.html">Ansehen, was wo läuft <span aria-hidden="true">↗</span></a>
  </div>
